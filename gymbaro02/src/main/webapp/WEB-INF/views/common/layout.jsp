@@ -13,22 +13,57 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
 <title><tiles:insertAttribute name="title" /></title>
+<style>
+
+	body {
+	height:1500px;
+	}
+	 #container {
+        width: 100%;
+        margin: 0px auto;
+          text-align:center;
+        border: 0px solid #bcbcbc;
+      }
+      #header {
+        padding: 50px;
+      }
+      #sidebar-left {
+        width: 15%;
+        height:100px;
+        padding: 5px;
+        float:left;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        border: 0px solid #bcbcbc;
+        font-size:10px;
+      }
+      #content {
+      	height:auto;
+      }
+      #footer {
+        clear: both;
+		margin-top: 150px;
+        border: 0px solid #bcbcbc;
+      }
+      
+</style>
 </head>
 <body>
-<div id="outer_wrap">
-		<div id="wrap">
-			<header>
-				   <tiles:insertAttribute name="header" />
-			</header>
-			<div class="clear"></div>
-			<article>
-			 	<tiles:insertAttribute name="body" />
-			</article>
-			<div class="clear"></div>
-			<footer>
-        		<tiles:insertAttribute name="footer" />
-        	</footer>
-		</div>
-    </div>        	
+<div id="container">
+      <div id="header">
+         <tiles:insertAttribute name="header"/>
+      </div>
+      <div id="content">
+          <tiles:insertAttribute name="body"/>
+      </div>
+      <!-- 
+      <div id="sidebar-left">
+          <tiles:insertAttribute name="side"/> 
+      </div>
+       -->
+      <div id="footer">
+          <tiles:insertAttribute name="footer"/>
+      </div>
+    </div>     	
 </body>
 </html>
