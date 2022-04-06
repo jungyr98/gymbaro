@@ -92,7 +92,7 @@
 	                </ul>
 	              </div>
 	            </li>
-	            <li class="cell mySideSearch">
+	            <li class="cell" style='color:#184798'>
 	              <div>내 주변 시설 찾기</div>
 	              <div class="sub-menu-box">
 	                <ul>
