@@ -34,6 +34,7 @@
 	        		<li class = cell-r><a href="${contextPath}/member/logout.do">로그아웃</a></li>
 	      		</c:when>
 	      		<c:otherwise>
+	      			<li class = cell-r><a href="${contextPath}/member/agreeForm.do">고객센터</a></li>
 	      			<li class = cell-r><a href="${contextPath}/member/agreeForm.do">회원가입</a></li>
 	        		<li class = cell-r><a href="${contextPath}/member/loginForm.do">로그인</a></li>
 	      		</c:otherwise>
@@ -62,7 +63,8 @@
 	              <div>공지사항</div>
 	              <div class="sub-menu-box">
 	                <ul>
-	                  <li><a href="${contextPath}/searchGoods.do">공지사항/이벤트</a></li>
+	                  <li><a href="${contextPath}/searchGoods.do">공지사항</a></li>
+	                  <li><a href="${contextPath}/searchGoods.do">이벤트</a></li>
 	                </ul>
 	              </div>  
 	             </li>
@@ -94,21 +96,36 @@
 	              <div>내 주변 시설 찾기</div>
 	              <div class="sub-menu-box">
 	                <ul>
-	                  <li><a href="${contextPath}/CC/User_CCForm.do">공지사항</a></li>
-	                  <li><a href="${contextPath}/CC/Question1Form.do">자주 묻는 질문</a></li>
-	                  <li><a href="${contextPath}/CC/Question2Form.do">1:1 문의</a></li>
+	                  <li><a href="${contextPath}/CC/User_CCForm.do">내 주변 시설 찾기</a></li>
 	                </ul>
 	              </div>
 	            </li>	    
 	            <li class="cell">
-	              <div>고객센터</div>
+	              <div>커뮤니티</div>
 	              <div class="sub-menu-box">
 	                <ul>
-	                  <li><a href="${contextPath}/CC/User_CCForm.do">공지사항</a></li>
-	                  <li><a href="${contextPath}/CC/Question1Form.do">자주 묻는 질문</a></li>
-	                  <li><a href="${contextPath}/CC/Question2Form.do">1:1 문의</a></li>
+	                  <li><a href="${contextPath}/CC/User_CCForm.do">자유게시판</a></li>
+	                  <li><a href="${contextPath}/CC/Question1Form.do">중고 거래</a></li>
+	                  <li><a href="${contextPath}/CC/Question1Form.do">양도 서비스</a></li>
 	                </ul>
 	              </div>
+	            </li>
+	            <li class="cell">
+	            	<div id="search" class="cell">
+	              <div class="sub-menu-box">
+		            <form name="frmSearch" action="" >
+		              <input type="checkbox" id="toggleBtn">
+		              <label for="toggleBtn" class="toggleBtn">
+		             <img alt="search.png" class="search_icon" src="../resources/image/search.png">
+		              &nbsp;&nbsp; &nbsp;</label>
+					  <!--  <input type="submit" name="search" class="btn1"  value="검 색" > -->
+		              <input name="searchWord" id="toggleBtnOn" class="main_input" width="200" type="text"  onKeyUp="keywordSearch()" placeholder="시설, 용품명" >
+		            </form>
+	             </div>
+		         		<div id="suggest" class="cell">
+		                <div id="suggestList"></div>
+		          </div>
+		          </div>
 	            </li>	    
 	          </ul>
 	        </div>

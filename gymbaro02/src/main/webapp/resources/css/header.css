@@ -93,19 +93,20 @@ header section .menu{
 
 /* °Ë»ö */
 header section .menu .menu-bar #search{
-  margin-top: 15px;
+  margin-bottom:100px;
 }
 #toggleBtn{
   display:none;
 }
  #toggleBtnOn{
   width: 0px;
+  height:20px;
   border: none;
   background-color: white;
   transition: all 0.3s;
 }
 #toggleBtn:checked ~ #toggleBtnOn {
-    width: 420px;
+    width: 150px;
     transition: all 0.3s;
 }
 .toggleBtn{

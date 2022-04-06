@@ -11,15 +11,16 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <style>
 footer{
-  background-color:red;
   position:relative;
   padding:10px 16px 180px 16px;
-  background:rgb(200,200,200);
+  background:white;
+  border-top: 0.3px solid #C4C4C4;
 }
 a{text-decoration:none}
 ul,ol,li{list-style:none}
 footer{
 	text-align: left;
+	bottom:0;
 }
 footer .link li{
     display:inline-block;
@@ -29,12 +30,12 @@ footer div address{
   font-style:normal;
   padding:20px 0 0 0;
   float:left;
-  background:rgb(200,200,200);
+  background:white;
   line-height:30px;
 }
 footer div .sc{
   float:right;
-  background:rgb(200,200,200);
+  background:white;
   padding-top: 90px;
   font-size: 10px;
 }
@@ -50,21 +51,16 @@ footer div .sc a{
 	<footer>
         <div class="align con">
             <address>
-                <span><!-- 짐바로 로고 이미지 --></span>
+                <span><img src="${contextPath}/resources/image/logo.png" alt="짐바로 로고"></span>
                 <br>
                 <br>
-                스포츠 시설 예약 및 용품 구매 서비스 주식회사
-                <br>
-                대표이사 : 2조
+                스포츠 시설 예약 및 용품 구매 서비스 주식회사 ㅣ  대표이사 : 2조
                 <br>
                 주소 : 대전광역시 서구 대덕대로 182 오라클 빌딩 3층
                 <br>
                 사업자 등록번호 : 123-456-78910
                 <br>
-                Tel : 042-123-4567
-                <br>
-                Fax : 070-123-4567
-                <br>
+                Tel : 042-123-4567 ㅣ Fax : 070-123-4567
                 <br>
                 Copyright 2022 Team Gymbaro Inc. All rights reserved.
             </address>
