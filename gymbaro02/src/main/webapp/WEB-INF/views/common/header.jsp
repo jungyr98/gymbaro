@@ -38,23 +38,7 @@
 	        		<li class = cell-r><a href="${contextPath}/member/loginForm.do">로그인</a></li>
 	      		</c:otherwise>
 	      	</c:choose>
-	      	<li class = cell-r>
-	       <div id="search" class="cell">
-	              <div class="sub-menu-box">
-		            <form name="frmSearch" action="" >
-		              <input type="checkbox" id="toggleBtn">
-		              <label for="toggleBtn" class="toggleBtn">
-		             <img alt="search.png" class="search_icon" src="../resources/image/search.png">
-		              &nbsp;&nbsp; &nbsp;</label>
-					  <!--  <input type="submit" name="search" class="btn1"  value="검 색" > -->
-		              <input name="searchWord" id="toggleBtnOn" class="main_input" type="text"  onKeyUp="keywordSearch()" placeholder="시설, 용품명" >
-		            </form>
-	             </div>
-		         		<div id="suggest" class="cell">
-		                <div id="suggestList"></div>
-		          </div>
-		          </div>
-		          </li>
+	      	
 	      </ul>
 	    </div>
 	    <section id="user_header" style="background-color:white">
@@ -106,7 +90,7 @@
 	                </ul>
 	              </div>
 	            </li>
-	            <li class="cell">
+	            <li class="cell mySideSearch">
 	              <div>내 주변 시설 찾기</div>
 	              <div class="sub-menu-box">
 	                <ul>
