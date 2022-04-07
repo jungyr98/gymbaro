@@ -11,8 +11,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <title>Insert title here</title>
 <style type="text/css">
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
 
 .main_container {
 	width:1024px;
