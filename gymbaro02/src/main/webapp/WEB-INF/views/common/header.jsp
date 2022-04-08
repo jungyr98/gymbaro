@@ -40,7 +40,7 @@ body {
 	        		<li class = cell-r><a href="${contextPath}/member/logout.do">로그아웃</a></li>
 	      		</c:when>
 	      		<c:otherwise>
-	      			<li class = cell-r><a href="${contextPath}/member/agreeForm.do">고객센터</a></li>
+	      			<li class = cell-r><a href="${contextPath}/cs/csQnA.do">고객센터</a></li>
 	      			<li class = cell-r><a href="${contextPath}/join/join01.do">회원가입</a></li>
 	        		<li class = cell-r><a href="${contextPath}/member/loginForm.do">로그인</a></li>
 	      		</c:otherwise>
