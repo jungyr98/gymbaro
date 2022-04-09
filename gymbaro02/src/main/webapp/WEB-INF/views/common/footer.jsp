@@ -8,47 +8,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-<style>
-footer{
-  position:relative;
-  padding:10px 16px 180px 16px;
-  background:white;
-  border-top: 0.3px solid #C4C4C4;
-}
-a{text-decoration:none}
-ul,ol,li{list-style:none}
-footer{
-	text-align: left;
-	bottom:0;
-}
-footer .link li{
-    display:inline-block;
-}
-footer div address{
-  color:rgba(0,0,0,0.38);
-  font-style:normal;
-  padding:20px 0 0 0;
-  float:left;
-  background:white;
-  line-height:30px;
-}
-footer div .sc{
-  float:right;
-  background:white;
-  padding-top: 90px;
-  font-size: 10px;
-}
-footer div .sc a{
-  color:#ffffff;
-  margin-left: 20px;
-}
-</style>
 <meta charset="UTF-8">
+
+  	<!-- css 파일 링크 -->
+  	<link href="${contextPath}/resources/css/footer.css" rel="stylesheet" type="text/css" media="screen">
+  	
+  	<!-- 폰트 링크 -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+	
 <title>footer</title>
 </head>
 <body>
-	<footer>
+	<footer class="footer_box">
         <div class="align con">
             <address>
                 <span><img src="${contextPath}/resources/image/logo.png" alt="짐바로 로고"></span>

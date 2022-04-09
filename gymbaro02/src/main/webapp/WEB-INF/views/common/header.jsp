@@ -11,16 +11,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+  	<!-- css 파일 링크 -->
+  	<link href="${contextPath}/resources/css/header.css" rel="stylesheet" type="text/css" media="screen">
+  	
+  	<!-- 폰트 링크 -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+	
 <title>헤더</title>
-<link href="${contextPath}/resources/css/header.css" rel="stylesheet" type="text/css" media="screen">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <style type="text/css">
-body {
-		font-family: 'Noto Sans KR', sans-serif;
-	}
 .search_icon {
 	width:15px;
 	height:15px;
@@ -28,14 +29,14 @@ body {
 </style>
 </head>
 <body>
-	<div class="wrap main_wrap show">
+	<div class="header_wrap main_wrap header_show">
 	  <!-- Header -->
 	  <header>
 	    <div id="head_link" class="con">
 	      <ul class = "row">
 	      	<c:choose>
 	      		<c:when test="${isLogOn == true  && member!= null}">
-	      			<li class = cell-r><a href="${contextPath}/mypage/Mypage1.do">마이페이지</a></li>
+	      			<li class =cell-r><a href="${contextPath}/mypage/mypage.do">마이페이지</a></li>
 	      			<li class = cell-r><a href="#">장바구니</a></li>
 	        		<li class = cell-r><a href="${contextPath}/member/logout.do">로그아웃</a></li>
 	      		</c:when>
@@ -66,11 +67,11 @@ body {
 				 -->
 	          <ul class="gnb-list row cell">
 	            <li class="cell">
-	              <div>공지사항</div>
+	              <a href="${contextPath}/cs/notice.do">공지사항</a>
 	              <div class="sub-menu-box">
 	                <ul>
-	                  <li><a href="${contextPath}/searchGoods.do">공지사항</a></li>
-	                  <li><a href="${contextPath}/searchGoods.do">이벤트</a></li>
+	                  <li><a href="${contextPath}/cs/notice.do">공지사항</a></li>
+	                  <li><a href="${contextPath}/cs/event.do">이벤트</a></li>
 	                </ul>
 	              </div>  
 	             </li>
@@ -78,11 +79,11 @@ body {
 	              <a href="${contextPath}/gym/searchGyms.do">시설 찾기</a>
 	              <div class="sub-menu-box">
 	                <ul>
-	                  <li><a href="${contextPath}/searchGoods.do">전체 시설</a></li>
-	                  <li><a href="${contextPath}/searchGoods.do">헬스</a></li>
-	                  <li><a href="${contextPath}/searchGoods.do">필라테스</a></li>
-	                  <li><a href="${contextPath}/searchGoods.do">복싱</a></li>
-	                  <li><a href="${contextPath}/searchGoods.do">수영</a></li>
+	                  <li><a href="${contextPath}/gym/searchGyms.do">전체 시설</a></li>
+	                  <li><a href="${contextPath}/gym/searchGyms.do?menu_type=health">헬스</a></li>
+	                  <li><a href="${contextPath}/gym/searchGyms.do?menu_type=pilates">필라테스</a></li>
+	                  <li><a href="${contextPath}/gym/searchGyms.do?menu_type=boxing">복싱</a></li>
+	                  <li><a href="${contextPath}/gym/searchGyms.do?menu_type=swim">수영</a></li>
 	                </ul>
 	              </div>  
 	             </li>
@@ -91,10 +92,10 @@ body {
 	              <div class="sub-menu-box">
 	                <ul>
 	                  <li><a href="${contextPath}/goods/searchGoods.do">전체 용품</a></li>
-	                  <li><a href="${contextPath}/searchGoods.do">헬스 용품</a></li>
-	                  <li><a href="${contextPath}/searchGoods.do">필라테스 용품</a></li>
-	                  <li><a href="${contextPath}/searchGoods.do">복싱 용품</a></li>
-	                  <li><a href="${contextPath}/searchGoods.do">수영 용품</a></li>
+	                  <li><a href="${contextPath}/goods/searchGoods.do?menu_type=health">헬스 용품</a></li>
+	                  <li><a href="${contextPath}/goods/searchGoods.do?menu_type=pilates">필라테스 용품</a></li>
+	                  <li><a href="${contextPath}/goods/searchGoods.do?menu_type=boxing">복싱 용품</a></li>
+	                  <li><a href="${contextPath}/goods/searchGoods.do?menu_type=swim">수영 용품</a></li>
 	                </ul>
 	              </div>
 	            </li>
@@ -125,7 +126,7 @@ body {
 		             <img alt="search.png" class="search_icon" src="../resources/image/search.png">
 		              &nbsp;&nbsp; &nbsp;</label>
 					  <!--  <input type="submit" name="search" class="btn1"  value="검 색" > -->
-		              <input name="searchWord" id="toggleBtnOn" class="main_input" width="200" type="text"  onKeyUp="keywordSearch()" placeholder="시설, 용품명" >
+		              <input name="searchWord" id="toggleBtnOn" class="main_input" type="text"  onKeyUp="keywordSearch()" placeholder="시설, 용품명" >
 		            </form>
 	             </div>
 		         		<div id="suggest" class="cell">
