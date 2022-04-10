@@ -1,0 +1,133 @@
+.main_container {
+    width:1024px;
+ 
+ }
+
+ .step_bar {
+    display:flex;
+    justify-content:space-between;
+ }
+ 
+ .bars {
+    width:989px;
+    height:43px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+ }
+
+ 
+ .bars span {
+    font-size:18px;
+ }
+ 
+ .step_bar_01 {
+    background-color: #f0f0f0;
+ }
+ 
+ .step_bar_03 span {
+ }
+ 
+ .step_bar_02 {
+    background-color: #f0f0f0;
+ }
+ 
+ .step_bar_03 {
+    background-color: #184798;
+    color: white;
+ }
+ 
+ .fixed_join {
+    width: 129px;
+    height: 43px;
+    text-align: center; 
+    background-color: lightgray;
+    font-weight: bold;
+ }
+ 
+ 
+ .button_box {
+    display:flex;
+    justify-content:space-between;
+    margin-top:40px;
+    height:50px;
+ }
+ 
+ .button button {
+    border:none;
+    border-radius:2px;
+    width: 510px;
+    height:50px;
+ }
+ 
+ .button button span {
+    font-size:20px;
+    color:white;
+ }
+ 
+ #button_01 {
+    background-color: #c4c4c4;
+    width: 140px;
+    height: 45px;
+    border: none;
+    border-radius: 7%;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size:large
+ }
+ 
+ #button_02 {
+    background-color: #184798;
+    color:#c4c4c4;
+    width: 140px;
+    height: 45px;
+    border: none;
+    border-radius: 7%;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: large;
+ } 
+ 
+ 
+ #title {
+    color:#184798;
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+ }
+ 
+ .done_message1 {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    color: #184798;
+    margin-top: 100px;
+ }
+
+ .done_message2 {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+ }
+
+ #regist_box {
+    width: 1024px;
+    height: 300px;
+    border: 1px solid;
+    margin-top: 100px;
+ }
+
+ #regist_info {
+    font-size: 20px;
+    margin-top: 100px;
+    text-align: center;
+ }
+
+ .bottom_button button {
+    width: 600px;
+    height: 50px;
+    font-size: 16px;
+    background-color: #184798;
+    color: white;
+    margin-left: 200px;
+    margin-top: 50px;
+    border: none;
+ }

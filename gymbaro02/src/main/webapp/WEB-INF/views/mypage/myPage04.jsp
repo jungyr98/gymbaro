@@ -144,6 +144,9 @@ function search(){
             <li>
               <a href="${contextPath}/mypage/myPage05.do">내 게시물 관리</a>
             </li>
+            <li>
+              <a href="${contextPath}/mypage/myPage06.do">1:1 문의 내역</a>
+            </li>
           </ul>
         </nav>
   <div class="align_rt">

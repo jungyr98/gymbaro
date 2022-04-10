@@ -9,4 +9,19 @@
 		<put-attribute name="body" value="/WEB-INF/views/gym/searchGyms.jsp" />
 	</definition>
 	
+	<definition name="/gym/insertGym_01" extends="baseLayout">
+		<put-attribute name="title" value="운동 용품 " />
+		<put-attribute name="body" value="/WEB-INF/views/gym/insertGym_01.jsp" />
+	</definition>
+	
+	<definition name="/gym/insertGym_02" extends="baseLayout">
+		<put-attribute name="title" value="운동 용품 " />
+		<put-attribute name="body" value="/WEB-INF/views/gym/insertGym_02.jsp" />
+	</definition>
+	
+	<definition name="/gym/insertGym_03" extends="baseLayout">
+		<put-attribute name="title" value="운동 용품 " />
+		<put-attribute name="body" value="/WEB-INF/views/gym/insertGym_03.jsp" />
+	</definition>
+	
 </tiles-definitions>
