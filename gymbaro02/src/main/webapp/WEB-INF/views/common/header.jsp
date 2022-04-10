@@ -108,7 +108,7 @@
 	              </div>
 	            </li>	    
 	            <li class="cell">
-	              <div>커뮤니티</div>
+	               <a href="${contextPath}/community/community.do">커뮤니티</a>
 	              <div class="sub-menu-box">
 	                <ul>
 	                  <li><a href="${contextPath}/CC/User_CCForm.do">자유게시판</a></li>
