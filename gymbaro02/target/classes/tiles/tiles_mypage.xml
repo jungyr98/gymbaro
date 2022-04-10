@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+	<definition name="/mypage/mypage" extends="baseLayout">
+		<put-attribute name="title" value="마이페이지" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/mypage.jsp" />
+	</definition>
+	
+	<definition name="/mypage/myPage02" extends="baseLayout">
+		<put-attribute name="title" value="주문/배송" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myPage02.jsp" />
+	</definition>
+	
+	<definition name="/mypage/myPage03" extends="baseLayout">
+		<put-attribute name="title" value="쿠폰/포인트" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myPage03.jsp" />
+	</definition>
+	
+	<definition name="/mypage/myPage04" extends="baseLayout">
+		<put-attribute name="title" value="예약 내역" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myPage04.jsp" />
+	</definition>
+	
+	<definition name="/mypage/myPage05" extends="baseLayout">
+		<put-attribute name="title" value="내 게시물 관리" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myPage05.jsp" />
+	</definition>
+	
+	<definition name="/mypage/myPage06" extends="baseLayout">
+		<put-attribute name="title" value="1:1 문의 내역" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myPage06.jsp" />
+	</definition>
+	
+	<definition name="/mypage/outMember" extends="baseLayout">
+		<put-attribute name="title" value="회원 탈퇴" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/outMember.jsp" />
+	</definition>
+</tiles-definitions>

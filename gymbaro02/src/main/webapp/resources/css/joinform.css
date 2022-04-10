@@ -1,0 +1,89 @@
+.done_form {
+   width:1024px;
+}
+
+/* .first_content {
+   margin-top:70px;
+   border-top:2px solid #C4C4C4;
+}
+
+.first_text {
+   position:relative;
+   top:-15px;
+   margin-bottom:50px;
+}
+
+.first_text span {
+
+   font-size: 21px;
+   background:white;
+   padding: 0 15px;
+}
+
+.first_text span b {
+   color: #184798;
+} */
+
+.step_bar {
+   display:flex;
+   justify-content:space-between;
+}
+
+.bars {
+   width:989px;
+   height:43px;
+   display:flex;
+   justify-content:center;
+   align-items:center;
+}
+
+.bars span {
+   font-size:18px;
+}
+
+.step_bar_01 {
+   background: #f0f0f0;
+}
+
+.step_bar_03 span {
+   color:white;
+}
+
+.step_bar_02 {
+   background: #f0f0f0;
+}
+
+.step_bar_03 {
+   background: #184798;
+}
+
+
+
+.button_box {
+   display:flex;
+   justify-content:space-between;
+   margin-top:40px;
+   height:50px;
+}
+
+.button button {
+   border:none;
+   border-radius:2px;
+   width: 510px;
+   height:50px;
+}
+
+.button button span {
+   font-size:20px;
+   color:white;
+}
+
+#button_01 {
+   background: #c4c4c4;
+
+}
+
+#button_02 {
+   background: #184798;
+   color:#c4c4c4;
+} 

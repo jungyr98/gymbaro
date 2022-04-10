@@ -1,0 +1,458 @@
+@charset "UTF-8";
+
+.n-table-filter {
+	margin: 10px 0;
+}
+
+.n-table-filter .n-select {
+  width: 100px;
+}
+
+.n-table-filter .n-radio-tab, .n-table-filter .n-datepicker, .n-table-filter .n-select {
+    display: block;
+    float: left;
+    margin-right: 20px;
+}
+
+.n-hidden, .n-radio-tab input, .n-check, .n-radio {
+    display: block;
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    clip: rect(0 0 0 0);
+}
+
+.n-radio-tab input + label {
+    display: inline-block;
+    min-width: 76px;
+    border: 1px solid #f1f1f1;
+    color: #777777;
+    font-size: 14px;
+    line-height: 30px;
+    float: left;
+    margin-right: -1px;
+    text-align: center;
+    vertical-align: top;
+    position: relative;
+    cursor: pointer;
+}
+
+.n-radio-tab input:checked + label {
+    border-color: #000000;
+    color: #000000;
+    z-index: 1;
+}
+
+.n-table-filter .n-datepicker.sb {
+    margin-right: 10px;
+}
+.n-table-filter .n-datepicker {
+    width: 120px;
+}
+
+.n-table-filter .n-radio-tab, .n-table-filter .n-datepicker, .n-table-filter .n-select {
+    display: block;
+    float: left;
+    margin-right: 20px;
+}
+.n-datepicker, .vdp-datepicker {
+    display: inline-block;
+    position: relative;
+}
+
+.n-table-filter .n-btn {
+    min-width: 90px;
+    margin-left: 10px;
+}
+.n-btn.btn-accent {
+    border: 1px solid #000000;
+    background-color: #000000;
+}
+.n-btn.btn-sm {
+    min-width: 70px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+}
+
+.n-btn {
+    display: inline-block;
+    min-width: 100px;
+    height: 40px;
+    line-height: 36px;
+    color: #ffffff;
+    box-sizing: border-box;
+    padding: 2px 8px 0 8px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: middle;
+    -webkit-transition: border 0.2s, background 0.2s ease-in-out;
+    -moz-transition: border 0.2s, background 0.2s ease-in-out;
+    -o-transition: border 0.2s, background 0.2s ease-in-out;
+    transition: border 0.2s, background 0.2s ease-in-out;
+}
+
+.n-datepicker .n-input, .vdp-datepicker .n-input {
+    width: 100%;
+    padding-right: 30px;
+}
+input[type="text"] {
+    text-indent: 3px;
+}
+.n-input {
+    height: 32px;
+    padding: 5px 6px;
+    border: 1px solid #e5e5e5;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+    font-size: 14px;
+    line-height: 20px;
+    -webkit-transition: border 0.2s ease-in-out;
+    -moz-transition: border 0.2s ease-in-out;
+    -o-transition: border 0.2s ease-in-out;
+    transition: border 0.2s ease-in-out;
+}
+
+.n-datepicker .vdp-datepicker__trigger, .n-datepicker .ui-datepicker-trigger, .vdp-datepicker .vdp-datepicker__trigger, .vdp-datepicker .ui-datepicker-trigger {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+}
+
+.n-select .ui-selectmenu-button {
+    display: inline-block;
+    width: 100%;
+    height: 32px;
+    box-sizing: border-box;
+    border: 1px solid #e5e5e5;
+    color: #aaa;
+    cursor: default;
+    position: relative;
+    -webkit-transition: border 0.2s ease-in-out;
+    -moz-transition: border 0.2s ease-in-out;
+    -o-transition: border 0.2s ease-in-out;
+    transition: border 0.2s ease-in-out;
+}
+
+.n-select .ui-selectmenu-button .ui-icon {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+}
+
+.n-select .ui-selectmenu-button .ui-selectmenu-text {
+    display: block;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif !important;
+    font-size: 14px;
+    line-height: 30px;
+    padding: 0 32px 0 10px;
+}
+
+
+
+
+
+.myPage03_box a, .myPage03_box span:not(.first_text span) {text-decoration: none; font-size: 16px; color: #666;}
+.myPage03_box ul, .myPage03_box li {list-style: none;}
+.myPage03_box td {font-style: normal; font-weight: normal;}
+
+.myPage03_box .tab_btn {position: relative; width: 810px;}
+.myPage03_box .tab_btn a.more {position: absolute; right: 0; top: 13px; font-size: 13px;}
+.myPage03_box .tab_btn ul {display: flex; padding-left: 0; margin: 0;}
+.myPage03_box .tab_btn ul li {width: 810px; text-align: center; border: 1px solid #ccc; padding: 10px 0; box-sizing: border-box; margin-left: -1px; transition: all 0.5s;}
+.myPage03_box .tab_btn ul li:hover,
+.myPage03_box .tab_btn ul li:active {background: rgb(24, 71, 152);}
+.myPage03_box .tab_btn ul .active {background: rgb(24, 71, 152);}
+.myPage03_box .tab_btn ul .active a {color:white;}
+.myPage03_box .tab_btn ul li a {display: flex; justify-content: center; align-items: center;}
+.myPage03_box .tab_btn ul li a img {width:24px; height:24px; margin-left:10px;}
+.myPage03_box .tab_cont {margin-top: -1px;}
+.myPage03_box .tab_cont table {width: 810px; padding-top: 15px; box-sizing: border-box; margin: 0;}
+.myPage03_box .tab_cont table tr {position: relative; width: 400px; height: 30px; line-height: 30px; box-sizing: border-box;}
+.myPage03_box .tab_cont table tr td {height:50px;}
+.tab_menu a {display: block; transition: all 0.5s;}
+.tab_menu a:hover {color: white;}
+
+
+.notice_board_first_tr {
+	background: #f0f0f0;
+}
+
+.notice_board_first_tr td {
+	height:50px;
+	border-top: 1px solid rgb(24, 71, 152);
+	border-bottom: 1px solid rgb(24, 71, 152);
+}
+
+.myPage03_box td:not(.notice_board_first_tr td) {
+	border-bottom: 1px solid #c4c4c4;
+}
+
+#page_wrap {
+	display:flex;
+	justify-content:center;
+	margin:20px 0;
+}
+
+#page_wrap a {
+	margin-left:10px;
+}
+
+
+
+
+* {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border-radius: 3px;
+}
+
+
+.wrap.show{
+  opacity: 1;
+  visibility: visible;
+}
+
+.wrap{
+  width: 100%;
+  background:#fff;
+}
+
+
+ul,
+li {
+    list-style: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+ul{
+	margin-bottom:10px;
+}
+
+.sub_wrap .align_rt {
+    float: right;
+    width:810px;
+    margin-right: 31px;
+  	margin-top:20px;
+  	margin-bottom:100px;
+	border-radius: 5px;
+}
+
+.sub_wrap nav {
+    display: block;
+    float: left;
+    width: 238px;
+  padding-top:32px;
+}
+
+.wrap{
+  width:100%;
+  background:#fff;
+}
+
+.sub_top_wrap{
+  height: 120px;
+  background:#184798;
+}
+
+.sub_top{
+	position:relative;
+  width:1024px;
+  height:120px;
+  margin:0 auto;
+  border-radius:0;
+	text-align:left;
+}
+
+.sub_top a{
+	position: absolute;
+    color: white;
+    font-weight: 500;
+    font-size: 32px;
+    bottom:20px;
+}
+
+
+.content{
+  overflow:hidden;
+}
+
+.sub_wrap{
+  width: 1024px;
+  margin:0 auto 0 auto;
+  padding-top:54px;
+  padding-bottom:54px;
+}
+
+.show_list li .list_que span {
+    font-size: 16px;
+    color: black;
+}
+
+.show_list li{
+    display: block;
+    position: relative;
+    height: auto;
+    margin-bottom: 0;
+    padding: 0px 24px 0px 0px;
+    border-radius: 0;
+    background: #fff;
+    font-size: 18px;
+    line-height: normal;
+    cursor: pointer;
+}
+
+.show_list li .list_que p {
+    padding-bottom: 0px;
+    overflow: visible;
+    white-space: normal;
+    text-overflow: initial;
+    line-height: normal;
+    word-wrap: break-word;
+}
+
+.show_list li a p {
+    overflow: hidden;
+    width: 100%;
+    padding-bottom: 3px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color:black;
+}
+
+.tab_each {
+    border-top: none;
+}
+
+.tab_each {
+    clear: both;
+    display:block;
+  padding-top:8px;
+    text-align:left;
+    margin-bottom:20px;
+}
+
+div {
+    display: block;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.show_list {
+    margin-bottom: 0;
+    padding: 0 0;
+}
+
+.sub_wrap nav ul li a{
+  display:block;
+  font-size:20px;
+  color:black;
+}
+
+.sub_wrap nav{
+	padding-right:20px;
+	text-align:left;
+}
+
+.sub_wrap nav ul li a.active{
+  font-size:20px;
+  color:#184798;;
+  font-weight:bold;
+}
+
+.wrap.show, footer.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.wrap {
+    width: 100%;
+    background: #fff;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.sub_wrap nav ul li {
+    margin-bottom: 26px;
+}
+
+.tab{
+	text-align:left;
+}
+.tab .tab_btn ul li{
+    display: inline-block;
+    float: none;
+    position: relative;
+    margin-right: 64px;
+    font-size: 18px;
+    line-height: normal;
+    text-align: left;
+    cursor: pointer;
+    padding-left:5px;
+    color:black;
+}
+
+.tab .tab_btn ul li a{
+  color:black;
+}
+
+
+.tab .tab_btn ul{
+  position:relative;
+  margin-top:30px;
+}
+.tab_each ul li div{
+	height:32px;
+}
+
+.tab_each ul li div span{
+  font-size:16px;
+  width:130px;
+  display:inline-block;
+  padding-top:4px;
+}
+
+
+.tab_each ul li a{
+  position:relative;
+  top:10px;
+}
+	
+table, tr, td {
+	border-collapse : collapse;
+	border: none;
+}
+td {
+
+	color:#424040;
+	padding-left:10px;
+}
+
+
+
+

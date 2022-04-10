@@ -1,0 +1,253 @@
+
+
+.first_content {
+   margin-top:70px;
+   border-top:2px solid #C4C4C4;
+}
+
+.first_text {
+   position:relative;
+   top:-15px;
+   margin-bottom:50px;
+}
+
+.first_text span {
+
+   font-size: 21px;
+   background:white;
+   padding: 0 15px;
+}
+
+.first_text span b {
+   color: #184798;
+}
+/*移댄뀒怨좊━ 踰꾪듉 �꺆*/
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+#searchlink {
+	display: flex;
+}
+
+#searchlink .search{
+    margin: 0px auto;
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 800px;
+    height: 42px;
+    border: 1px solid #C4C4C4;
+    border-radius: 2px;
+    background-color: white;
+    
+}
+.searchword::placeholder{
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #184798;
+}
+.searchword{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    width: 600px;
+    padding: 7.5px;
+    padding-left: 10px;
+    border:0px;
+    outline: none;
+    float: left;
+    text-align: left;
+    font-weight: 600;
+}
+#searchbtn{
+    width: 50px;
+    height: 100%;
+    border: 0px;
+    outline: none;
+    float: right;
+    background-color: white;
+}
+#searchbtn img{
+    display: flex;
+    width: 25px;
+    height: 25px;
+}
+.form-inline{
+    margin: 30px 0;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+
+.form-inline ul {
+	width:800px;
+	padding:0;
+	display: flex;
+    justify-content: space-between;
+}
+
+.form-inline .btn {
+    box-sizing: border-box;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    background-color: transparent;
+    border: 2px solid #C4C4C4;
+    border-radius: 5px;
+    color: #424040;
+    cursor: pointer;
+    display: flex;
+    align-self: center;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+    padding: 15px 40px;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 600;
+    display: flex;
+  }
+  .btn:hover, .btn:focus {
+    border: 2px solid #184798;
+    color: #fff;
+    background-color: #184798;
+    
+  }
+  #categorybtn {
+    transition: color 100ms ease-in-out;
+  }
+ .tab_each {
+    clear: both;
+    display:block;
+    margin-top:10px;
+    text-align:left;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.show_list {
+    margin-bottom: 0;
+    padding: 0 0;
+}
+.sub_wrap nav ul li a{
+  display:block;
+  font-size:20px;
+  color:#424040;
+}
+.sub_wrap nav{
+	padding-right:20px;
+	text-align:left;
+}
+.sub_wrap nav ul li a.active{
+  font-size:20px;
+  text-decoration: none;
+  font-weight:bold;
+}
+.wrap.show, footer.show {
+    opacity: 1;
+    visibility: visible;
+}
+.wrap {
+    width: 100%;
+    background: #fff;
+    opacity: 0;
+    visibility: hidden;
+}
+.sub_wrap nav ul li {
+    margin-bottom: 26px;
+}
+
+.tab .tab_btn ul li{
+    display: inline-block;
+    float: none;
+    position: relative;
+    margin-right: 30px;
+    font-size: 18px;
+    line-height: normal;
+    text-align: left;
+    cursor: pointer;
+    padding-left:5px;
+    color:black;
+    text-decoration: none;
+}
+.tab .tab_btn ul li.active a{
+    text-decoration: none;
+  
+}
+.tab .tab_btn ul li a{
+    text-decoration: none;
+}
+.tab_each ul li label::before{
+  content: "\f107";
+  font-family:"Font Awesome 5 Free";
+  font-weight: 600;
+  display: block;
+  color: #424040;
+  float: right;
+  cursor:pointer;
+}
+.tab_each ul li input:checked + label::before{
+  content:"\f106"
+}
+.tab_each ul li label{
+    font-size: 19px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    width: 97%;
+    text-align: left;
+    color: #424040;
+    text-decoration: none;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+.tab_each ul li{
+    list-style: "Q  ";
+  margin:15px;
+  border-top:1px solid #C4C4C4;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+.tab_each ul li input{
+  display:none;
+}
+.tab_each ul li div{
+  display: none;
+  color: #666;
+  font-size: 0.9375em;
+  overflow: hidden;
+  padding: 10px 0 10px 30px;
+  box-sizing: border-box;
+  transition: max-height 0.4s;
+}
+.tab_each ul li input:checked + label + div{
+  display:block;
+}
+.tab_each ul{
+  display:none;
+  padding:0;
+}
+.tab_each ul:nth-child(1){
+  display:block;
+}
+/*1:1臾몄쓽�븯湲� 踰꾪듉*/
+.button_box {
+    float: right;
+   display:flex;
+   justify-content:space-between;
+   margin-top:40px;
+   height:50px;
+}
+.button_box button {
+    font-family: 'Noto Sans KR', sans-serif;
+   border:none;
+   border-radius:5px;
+   width:120px;
+   height:45px;
+}
+.button_box button span {
+    
+    font-size:15px;
+    color:white;
+}
+#button_01 {
+   background: rgb(24, 71, 152);
+}
