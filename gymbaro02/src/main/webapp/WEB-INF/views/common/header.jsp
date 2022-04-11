@@ -22,17 +22,47 @@
 	
 <title>헤더</title>
 <style type="text/css">
+.trainer_icon {
+	width:25px;
+	hegiht:25px;
+	margin-left:5px;
+}
+
+.trainer_a_box {
+	display:flex;
+}
+
 .search_icon {
+    position: relative;
+    top: 2px;
+    left: 180px;
 	width:15px;
 	height:15px;
 }
 
+.search_li_box {
+	margin:0;
+}
+
+.header_show .con {
+    max-width: 1390px;
+    margin: 0 auto;
+}
+
+#head_link ul li{
+  padding-left: 20px;
+  padding-right: 20px;
+  border-right: 1px solid #ddd;
+  color: #777;
+  font-size: 14px;
+  font-weight: 500;
+}
+
 .header_wrap ul {list-style: none; margin: 0; padding: 0;}
 
-.header_wrap .container {}
 .header_wrap .slider {position: relative; width: 180px; height: 23px; overflow: hidden;}
 .header_wrap .slider ul {position: absolute; left: 0; top: 0; width: 100px; height: 92px; text-align: initial;}
-.header_wrap .slider li {width: 100px; height: 23px; margin-left:40px;}
+.header_wrap .slider li {width: 100px; height: 23px; margin-left:20px;}
 .header_wrap .slider li a {font-size:14px; color: #777; font-weight:400;}
 .header_wrap .slider li img {max-width: 100%;}
 
@@ -61,21 +91,7 @@ $(function () {
 	  <!-- Header -->
 	  <header>
 	    <div id="head_link" class="con">
-	      <ul class = "row">
-	      	<c:choose>
-	      		<c:when test="${isLogOn == true  && member!= null}">
-	      			<li class =cell-r><a href="${contextPath}/mypage/mypage.do">마이페이지</a></li>
-	      			<li class = cell-r><a href="#">장바구니</a></li>
-	        		<li class = cell-r><a href="${contextPath}/member/logout.do">로그아웃</a></li>
-	      		</c:when>
-	      		<c:otherwise>
-	      			<li class = cell-r><a href="${contextPath}/cs/csQnA.do">고객센터</a></li>
-	      			<li class = cell-r><a href="${contextPath}/join/join01.do">회원가입</a></li>
-	        		<li class = cell-r><a href="${contextPath}/member/loginForm.do">로그인</a></li>
-	      		</c:otherwise>
-	      	</c:choose>
-	      	
-	      </ul>
+	      <ul class="row"></ul>
 	    </div>
 	    <section id="user_header" style="background-color:white">
 	      <div class="menu con">
@@ -103,7 +119,7 @@ $(function () {
 	                </ul>
 	              </div>  
 	             </li>
-			    <li class="cell">
+			    <li class="cell" style='color:#184798'>
 	              <a href="${contextPath}/gym/searchGyms.do">시설 찾기</a>
 	              <div class="sub-menu-box">
 	                <ul>
@@ -127,14 +143,9 @@ $(function () {
 	                </ul>
 	              </div>
 	            </li>
-	            <li class="cell" style='color:#184798'>
-	              <div>내 주변 시설 찾기</div>
-	              <div class="sub-menu-box">
-	                <ul>
-	                  <li><a href="${contextPath}/CC/User_CCForm.do">내 주변 시설 찾기</a></li>
-	                </ul>
-	              </div>
-	            </li>	    
+	            <li class="cell">
+	               <a href="${contextPath}/community/community.do" class="trainer_a_box">트레이너 <img alt="whistle.png" class="trainer_icon" src="${contextPath}/resources/image/whistle.png"></a>
+	            </li>   
 	            <li class="cell">
 	               <a href="${contextPath}/community/community.do">커뮤니티</a>
 	              <div class="sub-menu-box">
@@ -145,10 +156,9 @@ $(function () {
 	                </ul>
 	              </div>
 	            </li>
-	            <li class="cell">
+	            <li class="cell search_li_box">
 		            <form name="frmSearch" id="frmSearch" action="" >
 		             <img alt="search.png" class="search_icon" src="../resources/image/search.png">
-		              &nbsp;&nbsp; &nbsp;
 					  <!--  <input type="submit" name="search" class="btn1"  value="검 색" > -->
 		              <input name="searchWord" id="toggleBtnOn" class="main_input" type="text"  onKeyUp="keywordSearch()" placeholder="시설, 용품명" >
 		            </form>
@@ -181,10 +191,28 @@ $(function () {
 		         		<div id="suggest" class="cell">
 		                <div id="suggestList"></div>
 		          </div>
+		          </li>
+		          <li class="cell">
+		           <div id="head_link" class="con">
+	      <ul class = "row">
+	      	<c:choose>
+	      		<c:when test="${isLogOn == true  && member!= null}">
+	      			<li class =cell-r><a href="${contextPath}/mypage/mypage.do">정유라님</a></li>
+	      			<li class = cell-r><a href="#">장바구니</a></li>
+	        		<li class = cell-r><a href="${contextPath}/member/logout.do">고객센터</a></li>
+	      		</c:when>
+	      		<c:otherwise>
+	      			<li class = cell-r><a href="${contextPath}/cs/csQnA.do">고객센터</a></li>
+	      			<li class = cell-r><a href="${contextPath}/join/join01.do">회원가입</a></li>
+	        		<li class = cell-r><a href="${contextPath}/member/loginForm.do">로그인</a></li>
+	      		</c:otherwise>
+	      	</c:choose>
+	      	
+	      </ul>
+	    </div>
+		          </li>
+		          </ul>
 		          </div>
-	            </li> 
-	          </ul>
-	        </div>
 	      </div>
 	    </section>
 	  </header>

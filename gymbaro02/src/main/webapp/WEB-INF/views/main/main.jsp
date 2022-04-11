@@ -81,13 +81,60 @@ body {
 
 .gym_content {
 	display:flex;
-	justify-content:center;
+	justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.gym_image {
+	border: 1px solid #c4c4c4;
+	border-radius:5px;
+	box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
+	text-align:start;
+	transition:0.3s; 
+}
+
+.gym_image:hover {
+	cursor:pointer;
+	transition: 0.3;
 }
 
 .gym_image img {
 	width:337px;
 	height:227px;
-	margin:2px 3px;
+}
+
+.gym_image .gym_image_tag_box {
+	margin-top:20px;
+}
+
+.gym_image .gym_image_info_box,
+.gym_image .gym_image_tag_box {
+	margin: 20px 10px;
+}
+
+.gym_image .gym_image_info_box .gym_image_info_title {
+	font-size:17px;
+	font-weight:bold;
+	color: #424040;
+}
+
+.gym_image .gym_image_info_box div {
+	display:flex;
+	justify-content:space-between;
+	font-size: 15px;
+    color: #424040;
+    margin-top: 5px;
+}
+
+.gym_image .gym_image_tag_box {
+	margin-top:40px;
+}
+
+.gym_image .gym_image_tag_box span {
+	padding: 0 10px;
+    border: 1px solid #424040;
+    border-radius: 13px;
+    color: #424040;
 }
 
 .product_content {
@@ -105,9 +152,8 @@ body {
 }
 
 .product_image img {
-	width:280px;
+	width:300px;
 	height:280px;
-	border:1px solid #C4C4C4;
 }
 
 .product_image .rank_mark img {
@@ -157,10 +203,20 @@ body {
 	margin-right:7px;
 }
 
+.event_content {
+	display:flex;
+	justify-content: space-between;
+}
+
+.event_image img{
+	width: 500px;
+	height: 250px;
+}
+
 body, html {margin: 0; padding: 0;}
 ul {list-style: none; margin: 0; padding: 0;}
 
-.main_container .container {margin-top: 35px;}
+.main_container .container { }
 .main_container .slider {position: relative; width: 1024px; height: 500px; overflow: hidden;}
 .main_container .slider ul {position: absolute; left: 0; top: 0; width: 4096px; height: 597px;}
 .main_container .slider li {float: left; width: 1024px; height: 597px;}
@@ -181,17 +237,17 @@ ul {list-style: none; margin: 0; padding: 0;}
                 </li>
                 <li>
                     <a href="#">
-                        <img alt="boxing.png" src="${contextPath}/resources/image/boxing.PNG" width="1024">
+                        <img alt="boxing.png" src="${contextPath}/resources/image/main_join_event.PNG" width="1024">
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img alt="yoga.png" src="${contextPath}/resources/image/yoga.PNG" width="1024">
+                        <img alt="yoga.png" src="${contextPath}/resources/image/main_photo_review_event.PNG" width="1024">
                     </a>
                 </li>
                 <li>
                     <a href="#">
-                        <img alt="health.png" src="${contextPath}/resources/image/health.PNG" width="1024">
+                        <img alt="health.png" src="${contextPath}/resources/image/main_review_event.PNG" width="1024">
                     </a>
                 </li>
             </ul>
@@ -207,23 +263,90 @@ ul {list-style: none; margin: 0; padding: 0;}
 	<div class="gym_content">
 		<div class="gym_image">
 			<img alt="시설01" src="${contextPath}/resources/image/gym_01.PNG">
+			<div class="gym_image_info_box">
+				<span class="gym_image_info_title">홍제 짐굿라이프</span>
+				<div>
+					<span>서울 서대문구 홍제동</span>
+					<span>1.78 km</span>
+				</div>
+			</div>
+			<div class="gym_image_tag_box">
+				<span>P.T</span>
+				<span>헬스</span>
+			</div>
 		</div>
 		<div class="gym_image">
 			<img alt="시설02" src="${contextPath}/resources/image/gym_02.PNG">
+			<div class="gym_image_info_box">
+				<span class="gym_image_info_title">홍제 에이스 복싱</span>
+				<div>
+					<span>서울 서대문구 홍제동</span>
+					<span>1.86 km</span>
+				</div>
+			</div>
+			<div class="gym_image_tag_box">
+				<span>복싱</span>
+				<span>그룹P.T</span>
+			</div>
 		</div>
 		<div class="gym_image">
 			<img alt="시설03" src="${contextPath}/resources/image/gym_03.PNG">
+			<div class="gym_image_info_box">
+				<span class="gym_image_info_title">홍제 매직짐</span>
+				<div>
+					<span>서울 서대문구 홍제동</span>
+					<span>2.10 km</span>
+				</div>
+			</div>
+			<div class="gym_image_tag_box">
+				<span>헬스</span>
+				<span>P.T</span>
+			</div>
 		</div>
 	</div>
 	<div class="gym_content">
 		<div class="gym_image">
 			<img alt="시설03" src="${contextPath}/resources/image/gym_04.PNG">
+			<div class="gym_image_info_box">
+				<span class="gym_image_info_title">광화문 MCT GYM</span>
+				<div>
+					<span>서울 종로구 내수동</span>
+					<span>2.26 km</span>
+				</div>
+			</div>
+			<div class="gym_image_tag_box">
+				<span>P.T</span>
+				<span>헬스</span>
+			</div>
 		</div>
 		<div class="gym_image">
 			<img alt="시설04" src="${contextPath}/resources/image/gym_05.PNG">
+			<div class="gym_image_info_box">
+				<span class="gym_image_info_title">광화문 피트니스 101</span>
+				<div>
+					<span>서울 종로구 내수동</span>
+					<span>2.30 km</span>
+				</div>
+			</div>
+			<div class="gym_image_tag_box">
+				<span>P.T</span>
+				<span>헬스</span>
+				<span>기구 필라테스</span>
+			</div>
 		</div>
 		<div class="gym_image">
 			<img alt="시설05" src="${contextPath}/resources/image/gym_06.PNG">
+			<div class="gym_image_info_box">
+				<span class="gym_image_info_title">서대문 짐피닉스 PT스튜디오</span>
+				<div>
+					<span>서울 서대문구 교남동</span>
+					<span>2.67 km</span>
+				</div>
+			</div>
+			<div class="gym_image_tag_box">
+				<span>그룹P.T</span>
+				<span>헬스</span>
+			</div>
 		</div>
 	</div>
  </div>
@@ -284,42 +407,15 @@ ul {list-style: none; margin: 0; padding: 0;}
  
  <div class="last_content">
 	<div class="first_text last">
-		<span><b>짐바로 이벤트</b> 기획 상품 <img alt="icon_map" src="${contextPath}/resources/image/event.png"></span>
+		<span><b>짐바로 이벤트</b> 기획 <img alt="icon_map" src="${contextPath}/resources/image/event.png"></span>
 	</div>
 	
-	<div class="product_content">
-		<div class="product_image">
-			<img alt="용품01" src="${contextPath}/resources/image/product_04.PNG">
-			<div class="product_info">
-				<span>운동 용품 이름</span>
-				<div class="product_info_price">
-					<span><b>14,000원</b></span>
-					<span style='font-size:14px; color:#424040'>28,000원</span>
-					<span style='color:#184798'><b>50%</b></span>
-				</div>
-			</div>
+	<div class="event_content">
+		<div class="event_image">
+			<img alt="event" src="${contextPath}/resources/image/main_coupon.PNG">
 		</div>
-		<div class="product_image">
-			<img alt="용품02" src="${contextPath}/resources/image/product_05.PNG">
-			<div class="product_info">
-				<span>운동 용품 이름</span>
-				<div class="product_info_price">
-					<span><b>14,000원</b></span>
-					<span style='font-size:14px; color:#424040'>28,000원</span>
-					<span style='color:#184798'><b>50%</b></span>
-				</div>
-			</div>
-		</div>
-		<div class="product_image">
-			<img alt="용품03" src="${contextPath}/resources/image/product_06.PNG">
-			<div class="product_info">
-				<span>운동 용품 이름</span>
-				<div class="product_info_price">
-					<span><b>14,000원</b></span>
-					<span style='font-size:14px; color:#424040'>28,000원</span>
-					<span style='color:#184798'><b>50%</b></span>
-				</div>
-			</div>
+		<div class="event_image">
+			<img alt="event" src="${contextPath}/resources/image/main_coupon.PNG">
 		</div>
 	</div>
  </div>

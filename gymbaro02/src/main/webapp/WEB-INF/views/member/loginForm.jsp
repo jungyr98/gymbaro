@@ -16,8 +16,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${contextPath}/resources/css/loginForm.css">
-<title>로그인창</title>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<title>로그인창</title>
 <script type="text/javascript">
 
 
@@ -39,11 +39,11 @@ $(document).ready(function(){
 
 });
 </script>
-<style type="text/css">
+<style>
 body {
 		font-family: 'Noto Sans KR', sans-serif;
 	}
-</style>
+	</style>
 </head>
 <body>
 <body>
@@ -61,7 +61,7 @@ body {
         <form action="#" id="login">
               <div class="input-field">
                 <label for="id"></label>
-                <input type="id" name="id" required="id" placeholder="아이디를 입력하세요."/>
+                <input type="text" name="id" placeholder="아이디를 입력하세요." required/>
                 <label for="password"></label> 
                 <input type="password" name="password" placeholder="비밀번호를 입력하세요." required/>
                 <input type="submit" value="로그인" class="button"/>
@@ -70,13 +70,13 @@ body {
           <form action="#" id="non-member_order">
               <div class="input-field">
                 <label for="name"></label> 
-                <input type="name" name="ordername" required="ordername" placeholder="주문자 이름을 입력하세요."/>
+                <input type="text" name="ordername" placeholder="주문자 이름을 입력하세요." required/>
                 <label for="orderno"></label> 
-                <input type="orderno" name="orderno" placeholder="주문 번호를 입력하세요." required/>
+                <input type="text" name="orderno" placeholder="주문 번호를 입력하세요." required/>
                 <input type="submit" value="조회" class="button" />
               </div>
           </form>
-    </div>
+     </div>
     <div class="atag" style="color:#424040">
     <a href="${contextPath}/join/join01.do">회원가입</a>
     |

@@ -30,16 +30,7 @@
       #header {
         padding: 50px;
       }
-      #sidebar-left {
-        width: 15%;
-        height:100px;
-        padding: 5px;
-        float:left;
-        margin-right: 5px;
-        margin-bottom: 5px;
-        border: 0px solid #bcbcbc;
-        font-size:10px;
-      }
+
       #content {
       	display:flex;
 		justify-content:center;
