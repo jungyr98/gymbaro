@@ -15,6 +15,24 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+$(function () {
+    var n = 0;
+    var pos = 0;
+    setInterval(function () {
+        n = n + 1;
+        pos = -1 * 1024 * n;
+        $(".main_container .slider ul").animate({ "left": pos }, 300, function () {
+            if (n == 4) {
+                n = 0;
+                pos = 0;
+                $(".main_container .slider ul").css({ "left": pos });
+            }
+        });
+    }, 3000);
+});
+</script>
 <style type="text/css">
 
 body {
@@ -138,12 +156,47 @@ body {
 .product_info_price span {
 	margin-right:7px;
 }
+
+body, html {margin: 0; padding: 0;}
+ul {list-style: none; margin: 0; padding: 0;}
+
+.main_container .container {margin-top: 35px;}
+.main_container .slider {position: relative; width: 1024px; height: 500px; overflow: hidden;}
+.main_container .slider ul {position: absolute; left: 0; top: 0; width: 4096px; height: 597px;}
+.main_container .slider li {float: left; width: 1024px; height: 597px;}
+.main_container .slider li img {max-width: 100%;}
+
 </style>
 </head>
 <body>
 <div class="main_container">
 	<div class="main_img">
-		<img alt="swim.png" src="${contextPath}/resources/image/swim.PNG" width="1024">
+		<div class="container">
+        <div class="slider">
+            <ul>
+                <li class="active">
+                    <a href="#">
+                        <img alt="swim.png" src="${contextPath}/resources/image/swim.PNG" width="1024">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img alt="boxing.png" src="${contextPath}/resources/image/boxing.PNG" width="1024">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img alt="yoga.png" src="${contextPath}/resources/image/yoga.PNG" width="1024">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <img alt="health.png" src="${contextPath}/resources/image/health.PNG" width="1024">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 	</div>
 	
  <div class="first_content">

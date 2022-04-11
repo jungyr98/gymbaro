@@ -26,7 +26,35 @@
 	width:15px;
 	height:15px;
 }
+
+.header_wrap ul {list-style: none; margin: 0; padding: 0;}
+
+.header_wrap .container {}
+.header_wrap .slider {position: relative; width: 180px; height: 23px; overflow: hidden;}
+.header_wrap .slider ul {position: absolute; left: 0; top: 0; width: 100px; height: 92px; text-align: initial;}
+.header_wrap .slider li {width: 100px; height: 23px; margin-left:40px;}
+.header_wrap .slider li a {font-size:14px; color: #777; font-weight:400;}
+.header_wrap .slider li img {max-width: 100%;}
+
 </style>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+$(function () {
+    var n = 0;
+    var pos = 0;
+    setInterval(function () {
+        n = n + 1;
+        pos = -1 * 23 * n;
+        $(".header_wrap .slider ul").animate({ "top": pos }, 300, function () {
+            if (n == 4) {
+                n = 0;
+                pos = 0;
+                $(".header_wrap .slider ul").css({ "top": pos });
+            }
+        });
+    }, 3000);
+});
+</script>
 </head>
 <body>
 	<div class="header_wrap main_wrap header_show">
@@ -118,22 +146,43 @@
 	              </div>
 	            </li>
 	            <li class="cell">
-	            	<div id="search" class="cell">
-	              <div class="sub-menu-box">
-		            <form name="frmSearch" action="" >
-		              <input type="checkbox" id="toggleBtn">
-		              <label for="toggleBtn" class="toggleBtn">
+		            <form name="frmSearch" id="frmSearch" action="" >
 		             <img alt="search.png" class="search_icon" src="../resources/image/search.png">
-		              &nbsp;&nbsp; &nbsp;</label>
+		              &nbsp;&nbsp; &nbsp;
 					  <!--  <input type="submit" name="search" class="btn1"  value="검 색" > -->
 		              <input name="searchWord" id="toggleBtnOn" class="main_input" type="text"  onKeyUp="keywordSearch()" placeholder="시설, 용품명" >
 		            </form>
-	             </div>
+	 <div class="container">
+        <div class="slider">
+            <ul class="header_lanking_slider_ul">
+                <li class="active">
+                    <a href="#">
+                       1. 홈트레이닝
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                       2. 바벨
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                       3. 헬스장
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#">
+                      4. 대전
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 		         		<div id="suggest" class="cell">
 		                <div id="suggestList"></div>
 		          </div>
 		          </div>
-	            </li>	    
+	            </li> 
 	          </ul>
 	        </div>
 	      </div>

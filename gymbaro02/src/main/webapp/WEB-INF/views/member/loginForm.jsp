@@ -48,7 +48,7 @@ body {
 <body>
 <body>
 
-    <div class="main_container">
+    <div class="loginForm_box main_container">
         <div class="first_content">
          <div class="first_text">
             <span><b>로그인</b></span>

@@ -26,7 +26,7 @@
 }
 
 
-* {
+.loginForm_box {
 	margin: 0;
 	padding: 0;
 	-webkit-box-sizing: border-box;
@@ -141,8 +141,8 @@ body {
 }
 .atag a{
 
-	text-decoration: none; /* 留곹겕�쓽 諛묒쨪 �젣嫄� */ 
-	color: inherit; /* 留곹겕�쓽 �깋�긽 �젣嫄� */
+	text-decoration: none; /* 筌띻낱寃뺧옙�벥 獄쏅쵐夷� 占쎌젫椰꾬옙 */ 
+	color: inherit; /* 筌띻낱寃뺧옙�벥 占쎄퉳占쎄맒 占쎌젫椰꾬옙 */
 }
 .btn_kakao{
 	border: none;

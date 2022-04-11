@@ -57,12 +57,13 @@
   border-bottom:0.3px solid #C4C4C4;
 }
 
-#head_link ul{
+#head_link ul:not(.header_lanking_slider_ul){
 	padding-top: 10px;
 	padding-bottom: 10px;
 	margin-top: 0;
     margin-bottom: 0;
 }
+
 #head_link ul li{
   padding-left: 20px;
   padding-right: 20px;
@@ -84,34 +85,16 @@ header #business_header{
   background-color: white; 
 }
 
-/* °Ë»ö */
+
 .header_show header section .menu .menu-bar #search{
   margin-bottom:100px;
 }
-.header_show #toggleBtn{
-  display:none;
-}
+
 .header_show #toggleBtnOn{
-  width: 0px;
-  border: none;
-  transition: all 0.3s;
-}
-.header_show #toggleBtn:checked ~ #toggleBtnOn {
-    width: 180px;
+  width: 180px;
     height:30px;
     border: 1px solid #C4C4C4;
-    transition: all 0.3s;
 }
-.header_show .toggleBtn{
-  border: none;
-  width: 20px;
-  height: 30px;
-  background-size: 20px auto;
-  color:black;
-  z-index:10;
-  cursor: pointer;
-}
-
 
 
 .header_show header section .menu #logo a {

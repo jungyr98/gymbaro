@@ -43,7 +43,8 @@
       #content {
       	display:flex;
 		justify-content:center;
-		align-item:center;
+		align-items:center;
+		text-align:center;
       	height:auto;
       	
       }

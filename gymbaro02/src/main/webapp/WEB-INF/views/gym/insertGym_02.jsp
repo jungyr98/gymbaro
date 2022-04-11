@@ -25,6 +25,11 @@ td {
 	padding-left: 10px;
 	font-size: medium;
 }
+
+#kakao, #facebook, #naverblog, #home, #instagram {
+	width:20px;
+	height:20px;
+}
 </style>
 </head>
 <body>
@@ -41,12 +46,12 @@ td {
 			<thead>
 				<tr>
 					<td class="fixed_join">SNS 주소</td>
-					<td>
-					  <input type="checkbox" name="kakao" id="kakao"><img src="image/kakao.png" alt="카카오톡">
-					  <input type="checkbox" name="instagram" id="instagram"><img src="image/instagram.png" alt="인스타그램">
-					  <input type="checkbox" name="naverblog" id="naverblog"><img src="image/blog.png" alt="네이버 블로그">
-					  <input type="checkbox" name="kakao" id="facebook"><img src="image/facebook.png" alt="페이스북">
-					  <input type="checkbox" name="home" id="home"><img src="image/home.png" alt="홈페이지">
+					<td id="insertGym_02_td">
+					  <input type="checkbox" name="kakao"><img src="${contextPath}/resources/image/kakao.png" id="kakao" alt="카카오톡">
+					  <input type="checkbox" name="instagram"><img src="${contextPath}/resources/image/instagram.png" id="instagram" alt="인스타그램">
+					  <input type="checkbox" name="naverblog"><img src="${contextPath}/resources/image/blog.png" id="naverblog" alt="네이버 블로그">
+					  <input type="checkbox" name="kakao"><img src="${contextPath}/resources/image/facebook.png" id="facebook" alt="페이스북">
+					  <input type="checkbox" name="home"><img src="${contextPath}/resources/image/home.png" id="home" alt="홈페이지">
 					  <br>
 						주소<input type="url" name="snsaddress" id="snsaddress">
 					</td>
