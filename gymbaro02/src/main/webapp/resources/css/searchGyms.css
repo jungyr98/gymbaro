@@ -1,0 +1,90 @@
+@charset "UTF-8";
+
+.main_container {
+	width:1024px;
+}
+
+.first_content, .second_content, .last_content {
+	margin-top:70px;
+	border-top:2px solid #C4C4C4;
+}
+
+.first_text {
+	position:relative;
+	top:-15px;
+	margin-bottom:50px;
+}
+
+.first_text span {
+
+	font-size: 20px;
+	background:white;
+	padding: 0 15px;
+}
+
+.first_text span b {
+	color: #184798;
+}
+
+.first_text span img {
+	width:20px;
+	height:20px;
+}
+
+.gym_content {
+	display:flex;
+	justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.gym_image {
+	border: 1px solid #c4c4c4;
+	border-radius:5px;
+	box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
+	text-align:start;
+	transition:0.3s; 
+}
+
+.gym_image:hover {
+	cursor:pointer;
+	transition: 0.3;
+}
+
+.gym_image img {
+	width:337px;
+	height:227px;
+}
+
+.gym_image .gym_image_tag_box {
+	margin-top:20px;
+}
+
+.gym_image .gym_image_info_box,
+.gym_image .gym_image_tag_box {
+	margin: 20px 10px;
+}
+
+.gym_image .gym_image_info_box .gym_image_info_title {
+	font-size:17px;
+	font-weight:bold;
+	color: #424040;
+}
+
+.gym_image .gym_image_info_box div {
+	display:flex;
+	justify-content:space-between;
+	font-size: 15px;
+    color: #424040;
+    margin-top: 5px;
+}
+
+.gym_image .gym_image_tag_box {
+	margin-top:40px;
+}
+
+.gym_image .gym_image_tag_box span {
+	padding: 0 10px;
+    border: 1px solid #424040;
+    border-radius: 13px;
+    color: #424040;
+}

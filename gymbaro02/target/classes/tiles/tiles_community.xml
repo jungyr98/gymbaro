@@ -8,5 +8,15 @@
 		<put-attribute name="title" value="커뮤니티" />
 		<put-attribute name="body" value="/WEB-INF/views/community/community.jsp" />
 	</definition>
+	
+	<definition name="/community/communityDetail" extends="baseLayout">
+		<put-attribute name="title" value="커뮤니티 상세" />
+		<put-attribute name="body" value="/WEB-INF/views/community/communityDetail.jsp" />
+	</definition>
+	
+	<definition name="/community/communityWrite" extends="baseLayout">
+		<put-attribute name="title" value="커뮤니티 글쓰기" />
+		<put-attribute name="body" value="/WEB-INF/views/community/communityWrite.jsp" />
+	</definition>
 
 </tiles-definitions>

@@ -26,6 +26,26 @@ public class CommunityController {
 
 		return mav;
 	}
+	
+	@RequestMapping(value= "/community/communityDetail.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView communityDetail(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		HttpSession session;
+		ModelAndView mav=new ModelAndView();
+		String viewName=(String)request.getAttribute("viewName");
+		mav.setViewName(viewName);
+
+		return mav;
+	}
+	
+	@RequestMapping(value= "/community/communityWrite.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView communityWrite(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		HttpSession session;
+		ModelAndView mav=new ModelAndView();
+		String viewName=(String)request.getAttribute("viewName");
+		mav.setViewName(viewName);
+
+		return mav;
+	}
 
 }
 

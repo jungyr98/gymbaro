@@ -54,8 +54,8 @@ $(function () {
                     <c:forEach begin="0" end="10" step="1">
                     <tr>
                     	<td>100</td>
-                    	<td>자유게시판 제목 테스트</td>
-                    	<td>정유라</td>
+                    	<td><a href="${contextPath}/community/communityDetail.do">자유게시판 제목 테스트</a></td>
+                    	<td>정유라</td> 
                     	<td>[2022-04-10]</td>
                     </tr>
                     </c:forEach>
@@ -105,7 +105,7 @@ $(function () {
 	      </c:forEach> 
 		</DIV>
 		<div class="noticeWrite_btn_box">
-			<a href="${contextPath}/cs/noticeWrite.do">글 작성하기</a>
+			<a href="${contextPath}/community/communityWrite.do">글 작성하기</a>
 		</div>	
           </div>
      </div>
