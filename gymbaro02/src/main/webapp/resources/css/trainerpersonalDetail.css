@@ -1,0 +1,86 @@
+.trainerpersonalDetail_main_container {
+    width:1024px;
+ }
+ .trainerpersonalDetail_first_content {
+    margin-top:70px;
+    border-top:2px solid #C4C4C4;
+ }
+ .trainerpersonalDetail_first_text {
+    position:relative;
+    top:-15px;
+    margin-bottom:50px;
+ }
+ .trainerpersonalDetail_first_text span {
+    font-size: 21px;
+    background:white;
+    padding: 0 15px;
+ }
+ .trainerpersonalDetail_first_text span b {
+    color: #184798;
+ }
+  
+  .trainerpersonalDetail_form_box {
+     margin-top:30px;
+     width: 730px;
+  }
+  .trainerpersonalDetail_fixed_pd{
+     font-weight: bold;
+      font-size: 14px;
+      width:20%; 
+      height:38px;
+      text-align:center;
+      color: #424040;
+      background-color: #f0f0f0;
+  }
+  .trainerpersonalDetail_pdform{
+    font-weight: bold;
+    font-size: 14px;
+    width:20%; 
+    height:38px;
+    text-align:center;
+    background-color: #f0f0f0;
+  }
+  .trainerpersonalDetail_form_box input{
+     border: 0;
+     outline: none;
+  }
+  .trainerpersonalDetail_form_btn {
+  width:auto;
+  height:27px;
+  cursor:pointer;
+  background-color: #184798;
+  color: white;
+  border-radius:5px;
+  margin-left:5px;
+  }
+  .trainerpersonalDetail_button_box {
+     float: right;
+     height:50px;
+  }
+  .trainerpersonalDetail_button_box button {
+     border:none;
+     border-radius:2px;
+     width: 100px;
+     height:30px;
+  }
+  .trainerpersonalDetail_button_box button span {
+     font-size:14px;
+     font-family: 'Noto Sans KR', sans-serif;
+     color:white;
+  }
+  
+  #trainerpersonalDetail_button_01 {
+     background: #c4c4c4;
+  }
+  
+  #trainerpersonalDetail_button_02 {
+     background: #184798;
+  }
+  .trainerpersonalDetail_input-file-button{
+    padding: 6px 25px;
+    background-color:#184798;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    margin: 10px;
+  }

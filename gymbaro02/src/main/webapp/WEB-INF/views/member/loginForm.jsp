@@ -46,7 +46,6 @@ body {
 	</style>
 </head>
 <body>
-<body>
 
     <div class="loginForm_box main_container">
         <div class="first_content">

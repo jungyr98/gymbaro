@@ -9,6 +9,11 @@
 		<put-attribute name="body" value="/WEB-INF/views/gym/searchGyms.jsp" />
 	</definition>
 	
+	<definition name="/gym/gymsInfo" extends="baseLayout">
+		<put-attribute name="title" value="운동 용품 상세 " />
+		<put-attribute name="body" value="/WEB-INF/views/gym/gymsInfo.jsp" />
+	</definition>
+	
 	<definition name="/gym/insertGym_01" extends="baseLayout">
 		<put-attribute name="title" value="운동 용품 " />
 		<put-attribute name="body" value="/WEB-INF/views/gym/insertGym_01.jsp" />

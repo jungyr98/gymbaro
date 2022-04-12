@@ -9,13 +9,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/goods/searchGoods.jsp" />
 	</definition>
 	
-	<definition name="/goods/goods_health" extends="baseLayout">
-		<put-attribute name="title" value="헬스  용품" />
-		<put-attribute name="body" value="/WEB-INF/views/product/product_health.jsp" />
-	</definition>
 	
-	<definition name="/goods/goodsInformation" extends="baseLayout">
+	<definition name="/goods/goodsInfo" extends="baseLayout">
 		<put-attribute name="title" value="상품 상세페이지" />
-		<put-attribute name="body" value="/WEB-INF/views/goods/goodsInformation.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/goods/goodsInfo.jsp" />
 	</definition>
 </tiles-definitions>

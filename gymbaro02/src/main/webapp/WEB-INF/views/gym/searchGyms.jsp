@@ -14,40 +14,6 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="${contextPath}/resources/css/searchGyms.css">
 <title>Insert title here</title>
-<style type="text/css">
-.my_location_setting_box {
-	display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 50px 15px 20px 15px;
-    color: white;
-    background: #184798;
-}
-
-.my_location_setting_box .now_location_box{
-	text-align: start;
-	line-height: 2;
-}
-
-.now_location_box div {
-	display: flex;
-    align-items: center;
-	font-size: 15px;
-}
-
-.now_location_box img {
-	width:16px;
-	margin-right:7px;
-}
-
-.location_setting {
-	font-size:15px;
-}
-
-.second_content {
-	margin-top:100px;
-}
-</style>
 </head>
 <body>
 <div class="main_container">
@@ -69,7 +35,7 @@
 	</div>
 	
 	<div class="gym_content">
-		<div class="gym_image">
+		<div class="gym_image" onClick="location.href ='${contextPath}/gym/gymsInfo.do'">
 			<img alt="시설01" src="${contextPath}/resources/image/gym_01.PNG">
 			<div class="gym_image_info_box">
 				<span class="gym_image_info_title">홍제 짐굿라이프</span>

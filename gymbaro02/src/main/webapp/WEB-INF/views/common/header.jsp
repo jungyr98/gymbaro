@@ -144,7 +144,7 @@ $(function () {
 	              </div>
 	            </li>
 	            <li class="cell">
-	               <a href="${contextPath}/community/community.do" class="trainer_a_box">트레이너 <img alt="whistle.png" class="trainer_icon" src="${contextPath}/resources/image/whistle.png"></a>
+	               <a href="${contextPath}/trainer/findTrainer.do" class="trainer_a_box">트레이너 <img alt="whistle.png" class="trainer_icon" src="${contextPath}/resources/image/whistle.png"></a>
 	            </li>   
 	            <li class="cell">
 	               <a href="${contextPath}/community/community.do">커뮤니티</a>

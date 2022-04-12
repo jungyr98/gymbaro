@@ -191,6 +191,8 @@
 
 .product_image .rank_mark img {
 	border:none;
+	width:50px;
+	height:50px;
 }
 
 .product_image .rank_mark {
@@ -293,4 +295,6 @@
 #page_wrap a {
 	margin-left:10px;
 }
-
+.fa fa-star{
+	color: #184798;
+}

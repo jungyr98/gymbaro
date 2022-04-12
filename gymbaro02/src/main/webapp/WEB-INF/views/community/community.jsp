@@ -29,6 +29,15 @@ $(function () {
 });
 
 </script>
+<style type="text/css">
+.notice_box .tab_btn ul .active {
+    background: rgb(24, 71, 152);
+    color:white;
+}
+.notice_box .tab_btn ul .active a{
+	color:white;
+}
+</style>
 </head>
 <body>
      <div class="notice_box tab_menu">

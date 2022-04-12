@@ -24,6 +24,16 @@ public class GymController {
 		return mav;
 	}
 	
+	@RequestMapping(value= "/gym/gymsInfo.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView gymsInfo(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		HttpSession session;
+		ModelAndView mav=new ModelAndView();
+		String viewName=(String)request.getAttribute("viewName");
+		mav.setViewName(viewName);
+
+		return mav;
+	}
+	
 	@RequestMapping(value= "/gym/insertGym_01.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView insertGym_01(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;

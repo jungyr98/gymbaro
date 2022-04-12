@@ -1,4 +1,4 @@
-package com.myspring.gymbaro02.goods;
+package com.myspring.gymbaro02.trainer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller("goodsController")
+@Controller("trainerController")
 @EnableAspectJAutoProxy
-public class GoodsController {
+public class TrainerController {
 
-	@RequestMapping(value= "/goods/searchGoods.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/trainer/findTrainer.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView searchGoods(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		session = request.getSession();
@@ -27,13 +27,4 @@ public class GoodsController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/goods/goodsInfo.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView goodsInfo(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HttpSession session;
-		ModelAndView mav=new ModelAndView();
-		String viewName=(String)request.getAttribute("viewName");
-		mav.setViewName(viewName);
-
-		return mav;
-	}
 }
