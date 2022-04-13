@@ -106,7 +106,7 @@ body {
 .product_content {
 	display:flex;
 	justify-content:space-between;
-	align-items:top;
+	margin-top: 150px;
 }
 
 .product_image{

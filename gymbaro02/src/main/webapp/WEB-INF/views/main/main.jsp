@@ -34,6 +34,13 @@ $(function () {
     }, 3000);
 });
 </script>
+<style type="text/css">
+.product_content {
+	display:flex;
+	justify-content:space-between;
+	margin-top: 150px;
+}
+</style>
 </head>
 <body>
 <div class="main_container">
@@ -167,52 +174,76 @@ $(function () {
 		<span>운동 용품 <b>주간 RANKING</b> <img alt="icon_map" src="${contextPath}/resources/image/medal.png"></span>
 	</div>
 	
-	<div class="product_content">
+		<div class="product_content">
 		<div class="product_image">
-			<div class="rank_mark">
+			<!--  <div class="rank_mark">
 				<span class="rank_num">1</span>
-				<img alt="1위" src="${contextPath}/resources/image/bookmark-tag.png">
-			</div>
-			<img alt="용품01" src="${contextPath}/resources/image/product_01.png">
+				<img alt="1위" src="${contextPath}/resources/image/tag.png">
+			</div>-->
+			<a href="${contextPath}/goods/goodsInfo.do">
+				<img alt="용품01" src="${contextPath}/resources/image/dumbell.png">
+			</a>
 			<div class="product_info">
-				<span>운동 용품 이름</span>
+				<span style="font-weight: bold;">운동 용품 이름</span>
 				<div class="product_info_price">
 					<span><b>14,000원</b></span>
-					<span style='font-size:14px; color:#424040'>28,000원</span>
+					<span style='font-size:14px; color:#424040'><strike>28,000원</strike></span>
 					<span style='color:#184798'><b>50%</b></span>
 				</div>
+				<!--<div class="product_into_star">
+					<label for="rate1"><span class="fa-solid fa-star"></span></label>
+					<label for="rate2"><span class="fa-solid fa-star"></span></label>
+					<label for="rate3"><span class="fa-solid fa-star"></span></label>
+					<label for="rate4"><span class="fa-solid fa-star"></span></label>
+					<label for="rate5"><span class="fa-solid fa-star"></span></label>
+				</div>-->
 			</div>
 		</div>
 		<div class="product_image">
-			<div class="rank_mark">
+			<!-- <div class="rank_mark">
 				<span class="rank_num">2</span>
-				<img alt="2위" src="${contextPath}/resources/image/bookmark-tag.png">
-			</div>
-			<img alt="용품02" src="${contextPath}/resources/image/product_02.png">
+				<img alt="2위" src="${contextPath}/resources/image/tag.png">
+			</div>-->
+			<img alt="용품02" src="${contextPath}/resources/image/roller.png">
 			<div class="product_info">
-				<span>운동 용품 이름</span>
+				<span style="font-weight: bold;">운동 용품 이름</span>
 				<div class="product_info_price">
 					<span><b>14,000원</b></span>
-					<span style='font-size:14px; color:#424040'>28,000원</span>
+					<span style='font-size:14px; color:#424040'><strike>28,000원</strike></span>
 					<span style='color:#184798'><b>50%</b></span>
 				</div>
+				<!--<div class="product_into_star">
+					<label for="rate1">⭐</label>
+					<label for="rate2">⭐</label>
+					<label for="rate3">⭐</label>
+					<label for="rate4">⭐</label>
+					<label for="rate5">⭐</label>
+				</div>-->
 			</div>
 		</div>
 		<div class="product_image">
-			<div class="rank_mark">
+			<!--  <div class="rank_mark">
 				<span class="rank_num">3</span>
-				<img alt="3위" src="${contextPath}/resources/image/bookmark-tag.png">
-			</div>
-			<img alt="용품03" src="${contextPath}/resources/image/product_03.png">
+				<img alt="3위" src="${contextPath}/resources/image/tag.png">
+			</div>-->
+			<img alt="용품03" src="${contextPath}/resources/image/backback.png">
 			<div class="product_info">
-				<span>운동 용품 이름</span>
+				<span style="font-weight: bold;">운동 용품 이름</span>
 				<div class="product_info_price">
 					<span><b>14,000원</b></span>
-					<span style='font-size:14px; color:#424040'>28,000원</span>
+					<span style='font-size:14px; color:#424040'><strike>28,000원</strike></span>
 					<span style='color:#184798'><b>50%</b></span>
 				</div>
+				<!--<div class="product_into_star">
+					<label for="rate1">⭐</label>
+					<label for="rate2">⭐</label>
+					<label for="rate3">⭐</label>
+					<label for="rate4">⭐</label>
+					<label for="rate5">⭐</label>
+				</div>-->
 			</div>
 		</div>
+		
 	</div>
  </div>
  
