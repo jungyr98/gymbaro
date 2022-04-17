@@ -10,6 +10,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <head>
 <meta charset="utf-8">
+<!-- 아임포트 -->
+ <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+ <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+ 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 function execDaumPostcode() {
@@ -201,20 +205,22 @@ margin-left:5px;
    height:50px;
 }
 
-.button_box button {
+.button_box a,
+.button_box input[type="submit"] {
    border:none;
    border-radius:2px;
    width:360px;
    height:50px;
-}
-
-.button_box button span {
    font-size:20px;
    color:white;
 }
 
 #button_01 {
    background: #c4c4c4;
+   display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
 }
 
 #button_02 {
@@ -347,8 +353,8 @@ margin-left:5px;
 		</table>
 		<br>
 		<div class="button_box">
-     	 <a href="${contextPath}/join/join02.do"><button id="button_01"><span>이전 단계</span></button></a>
-     	 <a href="#"><button id="button_02"><span>가입하기</span></button></a>
+     	 <a href="javascript:history.back();" id="button_01">이전 단계</a>
+     	 <input type="submit" id="button_02" value="가입하기">
    		</div>
    </form>
    </div>
