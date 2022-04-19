@@ -58,8 +58,8 @@ $(function () {
 					<input type="submit" value="로그인">
                </form>
                <form>
-					<input type="text" name="id" placeholder="아이디를 입력하세요" />
-					<input type="password" name="pwd" placeholder="비밀번호를 입력하세요" />
+					<input type="text" name="id" placeholder="시설 회원 아이디를 입력하세요" />
+					<input type="password" name="pwd" placeholder="시설 회원 비밀번호를 입력하세요" />
 					<input type="submit" value="로그인">
                </form>
                 <form>

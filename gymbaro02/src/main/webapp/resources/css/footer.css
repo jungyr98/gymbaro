@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+
 .footer_box{
   position:relative;
   padding:10px 16px 180px 16px;
@@ -14,13 +19,15 @@
 .footer_box .link li{
     display:inline-block;
 }
-.footer_box div address{
-  color:rgba(0,0,0,0.38);
-  font-style:normal;
-  padding:20px 0 0 0;
-  float:left;
-  background:white;
-  line-height:30px;
+.footer_box div address {
+    color: rgba(0,0,0,0.38);
+    font-style: normal;
+    padding: 20px 0 0 0;
+    float: left;
+    background: white;
+    line-height: 30px;
+    font-size: 14px;
+    margin: 10px 0px 20px 40px;
 }
 .footer_box div .sc{
   float:right;
@@ -31,4 +38,8 @@
 .footer_box div .sc a{
   color:#ffffff;
   margin-left: 20px;
+}
+
+.footer_box img {
+    width: 124px;
 }
