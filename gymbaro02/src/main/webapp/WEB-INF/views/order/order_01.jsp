@@ -277,10 +277,10 @@ td {
 				<tr class="dot_line">
 					<td class="fixed_join" width="129px" height="43px" style="text-align: center; background-color: lightgray;">결제 수단</td> 
 					<td>
-						<span><button id="cash" style="width:140px; height:45px;">무통장 입금</button></span>
-						<span><button id="credit" style="width:140px; height:45px;">신용카드</button></span>
-						<span><button id="naverpay" style="width:140px; height:45px;" onclick="kakaopay_btn();">네이버페이</button></span>
-						<span><button id="paybyphone" style="width:140px; height:45px;">휴대폰 결제</button></span>
+						<span><button type="button" id="cash" style="width:140px; height:45px;">무통장 입금</button></span>
+						<span><button type="button" id="credit" style="width:140px; height:45px;">신용카드</button></span>
+						<span><button type="button" id="kakaopay" style="width:140px; height:45px;" onclick="kakaopay_btn();">카카오페이</button></span>
+						<span><button type="button" id="paybyphone" style="width:140px; height:45px;">휴대폰 결제</button></span>
 						<br><br>
 						<!--onchange 추가하기-->
 						<select name="creditcard" onChange="" title="신용카드 종류 선택" style="width:200px; height: 30px; float:left; font-family: 'Noto Sans KR', sans-serif;">
@@ -306,12 +306,10 @@ td {
 		</table>
 		<br>
 		<div class="button_box" style="float: right;">
-			<a><button id="button_01"><span>이전으로</span></button></a> &nbsp;
+			<a><button type="button" id="button_01"><span>이전으로</span></button></a> &nbsp;
 			<input type="submit" id="button_02" value="주문하기">
 		 </div>
-		 </form>
-		 <button id="naverpay" style="width:140px; height:45px;" onclick="kakaopay_btn();">네이버페이</button>
-		 
+		 </form>		 
 		</div>
 </body>
 </html>

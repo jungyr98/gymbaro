@@ -3,7 +3,7 @@
     isELIgnored="false" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="result" value="${param.result }" />
 <%
    request.setCharacterEncoding("UTF-8");
@@ -18,94 +18,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <title>로그인창</title>
-<script type="text/javascript">
-
-<!-- Channel Plugin Scripts -->
-
-  (function() {
-    var w = window;
-    if (w.ChannelIO) {
-      return (window.console.error || window.console.log || function(){})('ChannelIO script included twice.');
-    }
-    var ch = function() {
-      ch.c(arguments);
-    };
-    ch.q = [];
-    ch.c = function(args) {
-      ch.q.push(args);
-    };
-    w.ChannelIO = ch;
-    function l() {
-      if (w.ChannelIOInitialized) {
-        return;
-      }
-      w.ChannelIOInitialized = true;
-      var s = document.createElement('script');
-      s.type = 'text/javascript';
-      s.async = true;
-      s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
-      s.charset = 'UTF-8';
-      var x = document.getElementsByTagName('script')[0];
-      x.parentNode.insertBefore(s, x);
-    }
-    if (document.readyState === 'complete') {
-      l();
-    } else if (window.attachEvent) {
-      window.attachEvent('onload', l);
-    } else {
-      window.addEventListener('DOMContentLoaded', l, false);
-      window.addEventListener('load', l, false);
-    }
-  })();
-  ChannelIO('boot', {
-    "pluginKey": "b544ce7c-c22c-496d-ae29-a248f3b4b73d"
-  });
-</script>
-<!-- End Channel Plugin -->
 <script>
-$(document).ready(function(){
-	
-    $("#non-member_order").hide();{
-      $('.tab a').on('click', function (e) {
-      e.preventDefault();
-       
-      $(this).parent().removeClass('tab');
-      $(this).parent().addClass('active');
-      $(this).parent().siblings().removeClass('active');
-       
-      var href = $(this).attr('href');
-      $('.forms > form').hide();
-      $(href).fadeIn(300);
+$(function () {
+    var tab_Btn = $(".tab_btn > ul > li");
+    var tab_Cont = $(".tab_cont > form");
+    tab_Cont.hide().eq(0).show();
+    tab_Btn.click(function (e) {
+         e.preventDefault();
+         var target = $(this);
+         var index = target.index();
+         tab_Btn.removeClass("active");
+         target.addClass("active");
+         tab_Cont.hide();
+         tab_Cont.eq(index).show();
     });
-    };
 });
 </script>
-
-<script>
-$(document).ready(function(){
-	$(".r3").hide();{
-    $('input[type="radio"]').click(function(){
-    
-    var val = $(this).attr("value");
-    
-    var target = $("." + val);
-    
-    $(".msg").not(target).hide();
-    
-    $(target).show();
-    
-    });
-	};
-    });
-    
-</script>
-
-
-<style>
-body {
-		font-family: 'Noto Sans KR', sans-serif;
-	}
-	</style>
 </head>
 <body>
 <body>
@@ -115,67 +43,44 @@ body {
          <div class="first_text">
             <span><b>로그인</b></span>
          </div>
-    <div class="forms">
-        <ul class="tab-group">
-            <li class="tab active"><a href="#login">로그인</a></li>
-            <li class="tab"><a href="#non-member_order">비회원 주문조회</a></li>
-        </ul>
-        
-        <form action="#" id="login">
-        	<input type="radio" name="rdo1" id="rdo1" value="r1" checked> 일반회원 로그인
-        	<input type="radio" name="rdo1" id="rdo1" value="r2"> 시설회원 로그인
-        	<input type="radio" name="rdo1" id="rdo1" value="r3"> 관리자 로그인
-             <div class="r1 msg">
-              <div class="input-field">
-                <label for="id"></label>
-                <input type="text" name="id" placeholder=" 아이디를 입력하세요." required style="width:620px;"/>
-                <label for="password"></label> 
-                <input type="password" name="password" placeholder=" 비밀번호를 입력하세요." required style="width:620px;"/>
-                <input type="submit" value="로그인" class="button" style="width:623px;"/>
-              </div>
-              </div>
-               <div class="r2 msg">
-                <div class="input-field">
-                  <label for="id"></label> 
-                  <input type="text" name="id" required placeholder=" 시설회원 아이디를 입력하세요." style="width:620px;"/>
-                  <label for="password"></label> 
-                  <input type="password" name="password" placeholder=" 시설회원 비밀번호를 입력하세요." required style="width:620px;"/>
-                  <input type="submit" value="로그인" class="button" style="width:623px;"/>
-                </div>
-        	</div>
-        	<div class="r3 msg">
-                <div class="input-field">
-                  <label for="id"></label> 
-                  <input type="text" name="id" required placeholder=" 관리자 아이디를 입력하세요." style="width:620px;"/>
-                  <label for="password"></label> 
-                  <input type="password" name="password" placeholder=" 관리자 비밀번호를 입력하세요." required style="width:620px;"/>
-                  <input type="submit" value="로그인" class="button" style="width:623px;"/>
-                </div>
-        	</div>
-          </form>
-          
-          <form action="#" id="non-member_order">
-              <div class="input-field">
-                <label for="name"></label> 
-                <input type="text" name="ordername" placeholder=" 주문자 이름을 입력하세요." required style="width:620px;"/>
-                <label for="orderno"></label> 
-                <input type="text" name="orderno" placeholder=" 주문 번호를 입력하세요." required style="width:620px;"/>
-                <input type="submit" value="조회" class="button" style="width:623px;"/>
-              </div>
-          </form>
+    <div class="login_box tab_menu">
+          <div class="tab_btn">
+               <ul>
+                    <li class="active"><a href="#">일반 로그인</a></li>
+                    <li><a href="#">시설 로그인</a></li>
+                    <li><a href="#">비회원 주문조회</a></li>
+               </ul>    
+          </div>
+          <div class="tab_cont">
+               <form class="active" action="#" method="post">
+					<input type="text" name="id" placeholder="아이디를 입력하세요" />
+					<input type="password" name="pwd" placeholder="비밀번호를 입력하세요" />
+					<input type="submit" value="로그인">
+               </form>
+               <form>
+					<input type="text" name="id" placeholder="아이디를 입력하세요" />
+					<input type="password" name="pwd" placeholder="비밀번호를 입력하세요" />
+					<input type="submit" value="로그인">
+               </form>
+                <form>
+					<input type="text" name="id" placeholder="주문자 이름을 입력하세요" />
+					<input type="password" name="pwd" placeholder="주문 번호를 입력하세요" />
+					<input type="submit" value="로그인">
+               </form>
+          </div>
      </div>
-    <div class="atag" style="color:#424040">
+    <div class="atag">
     <a href="${contextPath}/join/join01.do">회원가입</a>
     |
     <a href="${contextPath}/member/idpwdFindForm.do">아이디찾기 / 비밀번호 찾기</a>
   </div>
 
   <div class="ic_btn" >
-    <button type="button" id="naver-login-btn" class="btn_naver" style="padding:0;">
+    <button type="button" id="naver-login-btn" class="btn_naver">
         <img src="${contextPath}/resources/image/naver.png" alt="네이버 로고">
     </button>
    
-    <button type="button" id="kakao-login-btn" class="btn_kakao" style="padding:0;">
+    <button type="button" id="kakao-login-btn" class="btn_kakao">
         <img alt="카카오 로고" src="${contextPath}/resources/image/kakao_login_large_narrow.png">
     </button>
     </div>
