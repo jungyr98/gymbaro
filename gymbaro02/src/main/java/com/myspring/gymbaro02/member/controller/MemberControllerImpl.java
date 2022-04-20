@@ -14,6 +14,56 @@ import org.springframework.web.servlet.ModelAndView;
 @EnableAspectJAutoProxy
 public class MemberControllerImpl implements MemberController {
 	
+	@RequestMapping(value= "/member/loginForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		HttpSession session;
+		ModelAndView mav=new ModelAndView();
+		String viewName=(String)request.getAttribute("viewName");
+		mav.setViewName(viewName);
+
+		return mav;
+	}
+	
+	@RequestMapping(value= "/member/idpwdFindForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView idpwdFind(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		HttpSession session;
+		ModelAndView mav=new ModelAndView();
+		String viewName=(String)request.getAttribute("viewName");
+		mav.setViewName(viewName);
+
+		return mav;
+	}
+	
+	@RequestMapping(value= "/member/idFindSuccess.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView idFindSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		HttpSession session;
+		ModelAndView mav=new ModelAndView();
+		String viewName=(String)request.getAttribute("viewName");
+		mav.setViewName(viewName);
+
+		return mav;
+	}
+	
+	@RequestMapping(value= "/member/newPwdForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView newPwdForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		HttpSession session;
+		ModelAndView mav=new ModelAndView();
+		String viewName=(String)request.getAttribute("viewName");
+		mav.setViewName(viewName);
+
+		return mav;
+	}
+	
+	@RequestMapping(value= "/member/pwdFindSuccess.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView pwdFindSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		HttpSession session;
+		ModelAndView mav=new ModelAndView();
+		String viewName=(String)request.getAttribute("viewName");
+		mav.setViewName(viewName);
+
+		return mav;
+	}
+	
 	@RequestMapping(value= "/member/join01.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView join01(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
