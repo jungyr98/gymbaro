@@ -1,192 +1,254 @@
 
-.header_wrap .header_show{
-  opacity: 1;
-  visibility: visible;
-}
-
-.header_wrap{
-  width: 100%;
-  background:#fff;
-}
-
-
-.header_show ul,
-.header_show li {
-    list-style: none;
-}
-
-.header_show a {
-    color: inherit;
-    text-decoration: none;
-}
-
-.header_show .cell {
-    float: left;
-}
-
-.header_show .cell-r {
-    float: right;
-}
-
-.header_show .row::after {
+.header_box {
+    position: fixed;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 130px;
+    transition: 0.4s;
+    background: white;
+    margin: 0;
+    padding: 30px 0 10px 0;
+    border: 0;
+    box-sizing: border-box;
     display: block;
-    clear: both;
-    content: "";
+    font-size: 14px;
+    z-index: 99;
+    border-bottom: 0.3px solid #C4C4C4;
 }
 
-.header_show .con {
-    max-width: 1500px;
-    margin: 0 auto;
+.header_box nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
 }
 
-.header_show header{
-  position:fixed;
-  top:0px;
-  left:0px;
-  right:0px;
-  height: auto;
-  transition:0.4s;
-  background:white;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  box-sizing: border-box;
-  display:block;
-  font-size: 14px;
-  z-index: 99;
-  border-bottom:0.3px solid #C4C4C4;
-}
-
-#head_link ul:not(.header_lanking_slider_ul){
-	padding-top: 10px;
-	padding-bottom: 10px;
-	margin-top: 0;
-    margin-bottom: 0;
-}
-
-#head_link ul li{
-  padding-left: 20px;
-  padding-right: 20px;
-  border-right: 1px solid #ddd;
-  color: #777;
-  font-size: 14px;
-  font-weight: 500;
-}
-/* user/business header color */
-header #user_header{
- background: rgb(52, 152, 219);
-}
-header #business_header{
-	background: rgb(52, 152, 219);
-}
-
-.header_show header section .menu{
+.header_box #menuToggle {
+  display: block;
   position: relative;
-  height: 90px;
-  margin: 0 auto;
-  background-color: white; 
+  left: 50px;
+
+  z-index: 1;
+
+  -webkit-user-select: none;
+  user-select: none;
+  top: 10px;
 }
 
+.header_box #menuToggle a {
+  text-decoration: none;
+  color: #232323;
 
-.header_show header section .menu .menu-bar #search{
-  margin-bottom:100px;
+  transition: color 0.3s ease;
 }
 
-.header_show #toggleBtnOn{
-  width: 180px;
-  height:30px;
-  border: 1px solid #C4C4C4;
+.header_box #menuToggle a:hover {
+  color: tomato;
+}
+
+.header_box #menuToggle input {
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
+
+  cursor: pointer;
+
+  opacity: 0; /* hide this */
+  z-index: 2; /* and place it over the hamburger */
+
+  -webkit-touch-callout: none;
+}
+
+/*
+ * Just a quick hamburger
+ */
+.header_box #menuToggle span {
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+
+  background: #cdcdcd;
   border-radius: 3px;
-  padding-left: 5px;
+
+  z-index: 1;
+
+  transform-origin: 4px 0px;
+
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
 }
 
+.header_box #menuToggle span:first-child {
+  transform-origin: 0% 0%;
+}
 
-.header_show header section .menu #logo a {
+.header_box #menuToggle span:nth-last-child(2) {
+  transform-origin: 0% 100%;
+}
+
+/* 
+ * Transform all the slices of hamburger
+ * into a crossmark.
+ */
+.header_box #menuToggle input:checked ~ span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background: #232323;
+}
+
+/*
+ * But let's hide the middle one.
+ */
+.header_box #menuToggle input:checked ~ span:nth-last-child(3) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+/*
+ * Ohyeah and the last one should go the other direction
+ */
+.header_box #menuToggle input:checked ~ span:nth-last-child(2) {
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+/*
+ * Make this absolute positioned
+ * at the top left of the screen
+ */
+.header_box #menu {
   position: absolute;
-  top: 20px;
-  left: 0;
-  width: 96px;
-  height: 30px;
-  margin: 0;
-  font-size: 18px;
-  font-weight: bold;
-  color: black;
-  font-weight:bold;
-}
-.header_show header section .menu #logo a img{
-  width: 130%;
-}
-.header_show header section .menu .menu-bar{
-  position: absolute;
-  top: 10px;
-  left:150px;
-  height: 50px;
-  padding-left: 0px;
-}
-.header_show header section .menu .menu-bar > .btn_srch{
-  position: absolute;
-  left: -10px;
-  top: 10px;
-  border: none;
-  text-indent: -9999px;
-  width: 28px;
-  height: 28px;
-  
-  background-size: 24px auto;
-  z-index:10;
-  cursor: pointer;
-}    
-.header_show header > section > .menu > .menu-bar > .gnb-list{
-  margin-top: 10px;
-  padding-left: 0;
-}
-.header_show header > section > .menu > .menu-bar > .gnb-list > li{
-  color: white;
-  font-size: 18px;
-  margin-left: 30px;
-  padding-bottom: 20px;
-  cursor: pointer;
-  color: black;
-  font-weight:600;
-  height:90px;
-}
-.header_show header > section > .menu > .menu-bar > .gnb-list > li:hover{
-  color: white;
-  font-size: 18px;
-  margin-left: 30px;
-  cursor: pointer;
-  color: #184798;
+  width: 300px;
+  margin: -100px 0 0 -100px;
+  padding: 50px;
+  padding-top: 125px;
+
+  background: #ededed;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  /* to stop flickering of text in safari */
+
+  transform-origin: 0% 0%;
+  transform: translate(-100%, 0);
+
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 }
 
-.header_show header > section .menu > .menu-bar > .gnb-list > li > .sub-menu-box{
-	visibility: hidden;
-	position: absolute;
-	top: 80px;
-	width: 160px;
-	background: white;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	color: #777;
-	padding-top: 5px;
+.header_box #menu li {
+  padding: 10px 0;
+  font-size: 22px;
 }
 
-.header_show header > section .menu > .menu-bar > .gnb-list > li:hover > .sub-menu-box {
-  visibility: visible;
+/*
+ * And let's slide it in from the left
+ */
+.header_box #menuToggle input:checked ~ ul {
+  transform: none;
 }
 
-.header_show header > section .menu > .menu-bar > .gnb-list > li > .sub-menu-box ul{
-  padding-left: 20px;
-  padding-top: 10px;
-  padding-bottom: 15px;
+.header_box .search-box {
+	 transition: width 0.6s, border-radius 0.6s, background 0.6s, box-shadow 0.6s;
+	 width: 40px;
+	 height: 40px;
+	 border-radius: 20px;
+	 border: none;
+	 cursor: pointer;
+	 background: #ebebeb;
 }
-.header_show header > section .menu > .menu-bar > .gnb-list > li > .sub-menu-box ul li{
-  padding-top: 2px;
-  text-align: left;
-  padding-bottom: 7px;
-  font-size:16px;
-  color:black;
+.header_box .search-box + label .search-icon {
+	 color: black;
+}
+.header_box .search-box:hover {
+	 color: white;
+	 background: #c8c8c8;
+	 box-shadow: 0 0 0 5px #3d4752;
+}
+.header_box .search-box:hover + label .search-icon {
+	 color: white;
+}
+.header_box .search-box:focus {
+	 transition: width 0.6s cubic-bezier(0, 1.22, 0.66, 1.39), border-radius 0.6s, background 0.6s;
+	 border: none;
+	 outline: none;
+	 box-shadow: none;
+	 padding-left: 15px;
+	 cursor: text;
+	 width: 300px;
+	 border-radius: auto;
+	 background: #ebebeb;
+	 color: black;
+}
+.header_box .search-box:focus + label .search-icon {
+	 color: black;
+}
+.header_box .search-box:not(:focus) {
+	 text-indent: -5000px;
+}
+.header_box #search-submit {
+	 position: relative;
+	 left: -5000px;
+}
+.header_box .search-icon {
+	 position: relative;
+	 left: -30px;
+	 color: white;
+	 cursor: pointer;
+}
+ 
+
+.header_box ul {margin: 0; padding: 0; list-style: none;}
+.header_box a {text-decoration: none; color: #000;}
+.header_box .title {margin: 0; padding: 0; font-size: 1.5em; font-weight: 300; color: #555;}
+
+#center_gnb {/*position: absolute;*/ right: 0; z-index: 99; height: 80px; overflow: hidden; text-align: center; background: #fff; transition: height 0.3s;}
+/* #gnb:hover, */
+#center_gnb.active {height: 260px;}
+#center_gnb > ul > li {position: relative; display: inline-block; margin: 0 10px;}
+#center_gnb > ul > li > a {
+	display: block;
+    padding: 0 10px;
+    height: 80px;
+    line-height: 78px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #555;}
+#center_gnb > ul > li > a::after {content: ''; display: none; position: absolute; left: 0; top: 75px; width: 100%; height: 4px; background: #184798;}
+#center_gnb > ul > li:hover > a::after,
+#center_gnb > ul > li.active > a::after {display: block;}
+#center_gnb > ul ul {position: absolute; width: 100%; padding-top: 8px;}
+#center_gnb > ul ul a {display: block; line-height: 32px; font-size: 15px; color: #555;}
+#center_gnb > ul ul a:hover,
+#center_gnb > ul ul a:focus {background: #184798; color: #fff;}
+.header_box .center_menu {
+	margin-left:30px;
 }
 
-.header_show #header {
-	height:20px;
+.header_box .member_header_box {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    width: 250px;
+    padding-left: 50px;
 }
+
+.header_box .icon_and_gnb_box {
+    display: flex;
+    align-items: baseline;
+}
+
+
+.header_box .search_and_lanking_box {
+	display:flex;
+	align-items:center;
+}
+
+.header_box .slider {position: relative; width: 110px; height: 23px; overflow: hidden;}
+.header_box .slider ul {position: absolute; left: 0; top: 0; width: 100px; height: 92px; text-align: initial;}
+.header_box .slider li {width: 100px; height: 23px; margin-left:20px;}
+.header_box .slider li a {font-size:14px; color: #777; font-weight:400;}
+.header_box .slider li img {max-width: 100%;}
