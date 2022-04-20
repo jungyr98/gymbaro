@@ -10,8 +10,87 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="${contextPath}/resources/css/orderForm.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/order_02.css">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script>
+function kakaopay_btn() {
+    $(function(){
+    
+    	//@@@@@@ 1번 @@@@@@@
+        var IMP = window.IMP; // 생략가능
+        IMP.init('imp55512719'); //가맹점 식별코드 삽입
+        var msg;
+        
+        //@@@@@@@@ 2번 @@@@@@@@
+        //url에서 parameter 가져오기 --> price값 알기 위해서
+        var getParam = function(key){
+            var _parammap = {};
+            document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
+                function decode(s) {
+                    return decodeURIComponent(s.split("+").join(" "));
+                }
+
+                _parammap[decode(arguments[1])] = decode(arguments[2]);
+            });
+
+            return _parammap[key];
+        };
+        
+		//@@@@@@ 3번 @@@@@@@
+            IMP.request_pay({
+            pg : 'kakaopay',
+            pay_method : 'card',
+            merchant_uid : 'merchant_' + new Date().getTime(),
+            name : 'vivipayment',
+            amount : getParam("price"),
+            buyer_email : '이메일 넣기',
+            buyer_name : '이름 넣기',
+            buyer_tel : '번호 넣기',
+            buyer_addr : '주소 넣기',
+            buyer_postcode : '123-456',
+           // m_redirect_url : '결제 완료후 이동할 페이지'
+        }, function(rsp) {
+            if ( rsp.success ) {
+                //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+                jQuery.ajax({
+                    url: "${contextPath}/order/order_03.do", //cross-domain error가 발생하지 않도록 주의해주세요
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        uid : rsp.imp_uid,
+                        price: rsp.paid_amount
+                        //기타 필요한 데이터가 있으면 추가 전달
+                    })
+                }).done(function(data) {
+                    //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+                    if ( everythings_fine ) {
+                        msg = '결제가 완료되었습니다.';
+                        msg += '\n고유ID : ' + rsp.imp_uid;
+                        msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+                        msg += '\n결제 금액 : ' + rsp.paid_amount;
+                        msg += '카드 승인번호 : ' + rsp.apply_num;
+
+                        alert(msg);
+                    } else {
+                        //[3] 아직 제대로 결제가 되지 않았습니다.
+                        //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+                    }
+                });
+                //성공시 이동할 페이지
+                location.href='${contextPath}/order/order_03.do?msg='+msg;
+            } else {
+                msg = '결제에 실패하였습니다.';
+                msg += '에러내용 : ' + rsp.error_msg;
+                //실패시 이동할 페이지
+                location.href="${contextPath}/order/order_02.do";
+                alert(msg);
+            }
+        });
+
+    });
+};
+</script>
 <script>
 function execDaumPostcode() {
   new daum.Postcode({
@@ -67,27 +146,6 @@ function execDaumPostcode() {
 </script>
 
 <style>
-#detail_table table tbody tr{
-	display: block;
-}
-#detail_table table tbody tr .fixed_join{
-	display:block;
-	font-weight: bold;
-    font-size: 16px;
-}
-#detail_table table tbody tr td{
-	display:block;
-}
-#detail_table table tbody tr td p{
-	margin-top:0px;
-}
-#detail_table table tbody tr td input{
-	width: 100%;
-    height: 30px;
-    border-radius: 5px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-}
 body {
 		font-family: 'Noto Sans KR', sans-serif;
 	}
@@ -102,7 +160,6 @@ td {
 	font-size: medium;
 }
 </style>
-<link rel="stylesheet" href="orderform.css">
 </head>
 <body>
 	<div class="main_container">
@@ -114,48 +171,48 @@ td {
 	 </div>
 	<form action="${contextPath}/order/order_03.do" method="post">
 		<br><br><br>	
-		<table border="1" width="976px;" height="886px;" style="margin: 0 auto;">
+		<table id="main_table">
 			<thead>
 				<tr>
-					<td class="fixed_join" width="129px;" height="33px" style="text-align:center; background-color: lightgray;">주문자 이름
+					<td class="fixed_join">주문자 이름
 					</td>
 					<td>
-					<input name="orderer" type="text" style="width: 305px; height: 30px;"/>
+					<input name="orderer" type="text" id="orderer"/>
 					</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr>
-					<td class="fixed_join" width="129px" height="33px" style="text-align:center; background-color: lightgray;">수령인</td>
+					<td class="fixed_join">수령인</td>
 					<td>
-					<input name="receiver" type="text" style="width: 305px; height: 30px;"/></td>
+					<input name="receiver" type="text" id="receiver"/></td>
 				</tr>
 			</thead>
 			<thead>
 				<tr>
-					<td class="fixed_join"width="129px" height="33px" style="text-align:center; background-color: lightgray; ">연락처</td>
+					<td class="fixed_join">연락처</td>
 					<td>
-						<input type="text" name="hp" style="width: 305px; height: 30px;"/>
+						<input type="text" name="hp" id="hp""/>
 					</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr class="dot_line">
-					<td class="fixed_join" width="129px" height="33px" style="text-align:center; background-color: lightgray;">배송지 주소</td>
+					<td class="fixed_join">배송지 주소</td>
 					<td>
-					   <input type="text" id="zipcode" name="zipcode" size="10" style="width:200px; height: 30px; margin-top: 15px;"> <button style="width:150px; height:30px;"><a href="javascript:execDaumPostcode()">우편번호검색</a></button>
+					   <input type="text" id="zipcode" name="zipcode" size="10"> <button id="btn_zipcode"><a href="javascript:execDaumPostcode()">우편번호검색</a></button>
 					  <br>
 					  <p> 
-					 <input type="text" id="roadAddress"  name="roadAddress" style="width:355px; height: 30px;"> 
+					 <input type="text" id="roadAddress"  name="roadAddress"> 
 					  </p>
 					</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr>
-					<td class="fixed_join" width="129px" height="43px" style="text-align:center; background-color: lightgray;">배송 메모</td>
+					<td class="fixed_join">배송 메모</td>
 					<td> 
-						<select name="memo" onChange=""	title="배송 메모 선택" style="width:400px; height: 30px; float:left; font-family: 'Noto Sans KR', sans-serif;">
+						<select name="memo" onChange=""	title="배송 메모 선택" id="delivery_memo">
 									<option value="none">배송 시 요청사항을 선택해 주세요.</option>
 									<option value="배송 전 연락주세요">배송 전 연락주세요</option>
 									<option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
@@ -166,23 +223,23 @@ td {
 			</thead>
 			<thead>
 				<tr class="dot_line">
-					<td class="fixed_join" width="129px" height="43px" style="text-align: center; background-color: lightgray;">최종 결제 금액</td>
+					<td class="fixed_join">최종 결제 금액</td>
 				<td>
-					<p>{total_price}</p>
+					<p>total_price</p>
 				</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr class="dot_line">
-					<td class="fixed_join" width="129px" height="43px" style="text-align: center; background-color: lightgray;">결제 수단</td> 
+					<td class="fixed_join">결제 수단</td> 
 					<td>
-						<span><button id="cash" style="width:140px; height:45px;">무통장 입금</button></span>
-						<span><button id="credit" style="width:140px; height:45px;">신용카드</button></span>
-						<span><button id="naverpay" style="width:140px; height:45px;">네이버페이</button></span>
-						<span><button id="paybyphone" style="width:140px; height:45px;">휴대폰 결제</button></span>
+						<span><button type="button" id="cash">무통장 입금</button></span>
+						<span><button type="button" id="credit">신용카드</button></span>
+						<span><button type="button" id="kakaopay" onclick="kakaopay_btn();">카카오페이</button></span>
+						<span><button type="button" id="paybyphone">휴대폰 결제</button></span>
 						<br><br>
 						<!--onchange 추가하기-->
-						<select name="creditcard" onChange="" title="신용카드 종류 선택" style="width:200px; height: 30px; float:left; font-family: 'Noto Sans KR', sans-serif;">
+						<select name="creditcard" onChange="" title="신용카드 종류 선택" id="selectcard">
 							<option value="none">신용카드 종류 선택</option>
 							<option value="현대카드">현대카드</option>
 							<option value="삼성카드">삼성카드</option>
@@ -190,7 +247,7 @@ td {
 							<option value="하나카드">하나카드</option>
 					</select>
 		
-					<select name="installment" onChange=""	title="할부 개월 수" style="width:200px; height: 30px; float:left; font-family: 'Noto Sans KR', sans-serif;">
+					<select name="installment" onChange=""	title="할부 개월 수" id="installment">
 						<option value="none">할부 개월 수 </option>
 						<option value="2개월">2개월(무이자)</option>
 						<option value="3개월">3개월</option>
@@ -204,7 +261,7 @@ td {
 			</thead>	
 		</table>
 		<br>
-		<div class="button_box" style="float: right;">
+		<div class="button_box">
 			<a><button id="button_01"><span>이전으로</span></button></a> &nbsp;
 			<a><button id="button_02"><span>주문하기</span></button></a>
 		 </div>
@@ -213,4 +270,4 @@ td {
 		
 	</form>	
 </body>
-</html>
+</html></html>

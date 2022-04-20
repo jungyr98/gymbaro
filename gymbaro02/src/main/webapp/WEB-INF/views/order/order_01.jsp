@@ -10,7 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="${contextPath}/resources/css/orderForm.css">
 <!-- 아임포트 -->
  <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
  <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
@@ -151,27 +150,7 @@ function execDaumPostcode() {
 </script>
 
 <style>
-#detail_table table tbody tr{
-	display: block;
-}
-#detail_table table tbody tr .fixed_join{
-	display:block;
-	font-weight: bold;
-    font-size: 16px;
-}
-#detail_table table tbody tr td{
-	display:block;
-}
-#detail_table table tbody tr td p{
-	margin-top:0px;
-}
-#detail_table table tbody tr td input{
-	width: 100%;
-    height: 30px;
-    border-radius: 5px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-}
+
 body {
 		font-family: 'Noto Sans KR', sans-serif;
 	}
@@ -186,22 +165,22 @@ td {
 	font-size: medium;
 }
 </style>
-<link rel="stylesheet" href="orderform.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/order_02.css">
 </head>
 <body>
 	<div class="main_container">
-	<h1 style="color: #184798; text-align: center;">주문서 작성</h1>
+	<h1 id="title">주문서 작성</h1>
 	<div class="step_bar">
 		<div class="step_bar_01 bars"><span>상품 선택</span></div>
 		<div class="step_bar_02 bars"><span>배송정보·결제정보 입력</span></div>
 		<div class="step_bar_03 bars"><span>주문 완료</span></div>
 	 </div>
-	<form action="${contextPath}/order/order_03.do" method="post">
+	<form action="${contextPath}/order/order_01.do" method="post">
 		<br><br><br>	
-		<table border="1px" width="976px;" height="886px;" style="margin: 0 auto;">
+		<table id="main_table">
 			<thead>
 				<tr>
-					<td class="fixed_join" width="129px;" height="33px" style="text-align:center; background-color: lightgray;">수령인 정보
+					<td class="fixed_join">수령인 정보
 					</td>
 					<td>
 					  <input type="checkbox" name="oldinfo" id="oldinfo"/>기존 회원 정보와 동일 &nbsp;&nbsp;
@@ -211,37 +190,37 @@ td {
 			</thead>
 			<thead>
 				<tr>
-					<td class="fixed_join" width="129px" height="33px" style="text-align:center; background-color: lightgray;">수령인</td>
+					<td class="fixed_join">수령인</td>
 					<td>
-					<input name="receiver" type="text" style="width: 305px; height: 30px;"/></td>
+					<input name="receiver" type="text" id="receiver"/></td>
 				</tr>
 			</thead>
 			<thead>
 				<tr>
-					<td class="fixed_join"width="129px" height="33px" style="text-align:center; background-color: lightgray; ">휴대폰 번호</td>
+					<td class="fixed_join">휴대폰 번호</td>
 					<td>
-						<input type="text" name="hp" style="width: 305px; height: 30px;"/>
-						<input type="button"  id="hp" value="인증번호 받기" onClick="" />
+						<input type="text" name="hp" id="hp"/>
+						<input type="button"  id="btn_hp" value="인증번호 받기" onClick="" />
 					</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr class="dot_line">
-					<td class="fixed_join" width="129px" height="33px" style="text-align:center; background-color: lightgray;">배송지 주소</td>
+					<td class="fixed_join">배송지 주소</td>
 					<td>
-					   <input type="text" id="zipcode" name="zipcode" size="10" style="width:200px; height: 30px; margin-top: 15px;"> <button style="width:150px; height:30px;"><a href="javascript:execDaumPostcode()">우편번호검색</a></button>
+					   <input type="text" id="zipcode" name="zipcode" size="10">&nbsp;<button id="btn_zipcode"><a href="javascript:execDaumPostcode()">우편번호검색</a></button>
 					  <br>
 					  <p> 
-					 <input type="text" id="roadAddress"  name="roadAddress" style="width:355px; height: 30px;"> 
+					 <input type="text" id="roadAddress" name="roadAddress"> 
 					  </p>
 					</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr>
-					<td class="fixed_join" width="129px" height="43px" style="text-align:center; background-color: lightgray;">배송 메모</td>
+					<td class="fixed_join">배송 메모</td>
 					<td> 
-						<select name="memo" onChange=""	title="배송 메모 선택" style="width:400px; height: 30px; float:left; font-family: 'Noto Sans KR', sans-serif;">
+						<select name="memo" onChange=""	title="배송 메모 선택" id="delivery_memo">
 									<option value="none">배송 시 요청사항을 선택해 주세요.</option>
 									<option value="배송 전 연락주세요">배송 전 연락주세요</option>
 									<option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
@@ -252,38 +231,38 @@ td {
 			</thead>
 			<thead>
 				<tr>
-					<td class="fixed_join" width="129px" height="43px" style="text-align:center; background-color: lightgray;">마일리지 사용</td>
+					<td class="fixed_join">마일리지 사용</td>
 					<td>
-						<input size="10px" type="text" name="point" style="width:129px; height: 22px"/><input type="checkbox" name="all" id="all"/>모두 사용하기
+						<input size="10px" type="text" name="point" id="point"/><input type="checkbox" name="all"/>모두 사용하기
 					</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr class="dot_line">
-					<td class="fixed_join" width="129px" height="43px" style="text-align:center; background-color: lightgray;">쿠폰 사용</td>
-					<td><a><button id="coupon" style="width:140px; height:45px;">쿠폰 조회</button></a>  할인 금액 : {}</td>
+					<td class="fixed_join">쿠폰 사용</td>
+					<td><a><button id="coupon">쿠폰 조회</button></a>  할인 금액 : </td>
 					</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr class="dot_line">
-					<td class="fixed_join" width="129px" height="43px" style="text-align: center; background-color: lightgray;">최종 결제 금액</td>
+					<td class="fixed_join">최종 결제 금액</td>
 				<td>
-					<p>{total_price}</p>
+					<p>total_price</p>
 				</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr class="dot_line">
-					<td class="fixed_join" width="129px" height="43px" style="text-align: center; background-color: lightgray;">결제 수단</td> 
+					<td class="fixed_join">결제 수단</td> 
 					<td>
-						<span><button type="button" id="cash" style="width:140px; height:45px;">무통장 입금</button></span>
-						<span><button type="button" id="credit" style="width:140px; height:45px;">신용카드</button></span>
-						<span><button type="button" id="kakaopay" style="width:140px; height:45px;" onclick="kakaopay_btn();">카카오페이</button></span>
-						<span><button type="button" id="paybyphone" style="width:140px; height:45px;">휴대폰 결제</button></span>
+						<span><button type="button" id="cash">무통장 입금</button></span>
+						<span><button type="button" id="credit">신용카드</button></span>
+						<span><button type="button" id="kakaopay" onclick="kakaopay_btn();">카카오페이</button></span>
+						<span><button type="button" id="paybyphone">휴대폰 결제</button></span>
 						<br><br>
 						<!--onchange 추가하기-->
-						<select name="creditcard" onChange="" title="신용카드 종류 선택" style="width:200px; height: 30px; float:left; font-family: 'Noto Sans KR', sans-serif;">
+						<select name="creditcard" onChange="" title="신용카드 종류 선택" id="selectcard">
 							<option value="none">신용카드 종류 선택</option>
 							<option value="현대카드">현대카드</option>
 							<option value="삼성카드">삼성카드</option>
@@ -291,7 +270,7 @@ td {
 							<option value="하나카드">하나카드</option>
 					</select>
 		
-					<select name="installment" onChange=""	title="할부 개월 수" style="width:200px; height: 30px; float:left; font-family: 'Noto Sans KR', sans-serif;">
+					<select name="installment" onChange=""	title="할부 개월 수" id="installment">
 						<option value="none">할부 개월 수 </option>
 						<option value="2개월">2개월(무이자)</option>
 						<option value="3개월">3개월</option>
@@ -306,10 +285,10 @@ td {
 		</table>
 		<br>
 		<div class="button_box" style="float: right;">
-			<a><button type="button" id="button_01"><span>이전으로</span></button></a> &nbsp;
+			<a><button id="button_01"><span>이전으로</span></button></a> &nbsp;
 			<input type="submit" id="button_02" value="주문하기">
 		 </div>
-		 </form>		 
+		 </form> 
 		</div>
 </body>
 </html>
