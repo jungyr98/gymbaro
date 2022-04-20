@@ -77,7 +77,6 @@ body {
     background: rgb(24, 71, 152);
     color: white;
     font-size: 18px;
-    width: 83%;
 }
 
 .login_box a, .login_box span:not(.first_text span) {text-decoration: none; font-size: 18px; color: #666;}

@@ -5,28 +5,33 @@
 <tiles-definitions>
 
 	<definition name="/gym/searchGyms" extends="baseLayout">
-		<put-attribute name="title" value="운동 용품 " />
+		<put-attribute name="title" value="시설 찾기 " />
 		<put-attribute name="body" value="/WEB-INF/views/gym/searchGyms.jsp" />
 	</definition>
 	
 	<definition name="/gym/gymsInfo" extends="baseLayout">
-		<put-attribute name="title" value="운동 용품 상세 " />
+		<put-attribute name="title" value="시설 상세 " />
 		<put-attribute name="body" value="/WEB-INF/views/gym/gymsInfo.jsp" />
 	</definition>
 	
 	<definition name="/gym/insertGym_01" extends="baseLayout">
-		<put-attribute name="title" value="운동 용품 " />
+		<put-attribute name="title" value="시설 등록" />
 		<put-attribute name="body" value="/WEB-INF/views/gym/insertGym_01.jsp" />
 	</definition>
 	
 	<definition name="/gym/insertGym_02" extends="baseLayout">
-		<put-attribute name="title" value="운동 용품 " />
+		<put-attribute name="title" value="시설 등록 " />
 		<put-attribute name="body" value="/WEB-INF/views/gym/insertGym_02.jsp" />
 	</definition>
 	
 	<definition name="/gym/insertGym_03" extends="baseLayout">
-		<put-attribute name="title" value="운동 용품 " />
+		<put-attribute name="title" value="시설 등록 " />
 		<put-attribute name="body" value="/WEB-INF/views/gym/insertGym_03.jsp" />
+	</definition>
+	
+	<definition name="/gym/searchMap" extends="baseLayout">
+		<put-attribute name="title" value="지도에서 찾기 " />
+		<put-attribute name="body" value="/WEB-INF/views/gym/searchMap.jsp" />
 	</definition>
 	
 </tiles-definitions>
