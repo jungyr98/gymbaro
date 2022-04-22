@@ -19,7 +19,7 @@ body {
 </head>
 <body>
 	<div class="main_container">
-		<p style="color: #184798; text-align: center; font-size: 36px; font-weight: bold;">주문이 완료되었습니다</p>
+		<p id="title">주문이 완료되었습니다</p>
 			<div class="step_bar">
 				<div class="step_bar_01 bars"><span>상품 선택</span></div>
 				<div class="step_bar_02 bars"><span>배송정보·결제정보 입력</span></div>
@@ -27,60 +27,63 @@ body {
 	 		</div>
 	<br><br><br><br>
 			<div class="box">
-				<div id="box1" style="width: 1024px; height:236px; border: 1px solid; text-align: left; padding-top: 100px; float:left;">				
-					<div class="order_number" style="padding-left: 50px;">
-						<span style="font-size: 20px; font-weight: bold;">주문번호</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<span style="font-size: 18px;">ordernumber example</span>
+				<div id="box1">
+                   <div id="box1_content"> 				
+					<div class="order_number">
+						<span id="order_info">주문번호</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span id="info_ex">ordernumber example</span>
 					</div>
 					<br>
-					<div class="order_date" style="padding-left: 50px;">
-						<span style="font-size: 20px; font-weight: bold;">주문일시</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<span style="font-size: 18px;">orderdate example</span>
+					<div class="order_date">
+						<span id="order_info">주문일시</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span id="info_ex">orderdate example</span>
 					</div>
 					<br>
-					<div class="orderer" style="padding-left: 50px;">
-						<span style="font-size: 20px; font-weight: bold;">주문자 정보</span>&nbsp;&nbsp;&nbsp;
-						<span style="font-size: 18px;">orderer example</span>
+					<div class="orderer">
+						<span id="order_info">주문자 정보</span>&nbsp;&nbsp;&nbsp;
+						<span id="info_ex">orderer example</span>
 					</div>
+                </div>
+            </div>
+            </div>
 					
 
 				<div id="box2">	
-					<div class="box2-1" style="width: 505px; height:300px; border: 1px solid; margin-top: 120px; float: left;">
-						<div class="order_price" style="padding-left: 50px; margin-top: 80px;">
-							<span style="font-size: 20px; font-weight: bold;">결제금액</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span style="font-size: 18px;">order_price example</span>
+					<div id="box2_1">
+                       <div id="box2_1_content">            
+						<div class="order_price">
+							<span id="order_info">결제금액</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span id="info_ex">order_price example</span>
 						</div>
 						<br>
-						<div class="order_payment" style="padding-left: 50px;">
-							<span style="font-size: 20px; font-weight: bold;">결제 수단</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span style="font-size: 18px;">order_payment example</span>
+						<div class="order_payment">
+							<span id="order_info">결제 수단</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span id="info_ex">order_payment example</span>
 						</div>
 						<br>
-						<div class="order_point" style="padding-left: 50px;">
-							<span style="font-size: 20px; font-weight: bold;">적립</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span style="font-size: 18px;">order_point example</span>
+						<div class="order_point">
+							<span id="order_info">적립</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span id="info_ex">order_point example</span>
+						</div>
+                    </div>
+					</div>
+                </div>
+					<div id="box2_2">
+                      <div id="box2_2_content">
+						<div class="receiver">
+							<span id="order_info">받으시는 분</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span id="info_ex">receiver example</span>
+						</div>
+						<br>
+						<div class="delivery_address">
+							<span id="order_info">배송지 주소</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span id="info_ex">delivery_address example</span>
 						</div>
 					</div>
-
-					<div class="box2-2" style="width: 505px; height:300px; border: 1px solid; margin-top: 120px; float: right;">
-						<div class="receiver" style="padding-left: 50px; margin-top: 80px;">
-							<span style="font-size: 20px; font-weight: bold;">받으시는 분</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span style="font-size: 18px;">receiver example</span>
-						</div>
-						<br>
-						<div class="delivery_address" style="padding-left: 50px;">
-							<span style="font-size: 20px; font-weight: bold;">배송지 주소</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span style="font-size: 18px;">delivery_address example</span>
-						</div>
-					</div>
-				</div>
-				<div class="button_box" style="float: right;">
+                </div>
+				<div class="button_box">
 					<a><button id="button_01"><span>메인으로</span></button></a> &nbsp;
 					<a><button id="button_02"><span>주문배송조회</span></button></a>
-				 </div>
-		</div>
-	</div> 
-</div>
-  
-</body>
+                </div>
+                </div>
 </html>

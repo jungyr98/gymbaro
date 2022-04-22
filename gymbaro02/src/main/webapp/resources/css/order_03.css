@@ -3,7 +3,7 @@
 
 }
 
-/* .first_content {
+ .first_content {
    margin-top:70px;
    border-top:2px solid #C4C4C4;
 }
@@ -23,7 +23,7 @@
 
 .first_text span b {
    color: #184798;
-} */
+} 
 
 .step_bar {
    display:flex;
@@ -64,6 +64,7 @@
    justify-content:space-between;
    margin-top:40px;
    height:50px;
+   float: right;
 }
 
 .button button {
@@ -86,6 +87,7 @@
    border-radius: 7%;
    font-family: 'Noto Sans KR', sans-serif;
    font-size: medium;
+
 }
 
 #button_02 {
@@ -98,3 +100,69 @@
    font-family: 'Noto Sans KR', sans-serif;
    font-size: medium;
 } 
+
+#title {
+   color: #184798; 
+   text-align: center; 
+   font-size: 36px; 
+   font-weight: bold;
+}
+
+#box1 {
+   width: 1024px;
+   height: 236px;
+   border: 1px solid;
+   border-radius: 20px;
+}
+
+.order_number, .order_date, .orderer, .order_payment, .order_point, .delievery_address {
+   margin-left: 50px;
+}
+
+#order_info {
+   font-size: 20px; 
+   font-weight: bold;
+}
+
+#info_ex {
+   font-size: 18px;
+}
+
+#box2_1 {
+   width: 505px; 
+   height:300px; 
+   border: 1px solid; 
+   border-radius: 20px;
+   margin-top: 10px; 
+   float: left;
+}
+
+#box2_2 {
+   width: 505px; 
+   height:300px; 
+   border: 1px solid; 
+   border-radius: 20px;
+   margin-top: 10px;
+   float: right;
+}
+
+.order_price {
+   margin-left: 50px;
+   margin-top: 80px;
+}
+
+#box1_content {
+   margin-top: 50px;
+   margin-left: 20px;
+}
+
+#box2_1_content {
+   margin-top: 80px;
+   margin-left: 20px;
+   text-align:;
+}
+
+#box2_2_content {
+   margin-top: 100px;
+   margin-left: 50px;
+}

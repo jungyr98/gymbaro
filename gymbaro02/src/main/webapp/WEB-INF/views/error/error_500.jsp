@@ -25,6 +25,7 @@ body {
 	<form action="${contextPath}/error/error_500.do" method="post">
 		<img src="${contextPath}/resources/image/exclamation-mark.png" alt="error_mark" id="error_mark" style="width: 300px; height: 300px; ">
 		<p id="error_message">Error 500</p>
+		<input type="button" id="back_button" value="뒤로가기" onclick="javascript:history.back();">
 	</div>
 	</form>
 </body>

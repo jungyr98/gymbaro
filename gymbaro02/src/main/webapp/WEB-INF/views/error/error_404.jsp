@@ -23,8 +23,9 @@ body {
 <body>
 	<div class="error_notice">
 	<form action="${contextPath}/error/error_404.do" method="post">
-		<img src="${contextPath}/resources/image/close.png" alt="error_mark" id="error_mark" style="width: 300px; height: 300px; ">
+		<img src="${contextPath}/resources/image/exclamation-mark.png" alt="error_mark" id="error_mark" style="width: 300px; height: 300px; ">
 		<p id="error_message">Error 404</p>
+		<input type="button" id="back_button" value="뒤로가기" onclick="javascript:history.back();">
 	</div>
 	</form>
 </body>

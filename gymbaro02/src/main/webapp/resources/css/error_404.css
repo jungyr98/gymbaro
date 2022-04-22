@@ -7,14 +7,30 @@
 }
 
 #error_mark {
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     display: block;
     margin: 0 auto;
+    filter: invert(20%) sepia(62%) saturate(2557%) hue-rotate(205deg) brightness(86%) contrast(87%);
+    
 }
 
 #error_message {
     font-size: 36px;
     font-weight: bold;
     text-align: center;
+}
+
+#back_button {
+	background-color: #c4c4c4;
+    width: 140px;
+    height: 45px;
+    border: none;
+    border-radius: 7%;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 100px;
+    cursor: pointer;
 }
