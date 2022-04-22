@@ -3,8 +3,12 @@ package com.myspring.gymbaro02.order.vo;
 import java.sql.Date;
 
 public class OrderVO {
+	private int order_seq_num;
 	private int order_id;
 	private int uid;
+	private int goods_id;
+	private int goods_amount;
+	private int goods_price;
 	private String member_yn;
 	private String orderer_name;
 	private String receiver_name;
@@ -21,6 +25,14 @@ public class OrderVO {
 	public OrderVO() {
 		
 	}
+	
+	public int getOrder_seq_num() {
+		return order_seq_num;
+	}
+
+	public void setOrder_seq_num(int order_seq_num) {
+		this.order_seq_num = order_seq_num;
+	}
 
 	public int getOrder_id() {
 		return order_id;
@@ -36,6 +48,31 @@ public class OrderVO {
 
 	public void setUid(int uid) {
 		this.uid = uid;
+	}
+	
+
+	public int getGoods_id() {
+		return goods_id;
+	}
+
+	public void setGoods_id(int goods_id) {
+		this.goods_id = goods_id;
+	}
+
+	public int getGoods_amount() {
+		return goods_amount;
+	}
+
+	public void setGoods_amount(int goods_amount) {
+		this.goods_amount = goods_amount;
+	}
+
+	public int getGoods_price() {
+		return goods_price;
+	}
+
+	public void setGoods_price(int goods_price) {
+		this.goods_price = goods_price;
 	}
 
 	public String getMember_yn() {

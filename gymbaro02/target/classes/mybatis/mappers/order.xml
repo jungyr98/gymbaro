@@ -4,6 +4,76 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.order">
+<resultMap id="orderGoodsResult" type="OrderVO">
+	    <result property="order_seq_num" column="order_seq_num" />
+		<result property="order_id" column="order_id" />
+		<result property="uid" column="uid" />
+		<result property="goods_id" column="goods_id" />
+		<result property="goods_amount" column="goods_title" />
+		<result property="goods_price" column="goods_sales_price" />
+		<result property="member_yn" column="order_total_price" />
+		<result property="orderer_name" column="order_goods_qty" />
+		
+		<result property="receiver_phone_number" column="orderer_name" />
+		<result property="receiver_zipcode" column="receiver_name" />
+		<result property="receiver_roadAddress" column="receiver_hp1" />
+		<result property="receiver_jibunAddress" column="receiver_hp2" />
+		<result property="receiver_extraAddress" column="receiver_hp3" />
+		
+		<result property="order_state" column="receiver_tel1" />
+		<result property="payment" column="receiver_tel2" />
+		<result property="total_price" column="receiver_tel3" />
+	</resultMap>
 
+
+<select id="selectMyOrderList" resultMap="orderGoodsResult"  parameterType="orderVO"  >
+	    <![CDATA[
+			select * from order 
+        	uid=#{uid}
+        	order by creDate
+		]]>
+</select>
+
+<insert id="insertNewOrder" parameterType="orderVO"  >
+	    <selectKey resultType="int" keyProperty="order_seq_num" order="BEFORE">
+	    	select case count(*) when 0 then 1 else max(order_seq_num) + 1 end from order
+	    </selectKey>
+	    <![CDATA[
+			insert into order(order_seq_num,
+			                            order_id,
+										uid,
+									    goods_id,
+										goods_amount,
+										goods_price,
+										member_yn,
+										orderer_name,
+										receiver_name,
+										receiver_phone_number,
+										receiver_zipcode,
+										receiver_roadAddress,
+										receiver_jibunAddress,
+										receiver_extraAddress,
+										order_state,
+										payment,
+										total_price)
+							     values(#{order_seq_num},
+							            #{order_id},
+									    #{uid},
+									    #{goods_id},
+									    #{goods_amount},
+									    #{goods_price},
+									    #{member_yn},
+									    #{orderer_name},
+									    #{receiver_name},
+									    #{receiver_phone_number},
+					                    #{receiver_zipcode},
+					                    #{receiver_roadAddress},
+						                #{receiver_jibunAddress},
+						                #{receiver_extraAddress},
+						                #{order_state},
+						                #{payment},
+						                #{total_price}
+    	]]>
+	</insert>
 
 </mapper>
