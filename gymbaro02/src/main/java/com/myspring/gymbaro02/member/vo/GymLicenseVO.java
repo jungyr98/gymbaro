@@ -1,14 +1,12 @@
 package com.myspring.gymbaro02.member.vo;
 
-public class Gym_LicenseVO {
-	private  int uid;
-	private String license_num;
+public class GymLicenseVO {
+	private int uid;
+	private int license_num;
 	
-	public Gym_LicenseVO() {
-		
-	}
+	public GymLicenseVO() {}
 	
-	public Gym_LicenseVO(int uid, String license_num) {
+	public GymLicenseVO(int uid, int license_num) {
 		this.uid = uid;
 		this.license_num = license_num;
 	}
@@ -21,13 +19,11 @@ public class Gym_LicenseVO {
 		this.uid = uid;
 	}
 
-	public String getLicense_num() {
+	public int getLicense_num() {
 		return license_num;
 	}
 
-	public void setLicense_num(String license_num) {
+	public void setLicense_num(int license_num) {
 		this.license_num = license_num;
 	}
-	
-	
 }
