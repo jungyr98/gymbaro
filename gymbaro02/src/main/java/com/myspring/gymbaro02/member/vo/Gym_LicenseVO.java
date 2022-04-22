@@ -12,4 +12,22 @@ public class Gym_LicenseVO {
 		this.uid = uid;
 		this.license_num = license_num;
 	}
+
+	public int getUid() {
+		return uid;
+	}
+
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
+
+	public String getLicense_num() {
+		return license_num;
+	}
+
+	public void setLicense_num(String license_num) {
+		this.license_num = license_num;
+	}
+	
+	
 }
