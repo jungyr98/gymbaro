@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="../resources/css/join_03_1.css">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
+// 회원 가입 유효성 검사
 function checkAll() {
 	if (!checkUserId(form.id.value)) {
         return false;
@@ -26,6 +27,9 @@ function checkAll() {
     }
     if (!checkName(form.name.value)) {
         return false;
+    }
+    if (!$('#phone_check_input').val() == 'OK'){
+    	return false;
     }
 
     return true;
@@ -116,7 +120,7 @@ function checkName(name) {
 }
 
 
-
+// 우편 api
 function execDaumPostcode() {
   new daum.Postcode({
     oncomplete: function(data) {
@@ -168,6 +172,7 @@ function execDaumPostcode() {
   }).open();
 }
 
+// 아이디 중복 검사
 function fn_overlapped(){
     var _id=$("#id").val();
     if(_id==''){
@@ -205,7 +210,53 @@ function fn_overlapped(){
           //alert("작업을완료 했습니다");
        }
     });  //end ajax	 
- }	
+ }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script type="text/javascript">
+//휴대폰 인증 api
+function phone_check(){
+    var phoneNumber = $('#inputPhoneNumber').val();
+    Swal.fire('인증번호 발송 완료!')
+
+    $.ajax({
+        type: "GET",
+        url: "${contextPath}/member/check/sendSMS",
+        data: {
+            "phoneNumber" : phoneNumber
+        },
+        success: function(res){
+            $('#checkBtn').click(function(){
+                if($.trim(res) ==$('#inputCertifiedNumber').val()){
+                    Swal.fire(
+                        '인증성공!',
+                        '휴대폰 인증이 정상적으로 완료되었습니다.',
+                        'success'
+                        )
+                        $('#checkBtn').prop("disabled", true);
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/update/phone",
+                        data: {
+                            "phoneNumber" : $('#inputPhoneNumber').val()
+                        }
+                    })
+                    //history.back();
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: '인증오류',
+                        text: '인증번호가 올바르지 않습니다!',
+                     // footer: '<a href="/home">다음에 인증하기</a>'
+                    })
+                }
+            })
+
+
+        }
+    }); // end ajax
+};
 </script>
 </head>
 <body>
@@ -258,8 +309,11 @@ function fn_overlapped(){
 				<tr>
 					<td class="fixed_join">*휴대폰 번호</td>
 					<td>
-						<input type="text" name="hp" style="width:200px;"/>
-						<input type="button"  id="hp" class="form_btn" value="인증번호 받기" onClick=""/>
+						<input type="text" name="hp" id="inputPhoneNumber" width=200px />
+						<input type="button" id="sendPhoneNumber" class="form_btn" value="인증번호 받기" onClick="phone_check()" /> <br>
+						<input type="text" name="cerNum" id="inputCertifiedNumber" width=200px />
+						<input type="button" id="checkBtn" class="form_btn" value="인증번호 확인" onclick=""/>
+						<input type="hidden" name="phone_check_input" id="phone_check_input" />
 					</td>
 				</tr>
 			</thead>

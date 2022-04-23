@@ -209,6 +209,13 @@
 		    <classifier>jdk15</classifier>    
 		</dependency>
 		
+		<!-- cool sms -->
+		<dependency>
+    		<groupId>net.nurigo</groupId>
+    		<artifactId>javaSDK</artifactId>
+    		<version>2.2</version>
+		</dependency>
+		
 		<!-- test해볼게요 -->
 		<!-- AOP -->
 		<dependency>
