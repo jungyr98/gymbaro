@@ -5,5 +5,10 @@
 
 <mapper namespace="mapper.member">
 
-
+<select id="selectOverlappedID" parameterType="String" resultType="String">
+	   select if(count(*)>0, 'true', 'false')
+	   from member
+	   where member_id = #{id}
+</select>
+	
 </mapper>

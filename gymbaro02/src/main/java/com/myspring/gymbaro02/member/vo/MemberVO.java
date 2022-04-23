@@ -2,6 +2,9 @@ package com.myspring.gymbaro02.member.vo;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component("memberVO")
 public class MemberVO {
 	private int uid;
 	private String member_id;

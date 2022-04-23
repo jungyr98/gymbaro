@@ -10,9 +10,113 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <head>
 <meta charset="utf-8">
-
+<link rel="stylesheet" href="../resources/css/join_03_1.css">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
+function checkAll() {
+	if (!checkUserId(form.id.value)) {
+        return false;
+    }
+
+    if (!checkPassword(form.id.value, form.pwd.value, form.pwd2.value)) {
+        return false;
+    }
+    if (!checkMail(form.email.value)) {
+        return false;
+    }
+    if (!checkName(form.name.value)) {
+        return false;
+    }
+
+    return true;
+}
+
+// 공백확인 함수
+function checkExistData(value, dataName) {
+    if (value == "") {
+        alert(dataName + " 입력해주세요!");
+        return false;
+    }
+    return true;
+}
+
+function checkUserId(id) {
+    //Id가 입력되었는지 확인하기
+    if (!checkExistData(id, "아이디를")){
+        return false;
+    }
+
+    return true; //확인이 완료되었을 때
+}
+
+
+function checkPassword(id,pwd,pwd2) {
+    //비밀번호가 입력되었는지 확인하기
+    if (!checkExistData(pwd, "비밀번호를")){
+        return false;
+    }
+    //비밀번호 확인이 입력되었는지 확인하기
+    if (!checkExistData(pwd2, "비밀번호 확인을")){
+        return false;
+    }
+
+    var password1RegExp = /^(?=.*[a-z])(?=.*[0-9]).{8,12}$/; //비밀번호 유효성 검사
+    if (!password1RegExp.test(pwd)) {
+        alert("비밀번호는 영문 소문자와 숫자 8~12자리로 입력해야합니다!");
+        form.pwd.value = "";
+        form.pwd.focus();
+        return false;
+    }
+    //비밀번호와 비밀번호 확인이 맞지 않다면..
+    if (pwd != pwd2) {
+        alert("두 비밀번호가 맞지 않습니다.");
+        form.pwd2.value = "";
+        form.pwd2.focus();
+        return false;
+    }
+
+    //아이디와 비밀번호가 같을 때..
+    if (id == pwd) {
+        alert("아이디와 비밀번호는 같을 수 없습니다!");
+        form.pwd.value = "";
+        form.pwd2.value = "";
+        form.pwd2.focus();
+        return false;
+    }
+    return true; //확인이 완료되었을 때
+}
+
+function checkMail(email) {
+    //mail이 입력되었는지 확인하기
+    if (!checkExistData(mail, "이메일을")){
+        return false;
+    }
+
+    var emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]/;
+    if (!emailRegExp.test(email)) {
+        alert("이메일 형식이 올바르지 않습니다!");
+        form.email.value = "";
+        form.email.focus();
+        return false;
+    }
+    return true; //확인이 완료되었을 때
+}
+
+function checkName(name) {
+    if (!checkExistData(name, "이름을")){
+        return false;
+    }
+
+    var nameRegExp = /^[가-힣]{2,4}$/;
+    if (!nameRegExp.test(name)) {
+        alert("이름이 올바르지 않습니다.");
+        return false;
+    }
+    return true; //확인이 완료되었을 때
+}
+
+
+
 function execDaumPostcode() {
   new daum.Postcode({
     oncomplete: function(data) {
@@ -65,23 +169,31 @@ function execDaumPostcode() {
 }
 
 function fn_overlapped(){
-    var id=$("#id").val();
-    if(id==''){
+    var _id=$("#id").val();
+    if(_id==''){
    	 alert("ID를 입력하세요");
    	 return;
+    }
+    
+    var idRegExp = /^(?=.*[a-z])(?=.*[0-9]).{4,12}$/; //아이디 유효성 검사
+    if (!idRegExp.test(_id)) {
+        alert("아이디는 영문 소문자와 숫자 4~12자리로 입력해야합니다!");
+        form.id.value = "";
+        form.id.focus();
+        return;
     }
     $.ajax({
        type:"post",
        async:false,  
        url:"${contextPath}/member/overlapped.do",
        dataType:"text",
-       data: {_id:id},
+       data: {id:_id},
        success:function (data,textStatus){
           if(data=='false'){
        	    alert("사용할 수 있는 ID입니다.");
        	    $('#btnOverlapped').prop("disabled", true);
        	    $('#id').prop("disabled", true);
-       	    $('#_id').val(id);
+       	    $('#member_id').val(_id);
           }else{
         	  alert("사용할 수 없는 ID입니다.");
           }
@@ -95,146 +207,9 @@ function fn_overlapped(){
     });  //end ajax	 
  }	
 </script>
-
-<style>
-
-body {
-		font-family: 'Noto Sans KR', sans-serif;
-	}
-	
-table, tr, td {
-	border-collapse : collapse;
-	border: 1px solid #c4c4c4;
-}
-td {
-	text-align:left;
-	color:#424040;
-	padding-left:10px;
-}
-td input {
-	height:23px;
-	border: 1px solid #c4c4c4;
-}	
-.main_container {
-   width:730px;
-}
-
-.first_content {
-
-   margin-top:70px;
-   border-top:2px solid #C4C4C4;
-}
-
-.first_text {
-   position:relative;
-   top:-15px;
-   margin-bottom:50px;
-}
-
-.first_text span {
-
-   font-size: 21px;
-   background:white;
-   padding: 0 15px;
-}
-
-.first_text span b {
-   color: #184798;
-}
-
-.step_bar {
-   display:flex;
-   justify-content:space-between;
-}
-
-.bars {
-   width:989px;
-   height:43px;
-   display:flex;
-   justify-content:center;
-   align-items:center;
-}
-
-.bars span {
-   font-size:18px;
-}
-
-.step_bar_02 {
-   background: #184798;
-}
-
-.step_bar_02 span {
-   color:white;
-}
-
-.step_bar_01, .step_bar_03 {
-   background: #f0f0f0;
-}
-
-.form_box {
-	margin-top:30px;
-}
-
-.fixed_join{
-	
-	font-weight: bold;
-    font-size: 14px;
-    width:20%; 
-    height:38px;
-    text-align:center;
-    background-color: #f0f0f0;"
-}
-
-.form_btn {
-width:auto;
-height:27px;
-cursor:pointer;
-background-color: #184798;
-color: white;
-border-radius:5px;
-margin-left:5px;
-}
-
-.button_box {
-   display:flex;
-   justify-content:space-between;
-   margin-top:20px;
-   height:50px;
-}
-
-.button_box a,
-.button_box input[type="submit"] {
-   border:none;
-   border-radius:2px;
-   width:360px;
-   height:50px;
-   font-size:20px;
-   color:white;
-}
-
-#button_01 {
-   background: #c4c4c4;
-   display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-}
-
-#button_02 {
-   background: #184798;
-}
-
-#radio_btn_box {
-	display:flex;
-	align-items:center;
-	border:none;
-	height:41px;
-}
-
-</style>
 </head>
 <body>
-	<div class="main_container">
+	<div class="join_03_1_box main_container">
 	<div class="first_content">
    <div class="first_text">
       <span><b>정보 입력</b></span>
@@ -245,14 +220,15 @@ margin-left:5px;
       <div class="step_bar_03 bars"><span>가입완료</span></div>
    </div>
    <div class="form_box">
-	<form action="${contextPath}/join/join_04.do" method="post">	
+	<form name=form onsubmit="return checkAll()" action="${contextPath}/member/join04.do" method="post">	
 		<table border="1" width="730px;" style="margin: 0 auto;">
 			<thead>
 				<tr>
 					<td class="fixed_join">*아이디
 					</td>
 					<td>
-					  <input type="text" name="id"  id="id" style="width:200px;" />
+					  <input type="text" name="id" id="id" style="width:200px;" />
+					  <input type="hidden" name="member_id"  id="member_id" />
 					  <input type="button"  id="btnOverlapped" class="form_btn" value="중복확인" onClick="fn_overlapped()"/>
 					</td>
 				</tr>
@@ -261,21 +237,21 @@ margin-left:5px;
 				<tr>
 					<td class="fixed_join">*비밀번호</td>
 					<td>
-					<input name="pwd" type="password" style="width:200px";/></td>
+					<input name="pwd" type="password" style="width:200px"/></td>
 				</tr>
 			</thead>
 			<thead>
 				<tr>
 					<td class="fixed_join" width="25%">*비밀번호 확인</td>
 					<td>
-					<input name="pwd" type="password" style="width:200px"; /></td>
+					<input name="pwd2" type="password" style="width:200px" /></td>
 				</tr>
 			</thead>
 			<thead>
 				<tr>
 					<td class="fixed_join">*이름</td>
 					<td>
-					<input name="name" type="text" style="width:200px"; /></td>
+					<input name="name" type="text" style="width:200px" /></td>
 				</tr>
 			</thead>
 			<thead>
@@ -342,8 +318,8 @@ margin-left:5px;
 				<tr class="dot_line">
 					<td class="fixed_join">정보 메일 수신</td>
 				<td id="radio_btn_box">
-					<input type="radio" id="yes" name="yes"> <label> 예</label>
-					<input type="radio" id="no" name="no"> <label> 아니오</label>
+					<input type="radio" id="yes" name="info_yn" checked> <label> 예</label>
+					<input type="radio" id="no" name="info_yn"> <label> 아니오</label>
 				</td>
 				</tr>
 			</thead>	

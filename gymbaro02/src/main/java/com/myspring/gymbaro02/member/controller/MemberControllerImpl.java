@@ -4,17 +4,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myspring.gymbaro02.member.service.MemberService;
+import com.myspring.gymbaro02.member.vo.MemberVO;
+
 @Controller("memberController")
-@EnableAspectJAutoProxy
+@RequestMapping(value="/member")
 public class MemberControllerImpl implements MemberController {
+	@Autowired
+	private MemberService memberService;
+	@Autowired
+	private MemberVO memberVO;
 	
-	@RequestMapping(value= "/member/loginForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/loginForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
@@ -24,7 +34,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/member/idpwdFindForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/idpwdFindForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView idpwdFind(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
@@ -34,7 +44,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/member/idFindSuccess.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/idFindSuccess.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView idFindSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
@@ -44,7 +54,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/member/newPwdForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/newPwdForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView newPwdForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
@@ -54,7 +64,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/member/pwdFindSuccess.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/pwdFindSuccess.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView pwdFindSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
@@ -64,7 +74,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/member/join01.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/join01.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView join01(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
@@ -74,7 +84,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/member/join02.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/join02.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView join02(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		session = request.getSession();
@@ -87,7 +97,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/member/join03_1.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/join03_1.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView join03_1(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
@@ -97,7 +107,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/member/join03_2.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/join03_2.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView join03_2(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
@@ -107,7 +117,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/member/join_04.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/join04.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView join04(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
@@ -115,5 +125,14 @@ public class MemberControllerImpl implements MemberController {
 		mav.setViewName(viewName);
 
 		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value="/overlapped.do" ,method = RequestMethod.POST)
+	public ResponseEntity overlapped(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception{
+		ResponseEntity resEntity = null;
+		String result = memberService.overlapped(id);
+		resEntity =new ResponseEntity(result, HttpStatus.OK);
+		return resEntity;
 	}
 }
