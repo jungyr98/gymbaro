@@ -23,7 +23,18 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	@Override
-	public MemberVO login(Map  loginMap) throws Exception{
+	public MemberVO login(Map loginMap) throws Exception{
+		
+		// 입력한 아이디에 해당하는 솔트값 찾은 후 다시 암호화
+		String id = (String)loginMap.get("id");
+		String pwd = (String)loginMap.get("pwd");
+		
+		String salt = memberDAO.getSaltById(id);
+		String password = pwd;
+		password  = SHA256Util.getEncrypt(password, salt);
+		
+		loginMap.put("pwd", password);
+		
 		return memberDAO.login(loginMap);
 	}
 	

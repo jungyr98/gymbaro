@@ -66,7 +66,7 @@ body {
 <div class="main_container">
 
 		<div id="box">
-			<p style="font-size: 28px; color:#184798; font-weight: bold;">$(name)님,</p>
+			<p style="font-size: 28px; color:#184798; font-weight: bold;">${member_name}님,</p>
 			<p style="font-size: 20px;">비밀번호가 성공적으로 변경되었습니다!</p> 
 	</div>
 	<br>

@@ -18,6 +18,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 <title>로그인창</title>
+<c:if test='${not empty message }'>
+<script>
+window.onload=function()
+{
+  result();
+}
+
+function result(){
+	alert("아이디나  비밀번호가 틀립니다. 다시 로그인해주세요");
+}
+</script>
+</c:if>
 <script>
 $(function () {
     var tab_Btn = $(".tab_btn > ul > li");
@@ -52,7 +64,7 @@ $(function () {
                </ul>    
           </div>
           <div class="tab_cont">
-               <form class="active" action="#" method="post">
+               <form class="active" action="${contextPath}/member/login.do" method="post">
 					<input type="text" name="id" placeholder="아이디를 입력하세요" />
 					<input type="password" name="pwd" placeholder="비밀번호를 입력하세요" />
 					<input type="submit" value="로그인">

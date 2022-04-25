@@ -21,6 +21,12 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 	
 	@Override
+	public String getSaltById(String id) throws DataAccessException {
+		String salt = sqlSession.selectOne("mapper.member.getSaltbyId", id);
+		return salt;
+	}
+	
+	@Override
 	public void insertNewMember(MemberVO memberVO) throws DataAccessException{
 		sqlSession.insert("mapper.member.insertNewMember", memberVO);
 	}

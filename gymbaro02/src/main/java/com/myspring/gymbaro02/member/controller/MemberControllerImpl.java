@@ -1,12 +1,12 @@
 package com.myspring.gymbaro02.member.controller;
 
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +29,9 @@ public class MemberControllerImpl implements MemberController {
 	@Autowired
 	private MemberVO memberVO;
 	
+	@Override
 	@RequestMapping(value= "/loginForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView loginForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
 		String viewName=(String)request.getAttribute("viewName");
@@ -39,6 +40,49 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
+	@Override
+	@RequestMapping(value="/login.do", method=RequestMethod.POST)
+	public ModelAndView login(@RequestParam Map<String, String> loginMap,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		memberVO = memberService.login(loginMap);
+		
+		if(memberVO!= null && memberVO.getMember_id()!=null){
+			HttpSession session=request.getSession();
+			session=request.getSession();
+			session.setAttribute("isLogOn", true);
+			session.setAttribute("memberInfo",memberVO);
+			
+			String action=(String)session.getAttribute("action");
+			if(action!=null && action.equals("/order/orderEachGoods.do")){
+				mav.setViewName("forward:"+action);		
+				/* 로그인 성공했을 때 > mav에 forward: order/orderEachGoods.do라는 
+				 * viewName + 세션에 저장한 logOn상태 + memberinfo 반환 */
+			}else{
+				mav.setViewName("redirect:/main/main.do");	
+			}
+		
+		}else{
+			String message="아이디나 비밀번호가 틀립니다. 다시 로그인해주세요";
+			mav.addObject("message", message);
+			mav.setViewName("/member/loginForm");
+		}
+		
+		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value="/logout.do" ,method = RequestMethod.GET)
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session=request.getSession();
+		session.setAttribute("isLogOn", false);
+		session.removeAttribute("memberInfo");
+		mav.setViewName("redirect:/main/main.do");
+		return mav;
+	}
+	
+	@Override
 	@RequestMapping(value= "/idpwdFindForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView idpwdFind(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
@@ -49,6 +93,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
+	@Override
 	@RequestMapping(value= "/idFindSuccess.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView idFindSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
@@ -59,6 +104,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
+	@Override
 	@RequestMapping(value= "/newPwdForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView newPwdForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
@@ -69,6 +115,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
+	@Override
 	@RequestMapping(value= "/pwdFindSuccess.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView pwdFindSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
@@ -79,6 +126,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
+	@Override
 	@RequestMapping(value= "/join01.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView join01(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
@@ -89,6 +137,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
+	@Override
 	@RequestMapping(value= "/join02.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView join02(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
@@ -102,6 +151,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
+	@Override
 	@RequestMapping(value= "/join03_1.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView join03_1(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
@@ -112,6 +162,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
+	@Override
 	@RequestMapping(value= "/join03_2.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView join03_2(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
@@ -122,6 +173,7 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
+	@Override
 	@RequestMapping(value= "/join04.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView join04(@RequestParam("hp") String hp, @RequestParam("email1") String email1, @RequestParam("email2") String email2, 
 			@RequestParam("join_type") String join_type, @ModelAttribute("memberVO") MemberVO _memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception{

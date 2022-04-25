@@ -1,5 +1,7 @@
 package com.myspring.gymbaro02.member.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,7 +17,10 @@ import com.myspring.gymbaro02.member.vo.MemberVO;
 
 public interface MemberController {
 
-	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView loginForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView login(@RequestParam Map<String, String> loginMap,
+            HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView idpwdFind(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView idFindSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView newPwdForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
