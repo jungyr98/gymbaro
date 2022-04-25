@@ -120,13 +120,13 @@ body {
 		<div class="step_bar_03 bars"><span>가입완료</span></div>
 	 </div>
 		<div id="box">
-			<p style="font-size: 28px; color:#184798; font-weight: bold;">membername님, 짐바로 가입을 환영합니다!</p><br>  
-			<p style="font-size: 20px;">아이디는 memberid 입니다</p> 
+			<p style="font-size: 28px; color:#184798; font-weight: bold;">${member_name}님, 짐바로 가입을 환영합니다!</p><br>  
+			<p style="font-size: 20px;">아이디는 ${member_id} 입니다</p> 
 	</div>
 	<br>
 	<div class="button_box">
-     	 <a><button id="button_01"><span>메인으로</span></button></a>
-     	 <a href="${contextPath}/member/loginForm.do"><button id="button_02"><span>로그인</span></button></a>
+     	 <a href="${contextPath}/main/main.do"><button type="button" id="button_01"><span>메인으로</span></button></a>
+     	 <a href="${contextPath}/member/loginForm.do"><button type="button" id="button_02"><span>로그인</span></button></a>
    		</div>
 	</div>
 </div>

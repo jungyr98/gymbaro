@@ -5,6 +5,55 @@
 
 <mapper namespace="mapper.member">
 
+<insert id="insertNewMember" parameterType="memberVO">
+	<selectKey resultType="int" keyProperty="uid" order="BEFORE">
+	    	select case count(*) when 0 then 1 else max(uid) + 1 end from member
+	</selectKey>
+	<![CDATA[
+			insert into member(
+				uid,
+				member_id,
+				member_pwd,
+				member_name,
+				member_gender,
+				member_type,
+				member_level,
+				member_point,
+				phone_number,
+				email,
+				pwdFindQ,
+				pwdFindA,
+				zipcode,
+				roadAddress,
+				jibunAddress,
+				extraAddress,
+				info_yn,
+				gym_license,
+				SALT				
+			) values(
+				#{uid},
+				#{member_id},
+				#{member_pwd},
+				#{member_name},
+				#{member_gender},
+				#{member_type},
+				#{member_level},
+				#{member_point},
+				#{phone_number},
+				#{email},
+				#{pwdFindQ},
+				#{pwdFindA},
+				#{zipcode},
+				#{roadAddress},
+				#{jibunAddress},
+				#{extraAddress},
+				#{info_yn},
+				#{gym_license},
+				#{SALT}				
+			)
+	]]>
+</insert>
+
 <select id="selectOverlappedID" parameterType="String" resultType="String">
 	   select if(count(*)>0, 'true', 'false')
 	   from member

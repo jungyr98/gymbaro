@@ -15,20 +15,23 @@
 <script>
 // 회원 가입 유효성 검사
 function checkAll() {
+	
 	if (!checkUserId(form.id.value)) {
         return false;
     }
-
-    if (!checkPassword(form.id.value, form.pwd.value, form.pwd2.value)) {
+    if (!checkPassword(form.id.value, form.member_pwd.value, form.pwd2.value)) {
         return false;
+    }
+    if (!checkName(form.member_name.value)) {
+        return false;
+    }
+    if (!checkPhone()){
+		return false;
     }
     if (!checkMail(form.email.value)) {
         return false;
     }
-    if (!checkName(form.name.value)) {
-        return false;
-    }
-    if (!$('#phone_check_input').val() == 'OK'){
+    if(!checkPasswordQnA(form.pwdFindQ.value, form.pwdFindA.value)){
     	return false;
     }
 
@@ -67,8 +70,8 @@ function checkPassword(id,pwd,pwd2) {
     var password1RegExp = /^(?=.*[a-z])(?=.*[0-9]).{8,12}$/; //비밀번호 유효성 검사
     if (!password1RegExp.test(pwd)) {
         alert("비밀번호는 영문 소문자와 숫자 8~12자리로 입력해야합니다!");
-        form.pwd.value = "";
-        form.pwd.focus();
+        form.member_pwd.value = "";
+        form.member_pwd.focus();
         return false;
     }
     //비밀번호와 비밀번호 확인이 맞지 않다면..
@@ -82,25 +85,9 @@ function checkPassword(id,pwd,pwd2) {
     //아이디와 비밀번호가 같을 때..
     if (id == pwd) {
         alert("아이디와 비밀번호는 같을 수 없습니다!");
-        form.pwd.value = "";
+        form.member_pwd.value = "";
         form.pwd2.value = "";
         form.pwd2.focus();
-        return false;
-    }
-    return true; //확인이 완료되었을 때
-}
-
-function checkMail(email) {
-    //mail이 입력되었는지 확인하기
-    if (!checkExistData(mail, "이메일을")){
-        return false;
-    }
-
-    var emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]/;
-    if (!emailRegExp.test(email)) {
-        alert("이메일 형식이 올바르지 않습니다!");
-        form.email.value = "";
-        form.email.focus();
         return false;
     }
     return true; //확인이 완료되었을 때
@@ -119,6 +106,42 @@ function checkName(name) {
     return true; //확인이 완료되었을 때
 }
 
+ function checkPhone(){
+	 var phone_check = $('#phone_check_input').val();
+	 if (phone_check != 'OK'){
+		alert("휴대폰 인증을 진행해주세요!");
+	    return false;
+	 }
+	 return true; //확인이 완료되었을 때
+}
+
+function checkMail(email) {
+    //mail이 입력되었는지 확인하기
+    if (!checkExistData(email, "이메일을")){
+        return false;
+    }
+
+    var emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]/;
+    if (!emailRegExp.test(email)) {
+        alert("이메일 형식이 올바르지 않습니다!");
+        form.email.value = "";
+        form.email.focus();
+        return false;
+    }
+    return true; //확인이 완료되었을 때
+}
+
+function checkPasswordQnA(pwdQ, pwdA) {
+    //비밀번호 찾기 질문이 선택 되었는지 확인하기
+    if (!checkExistData(pwdQ, "비밀번호 찾기 질문을")){
+        return false;
+    }
+    //비밀번호 찾기 답변이 입력되었는지 확인하기
+    if (!checkExistData(pwdA, "비밀번호 찾기 답변을")){
+        return false;
+    }
+    return true; //확인이 완료되었을 때
+}
 
 // 우편 api
 function execDaumPostcode() {
@@ -216,7 +239,14 @@ function fn_overlapped(){
 <script type="text/javascript">
 //휴대폰 인증 api
 function phone_check(){
+	$('#checkBtn').prop("disabled", false);
+    $('#inputCertifiedNumber').prop("disabled", false);
     var phoneNumber = $('#inputPhoneNumber').val();
+    
+    if(phoneNumber == ''){
+    	Swal.fire('번호를 입력해주세요!')
+    	return;
+    }
     Swal.fire('인증번호 발송 완료!')
 
     $.ajax({
@@ -233,7 +263,6 @@ function phone_check(){
                         '휴대폰 인증이 정상적으로 완료되었습니다.',
                         'success'
                         )
-                        $('#checkBtn').prop("disabled", true);
 
                     $.ajax({
                         type: "GET",
@@ -243,6 +272,9 @@ function phone_check(){
                         }
                     })
                     //history.back();
+                    $('#checkBtn').prop("disabled", true);
+                    $('#inputCertifiedNumber').prop("disabled", true);
+                    $('#phone_check_input').attr('value', 'OK');
                 }else{
                     Swal.fire({
                         icon: 'error',
@@ -257,6 +289,24 @@ function phone_check(){
         }
     }); // end ajax
 };
+
+//이메일 셀렉트 박스 체인지 부분
+var selectBoxChange_email = function(value){
+	if(value == 'none'){
+		$('#email2').val('');
+		return;
+	}
+	$('#email2').val(value);
+}
+
+//비밀번호 찾기 답변 셀렉트 박스 체인지 부분
+var selectBoxChange_pwdQ = function(value){
+	if(value == 'none'){
+		$('#pwdFindQ').val('');
+		return;
+	}
+	$('#pwdFindQ').val(value);
+}
 </script>
 </head>
 <body>
@@ -271,7 +321,7 @@ function phone_check(){
       <div class="step_bar_03 bars"><span>가입완료</span></div>
    </div>
    <div class="form_box">
-	<form name=form onsubmit="return checkAll()" action="${contextPath}/member/join04.do" method="post">	
+	<form name=form onsubmit="return checkAll()" action="${contextPath}/member/join04.do?join_type=common" method="post">	
 		<table border="1" width="730px;" style="margin: 0 auto;">
 			<thead>
 				<tr>
@@ -288,7 +338,7 @@ function phone_check(){
 				<tr>
 					<td class="fixed_join">*비밀번호</td>
 					<td>
-					<input name="pwd" type="password" style="width:200px"/></td>
+					<input name="member_pwd" type="password" style="width:200px"/></td>
 				</tr>
 			</thead>
 			<thead>
@@ -302,7 +352,21 @@ function phone_check(){
 				<tr>
 					<td class="fixed_join">*이름</td>
 					<td>
-					<input name="name" type="text" style="width:200px" /></td>
+					<input name="member_name" type="text" style="width:200px" />
+					<input type="hidden" name="member_level" value="1" />
+					<input type="hidden" name="member_point" value="1000" />
+					</td>
+				</tr>
+			</thead>
+			<thead>
+				<tr>
+					<td class="fixed_join">*성별</td>
+					<td>
+						<input type="radio" name="member_gender" class="member_gender" value="여자" checked />
+						<label class="gender_label">여성</label>&nbsp;&nbsp;
+						<input type="radio" name="member_gender" class="member_gender" value="남자" />
+						<label class="gender_label">남성</label>
+					</td>
 				</tr>
 			</thead>
 			<thead>
@@ -311,8 +375,8 @@ function phone_check(){
 					<td>
 						<input type="text" name="hp" id="inputPhoneNumber" width=200px />
 						<input type="button" id="sendPhoneNumber" class="form_btn" value="인증번호 받기" onClick="phone_check()" /> <br>
-						<input type="text" name="cerNum" id="inputCertifiedNumber" width=200px />
-						<input type="button" id="checkBtn" class="form_btn" value="인증번호 확인" onclick=""/>
+						<input type="text" name="cerNum" id="inputCertifiedNumber" width=200px disabled />
+						<input type="button" id="checkBtn" class="form_btn" value="인증번호 확인" onclick="" disabled/>
 						<input type="hidden" name="phone_check_input" id="phone_check_input" />
 					</td>
 				</tr>
@@ -321,9 +385,9 @@ function phone_check(){
 				<tr>
 					<td class="fixed_join">이메일</td>
 					<td>
-					<input size="10px"   type="text" name="email" style="width:30%;"/> @ <input  size="10px"  type="text"name="email2" style="width:30%;"/> 
-						  <select name="email2" onChange=""	title="직접입력" style="width:22%; height:27px;">
-									<option value="non">직접입력</option>
+					<input size="10px" type="text" name="email1" style="width:30%;"/> @ <input size="10px" type="text" name="email2" id="email2" style="width:30%;"/> 
+						  <select name="email_select" id="email_select" onChange="selectBoxChange_email(this.value);" title="직접입력" style="width:22%; height:27px;">
+									<option value="none">직접입력</option>
 									<option value="hanmail.net">hanmail.net</option>
 									<option value="naver.com">naver.com</option>
 									<option value="yahoo.co.kr">yahoo.co.kr</option>
@@ -341,15 +405,15 @@ function phone_check(){
 			<thead>
 				<tr>
 					<td class="fixed_join">*비밀번호 찾기 질문</td>
-					<td><select name="pwdq" onChange="" title="질문 선택" style="width:31%; height:27px;">
+					<td><select name="pwdQ" id="pwdQ" onChange="selectBoxChange_pwdQ(this.value);" title="질문 선택" style="width:31%; height:27px;">
 							<option value="none">질문 선택</option>
-							<option value="q1">나의 보물 1호는?</option>
-							<option value="q2">출신 고등학교 이름은?</option>
-							<option value="q3">기억에 남는 추억의 장소는?</option>
-							<option value="q4">가장 좋아하는 음식은?</option>
-							<option value="addq3">질문 추가하기</option>
+							<option value="나의 보물 1호는?">나의 보물 1호는?</option>
+							<option value="출신 고등학교 이름은?">출신 고등학교 이름은?</option>
+							<option value="기억에 남는 추억의 장소는?">기억에 남는 추억의 장소는?</option>
+							<option value="가장 좋아하는 음식은?">가장 좋아하는 음식은?</option>
 						</select>
-						<input size="10px" type="text" name="pwdq" style="width:45%; margin-left:5px;"/>
+						<input type="hidden" name="pwdFindQ" id="pwdFindQ" />
+						<input size="10px" type="text" name="pwdFindA" style="width:45%; margin-left:5px;"/>
 					</td>
 				</tr>
 			</thead>
@@ -358,7 +422,7 @@ function phone_check(){
 					<td class="fixed_join">주소</td>
 					<td>
 					   <input type="text" id="zipcode" name="zipcode" size="10" style="width:40%; margin-top: 13px;">
-					   <button style="width:20%; height:27px;">
+					   <button type="button" style="width:20%; height:27px;">
 					   		<a href="javascript:execDaumPostcode()">우편번호검색</a>
 					   	</button>
 					  <br>
@@ -371,9 +435,11 @@ function phone_check(){
 			<thead>
 				<tr class="dot_line">
 					<td class="fixed_join">정보 메일 수신</td>
-				<td id="radio_btn_box">
-					<input type="radio" id="yes" name="info_yn" checked> <label> 예</label>
-					<input type="radio" id="no" name="info_yn"> <label> 아니오</label>
+				<td id="info_check_box">
+				  <label>
+					정보를 메일로 받겠습니다.&nbsp;
+					<input type="checkbox" name="emailsts_yn" value="Y" checked />
+				  </label>
 				</td>
 				</tr>
 			</thead>	

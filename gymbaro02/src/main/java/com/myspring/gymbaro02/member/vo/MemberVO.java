@@ -26,6 +26,7 @@ public class MemberVO {
 	private Date joinDate;
 	private Date deletedDate;
 	private String del_yn;
+	private String gym_license;
 	private String SALT;
 	
 	public MemberVO() {
@@ -178,12 +179,19 @@ public class MemberVO {
 	}
 	public void setDel_yn(String del_yn) {
 		this.del_yn = del_yn;
+	}	
+	public String getGym_license() {
+		return gym_license;
+	}
+
+	public void setGym_license(String gym_license) {
+		this.gym_license = gym_license;
 	}
 	public String getSALT() {
 		return SALT;
 	}
-	public void setSALT(String sALT) {
-		SALT = sALT;
+	public void setSALT(String SALT) {
+		this.SALT = SALT;
 	}
 	
 	
