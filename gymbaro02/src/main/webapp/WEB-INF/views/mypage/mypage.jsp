@@ -4,17 +4,20 @@
     %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<!DOCTYPE html >
+<html>
+<head>
+<title></title>
 <link href="${contextPath}/resources/css/myPage.css" rel="stylesheet" type="text/css" media="screen">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-<html>
-<head>
 <script src="${contextPath}/resources/js/jquery-3.6.0.min.js"></script>
-
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<meta charset="utf-8">
 <script>
 function execDaumPostcode() {
   new daum.Postcode({
@@ -67,27 +70,422 @@ function execDaumPostcode() {
   }).open();
 }
 
-</script>
-<script type="text/javascript">
-$(function() {
-  $('.modify').val('수정')
-  $('.modify').click( function() {
-  var idx = $(".modify").index(this)
-    if( $(this).val() == '수정' ) {
-      $(this).replaceWith('<input type="submit" class="modify" value="변경"></input>');
-      $('.mod').eq(idx).attr("readonly", false);
-      $('.mod').eq(idx).css({'border':'1px solid rgba(0,0,0,0.2)','border-radius':'4px;', 'width':'150px', 'box-shadow': '0px 0px 1px 1px rgba(190, 190, 190, 0.6)','height':'28px','border-radius':'4px'});
-    }
-  });
+
+// 정보 수정
+function fn_modify_member_info(attribute){
+		var value;
+		
+		if(attribute=='name'){
+			var name = $('input[name="name"]');
+			value = name.val();
+		}
+		else if(attribute=='phone_number'){
+			var phone_number = $('input[name="phone_number"]');
+			value = phone_number.val();
+		}else if(attribute=='email'){
+			value = $('input[name="email"]').val();
+		}else if(attribute=='address'){
+			var zipcode =$('input[name="zipcode"]');
+			var roadAddress = $('input[name="roadAddress"]');
+			//var jibunAddress = myInfoTable.jibunAddress;
+			//var namujiAddress = myInfoTable.namujiAddress;
+			
+			//value_jibunAddress=jibunAddress.value;
+			//value_namujiAddress=namujiAddress.value;
+			value = zipcode.val() + "," + roadAddress.val();
+		}
+		console.log(attribute, value);
+	 
+		$.ajax({
+			type : "POST",
+			async : false, //false인 경우 동기식으로 처리한다.
+			url : "${contextPath}/mypage/modifyMyInfo.do",
+			data : {
+				attribute:attribute,
+				value:value
+			},
+			success : function(data, textStatus) {
+				if(data.trim()=='mod_success'){
+					alert("회원 정보를 수정했습니다.");
+					location.reload();
+				}else if(data.trim()=='failed'){
+					alert("다시 시도해 주세요.");	
+				}
+				
+			},
+			error : function(data, textStatus) {
+				alert("에러가 발생했습니다."+data);
+			}
+		}); //end ajax
+}
+
+$(document).ready(function(){
+	var info_yn = $('input[name="check"]');
+	var attribute = 'info_yn';
+	info_yn.change(function(){
+	        if(info_yn.is(":checked")){
+	            value = 'Y';
+	        }else{
+	        	value = 'N';
+	        }
+	        
+	        $.ajax({
+				type : "POST",
+				async : false, //false인 경우 동기식으로 처리한다.
+				url : "${contextPath}/mypage/modifyMyInfo.do",
+				data : {
+					attribute:attribute,
+					value:value
+				},
+				success : function(data, textStatus) {
+					if(data.trim()=='mod_success'){
+						
+					}else if(data.trim()=='failed'){
+						alert("다시 시도해 주세요.");	
+					}
+					
+				},
+				error : function(data, textStatus) {
+					alert("에러가 발생했습니다."+data);
+				}
+			}); //end ajax
+	  });
 });
 
 </script>
+<script type="text/javascript">
+$(document).ready(function () {
+	
+	var isKeyUp = false;
+    var timeoutId;
+
+    var letterRegExp = new RegExp("[a-z]");
+    var capsLockRegExp = new RegExp("[A-Z]");
+    var numberRegExp = new RegExp("[0-9]");
+    var symbolRegExp = new RegExp("\\W");
+    
+	$("#change-password-btn").click(function (e) {
+        e.preventDefault();
+        $("#password-area").css("display", "none");
+        $("#change-password-area").css("display", "");
+    });
+
+    $("#change-password-cancel-btn").click(function (e) {
+        e.preventDefault();
+        $("#password").val('');
+        $("#newPassword").val('');
+        $("#confirmPassword").val('');
+        $("#password-area").css("display", "");
+        $("#change-password-area").css("display", "none");
+        $("#new-password-invalid").css("display", "none");
+        $("#valid-newPassword").css("display", "none");
+        $("#password-invalid").css("display", "none");
+        $("#valid-password").css("display", "none");
+        $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
+        $("#change-password-finish-btn").prop('disabled', true);
+        $("#newPassword").attr('class', 'n-input');
+    });
+    
+    $("#password").keyup(function (e) {
+        e.preventDefault();
+        var password = $("#password");
+        var newPassword = $("#newPassword");
+        var confirmPassword = $("#confirmPassword");
+        var displayValue = $("#new-password-invalid").css("display");
+        var passwordInvalidDisplayValue = $('#password-invalid').css("display");
+
+        if (password.val().length >= 4 &&
+            newPassword.val().length >= 8 &&
+            confirmPassword.val().length >= 8 &&
+            displayValue == 'none' &&
+            passwordInvalidDisplayValue == 'none'
+        ) {
+            $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent');
+            $("#change-password-finish-btn").prop('disabled', false);
+        } else {
+            $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
+            $("#change-password-finish-btn").prop('disabled', true);
+        }
+
+        value = $(this).val();
+        var passwordInvalid = $('#password-invalid');
+        var newPasswordInvalid = $("#new-password-invalid");
+
+        if (!value) {
+            passwordInvalid.css('display', '');
+            passwordInvalid.text('');
+            return false;
+        }
+
+        if (password.val().length < 4) {
+            passwordInvalid.css('display', '');
+            $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
+            $("#change-password-finish-btn").prop('disabled', true);
+            $("#password_div").attr("class", "input-password__wrap input-danger");
+            passwordInvalid.text("4자리 이상 입력");
+            return false;
+        }
+
+        passwordInvalid.css('display', 'none');
+        $("#password_div").attr("class", "input-password__wrap ");
+        if (passwordInvalid.css("display") === 'none' && newPasswordInvalid.css("display") === 'none' && confirmPassword.val().length >= 8) {
+            $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent');
+            $("#change-password-finish-btn").prop('disabled', false);
+        }
+    });
+
+    $("#newPassword").keyup(function (e) {
+        e.preventDefault();
+        var newPassword = $("#newPassword");
+
+        if (newPassword.val() == '' || newPassword.val().length < 8) {
+            newPassword.attr('class', 'n-input input-danger');
+            $("#valid-newPassword").css("display", "none");
+            $("#new-password-invalid").css("display", "");
+            $("#new-password-invalid").text("8자리 이상 입력");
+            $("#newPassword_div").attr("class", "input-password__wrap input-danger");
+            $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
+            $("#change-password-finish-btn").prop('disabled', true);
+            return false;
+        } else if (checkFourConsecutiveChar(newPassword.val())) {
+            newPassword.attr('class', 'n-input input-danger');
+            $("#valid-newPassword").css("display", "none");
+            $("#new-password-invalid").css("display", "");
+            $("#new-password-invalid").text("4개 이상 연속으로 동일한 문자는 사용하실 수 없습니다.");
+            $("#newPassword_div").attr("class", "input-password__wrap input-danger");
+            $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
+            $("#change-password-finish-btn").prop('disabled', true);
+            return false;
+        } else if (!isValidPassword(newPassword.val())) {
+            newPassword.attr('class', 'n-input input-danger');
+            $("#valid-newPassword").css("display", "none");
+            $("#new-password-invalid").css("display", "");
+            $("#new-password-invalid").text("숫자 ,영문 대소문자, 특수문자 중 두가지 이상으로 조합해 주십시오.");
+            $("#newPassword_div").attr("class", "input-password__wrap input-danger");
+            $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
+            $("#change-password-finish-btn").prop('disabled', true);
+            return false;
+        } else {
+            var points = getPassordRulePoint(newPassword.val());
+            newPassword.attr('class', 'n-input');
+            $("#new-password-invalid").css("display", "none");
+            $("#valid-newPassword").css("display", "");
+            $("#valid-newPassword").text("사용 가능");
+            $("#newPassword_div").attr("class", "input-password__wrap");
+            var confirmPassword = $("#confirmPassword");
+            var password = $("#password");
+            if (password.val().length >= 4 && confirmPassword.val().length >= 8) {
+                $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent');
+                $("#change-password-finish-btn").prop('disabled', false);
+            } else {
+                $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
+                $("#change-password-finish-btn").prop('disabled', true);
+            }
+        }
+        return true;
+    });
+
+    $("#confirmPassword").keyup(function (e) {
+        e.preventDefault();
+        var password = $("#password");
+        var newPassword = $("#newPassword");
+        var confirmPassword = $("#confirmPassword");
+        var displayValue = $("#new-password-invalid").css("display");
+        var passwordInvalidDisplayValue = $('#password-invalid').css("display");
+
+        if (password.val().length >= 4 &&
+            newPassword.val().length >= 8 &&
+            confirmPassword.val().length >= 8 &&
+            displayValue == 'none' &&
+            passwordInvalidDisplayValue == 'none'
+        ) {
+            $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent');
+            $("#change-password-finish-btn").prop('disabled', false);
+        } else {
+            $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
+            $("#change-password-finish-btn").prop('disabled', true);
+        }
+    });
+    
+    // 테스트
+    
+  /*  encryptInputForm = function () {
+                if (typeof encryptAES !== 'undefined') {
+                    $('#encryptPassword').val(encryptAES($('#password').val().trim(), 'HHY2fbzvPr1Mlpvf6Qqei3x8FHytvCgC'));
+                    $('#encryptNewPassword').val(encryptAES($('#newPassword').val().trim(), 'HHY2fbzvPr1Mlpvf6Qqei3x8FHytvCgC'));
+                    $('#encryptConfirmPassword').val(encryptAES($('#confirmPassword').val().trim(), 'HHY2fbzvPr1Mlpvf6Qqei3x8FHytvCgC'));
+
+                    $("#password").val('');
+                    $("#newPassword").val('');
+                    $("#confirmPassword").val('');
+                }
+            }*/
+
+            $("#change-password-finish-btn").click(function (e) {
+                e.preventDefault();
+
+                var password = $("#password").val();
+                var newPassword = $("#newPassword").val();
+                var confirmPassword = $("#confirmPassword").val();
+
+                if (password === '') {
+                    alert('현재 비밀번호를 입력해주세요.');
+                    return false;
+                }
+
+                if (password.length < 4) {
+                    alert('비밀번호 4자 이상이여야합니다.');
+                    return false;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    alert('신규 비밀번호와 재입력 비밀번호가 같지 않습니다.');
+                    $("#confirmPassword").val('');
+                    $("#newPassword").val('');
+                    $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
+                    $("#change-password-finish-btn").prop('disabled', true);
+                    $("#new-password-invalid").text('');
+                    $("#valid-newPassword").text('');
+                    return false;
+                }
+
+                if (password === newPassword) {
+                    alert('현재 비밀번호와 신규 비밀번호가 동일합니다.');
+                    $("#newPassword").val('');
+                    $("#confirmPassword").val('');
+                    $("#change-password-finish-btn").attr('class', 'n-btn btn-sm btn-accent disabled');
+                    $("#change-password-finish-btn").prop('disabled', true);
+                    $("#new-password-invalid").text('');
+                    $("#valid-newPassword").text('');
+                    return false;
+                }
+
+                if (confirm('비밀번호를 변경하시겠습니까?')) {
+
+                   // encryptInputForm();
+                   
+                   var value = $("#password").val() + "," + $("#newPassword").val();
+
+                   $.ajax({
+                            type: "post",
+                            url: "${contextPath}/mypage/modifyMyInfo.do",
+                            data: {
+                                "attribute":"password",
+                                value:value
+                            },
+                            success : function(data, textStatus) {
+            					if(data.trim()=='mod_success'){
+            						alert("비밀번호를 수정했습니다.");
+            						location.reload();
+            					}else if(data.trim()=='failed'){
+            						alert("다시 시도해 주세요.");	
+            					}
+            					
+            				},
+            				error : function(data, textStatus) {
+            					alert("에러가 발생했습니다."+data);
+            				}
+                        },
+                        true
+                    )
+                }
+            });
+
+            function checkFourConsecutiveChar(password) {
+                for (var i = 0; i < password.length - 3; i++) {
+                    if (password.charAt(i) == password.charAt(i + 1) &&
+                        password.charAt(i + 1) == password.charAt(i + 2) &&
+                        password.charAt(i + 2) == password.charAt(i + 3)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            function isValidPassword(password) {
+                var violationCnt = 0;
+                if (!letterRegExp.test(password)) {
+                    violationCnt++;
+                }
+
+                if (!capsLockRegExp.test(password)) {
+                    violationCnt++;
+                }
+
+                if (!numberRegExp.test(password)) {
+                    violationCnt++;
+                }
+
+                if (!symbolRegExp.test(password)) {
+                    violationCnt++;
+                }
+
+                if (violationCnt > 2) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            function getPassordRulePoint(password) {
+                var point = 0;
+                if (letterRegExp.test(password)) {
+                    point = point + 4;
+                }
+
+                if (capsLockRegExp.test(password)) {
+                    point = point + 4;
+                }
+
+                if (numberRegExp.test(password)) {
+                    point = point + 4;
+                }
+
+                if (symbolRegExp.test(password)) {
+                    point = point + 4;
+                }
+
+                return point;
+            }
+            
+            $('input[name="phone_number"]').keyup(function (e) {
+            	e.preventDefault();
+            	if($('input[name="phone_number"]').val().length < 8){
+            		$("#phone_number_text").text("(-) 없이 입력");
+            	}else{
+            		$("#phone_number_text").text('');
+            	}
+            });
+      });
+
+function togglePassword(_id, _this) {
+    var _password = $("#" + _id);
+    if (_password.attr("type") == "password") {
+        _password.attr("type", "text");
+        _this.className = 'input-password__button input-password__button--active';
+    } else {
+        _password.attr("type", "password");
+        _this.className = 'input-password__button ';
+    }
+}
+</script>
 </head>
 <body class="pc">
-    <div class="wrap show">
+    <div class="myPage_box wrap show">
       <div class="sub_top_wrap">
-        <div class="sub_top">
-          <a>MY페이지</a>
+        <div class="sub_top">   
+          <img class="myPageUser_icon" alt="myPageUser.png" src="${contextPath}/resources/image/myPageUser.png">
+          <div class="sub_top_member_info_box">
+           	<span class="member_id_span">${memberInfo.member_id}</span>
+           	<div class="level_and_joinDate">
+           		<span>LV.${memberInfo.member_level} 멤버</span>
+           		<span class="joinDate_span">가입일 : <fmt:formatDate value="${memberInfo.joinDate}" type="date"/></span>
+           	</div>	
+          </div>
+          <div class="sub_top_member_service_box">
+           	<span><img src="${contextPath}/resources/image/point.png">포인트 > ${memberInfo.member_point}</span>
+           	<span><img src="${contextPath}/resources/image/coupon.png">보유 쿠폰 > 0개</span>
+          </div>
         </div>
       </div>
       <div id="content" class="sub_wrap">
@@ -124,127 +522,147 @@ $(function() {
               </div>
             </div>
             <div class="tab_each">
-              <table border="1" width="730px;" style="margin: 0 auto;">
-			<thead>
+              <table name="myInfoTable" border="1" width="730px;" style="margin: 0 auto;">
+              <thead>
 				<tr>
-					<td class="fixed_join"><span>*아이디</span>
+					<td class="fixed_join"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;이름</td>
+					<td>
+					<input name="name" type="text" class="mod" value="${memberInfo.member_name}" /></td>
+					<td>
+					 <input type="button" class="modify" value="이름 수정" onclick="fn_modify_member_info('name')"/>
+					</td>
+				</tr>
+			</thead>
+			<thead>
+				<tr id="password-area">
+					<td scope="row" class="fixed_join"><span class="glyphicon glyphicon-lock"></span>&nbsp;&nbsp;비밀번호</td>
+					<td>
+						*******
 					</td>
 					<td>
-					  <input type="text" name="id"  id="id" value="gymbaro02" disabled/>
+					 <input type="button" class="modify n-btn w100 btn-sm btn-default cert-hidden" id="change-password-btn" value="비밀번호 변경" />
+					</td>
+				</tr>
+				
+				<tr id="change-password-area" style="display: none;">
+                        <td scope="row" class="fixed_join pwd_td_2"><span class="glyphicon glyphicon-lock"></span>&nbsp;&nbsp;비밀번호</td>
+                        <td colspan="2">
+                            <div class="my-info-modify">
+                                <div class="my-info-modify">
+                                    <input type="hidden" id="encryptPassword">
+                                    <input type="hidden" id="encryptNewPassword">
+                                    <input type="hidden" id="encryptConfirmPassword">
+                                    <div class="input">
+                                        <label for="password" class="label1">현재 비밀번호</label>
+                                        <div class="input-password__wrap " id="password_div">
+                                            <input type="password" class="n-input" id="password">
+                                            <button type="button" class="input-password__button" onclick="togglePassword('password', this);">비밀번호 표시</button>
+                                        </div>
+                                        <span id="password-invalid" class="validate danger" style="display: none;"></span>
+                                    </div>
+                                    <div class="input">
+                                        <label for="newPassword" class="label2">신규 비밀번호</label>
+                                        <div class="input-password__wrap " id="newPassword_div">
+                                            <input type="password" class="n-input" id="newPassword" maxlength="30">
+                                            <button type="button" class="input-password__button" onclick="togglePassword('newPassword', this);">비밀번호 표시</button>
+                                        </div>
+                                        <span id="new-password-invalid" class="validate danger" style="display: none;"></span>
+                                        <span id="valid-newPassword" class="validate" style="display: none">사용 가능한 비밀번호입니다.</span>
+                                    </div>
+                                    <div class="input">
+                                        <label for="confirmPassword">신규 비밀번호 재 입력</label>
+                                        <div class="input-password__wrap " id="confirmPassword_div">
+                                            <input type="password" class="n-input" id="confirmPassword" maxlength="30">
+                                            <button type="button" class="input-password__button" onclick="togglePassword('confirmPassword', this);">비밀번호 표시</button>
+                                        </div>
+                                        <span id="confirm-password-invalid" class="validate danger"></span>
+                                        <span id="valid-confirmPassword" class="validate" style="display: none">사용 가능한 비밀번호입니다.</span>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button type="button" class="n-btn btn-sm btn-lighter" id="change-password-cancel-btn">취소</button>
+                                        <button type="button" class="n-btn btn-sm btn-accent disabled" id="change-password-finish-btn" disabled="">완료</button>
+                                    </div>
+                                </div>
+                        </div></td>
+                    </tr>
+                    
+			</thead>
+			<thead>
+				<tr>
+					<td class="fixed_join"><span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;휴대폰 번호</td>
+					<td>
+						<input type="text" name="phone_number" class="mod" value="${memberInfo.phone_number}" />
+						<span id="phone_number_text"></span>
+					</td>
+					<td>
+					 <input type="button" class="modify" value="휴대전화 변경" onclick="fn_modify_member_info('phone_number')" />
 					</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr>
-					<td class="fixed_join">*비밀번호</td>
+					<td class="fixed_join"><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;이메일</td>
 					<td>
-					<input name="pwd" type="password" class="mod" value="*********" readonly/></td>
+					<input size="10px" type="text" name="email"  class="mod" value="${memberInfo.email}" style="width:77%;"/>
+					</td>
 					<td>
-					 <input type="button" class="modify"/>
+					 <input type="button" class="modify" value="이메일 변경" onclick="fn_modify_member_info('email')" />
 					</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr>
-					<td class="fixed_join" width="25%">*비밀번호 확인</td>
-					<td>
-					<input name="pwd" type="password" value="*********" readonly/></td>
-				</tr>
-			</thead>
-			<thead>
-				<tr>
-					<td class="fixed_join">*이름</td>
-					<td>
-					<input name="name" type="text" class="mod" value="정유라" readonly /></td>
-					<td>
-					 <input type="button" class="modify"/>
-					</td>
-				</tr>
-			</thead>
-			<thead>
-				<tr>
-					<td class="fixed_join">*휴대폰 번호</td>
-					<td>
-						<input type="text" name="hp" class="mod" value="01012345678" readonly/>
-						<input type="button" id="hp" class="form_btn" value="인증번호 받기" onClick=""/>
-					</td>
-					<td>
-					 <input type="button" class="modify"/>
-					</td>
-				</tr>
-			</thead>
-			<thead>
-				<tr>
-					<td class="fixed_join">이메일</td>
-					<td>
-					<input size="10px" type="text" name="email"  class="mod" value="gymbaro02" readonly/> @ 
-					<input  size="10px"  type="text"name="email2"  class="mod" value="google.com" readonly/> 
-						  <select name="email2" onChange=""	title="직접입력" style="width:22%; height:27px;">
-									<option value="non">직접입력</option>
-									<option value="hanmail.net">hanmail.net</option>
-									<option value="naver.com">naver.com</option>
-									<option value="yahoo.co.kr">yahoo.co.kr</option>
-									<option value="hotmail.com">hotmail.com</option>
-									<option value="paran.com">paran.com</option>
-									<option value="nate.com">nate.com</option>
-									<option value="google.com">google.com</option>
-									<option value="gmail.com">gmail.com</option>
-									<option value="empal.com">empal.com</option>
-									<option value="korea.com">korea.com</option>
-									<option value="freechal.com">freechal.com</option>
-							</select></td>
-					<td>
-					 <input type="button" class="modify"/>
-					</td>
-				</tr>
-			</thead>
-			<thead>
-				<tr>
-					<td class="fixed_join">*비밀번호 찾기 질문</td>
-					<td><select name="pwdq" onChange="" title="질문 선택" style="width:31%; height:27px;">
-							<option value="none">질문 선택</option>
-							<option value="q1">나의 보물 1호는?</option>
-							<option value="q2">출신 고등학교 이름은?</option>
-							<option value="q3">기억에 남는 추억의 장소는?</option>
-							<option value="q4">가장 좋아하는 음식은?</option>
-							<option value="addq3">질문 추가하기</option>
+					<td class="fixed_join"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;&nbsp;비밀번호 찾기 질문</td>
+					<td><select name="pwdq" onChange="" title="질문 선택" disabled style="width:40%; height:27px;">
+							<option value="${memberInfo.pwdFindQ}">${memberInfo.pwdFindQ}</option>
+							<option value="none">직접 입력</option>
+							<option value="나의 보물 1호는?">나의 보물 1호는?</option>
+							<option value="출신 고등학교 이름은?">출신 고등학교 이름은?</option>
+							<option value="기억에 남는 추억의 장소는?">기억에 남는 추억의 장소는?</option>
+							<option value="가장 좋아하는 음식은?">가장 좋아하는 음식은?</option>
+							<option value="질문 추가하기">질문 추가하기</option>
 						</select>
-						<input size="10px" type="text" name="pwdq" style="width:45%; margin-left:5px;"/>
-					</td>
-					<td>
-					 <input type="button" class="modify"/>
+						<input size="10px" type="text" name="pwdA" value="${memberInfo.pwdFindA}" disabled style="width:45%; margin-left:5px;"/>
 					</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr class="dot_line">
-					<td class="fixed_join">주소</td>
+					<td class="fixed_join"><span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;주소</td>
 					<td>
-					   <input type="text" id="zipcode" name="zipcode" size="10" style="width:40%; margin-top: 13px;">
+					   <input type="text" id="zipcode" name="zipcode" value="${memberInfo.zipcode}" size="10" style="width:40%; margin-top: 13px;">
 					   <button class="form_btn">
 					   		<a href="javascript:execDaumPostcode()">우편번호검색</a>
 					   	</button>
 					  <br>
 					  <p> 
-					 <input type="text" id="roadAddress"  name="roadAddress" style="width:77%;"> 
+					 <input type="text" id="roadAddress"  name="roadAddress" value="${memberInfo.roadAddress}" style="width:77%;"> 
 					  </p>
 					</td>
 					<td>
-					 <input type="button" class="modify"/>
+					 <input type="button" class="modify" value="주소 변경" onclick="fn_modify_member_info('address')"/>
 					</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr class="dot_line">
-					<td class="fixed_join">정보 메일 수신</td>
-				<td>
-					<div class="radio_btn_box">
-						<input type="radio" id="yes" name="radio"><label> 예</label>
-						<input type="radio" id="no" name="radio"><label> 아니오</label>
-					</div>
-				</td>
-				<td>
-					 <input type="button" class="modify"/>
+					<td class="fixed_join"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;정보 메일 수신</td>
+				<td id="info_check_box">
+				  <section title=".slideThree">
+    				<!-- .slideThree -->
+    				<div class="slideThree">
+    				<c:choose>
+    					<c:when test="${memberInfo.info_yn == 'Y'}">
+     				 		<input type="checkbox" value="Y" id="slideThree" name="check" checked/>
+     					</c:when>
+     					<c:otherwise>
+     						<input type="checkbox" value="N" id="slideThree" name="check" />
+     					</c:otherwise>
+     				</c:choose>
+   				   <label for="slideThree"></label>
+   				 </div>
+   				 <!-- end .slideThree -->
+  				</section>
 				</td>
 				</tr>
 			</thead>	

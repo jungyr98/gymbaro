@@ -178,7 +178,7 @@
 	 box-shadow: none;
 	 padding-left: 15px;
 	 cursor: text;
-	 width: 300px;
+	 width: 200px;
 	 border-radius: auto;
 	 background: #ebebeb;
 	 color: black;
@@ -232,13 +232,14 @@
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-around;
-    width: 250px;
+    width: 260px;
     padding-left: 50px;
 }
 
 .header_box .icon_and_gnb_box {
     display: flex;
     align-items: baseline;
+    margin-left: 160px;
 }
 
 

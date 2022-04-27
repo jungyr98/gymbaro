@@ -307,6 +307,17 @@ var selectBoxChange_pwdQ = function(value){
 	}
 	$('#pwdFindQ').val(value);
 }
+
+//정보수신 동의여부 체인지 부분
+var info_yn = $('input[name="info_yn"]');
+info_yn.change(
+	function(){
+		if(info_yn.is(":checked")){
+			info_yn.val('Y');
+		}else {
+			info_yn.val('N');
+		}
+	});
 </script>
 </head>
 <body>
@@ -438,7 +449,7 @@ var selectBoxChange_pwdQ = function(value){
 				<td id="info_check_box">
 				  <label>
 					정보를 메일로 받겠습니다.&nbsp;
-					<input type="checkbox" name="emailsts_yn" value="Y" checked />
+					<input type="checkbox" name="info_yn" value="Y" checked />
 				  </label>
 				</td>
 				</tr>

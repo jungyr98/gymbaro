@@ -120,10 +120,21 @@ function search(){
 
 </head>
 <body>
-<div class="wrap show">
+ <div class="myPage_box wrap show">
       <div class="sub_top_wrap">
-        <div class="sub_top">
-          <a>MY페이지</a>
+        <div class="sub_top">   
+          <img class="myPageUser_icon" alt="myPageUser.png" src="${contextPath}/resources/image/myPageUser.png">
+          <div class="sub_top_member_info_box">
+           	<span class="member_id_span">${memberInfo.member_id}</span>
+           	<div class="level_and_joinDate">
+           		<span>LV.${memberInfo.member_level} 멤버</span>
+           		<span class="joinDate_span">가입일 : <fmt:formatDate value="${memberInfo.joinDate}" type="date"/></span>
+           	</div>	
+          </div>
+          <div class="sub_top_member_service_box">
+           	<span><img src="${contextPath}/resources/image/point.png">포인트 > ${memberInfo.member_point}</span>
+           	<span><img src="${contextPath}/resources/image/coupon.png">보유 쿠폰 > 0개</span>
+          </div>
         </div>
       </div>
       <div id="content" class="sub_wrap">
