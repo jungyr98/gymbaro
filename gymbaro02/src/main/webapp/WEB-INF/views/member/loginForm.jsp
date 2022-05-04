@@ -17,6 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <title>로그인창</title>
 <c:if test='${not empty message }'>
 <script>
@@ -92,9 +93,14 @@ $(function () {
         <img src="${contextPath}/resources/image/naver.png" alt="네이버 로고">
     </button>
    
-    <button type="button" id="kakao-login-btn" class="btn_kakao">
-        <img alt="카카오 로고" src="${contextPath}/resources/image/kakao_login_large_narrow.png">
-    </button>
+    <!-- 카카오 로그인 -->
+		<a class="p-2" href="https://kauth.kakao.com/oauth/authorize?
+		client_id=b45cad6c7b351ab3b0f2ff42b3d5e362&redirect_uri=http://
+		localhost:8080/gymbaro02/member/kakaoLogin&response_type=code">
+		<img src="${contextPath }/resources/image/
+		kakao_login_large_narrow.png" style="height:52px">
+ 		<!-- 이미지는 카카오 개발자센터에서 제공하는 login 이미지를 사용했습니다. -->
+		</a>
     </div>
     </div>
     </div>

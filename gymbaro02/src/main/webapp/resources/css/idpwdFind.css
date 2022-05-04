@@ -46,7 +46,45 @@ body {
      background: white;
      font-family:Arial, Helvetica, sans-serif;
  }
- .forms {
+ .main_container {
+    width:730px;
+ }
+ 
+ .first_content {
+     
+    margin-top:100px;
+    border-top:2px solid #C4C4C4;
+ }
+ 
+ .first_text {
+    position:relative;
+    top:-15px;
+    margin-bottom:50px;
+ }
+ 
+ .first_text span {
+ 
+    font-size: 21px;
+    background:white;
+    padding: 0 15px;
+ }
+ 
+ .first_text span b {
+    color: #184798;
+ }
+ 
+ 
+ .idpwdFindForm_box {
+     margin: 0;
+     padding: 0;
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     box-sizing: border-box;
+     border-radius: 3px;
+ }
+ 
+ 
+ .idpwdFindForm_box .forms {
      background: #fff;
      box-shadow: 0 0 3px rgb(102, 102, 102);
      margin: 30px auto;
@@ -55,115 +93,131 @@ body {
      position: relative;
      padding: 0;
  }
- .forms form { padding: 30px; }
- #signup { display: none; }
- .forms .tab-group {
-     list-style: none;
-     padding: 0;
-     margin: 0;
- }
- .forms .tab-group:after {
-     content: "";
-     display: table;
-     clear: both;
- }
- .forms .tab-group li a {
-     display: block;
-     text-decoration: none;
-     font-weight: 500;
-     padding: 15px;
-     background: #ffffff;
-     color: #184798;
-     font-size: 20px;
-     float: left;
-     width: 50%;
-     text-align: center;
-     border-top: 3px solid transparent;
-     -moz-transition: all 0.4s ease-in-out;
-     -o-transition: all 0.4s ease-in-out;
-     -webkit-transition: all 0.4s ease-in-out;
-     transition: all 0.4s ease-in-out;
- }
- .forms .tab-group li a:hover {
-     background: #dedfdf;
-     color: #202020;
- }
- .forms .tab-group .active a {
-     background: #184798;
-     color: rgb(255, 255, 255);
-     border-bottom: 3px solid #184798;
- }
- .forms input:not(#rdo1) {
- 	width: 100%;
- 	display: block;
- }
  
- #rdo1 {
- 	margin:0 10px;
- }
- 
- .forms input {
-     font-size: 16px;
-     padding: 10px 20px;
-     border: 1px solid #ddd;
-     color: #424040;
-     border-radius: 0;
-     margin-bottom: 10px;
-     -moz-transition: all 0.4s ease-in-out;
-     -o-transition: all 0.4s ease-in-out;
-     -webkit-transition: all 0.4s ease-in-out;
-     transition: all 0.4s ease-in-out;
-     border-radius: 3px;
- }
- .forms input:focus {
-     outline: 0;
-     border-color: #2e5ed7;
- }
- .forms label {
-     font-size: 16px;
-     font-weight: normal;
-     color: rgb(0, 0, 0);
-     margin-bottom: 5px;
-     display: block;
- }
- .forms .button {
-     border: 0;
-     outline: none;
-     border-radius: 0;
-     padding: 10px 0;
-     font-size: 18px;
-     font-weight: 300;
-     text-transform: uppercase;
-     letter-spacing: 2px;
-     background: #184798;
-     color: #ffffff;
-     cursor: pointer;
-     -moz-transition: all 0.4s ease-in-out;
-     -o-transition: all 0.4s ease-in-out;
-     -webkit-transition: all 0.4s ease-in-out;
-     transition: all 0.4s ease-in-out;
-     border-radius: 3px;
- }
- .forms .button:hover, .button:focus { background: #184798; }
- .text-p { text-align: right; }
- .text-p a { color: #ffffff; }
- 
- .msg{
-    margin-top: 25px;
-    padding: 25px;   
-    }
+.idpwdFind_box form {
+	display: flex;
+    flex-direction: column;
+    align-items:center;
+    height: 240px;
+    padding-top: 30px;
+    border-top: none;
+    margin-bottom: 30px;
+}
+
+.tab_div_box {
+	border: 1px solid #c4c4c4;
+}
+
+.idpwdFind_box input[type='text'],
+.idpwdFind_box input[type='submit'],
+.idpwdFind_box select {
+    width: 80%;
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #c4c4c4;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.idpwdFind_box input[type="submit"] {
+    background: rgb(24, 71, 152);
+    color: white;
+    font-size: 18px;
+}
+
+.idpwdFind_box a, .login_box span:not(.first_text span) {text-decoration: none; font-size: 18px; color: #666;}
+.idpwdFind_box ul, .login_box li {list-style: none;}
+.idpwdFind_box td {font-style: normal; font-weight: normal;}
+
+.idpwdFind_box .tab_btn {position: relative; width: 730px;}
+.idpwdFind_box .tab_btn a.more {position: absolute; right: 0; top: 13px; font-size: 13px;}
+.idpwdFind_box .tab_btn ul {display: flex; padding-left: 0; margin: 0;}
+.idpwdFind_box .tab_btn ul li {width: 730px; text-align: center; border: 1px solid #ccc; padding: 15px 0; box-sizing: border-box; margin-left: -1px; transition: all 0.5s;}
+.idpwdFind_box .tab_btn ul li:hover,
+.idpwdFind_box .tab_btn ul li:active {background: rgb(24, 71, 152);}
+.idpwdFind_box .tab_btn ul .active {background: rgb(24, 71, 152);}
+.idpwdFind_box .tab_btn ul .active a {color:white;}
+.idpwdFind_box .tab_btn ul li a {display: flex; justify-content: center; align-items: center;}
+.idpwdFind_box .tab_btn ul li a img {width:24px; height:24px; margin-left:10px;}
+.idpwdFind_box .tab_cont {margin-top: -1px;}
+.idpwdFind_box .tab_cont table {width: 730px; padding-top: 15px; box-sizing: border-box; margin: 0;}
+.idpwdFind_box .tab_cont table tr {position: relative; width: 400px; height: 30px; line-height: 30px; box-sizing: border-box;}
+.idpwdFind_box .tab_cont table tr td {height:50px;}
+.tab_menu a {display: block; transition: all 0.5s;}
+.tab_menu a:hover {color: white;}
+
+ul,
+li {
+    list-style: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul{
+	margin-bottom:10px;
+}
+
+.tab_each {
+    border-top: none;
+}
+
+.tab_each {
+    clear: both;
+    display:block;
+  padding-top:8px;
+    text-align:left;
+    margin-bottom:20px;
+}
+
+.tab{
+	text-align:left;
+}
+.tab .tab_btn ul li{
+    display: inline-block;
+    float: none;
+    position: relative;
+    margin-right: 64px;
+    font-size: 18px;
+    line-height: normal;
+    text-align: left;
+    cursor: pointer;
+    padding-left:5px;
+    color:black;
+}
+
+.tab .tab_btn ul li a{
+  color:black;
+}
+
+
+.tab .tab_btn ul{
+  position:relative;
+  margin-top:30px;
+}
+.tab_each ul li div{
+	height:32px;
+}
+
+.tab_each ul li div span{
+  font-size:16px;
+  width:130px;
+  display:inline-block;
+  padding-top:4px; 
+}
+
+
+.tab_each ul li a{
+  position:relative;
+  top:10px;
+}
+
  .r2 {
 	display:none;
 	}   
     
 select option[value=""] [disabled]{
     display: none;
-}
-select{
-    width: 670px;
-    height: 40.5px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    font-size: 16px;
-    padding-left: 15px;
 }

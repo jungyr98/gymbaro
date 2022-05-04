@@ -15,24 +15,23 @@ body {
 		font-family: 'Noto Sans KR', sans-serif;
 	}
 .main_container {
-   width:730px;
+   width:750px;
 }
 
 
-#box {
-	margin-top:100px;
-	width:730px; 
+.idFindSuccess_box #box {
+	margin-top:100px; 
 	height:250px; 
 	border: 1px solid #c4c4c4; 
 	text-align: center; 
-	padding-top: 100px;
+	padding-top: 60px;
 }
 
-.button_box {
+.idFindSuccess_box .button_box {
    display:flex;
    justify-content:space-between;
    margin-top:20px;
-   height:50px;
+   height:70px;
 }
 
 .button_box button {
@@ -47,28 +46,28 @@ body {
    color:white;
 }
 
-#button_01 {
+.idFindSuccess_box #button_01 {
    background: #c4c4c4;
 }
 
-#button_02 {
+.idFindSuccess_box #button_02 {
    background: #184798;
 }
 </style>
+<script type="text/javascript">
+
+</script>
 </head>
 <body>
-<div class="main_container">
-	
-  
-	
+<div class="idFindSuccess_box main_container">
 		<div id="box">
-            <p style="font-size: 20px;">$(name)님의 아이디는 </p> 
-			<p style="font-size: 28px; color:#184798; font-weight: bold;">"$(id)"</p>
-			<p style="font-size: 20px;">입니다!</p> 
-	</div>
+		            <p style="font-size: 20px;">${member_name}님의 아이디는 </p> 
+					<p style="font-size: 28px; color:#184798; font-weight: bold;">${member_id}</p>
+					<p style="font-size: 20px;">입니다!</p>
+		</div>
 	<br>
 	<div class="button_box">
-     	 <a><button id="button_01"><span>메인으로</span></button></a>
+     	 <a href="${contextPath}/main/main.do"><button id="button_01"><span>메인으로</span></button></a>
      	 <a href="${contextPath}/member/loginForm.do"><button id="button_02"><span>로그인</span></button></a>
    		</div>
 	</div>

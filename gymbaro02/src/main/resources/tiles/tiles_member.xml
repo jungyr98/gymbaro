@@ -49,6 +49,11 @@
          <put-attribute name="body" value="/WEB-INF/views/member/idFindSuccess.jsp" />
       </definition>
       
+      <definition name="/member/idFindSuccessByNum" extends="baseLayout">
+         <put-attribute name="title" value="아이디/비밀번호 찾기" />
+         <put-attribute name="body" value="/WEB-INF/views/member/idFindSuccessByNum.jsp" />
+      </definition>
+      
       <definition name="/member/newPwdForm" extends="baseLayout">
          <put-attribute name="title" value="아이디/비밀번호 찾기" />
          <put-attribute name="body" value="/WEB-INF/views/member/newPwdForm.jsp" />

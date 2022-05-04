@@ -20,11 +20,13 @@ public interface MemberController {
 	public ModelAndView loginForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView login(@RequestParam Map<String, String> loginMap,
             HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public String kakaoLogin(@RequestParam("code") String code, HttpServletRequest request) throws Exception;
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView idpwdFind(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView idFindSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView newPwdForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView pwdFindSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView idFindSuccess(@RequestParam Map<String, String> idByEmail, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView idFindSuccessByNum(@RequestParam Map<String, String> idByNumMap, HttpServletRequest request, HttpServletResponse response) throws Exception; 
+	public ModelAndView newPwdForm(@RequestParam Map<String, String> findPwdMap, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView pwdFindSuccess(@RequestParam Map<String, String> pwdMap, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView join01(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView join02(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView join03_1(HttpServletRequest request, HttpServletResponse response) throws Exception;

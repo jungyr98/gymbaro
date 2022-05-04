@@ -144,7 +144,7 @@ public class MypageControllerImpl implements MypageController {
 		return resEntity;
 	}
 	
-	@RequestMapping(value= "/mypage/outMember.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/outMember.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView outMember(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();

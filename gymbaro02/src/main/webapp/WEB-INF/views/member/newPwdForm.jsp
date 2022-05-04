@@ -14,7 +14,6 @@
     <title>로그인창</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/newPwdForm.css">
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script type="text/javascript"></script>
 </head>
 <body>
 	 <div class="main_container">
@@ -23,13 +22,13 @@
             <span><b>비밀번호 재설정</b></span>
          </div>
     <div class="forms">
-        <form action="${contextPath}/member/pwdFindSuccess.do" id="newPwd">
+        <form name="form" action="${contextPath}/member/pwdFindSuccess.do" id="newPwd">
             <div class="input-field">
-              <label for="newpwd"></label> 
-              <input type="password" name="newPwd" required="password" placeholder="새 비밀번호를 입력하세요."/>
-              <label for="renewpwd"></label> 
-              <input type="password" name="renewPwd" required="password" placeholder="새 비밀번호를 다시 입력하세요."/>
-              <input type="submit" value="확인" class="button" />
+              <label for="newPwd"></label> 
+              <input type="password" name="newPwd" required="newPwd" placeholder="새 비밀번호를 입력하세요." required/>
+              <label for="renewPwd"></label> 
+              <input type="password" name="renewPwd" required="renewPwd" placeholder="새 비밀번호를 다시 입력하세요." required/>
+              <input type="submit" value="확인" class="button"/>
             </div>
         </form>
     </div>

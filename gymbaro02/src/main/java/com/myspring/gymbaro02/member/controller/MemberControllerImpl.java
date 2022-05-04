@@ -1,5 +1,7 @@
 package com.myspring.gymbaro02.member.controller;
 
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -72,6 +74,27 @@ public class MemberControllerImpl implements MemberController {
 	}
 	
 	@Override
+	@RequestMapping(value="/kakaoLogin", method=RequestMethod.GET)
+	public String kakaoLogin(@RequestParam(value = "code", required = false) String code,HttpServletRequest request) throws Exception {
+	System.out.println("#########" + code); //jsp 에서 받은 code 잘출력되나 확인함
+	String access_Token = memberService.getAccessToken(code); //서비스 호출
+	System.out.println("###access_Token#### : " + access_Token); //토큰 값 출력 200이 떠야 정상
+	//access_token 보내서 사용자 정보 얻기
+	HashMap<String, Object> userInfo = memberService.getUserInfo(access_Token);
+	System.out.println("###access_Token#### : " + access_Token);
+	System.out.println("###nickname#### : " + userInfo.get("nickname"));
+	System.out.println("###email#### : " + userInfo.get("email"));
+	 MemberVO memberVO =new MemberVO();
+	 memberVO.setMember_name((String)userInfo.get("nickname"));
+	 memberVO.setMember_id((String)userInfo.get("email")); if(memberVO != null && memberVO.getMember_id()!=null) {
+	 HttpSession session = request.getSession();
+	 session.setAttribute("memberInfo", memberVO);
+	 session.setAttribute("isLogOn", true);
+	 }
+	 return "redirect:/main/main.do";
+	}
+	
+	@Override
 	@RequestMapping(value="/logout.do" ,method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
@@ -83,46 +106,133 @@ public class MemberControllerImpl implements MemberController {
 	}
 	
 	@Override
-	@RequestMapping(value= "/idpwdFindForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView idpwdFind(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping(value = "/idpwdFindForm.do", method = { RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView idpwdFind(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session;
-		ModelAndView mav=new ModelAndView();
-		String viewName=(String)request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String) request.getAttribute("viewName");
 		mav.setViewName(viewName);
 
 		return mav;
 	}
-	
-	@Override
-	@RequestMapping(value= "/idFindSuccess.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView idFindSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HttpSession session;
-		ModelAndView mav=new ModelAndView();
-		String viewName=(String)request.getAttribute("viewName");
-		mav.setViewName(viewName);
 
+	@Override
+	@RequestMapping(value = "/idFindSuccess.do", method = { RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView idFindSuccess(@RequestParam Map<String, String> idByEmailMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();		
+		HttpSession session = request.getSession();
+		
+		String member_name = idByEmailMap.get("member_name");		
+		String email = idByEmailMap.get("email");
+		String member_id = (String)memberService.idFindSuccess(idByEmailMap); 
+		
+		if(member_name != null && email != null) {
+			
+			if (member_id != null) {
+			session.setAttribute("member_name", member_name);
+			session.setAttribute("member_id", member_id);
+			mav.setViewName("/member/idFindSuccess");	
+			
+		} else {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('존재하지 않는 이름 또는 이메일입니다.');</script>");
+			out.flush();
+			mav.setViewName("/member/idpwdFindForm");
+		}
+	}
 		return mav;
+}
+		
+	@Override
+	@RequestMapping(value = "/idFindSuccessByNum.do", method = { RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView idFindSuccessByNum(@RequestParam Map<String, String> idByNumMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		
+		String member_name = idByNumMap.get("member_name");
+		String phone_number = idByNumMap.get("phone_number");  
+		
+		String hyphenatedNum = phoneNumberHyphenAdd(phone_number);
+		idByNumMap.put("phone_number", hyphenatedNum);
+		
+		String myIdByNum = memberService.idFindSuccessByNum(idByNumMap);
+		
+		if(member_name != null && phone_number != null) {
+			
+			if (myIdByNum != null) {
+			session.setAttribute("member_name", member_name);
+			session.setAttribute("myIdByNum", myIdByNum);
+			mav.setViewName("/member/idFindSuccessByNum");	
+			
+		} else {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('존재하지 않는 이름 또는 전화번호입니다.');</script>");
+			out.flush();
+			mav.setViewName("/member/idpwdFindForm");
+		}
+	}
+		return mav;
+		
+	}
+	
+	 @Override
+	 @RequestMapping(value= "/newPwdForm.do" ,method={RequestMethod.POST,RequestMethod.GET}) 
+	 public ModelAndView newPwdForm(@RequestParam Map<String, String> findPwdMap, HttpServletRequest request, HttpServletResponse response) throws Exception { 
+		HttpSession session = request.getSession();
+		ModelAndView mav = new ModelAndView();
+
+		String member_id = findPwdMap.get("member_id");
+		String pwdFindQ = findPwdMap.get("pwdFindQ");
+		String pwdFindA = findPwdMap.get("pwdFindA");	
+		String result = memberService.newPwdForm(findPwdMap);  
+		
+		if (member_id != null) { 		                             
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.write("<script>alert('아이디 체크 통과');</script>");
+			out.flush();	
+		
+			if (pwdFindQ != null && pwdFindA != null) {
+				session.setAttribute("member_id", member_id); // 이름 셀렉트용으로 보내주기
+				out.write("<script>alert('비밀번호 찾기 질문 체크 통과');</script>");
+				out.flush();
+				session.setAttribute("member_id", member_id);
+				session.setAttribute("pwdFindQ", pwdFindQ);
+				session.setAttribute("pwdFindA", pwdFindA);
+				
+				mav.setViewName("/member/newPwdForm");
+				
+		} else {
+			out.write("<script>alert('유효성 검사 누락');</script>");
+			out.flush();
+			mav.setViewName("/member/idpwdFindForm");
+
+		}
+	}
+		
+		return mav; 
 	}
 	
 	@Override
-	@RequestMapping(value= "/newPwdForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView newPwdForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HttpSession session;
-		ModelAndView mav=new ModelAndView();
+	@RequestMapping(value = "/pwdFindSuccess.do", method = { RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView pwdFindSuccess(@RequestParam Map<String, String> pwdMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session = request.getSession();
+		
+		String member_id = (String)session.getAttribute("member_id");
+		pwdMap.put("member_id", member_id);
+		
+		String newPwd = pwdMap.get("newPwd"); 
+		pwdMap.put("newPwd", newPwd);
+		 
+		String member_name = memberService.pwdFindSuccess(pwdMap);  
+		
+		session.setAttribute("member_name", member_name);
+		
 		String viewName=(String)request.getAttribute("viewName");
 		mav.setViewName(viewName);
-
-		return mav;
-	}
-	
-	@Override
-	@RequestMapping(value= "/pwdFindSuccess.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView pwdFindSuccess(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HttpSession session;
-		ModelAndView mav=new ModelAndView();
-		String viewName=(String)request.getAttribute("viewName");
-		mav.setViewName(viewName);
-
 		return mav;
 	}
 	

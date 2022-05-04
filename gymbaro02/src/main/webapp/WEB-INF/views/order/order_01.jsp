@@ -2,9 +2,11 @@
 	pageEncoding="utf-8"
 	isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <!DOCTYPE html >
 <html>
+<link rel="stylesheet" href="${contextPath}/resources/css/order_02.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
@@ -45,7 +47,7 @@ function kakaopay_btn() {
             pay_method : 'card',
             merchant_uid : 'merchant_' + new Date().getTime(),
             name : 'vivipayment',
-            amount : getParam("price"),
+            amount : ${orderMap.total_price},
             buyer_email : '이메일 넣기',
             buyer_name : '이름 넣기',
             buyer_tel : '번호 넣기',
@@ -86,13 +88,65 @@ function kakaopay_btn() {
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
                 //실패시 이동할 페이지
-                location.href="${contextPath}/order/order_01.do";
+
                 alert(msg);
+                
             }
         });
 
     });
 };
+
+function credit_btn() {
+	  //class가 btn_payment인 태그를 선택했을 때 작동한다.
+		console.log("크레딧함수");
+	  	IMP.init('imp55512719');
+	  	//결제시 전달되는 정보
+		IMP.request_pay({
+				    pg : 'html5_inicis', 
+				    pay_method : 'card',
+				    merchant_uid : 'merchant_' + new Date().getTime(),
+				    name : '주문명:결제테스트'/*상품명*/,
+				    amount : 100/*상품 가격*/, 
+				    buyer_email : 'iamport@siot.do'/*구매자 이메일*/,
+				    buyer_name : '구매자이름',
+				    buyer_tel : '010-1234-5678'/*구매자 연락처*/,
+				    buyer_addr : '서울특별시 강남구 삼성동'/*구매자 주소*/,
+				    buyer_postcode : '123-456'/*구매자 우편번호*/
+				}, function(rsp) {
+					var result = '';
+				    if ( rsp.success ) {
+				        var msg = '결제가 완료되었습니다.';
+				        msg += '고유ID : ' + rsp.imp_uid;
+				        msg += '상점 거래ID : ' + rsp.merchant_uid;
+				        msg += '결제 금액 : ' + rsp.paid_amount;
+				        msg += '카드 승인번호 : ' + rsp.apply_num;
+				        result ='0';
+				    } else {
+				        var msg = '결제에 실패하였습니다.';
+				        msg += '에러내용 : ' + rsp.error_msg;
+				        result ='1';
+				    }
+				    if(result=='0') {
+				    	location.href= "${contextPath}/order/order_03.do";
+				    }
+				    alert(msg);
+				});
+			}
+			
+function order_btn(){
+	var payment = $('input[name=payment]').val();
+	if(payment == '신용카드'){
+		if(!credit_btn()){
+			return false;
+		}
+	} else if(payment == '카카오페이'){
+		if(!kakaopay_btn()){
+			return false;
+		}
+	}
+	return true;
+}
 </script>
 
 <script>
@@ -147,44 +201,115 @@ function execDaumPostcode() {
   }).open();
 }
 
-</script>
+//배송지 선택 체인지 부분
+$(document).ready(function(){
+	 
+    // 라디오버튼 클릭시 이벤트 발생
+    $("input:radio[name=radio]").click(function(){
+        if($("input[name=radio]:checked").val() == "1"){
+        	$('.receiver_name').val('${memberInfo.member_name}');
+			$('.receiver_name').prop("disabled", true);
+			$('.receiver_phone_number').val('${memberInfo.phone_number}');
+			$('.receiver_phone_number').prop("disabled", true);
+			$('#zipcode').val('${memberInfo.zipcode}');
+			$('#zipcode').prop("disabled", true);
+			$('#roadAddress').val('${memberInfo.roadAddress}');
+			$('#roadAddress').prop("disabled", true);
+ 
+        }
+    });
+    
+ // 결제 라디오버튼 클릭시 이벤트 발생
+    $("input:radio[name='payment-radio']").click(function(){
+    	$('.cash-select-box').css("display", "none");
+    	$('.credit-select-box').css("display", "none");
+        if($("input[name='payment-radio']:checked").val() == "cash"){
+			$('.cash-select-box').css("display", "");
+			$('input[name=payment]').val('무통장입금');
+        }else if($("input[name='payment-radio']:checked").val() == "credit"){
+        	$('.credit-select-box').css("display", "");
+        	$('input[name=payment]').val('신용카드');
+        }else if($("input[name='payment-radio']:checked").val() == "kakaopay"){
+        	$('input[name=payment]').val('카카오페이');
+        }
+    });
+    
+    //휴대폰 번호 입력시 문구창
+    $('input[name="receiver_phone_number"]').keyup(function (e) {
+    	e.preventDefault();
+    	if($('input[name="receiver_phone_number"]').val().length < 8){
+    		$("#phone_number_text").text("(-) 없이 입력");
+    	}else{
+    		$("#phone_number_text").text('');
+    	}
+    });
+    
+  //포인트 전체사용 체인지 부분
+    var all_point = $('input[name="all_point"]');
+    var point = $('input[name="point"]');
+    all_point.change(
+    	function(){
+    		if(all_point.is(":checked")){
+    			point.val('${memberInfo.member_point}');
+    		}else {
+    			point.val('0원');
+    		}
+    	});
+});
 
-<style>
-
-body {
-		font-family: 'Noto Sans KR', sans-serif;
+//배송 메모 셀렉트 박스 체인지 부분
+var selectBoxChange_memo = function(value){
+	$('input[name="delivery_memo"]').css('display', 'none');
+	$('input[name="delivery_memo"]').val('');
+	if(value == 'write_memo'){
+		$('input[name="delivery_memo"]').css('display', '');
+		return;
 	}
-table, tr, td {
-   border-collapse : collapse;
-   border: 1px solid #c4c4c4;
-   text-align: left;
+	$('input[name="delivery_memo"]').val(value);
 }
 
-td {
-	padding-left: 10px;
-	font-size: medium;
-}
+function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", "width=700, height=400, left=100, top=50"); }
+</script>
+<style type="text/css">
+ .test_obj input[type="radio"] {
+        display: none;
+    }
+ 
+    .test_obj input[type="radio"] + span {
+        display: inline-block;
+        width: 120px;
+    	padding: 10px 10px;
+        border: 1px solid #dfdfdf;
+        background-color: #ffffff;
+        text-align: center;
+        cursor: pointer;
+    }
+ 
+    .test_obj input[type="radio"]:checked + span {
+        background-color: #184798;
+        color: #ffffff;
+    }
 </style>
-<link rel="stylesheet" href="${contextPath}/resources/css/order_02.css">
 </head>
 <body>
-	<div class="main_container">
-	<h1 id="title">주문서 작성</h1>
+	<div class="orderForm_box main_container">
 	<div class="step_bar">
 		<div class="step_bar_01 bars"><span>상품 선택</span></div>
 		<div class="step_bar_02 bars"><span>배송정보·결제정보 입력</span></div>
 		<div class="step_bar_03 bars"><span>주문 완료</span></div>
 	 </div>
-	<form action="${contextPath}/order/order_01.do" method="post">
-		<br><br><br>	
+	<form action="${contextPath}/order/order_03.do" method="post" onsubmit="return order_btn();">
+		<div class="cell_order_form1">
+            <h3 class="title-box font-mss">Recipient Info <span class="korSub">수령자 정보</span></h3>
+        </div>	
 		<table id="main_table">
 			<thead>
 				<tr>
 					<td class="fixed_join">수령인 정보
 					</td>
 					<td>
-					  <input type="checkbox" name="oldinfo" id="oldinfo"/>기존 회원 정보와 동일 &nbsp;&nbsp;
-					  <input type="checkbox" name="newinfo" id="newinfo"/>새로운 수령인 정보 
+					  <input type="radio" name="radio" id="oldinfo" value="1" checked/>&nbsp;기존 회원 정보와 동일 &nbsp;&nbsp;
+					  <input type="radio" name="radio" id="newinfo" value="0" />&nbsp;새로운 수령인 정보 
 					</td>
 				</tr>
 			</thead>
@@ -192,15 +317,15 @@ td {
 				<tr>
 					<td class="fixed_join">수령인</td>
 					<td>
-					<input name="receiver" type="text" id="receiver"/></td>
+					<input name="receiver_name" class="receiver_name" type="text" id="receiver" value="${memberInfo.member_name }" disabled/></td>
 				</tr>
 			</thead>
 			<thead>
 				<tr>
 					<td class="fixed_join">휴대폰 번호</td>
 					<td>
-						<input type="text" name="hp" id="hp"/>
-						<input type="button"  id="btn_hp" value="인증번호 받기" onClick="" />
+						<input type="text" name="receiver_phone_number" class="receiver_phone_number" id="hp" value="${memberInfo.phone_number }"  disabled/>
+						&nbsp;<span id="phone_number_text"></span>
 					</td>
 				</tr>
 			</thead>
@@ -208,10 +333,10 @@ td {
 				<tr class="dot_line">
 					<td class="fixed_join">배송지 주소</td>
 					<td>
-					   <input type="text" id="zipcode" name="zipcode" size="10">&nbsp;<button id="btn_zipcode"><a href="javascript:execDaumPostcode()">우편번호검색</a></button>
+					   <input type="text" id="zipcode" name="receiver_zipcode" size="10" value="${memberInfo.zipcode }">&nbsp;<button type="button" id="btn_zipcode"><a href="javascript:execDaumPostcode()">우편번호검색</a></button>
 					  <br>
 					  <p> 
-					 <input type="text" id="roadAddress" name="roadAddress"> 
+					 <input type="text" id="roadAddress" name="receiver_roadAddress" value="${memberInfo.roadAddress }"> 
 					  </p>
 					</td>
 				</tr>
@@ -220,27 +345,33 @@ td {
 				<tr>
 					<td class="fixed_join">배송 메모</td>
 					<td> 
-						<select name="memo" onChange=""	title="배송 메모 선택" id="delivery_memo">
+						<select name="memo" onChange="selectBoxChange_memo(this.value);" title="배송 시 요청사항을 선택해 주세요" id="delivery_memo">
 									<option value="none">배송 시 요청사항을 선택해 주세요.</option>
 									<option value="배송 전 연락주세요">배송 전 연락주세요</option>
 									<option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
 									<option value="현관 앞에 놓아주세요">현관 앞에 놓아주세요</option>
-									<option value="none">직접입력</option>
-							</select></td>
+									<option value="write_memo">직접입력</option>
+						</select>
+						<br>
+						<p>
+						<input type="text" name="delivery_memo" style="display:none;" />
+						</p>
+					</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr>
-					<td class="fixed_join">마일리지 사용</td>
+					<td class="fixed_join">포인트 사용</td>
 					<td>
-						<input size="10px" type="text" name="point" id="point"/><input type="checkbox" name="all"/>모두 사용하기
+						<input size="10px" type="text" name="point" id="point" placeholder="0원" />&nbsp;<input type="checkbox" name="all_point"/>&nbsp;모두 사용하기
+						<span>(사용 가능 적립금 <b>${memberInfo.member_point }</b>원)</span>
 					</td>
 				</tr>
 			</thead>
 			<thead>
 				<tr class="dot_line">
 					<td class="fixed_join">쿠폰 사용</td>
-					<td><a><button id="coupon">쿠폰 조회</button></a>  할인 금액 : </td>
+					<td><a><button type="button" id="coupon" onclick="showPopup();">쿠폰 조회/적용</button></a>  할인 금액 : </td>
 					</td>
 				</tr>
 			</thead>
@@ -248,7 +379,8 @@ td {
 				<tr class="dot_line">
 					<td class="fixed_join">최종 결제 금액</td>
 				<td>
-					<p>total_price</p>
+					<fmt:formatNumber  value="${orderMap.total_price}" type="number" var="total_price" />
+					<p>${total_price}원</p>
 				</td>
 				</tr>
 			</thead>
@@ -256,27 +388,41 @@ td {
 				<tr class="dot_line">
 					<td class="fixed_join">결제 수단</td> 
 					<td>
-						<span><button type="button" id="cash">무통장 입금</button></span>
-						<span><button type="button" id="credit">신용카드</button></span>
-						<span><button type="button" id="kakaopay" onclick="kakaopay_btn();">카카오페이</button></span>
-						<span><button type="button" id="paybyphone">휴대폰 결제</button></span>
-						<br><br>
+						<label class="test_obj">
+    						<input type="radio" name="payment-radio" value="cash">
+   							<span>무통장 입금</span>
+						</label>
+ 
+						<label class="test_obj">
+    						<input type="radio" name="payment-radio" value="credit">
+    						<span>신용카드</span>
+						</label>
+ 
+						<label class="test_obj">
+    						<input type="radio" name="payment-radio" value="kakaopay">
+    						<span>카카오페이</span>
+						</label>
 						<!--onchange 추가하기-->
-						<select name="creditcard" onChange="" title="신용카드 종류 선택" id="selectcard">
-							<option value="none">신용카드 종류 선택</option>
-							<option value="현대카드">현대카드</option>
-							<option value="삼성카드">삼성카드</option>
-							<option value="국민카드">국민카드</option>
-							<option value="하나카드">하나카드</option>
-					</select>
-		
-					<select name="installment" onChange=""	title="할부 개월 수" id="installment">
-						<option value="none">할부 개월 수 </option>
-						<option value="2개월">2개월(무이자)</option>
-						<option value="3개월">3개월</option>
-						<option value="4개월">4개월</option>
-						<option value="5개월">5개월</option>
-					</select>
+						<div class="cash-select-box" style="display:none;">
+							<br><br>
+							<select>
+								<option>입금은행 선택</option>
+								<option>기업은행</option>
+								<option>국민은행</option>
+								<option>우리은행</option>
+								<option>수협</option>
+								<option>농협</option>
+								<option>부산은행</option>
+								<option>신한은행</option>
+								<option>KEB하나은행</option>
+								<option>광주은행</option>
+								<option>우체국</option>
+								<option>대구은행</option>
+								<option>경남은행</option>
+							</select>
+							<input type="text" value="${memberInfo.member_name }" disabled>
+						</div>
+						<input type="hidden" name="payment" value="" />
 					</td>
 				</tr>
 

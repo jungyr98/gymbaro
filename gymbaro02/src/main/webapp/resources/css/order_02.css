@@ -2,6 +2,7 @@
 
 .main_container {
     width:1024px;
+    margin-top:80px;
  
  }
 
@@ -26,24 +27,31 @@
     background-color: #f0f0f0;
  }
  
- .step_bar_03 span {
- }
- 
  .step_bar_02 {
     background-color: #184798;
     color: white;
  }
+ 
+ body {
+		font-family: 'Noto Sans KR', sans-serif;
+	}
+.orderForm_box table, .orderForm_box tr{
+   border-collapse : collapse;
+   border: 1px solid #ddd;
+   text-align: left;
+}
+
+.orderForm_box td {
+	padding-left: 10px;
+}
  
  .step_bar_03 {
     background-color: #f0f0f0;
  }
 
  .fixed_join {
-    width: 129px;
     height: 43px;
-    text-align: center; 
-    background-color: lightgray;
-    font-weight: bold;
+    width: 200px;
  }
  
  
@@ -68,12 +76,11 @@
  }
  
  #button_01 {
-    background-color: #c4c4c4;
+    background-color: #f0f0f0;
     width: 140px;
     height: 45px;
     border: none;
-    border-radius: 7%;
-    font-family: 'Noto Sans KR', sans-serif;
+    border-radius: 3%;
     font-size:large;
  }
  
@@ -90,59 +97,63 @@
  
  #main_table {
      border: 1px;
-     width: 976px;
-     height: 886px;
+     width: 1024px;
+     height: 600px;
+ }
+ 
+ #main_table input[type='text'], #main_table select {
+ 	border:1px solid #c4c4c4;
  }
 
  #delivery_memo {
      width: 400px;
-     height: 30px;
-     float: left;
-     font-family: 'Noto Sans KR', sans-serif;
+     margin-bottom:5px;
+ }
+ 
+ input[name='delivery_memo'] {
+ 	width:400px;
+ 	height:50px;
  }
 
 #orderer, #receiver, #hp {
-    width: 305px;
-    height: 30px;
-
+    width: 200px;
 }
 
 #zipcode{
     width: 200px;
-    height: 30px;
     margin-top: 15px;
-    font-family: 'Noto Sans KR', sans-serif;
 } 
 
 #btn_zipcode {
     width: 150px;
     height: 35px;
-    border: 1px solid;
-    font-family: 'Noto Sans KR', sans-serif;
+    border: 1px solid #c4c4c4;
+    border-radius: 1px;
 }
 
 #btn_hp {
     width: 150px;
     height: 35px;
     border: 1px solid;
-    font-family: 'Noto Sans KR', sans-serif;
 }
 #roadAddress {
     width: 355px;
-    height: 30px;
 }
 
 #cash, #credit, #naverpay, #paybyphone, #kakaopay {
     width: 140px;
     height: 45px;
-    font-family: 'Noto Sans KR', sans-serif;
+    border: none;
+    border-radius: 5px;
+}
+
+#cash:hover, #credit:hover, #naverpay:hover, #paybyphone:hover, #kakaopay:hover {
+	background:#184798;
+	color:white;
 }
 
 #selectcard, #installment {
     width: 200px;
-    height: 30px;
-    float: left;
-    font-family: 'Noto Sans KR', sans-serif;
 }
 
 #title {
@@ -158,5 +169,42 @@
 #coupon {
    width: 140px;
    height: 45px;
-   font-family: 'Noto Sans KR', sans-serif;
+   background: white;
+   border: 1px solid #c4c4c4;
+}
+
+.title-box {
+    font-size: 18px;
+    font-family: "Musinsa", sans-serif !important;
+}
+
+.title-box .korSub {
+    line-height: 15px;
+    margin-left: 5px;
+}
+.title-box .korSub {
+    font-weight: bold;
+    font-size: 12px;
+    color: #b2b2b2;
+}
+
+.cell_order_form1 {
+    text-align: start;
+    margin-bottom: 20px;
+}
+
+.title-page, .txt_selected_division, .font-mss {
+    font-family: "Musinsa", sans-serif !important;
+}
+.title-page {
+    font-family: 'Musinsa',sans-serif;
+    font-size: 24px;
+    height: 17px;
+    line-height: 17px;
+    font-weight: normal;
+    display: inline-block;
+}
+
+p {
+	margin:0;
 }

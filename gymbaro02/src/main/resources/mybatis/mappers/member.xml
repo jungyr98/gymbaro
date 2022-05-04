@@ -89,6 +89,27 @@
 	]]>
 </insert>
 
+<select id="idFindSuccess" parameterType="String" resultType="String">
+	select member_id from member where member_name = #{member_name} and email = #{email}
+</select>
+
+<select id="idFindSuccessByNum" parameterType="String" resultType="String">
+	select member_id from member where member_name = #{member_name} and phone_number = #{phone_number}
+</select>
+
+<select id="newPwdForm" parameterType="String" resultType="String">
+	select member_name from member where member_id = #{member_id} and pwdFindQ = #{pwdFindQ} and pwdFindA = #{pwdFindA}
+</select>
+
+<update id="pwdFindSuccess" parameterType="String">
+	update member set member_pwd = #{newPwd} where member_id = #{member_id}
+</update>
+
+<select id="findMemberName" parameterType="String" resultType="String">
+	select member_name from member where member_id = #{member_id}
+</select>
+
+
 <select id="selectOverlappedID" parameterType="String" resultType="String">
 	   select if(count(*)>0, 'true', 'false')
 	   from member

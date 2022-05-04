@@ -11,4 +11,9 @@ public interface MemberDAO {
 	public String getSaltById(String id) throws DataAccessException;
 	public void insertNewMember(MemberVO memberVO) throws DataAccessException;
 	public String selectOverlappedID(String id) throws DataAccessException;
+	public String idFindSuccess(Map idByEmailMap) throws DataAccessException;
+	public String idFindSuccessByNum(Map idByNumMap) throws DataAccessException;
+	public String newPwdForm(Map findPwdForm) throws DataAccessException;
+	public int pwdFindSuccess(Map pwdMap) throws DataAccessException;
+	public String findMemberName(String member_id) throws DataAccessException;
 }

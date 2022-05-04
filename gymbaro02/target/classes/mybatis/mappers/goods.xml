@@ -4,6 +4,65 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.goods">
+<resultMap id="goodsResult" type="goodsVO">
+		<result property="goods_id" column="goods_id" />
+		<result property="goods_name" column="goods_name" />
+		<result property="goods_price" column="goods_price" />
+		<result property="event_id" column="event_id" />
+		<result property="goods_discount" column="goods_discount" />
+		
+		<result property="goods_amount" column="goods_amount" />
+		<result property="goods_main_category" column="goods_main_category" />
+		<result property="goods_sub_category" column="goods_sub_category" />
+		<result property="goods_state" column="goods_state" />
+		<result property="uid" column="uid" />
+		<result property="goods_fileName" column="fileName" />
+	</resultMap>
+<resultMap id="optionResult" type="goodsOptionVO">
+		<result property="option_id" column="option_id" />
+		<result property="goods_id" column="goods_id" />
+		<result property="option_name" column="option_name" />
+		<result property="price" column="price" />
+</resultMap>
+<resultMap id="imageResult" type="goodsImageFileVO">
+	   <result property="ima_id" column="ima_id" />
+	   <result property="goods_id" column="goods_id" />
+	   <result property="fileName" column="fileName" />
+	   <result property="fileType" column="fileType" />
+	   <result property="uid" column="uid" />
+</resultMap>
 
+<!-- 상품리스트 카테고리 전체 조회  -->
+<select id="selectGoodsListALL" parameterType="String" resultMap="goodsResult" >
+		<![CDATA[select t.* from(
+			select g.*,d.fileName from goods g, goods_detail_img d 
+			where g.goods_id = d.goods_id and d.fileType='main_image' 
+			order by g.goods_id asc) t limit 10]]>
+</select>
+
+<!-- 상품리스트 카테고리 별 조회  -->
+<select id="selectGoodsList" parameterType="String" resultMap="goodsResult" >
+		<![CDATA[select t.* from(
+			select g.*,d.fileName from goods g, goods_detail_img d 
+			where g.goods_id = d.goods_id and d.fileType='main_image' and goods_main_category = #{goodsStatus}
+			order by g.goods_id asc) t limit 10]]>
+</select>
+
+<!-- 상품상세조회  -->
+<select id="selectGoodsDetail" resultMap="goodsResult" parameterType="String" >
+		<![CDATA[select g.*, d.fileName from goods g, goods_detail_img d
+			where g.goods_id=d.goods_id and d.filetype='main_image' and g.goods_id=#{goods_id}
+			order by g.goods_id]]> 
+</select>
+
+<!-- 상품옵션조회 -->
+<select id="selectGoodsOption" parameterType="String" resultMap="optionResult">
+	<![CDATA[select * from goods_option where goods_id = #{goods_id}]]>
+</select>
+
+<!-- 상품상세이미지조회  -->
+<select id="selectGoodsDetailImage" resultMap="imageResult" parameterType="String"  >
+	<![CDATA[select * from goods_detail_img where fileType != 'main_image' and goods_id=#{goods_id}]]>
+</select>
 
 </mapper>

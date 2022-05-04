@@ -18,5 +18,9 @@
 		<put-attribute name="title" value="주문 완료 페이지" />
 		<put-attribute name="body" value="/WEB-INF/views/order/order_03.jsp" />
 	</definition>
+	
+	<definition name="/order/order_coupon" template="/WEB-INF/views/order/order_coupon.jsp">
+		<put-attribute name="title" value="쿠폰 페이지" />
+	</definition>
 
 </tiles-definitions>

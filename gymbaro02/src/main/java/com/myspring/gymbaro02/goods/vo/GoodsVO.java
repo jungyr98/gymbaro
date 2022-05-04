@@ -11,7 +11,9 @@ public class GoodsVO {
 	private String goods_sub_category;
 	private String goods_state;
 	private int uid;
+	private String goods_fileName;
 	
+
 	public GoodsVO() {
 		
 	}
@@ -96,6 +98,12 @@ public class GoodsVO {
 		this.uid = uid;
 	}
 	
-	
+	public String getGoods_fileName() {
+		return goods_fileName;
+	}
+
+	public void setGoods_fileName(String goods_fileName) {
+		this.goods_fileName = goods_fileName;
+	}
 
 }

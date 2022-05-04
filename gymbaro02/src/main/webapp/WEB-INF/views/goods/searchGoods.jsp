@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <%
   request.setCharacterEncoding("utf-8");
@@ -97,7 +98,7 @@ $(function () {
 				<span class="rank_num">1</span>
 				<img alt="1위" src="${contextPath}/resources/image/tag.png">
 			</div>-->
-			<a href="${contextPath}/goods/goodsInfo.do">
+			<a href="${contextPath}/goods/goodsInfo.do?goods_id=1">
 				<img alt="용품01" src="${contextPath}/resources/image/dumbell.png">
 			</a>
 			<div class="product_info">
@@ -179,15 +180,26 @@ $(function () {
 			<option>5개씩보기</option>
 		</select>
 	</div>
-	<c:forEach begin="1" end="4" step="1">
 	<div class="product_content">
+	  <c:forEach var="item" items="${goodsMap.all}">
 		<div class="product_image">
-			<img alt="용품01" src="${contextPath}/resources/image/ballball.png">
+			<a href="${contextPath}/goods/goodsInfo.do?goods_id=${item.goods_id}">
+							   <img width="75" alt="" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+			</a>
 			<div class="product_info">
-				<span style="font-weight: bold;">필라테스 볼 </span>
+				<span class="goods_name_span" style="font-weight: bold;">${item.goods_name}</span>
 				<div class="product_info_price">
-					<span><b>14,000원</b></span>
-					<span style='font-size:14px; color:#424040'><strike>28,000원</strike></span>
+					<c:choose>
+						<c:when test="${item.goods_discount != 0}">
+							<fmt:formatNumber  value="${item.goods_discount}" type="number" var="goods_discount" />
+							<span><b>${goods_discount}</b></span>
+						</c:when>
+						<c:otherwise>
+							<fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
+							<span><b>${goods_price}</b></span>
+						</c:otherwise>
+					</c:choose>
+					<span style='font-size:14px; color:#424040'><strike>${item.goods_price}</strike></span>
 					<span style='color:#184798'><b>50%</b></span>
 				</div>
 				<div class="product_into_star" style="font-size:20px" >
@@ -199,77 +211,215 @@ $(function () {
 				</div>
 			</div>
 		</div>
-		<div class="product_image">
-			<img alt="용품02" src="${contextPath}/resources/image/gloves.jpg">
-			<div class="product_info">
-				<span style="font-weight: bold;">복싱 글러브 </span>
-				<div class="product_info_price">
-					<span><b>14,000원</b></span>
-					<span style='font-size:14px; color:#424040'><strike>28,000원</strike></span>
-					<span style='color:#184798'><b>50%</b></span>
-				</div>
-				<div class="product_into_star" style="font-size:20px" >
-					<label for="rate1"><span class="fa fa-star" style="color:#184798; font-size:15px; "></span></label>
-					<label for="rate2"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
-					<label for="rate3"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
-					<label for="rate4"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
-					<label for="rate5"><span class="fa fa-star-half" style="color:#184798; font-size:15px;"></span></label>
-				</div>
-			</div>
-		</div>
-		<div class="product_image">
-			<img alt="용품03" src="${contextPath}/resources/image/roller.png">
-			<div class="product_info">
-				<span style="font-weight: bold;">폼롤러 </span>
-				<div class="product_info_price">
-					<span><b>14,000원</b></span>
-					<span style='font-size:14px; color:#424040'><strike>28,000원</strike></span>
-					<span style='color:#184798'><b>50%</b></span>
-				</div>
-					<div class="product_into_star" style="font-size:20px" >
-					<label for="rate1"><span class="fa fa-star" style="color:#184798; font-size:15px; "></span></label>
-					<label for="rate2"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
-					<label for="rate3"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
-					<label for="rate4"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
-					<label for="rate5"><span class="fa fa-star-half" style="color:#184798; font-size:15px;"></span></label>
-				</div>
-			</div>
-		</div>
-		<div class="product_image">
-			<img alt="용품04" src="${contextPath}/resources/image/water.jpg">
-			<div class="product_info">
-				<span style="font-weight: bold;">물안경 </span>
-				<div class="product_info_price">
-					<span><b>14,000원</b></span>
-					<span style='font-size:14px; color:#424040'><strike>28,000원</strike></span>
-					<span style='color:#184798'><b>50%</b></span>
-				</div>
-				<div class="product_into_star" style="font-size:20px" >
-					<label for="rate1"><span class="fa fa-star" style="color:#184798; font-size:15px; "></span></label>
-					<label for="rate2"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
-					<label for="rate3"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
-					<label for="rate4"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
-					<label for="rate5"><span class="fa fa-star-half" style="color:#184798; font-size:15px;"></span></label>
-				</div>
-			</div>
-		</div>
+	  </c:forEach>
 	</div>
-  </c:forEach>
  </div>
 </div>
 
 <div id="tab_cont_box">	
-		<span>상품 목록이 없습니다.</span>
+	   <div class="second_content">
+
+	<div class="list_change">
+		<ul>
+			<li><a href="#">인기순</a></li>
+			<li><a href="#">판매순</a></li>
+			<li><a href="#">사용후기순</a></li>
+			<li><a href="#">낮은가격순</a></li>
+			<li><a href="#">높은가격순</a></li>
+		</ul>
+		<select>
+			<option>10개씩보기</option>
+			<option>5개씩보기</option>
+		</select>
+	</div>
+		<div class="product_content">
+	  <c:forEach var="item" items="${goodsMap.health}">
+		<div class="product_image">
+			<a href="${contextPath}/goods/goodsInfo.do?goods_id=${item.goods_id}">
+							   <img width="75" alt="" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+			</a>
+			<div class="product_info">
+				<span class="goods_name_span" style="font-weight: bold;">${item.goods_name}</span>
+				<div class="product_info_price">
+					<c:choose>
+						<c:when test="${item.goods_discount != 0}">
+							<fmt:formatNumber  value="${item.goods_discount}" type="number" var="goods_discount" />
+							<span><b>${goods_discount}</b></span>
+						</c:when>
+						<c:otherwise>
+							<fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
+							<span><b>${goods_price}</b></span>
+						</c:otherwise>
+					</c:choose>
+					<span style='font-size:14px; color:#424040'><strike>${item.goods_price}</strike></span>
+					<span style='color:#184798'><b>50%</b></span>
+				</div>
+				<div class="product_into_star" style="font-size:20px" >
+					<label for="rate1"><span class="fa fa-star" style="color:#184798; font-size:15px; "></span></label>
+					<label for="rate2"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
+					<label for="rate3"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
+					<label for="rate4"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
+					<label for="rate5"><span class="fa fa-star-half" style="color:#184798; font-size:15px;"></span></label>
+				</div>
+			</div>
+		</div>
+	  </c:forEach>
+	</div>
+</div>
+</div>
+<div id="tab_cont_box">
+	   <div class="second_content">
+
+	<div class="list_change">
+		<ul>
+			<li><a href="#">인기순</a></li>
+			<li><a href="#">판매순</a></li>
+			<li><a href="#">사용후기순</a></li>
+			<li><a href="#">낮은가격순</a></li>
+			<li><a href="#">높은가격순</a></li>
+		</ul>
+		<select>
+			<option>10개씩보기</option>
+			<option>5개씩보기</option>
+		</select>
+	</div>	
+		<div class="product_content">
+	  <c:forEach var="item" items="${goodsMap.yoga}">
+		<div class="product_image">
+			<a href="${contextPath}/goods/goodsInfo.do?goods_id=${item.goods_id}">
+							   <img width="75" alt="" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+			</a>
+			<div class="product_info">
+				<span class="goods_name_span" style="font-weight: bold;">${item.goods_name}</span>
+				<div class="product_info_price">
+					<c:choose>
+						<c:when test="${item.goods_discount != 0}">
+							<fmt:formatNumber  value="${item.goods_discount}" type="number" var="goods_discount" />
+							<span><b>${goods_discount}</b></span>
+						</c:when>
+						<c:otherwise>
+							<fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
+							<span><b>${goods_price}</b></span>
+						</c:otherwise>
+					</c:choose>
+					<span style='font-size:14px; color:#424040'><strike>${item.goods_price}</strike></span>
+					<span style='color:#184798'><b>50%</b></span>
+				</div>
+				<div class="product_into_star" style="font-size:20px" >
+					<label for="rate1"><span class="fa fa-star" style="color:#184798; font-size:15px; "></span></label>
+					<label for="rate2"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
+					<label for="rate3"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
+					<label for="rate4"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
+					<label for="rate5"><span class="fa fa-star-half" style="color:#184798; font-size:15px;"></span></label>
+				</div>
+			</div>
+		</div>
+	  </c:forEach>
+	</div>
+  </div>
+</div>
+<div id="tab_cont_box">
+   <div class="second_content">
+
+	<div class="list_change">
+		<ul>
+			<li><a href="#">인기순</a></li>
+			<li><a href="#">판매순</a></li>
+			<li><a href="#">사용후기순</a></li>
+			<li><a href="#">낮은가격순</a></li>
+			<li><a href="#">높은가격순</a></li>
+		</ul>
+		<select>
+			<option>10개씩보기</option>
+			<option>5개씩보기</option>
+		</select>
+	</div>	
+		<div class="product_content">
+	  <c:forEach var="item" items="${goodsMap.boxing}">
+		<div class="product_image">
+			<a href="${contextPath}/goods/goodsInfo.do?goods_id=${item.goods_id}">
+							   <img width="75" alt="" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+			</a>
+			<div class="product_info">
+				<span class="goods_name_span" style="font-weight: bold;">${item.goods_name}</span>
+				<div class="product_info_price">
+					<c:choose>
+						<c:when test="${item.goods_discount != 0}">
+							<fmt:formatNumber  value="${item.goods_discount}" type="number" var="goods_discount" />
+							<span><b>${goods_discount}</b></span>
+						</c:when>
+						<c:otherwise>
+							<fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
+							<span><b>${goods_price}</b></span>
+						</c:otherwise>
+					</c:choose>
+					<span style='font-size:14px; color:#424040'><strike>${item.goods_price}</strike></span>
+					<span style='color:#184798'><b>50%</b></span>
+				</div>
+				<div class="product_into_star" style="font-size:20px" >
+					<label for="rate1"><span class="fa fa-star" style="color:#184798; font-size:15px; "></span></label>
+					<label for="rate2"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
+					<label for="rate3"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
+					<label for="rate4"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
+					<label for="rate5"><span class="fa fa-star-half" style="color:#184798; font-size:15px;"></span></label>
+				</div>
+			</div>
+		</div>
+	  </c:forEach>
+	</div>
+  </div>
 </div>
 <div id="tab_cont_box">	
-		<span>상품 목록이 없습니다.</span>
-</div>
-<div id="tab_cont_box">	
-		<span>상품 목록이 없습니다.</span>
-</div>
-<div id="tab_cont_box">	
-		<span>상품 목록이 없습니다.</span>
-</div>
+   <div class="second_content">
+
+	<div class="list_change">
+		<ul>
+			<li><a href="#">인기순</a></li>
+			<li><a href="#">판매순</a></li>
+			<li><a href="#">사용후기순</a></li>
+			<li><a href="#">낮은가격순</a></li>
+			<li><a href="#">높은가격순</a></li>
+		</ul>
+		<select>
+			<option>10개씩보기</option>
+			<option>5개씩보기</option>
+		</select>
+	</div>
+		<div class="product_content">
+	  <c:forEach var="item" items="${goodsMap.swim}">
+		<div class="product_image">
+			<a href="${contextPath}/goods/goodsInfo.do?goods_id=${item.goods_id}">
+							   <img width="75" alt="" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+			</a>
+			<div class="product_info">
+				<span class="goods_name_span" style="font-weight: bold;">${item.goods_name}</span>
+				<div class="product_info_price">
+					<c:choose>
+						<c:when test="${item.goods_discount != 0}">
+							<fmt:formatNumber  value="${item.goods_discount}" type="number" var="goods_discount" />
+							<span><b>${goods_discount}</b></span>
+						</c:when>
+						<c:otherwise>
+							<fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
+							<span><b>${goods_price}</b></span>
+						</c:otherwise>
+					</c:choose>
+					<span style='font-size:14px; color:#424040'><strike>${item.goods_price}</strike></span>
+					<span style='color:#184798'><b>50%</b></span>
+				</div>
+				<div class="product_into_star" style="font-size:20px" >
+					<label for="rate1"><span class="fa fa-star" style="color:#184798; font-size:15px; "></span></label>
+					<label for="rate2"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
+					<label for="rate3"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
+					<label for="rate4"><span class="fa fa-star" style="color:#184798; font-size:15px;"></span></label>
+					<label for="rate5"><span class="fa fa-star-half" style="color:#184798; font-size:15px;"></span></label>
+				</div>
+			</div>
+		</div>
+	  </c:forEach>
+	</div>
+   </div>
+  </div>
 </div>        
 
 	<DIV id="page_wrap">

@@ -36,4 +36,33 @@ public class MemberDAOImpl implements MemberDAO {
 		String result =  sqlSession.selectOne("mapper.member.selectOverlappedID", id);
 		return result;
 	}
+	
+	@Override
+	public String idFindSuccess(Map idByEmailMap) throws DataAccessException {
+		String member_id = sqlSession.selectOne("mapper.member.idFindSuccess", idByEmailMap);
+		return member_id;
+	}
+	
+	@Override 
+	public String idFindSuccessByNum(Map idByNumMap) throws DataAccessException {
+		String myIdByNum = sqlSession.selectOne("mapper.member.idFindSuccessByNum", idByNumMap);
+		return myIdByNum;
+	}
+	
+	@Override
+	public String newPwdForm(Map findPwdMap) throws DataAccessException {
+		String result = sqlSession.selectOne("mapper.member.newPwdForm", findPwdMap);
+		return result; // member_name
+	}
+	
+	@Override 
+	public int pwdFindSuccess(Map pwdMap) throws DataAccessException {
+		return sqlSession.update("mapper.member.pwdFindSuccess", pwdMap);
+	}
+	
+	@Override
+	public String findMemberName(String member_id) throws DataAccessException{
+		String member_name = sqlSession.selectOne("mapper.member.findMemberName", member_id);
+		return member_name;
+	}
 }
