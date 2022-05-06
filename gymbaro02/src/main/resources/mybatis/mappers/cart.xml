@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cart">
+	<resultMap type="CartVO" id="cartResult">
+		<result property="cart_id" column="cart_id" />
+		<result property="goods_id" column="goods_id" />
+		<result property="uid" column="uid" />
+		<result property="goods_qty" column="goods_qty" />
+		<result property="creDate" column="creDate" />
+	</resultMap>
+	
+	<resultMap id="goodsResult" type="goodsVO">
+		<result property="goods_id" column="goods_id" />
+		<result property="goods_name" column="goods_name" />
+		<result property="goods_price" column="goods_price" />
+		<result property="event_id" column="event_id" />
+		<result property="goods_discount" column="goods_discount" />
+		
+		<result property="goods_amount" column="goods_amount" />
+		<result property="goods_main_category" column="goods_main_category" />
+		<result property="goods_sub_category" column="goods_sub_category" />
+		<result property="goods_state" column="goods_state" />
+		<result property="uid" column="uid" />
+		<result property="goods_fileName" column="fileName" />
+	</resultMap>
+	
+	<!-- 장바구니에 추가하기 전에 그 상품 번호가 장바구니에 담겨있는지 조회 -->
+	<select id="selectCountInCart" resultType="String" parameterType="cartVO">
+	<![CDATA[select case count(*) when 0 then 'false' else 'true' end from cart where goods_id=#{goods_id} and uid=#{uid}]]>
+	</select>
+	<!-- 상품 추가 -->
+	<insert id="insertGoodsInCart" parameterType="cartVO">
+	<![CDATA[insert into cart(cart_id, goods_id, uid) values (#{cart_id}, #{goods_id}, #{uid})]]>
+	</insert>
+</mapper>

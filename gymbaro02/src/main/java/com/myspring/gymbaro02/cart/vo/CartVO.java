@@ -2,6 +2,9 @@ package com.myspring.gymbaro02.cart.vo;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component("cartVO")
 public class CartVO {
 	private int cart_id;
 	private int goods_id;
