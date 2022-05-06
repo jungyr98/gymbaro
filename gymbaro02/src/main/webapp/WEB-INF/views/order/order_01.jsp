@@ -133,7 +133,8 @@ function credit_btn() {
 				    alert(msg);
 				});
 			}
-			
+
+// 주문하기 누를시 해당 결제방법으로 결제하기
 function order_btn(){
 	var payment = $('input[name=payment]').val();
 	if(payment == '신용카드'){
@@ -142,6 +143,15 @@ function order_btn(){
 		}
 	} else if(payment == '카카오페이'){
 		if(!kakaopay_btn()){
+			return false;
+		}
+	} else if(payment == ''){
+		alert("결제수단을 선택해주세요!");
+		return false;
+	} else if(payment == '무통장입금'){
+		var cashSelect = $('#cash-select');
+		if(cashSelect.val() == 'none'){
+			alert("입금은행을 선택해주세요!");
 			return false;
 		}
 	}
@@ -205,8 +215,8 @@ function execDaumPostcode() {
 $(document).ready(function(){
 	 
     // 라디오버튼 클릭시 이벤트 발생
-    $("input:radio[name=radio]").click(function(){
-        if($("input[name=radio]:checked").val() == "1"){
+    $("input:radio[name='address-radio']").click(function(){
+        if($("input[name='address-radio']:checked").val() == "1"){
         	$('.receiver_name').val('${memberInfo.member_name}');
 			$('.receiver_name').prop("disabled", true);
 			$('.receiver_phone_number').val('${memberInfo.phone_number}');
@@ -214,8 +224,16 @@ $(document).ready(function(){
 			$('#zipcode').val('${memberInfo.zipcode}');
 			$('#zipcode').prop("disabled", true);
 			$('#roadAddress').val('${memberInfo.roadAddress}');
-			$('#roadAddress').prop("disabled", true);
- 
+			$('#roadAddress').prop("disabled", true); 
+        } else {
+        	$('.receiver_name').val('');
+			$('.receiver_name').prop("disabled", false);
+			$('.receiver_phone_number').val('');
+			$('.receiver_phone_number').prop("disabled", false);
+			$('#zipcode').val('');
+			$('#zipcode').prop("disabled", false);
+			$('#roadAddress').val('');
+			$('#roadAddress').prop("disabled", false); 
         }
     });
     
@@ -244,6 +262,27 @@ $(document).ready(function(){
     	}
     });
     
+  //포인트 일부사용 체인지 부분
+    $('input[name="point"]').keyup(function (e) {
+    	e.preventDefault();
+    	$('input[name="all_point"]').prop("checked", false);
+    });
+  
+    $('input[name="point"]').focusout(function (e) {
+    	e.preventDefault();
+    	if(parseInt($('input[name="point"]').val()) > ${memberInfo.member_point}){
+    		alert("포인트가 부족합니다.");
+    		$('input[name="point"]').val('');
+    	}else if(parseInt($('input[name="point"]').val()) > 0){
+    		var point = $('input[name="point"]').val();
+    		var old_total_price = ${orderMap.total_price};
+    		var new_total_price = old_total_price - point;
+    		$('input[name="total_price"]').val(new_total_price);
+			var total_price = new_total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			$('#total_price_text').text(total_price+"원");
+    	}
+    	});
+    
   //포인트 전체사용 체인지 부분
     var all_point = $('input[name="all_point"]');
     var point = $('input[name="point"]');
@@ -251,8 +290,17 @@ $(document).ready(function(){
     	function(){
     		if(all_point.is(":checked")){
     			point.val('${memberInfo.member_point}');
+    			var old_total_price = ${orderMap.total_price};
+    			var new_total_price = old_total_price - point.val();
+    			$('input[name="total_price"').val(new_total_price);
+    			var total_price = new_total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    			$('#total_price_text').text(total_price+"원");
     		}else {
-    			point.val('0원');
+    			var old_total_price = ${orderMap.total_price};
+    			point.val('');
+    			$('input[name="total_price"]').val(old_total_price);
+    			var total_price = old_total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    			$('#total_price_text').text(total_price+"원");
     		}
     	});
 });
@@ -268,7 +316,7 @@ var selectBoxChange_memo = function(value){
 	$('input[name="delivery_memo"]').val(value);
 }
 
-function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", "width=700, height=400, left=100, top=50"); }
+function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", "width=750, height=450, left=100, top=50"); }
 </script>
 <style type="text/css">
  .test_obj input[type="radio"] {
@@ -308,8 +356,8 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 					<td class="fixed_join">수령인 정보
 					</td>
 					<td>
-					  <input type="radio" name="radio" id="oldinfo" value="1" checked/>&nbsp;기존 회원 정보와 동일 &nbsp;&nbsp;
-					  <input type="radio" name="radio" id="newinfo" value="0" />&nbsp;새로운 수령인 정보 
+					  <input type="radio" name="address-radio" id="oldinfo" value="1" checked/>&nbsp;기존 회원 정보와 동일 &nbsp;&nbsp;
+					  <input type="radio" name="address-radio" id="newinfo" value="0" />&nbsp;새로운 수령인 정보 
 					</td>
 				</tr>
 			</thead>
@@ -372,7 +420,6 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 				<tr class="dot_line">
 					<td class="fixed_join">쿠폰 사용</td>
 					<td><a><button type="button" id="coupon" onclick="showPopup();">쿠폰 조회/적용</button></a>  할인 금액 : </td>
-					</td>
 				</tr>
 			</thead>
 			<thead>
@@ -380,7 +427,8 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 					<td class="fixed_join">최종 결제 금액</td>
 				<td>
 					<fmt:formatNumber  value="${orderMap.total_price}" type="number" var="total_price" />
-					<p>${total_price}원</p>
+					<p id="total_price_text">${total_price}원</p>
+					<input type="hidden" name="total_price" value="${orderMap.total_price}" >
 				</td>
 				</tr>
 			</thead>
@@ -405,20 +453,20 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 						<!--onchange 추가하기-->
 						<div class="cash-select-box" style="display:none;">
 							<br><br>
-							<select>
-								<option>입금은행 선택</option>
-								<option>기업은행</option>
-								<option>국민은행</option>
-								<option>우리은행</option>
-								<option>수협</option>
-								<option>농협</option>
-								<option>부산은행</option>
-								<option>신한은행</option>
-								<option>KEB하나은행</option>
-								<option>광주은행</option>
-								<option>우체국</option>
-								<option>대구은행</option>
-								<option>경남은행</option>
+							<select id="cash-select">
+								<option value="none">입금은행 선택</option>
+								<option value="기업은행">기업은행</option>
+								<option value="국민은행">국민은행</option>
+								<option value="우리은행">우리은행</option>
+								<option value="수협">수협</option>
+								<option value="농협">농협</option>
+								<option value="부산은행">부산은행</option>
+								<option value="신한은행">신한은행</option>
+								<option value="KEB하나은행">KEB하나은행</option>
+								<option value="광주은행">광주은행</option>
+								<option value="우체국">우체국</option>
+								<option value="대구은행">대구은행</option>
+								<option value="경남은행">경남은행</option>
 							</select>
 							<input type="text" value="${memberInfo.member_name }" disabled>
 						</div>

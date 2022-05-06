@@ -11,76 +11,79 @@
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" href="${contextPath}/resources/css/order_03.css">
-<style>
-body {
-		font-family: 'Noto Sans KR', sans-serif;
-	}
-</style>
 </head>
 <body>
-	<div class="main_container">
-		<p id="title">주문이 완료되었습니다</p>
+	<div class="orderResult_box main_container">
 			<div class="step_bar">
 				<div class="step_bar_01 bars"><span>상품 선택</span></div>
 				<div class="step_bar_02 bars"><span>배송정보·결제정보 입력</span></div>
 				<div class="step_bar_03 bars"><span>주문 완료</span></div>
 	 		</div>
-	<br><br><br><br>
 			<div class="box">
 				<div id="box1">
-                   <div id="box1_content"> 				
-					<div class="order_number">
-						<span id="order_info">주문번호</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<span id="info_ex">ordernumber example</span>
-					</div>
-					<br>
-					<div class="order_date">
-						<span id="order_info">주문일시</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<span id="info_ex">orderdate example</span>
-					</div>
-					<br>
-					<div class="orderer">
-						<span id="order_info">주문자 정보</span>&nbsp;&nbsp;&nbsp;
-						<span id="info_ex">orderer example</span>
-					</div>
-                </div>
+                   <div id="box1_content">
+                   		<span id="order_success_title">주문이 완료되었습니다 &nbsp;
+                   		<svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+  						<circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+  						<path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+						</svg>
+						</span>
+                   		<div id="table_div_box">
+                   		<table>
+                   			<tr>
+                   				<td class="fixed_td">배송지 정보</td>
+                   				<td>
+                   					<span>010-1234-5678</span><br>
+                   					<span>정유라</span><br>
+                   					<span>대전광역시 서구 괴정동</span>
+                   					<br><br>
+                   				</td>
+                   			</tr>
+                   			<tr>
+                   				<td class="fixed_td">배송 메모</td>
+                   				<td>
+                   					<span>배송 전 연락주세요</span>
+                   				</td>
+                   			</tr>
+                   			<tr>
+                   				<td class="fixed_td">결제 방법</td>
+                   				<td>
+                   					<span>신용카드</span>
+                   				</td>
+                   			</tr>
+                   			<tr>
+                   				<td class="fixed_td">최종 결제 금액</td>
+                   				<td>
+                   					<span>44,000원</span>
+                   				</td>
+                   			</tr>
+                   		</table>
+                   		<div class="orderer_info">
+                   		<table>
+                   			<tr>
+                   				<td class="fixed_td">주문번호</td>
+                   				<td>
+                   					<span>12345678910</span><br>
+                   				</td>
+                   			</tr>
+                   			<tr>
+                   				<td class="fixed_td">주문자명</td>
+                   				<td>
+                   					<span>정유라</span>
+                   				</td>
+                   			</tr>
+                   			<tr>
+                   				<td class="fixed_td">주문일자</td>
+                   				<td>
+                   					<span>2022-05-05</span>
+                   				</td>
+                   			</tr>
+                   		</table>
+                   		</div>
+                   		</div>
+                	</div>
+            	</div>
             </div>
-            </div>
-					
-
-				<div id="box2">	
-					<div id="box2_1">
-                       <div id="box2_1_content">            
-						<div class="order_price">
-							<span id="order_info">결제금액</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span id="info_ex">order_price example</span>
-						</div>
-						<br>
-						<div class="order_payment">
-							<span id="order_info">결제 수단</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span id="info_ex">order_payment example</span>
-						</div>
-						<br>
-						<div class="order_point">
-							<span id="order_info">적립</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span id="info_ex">order_point example</span>
-						</div>
-                    </div>
-					</div>
-                </div>
-					<div id="box2_2">
-                      <div id="box2_2_content">
-						<div class="receiver">
-							<span id="order_info">받으시는 분</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span id="info_ex">receiver example</span>
-						</div>
-						<br>
-						<div class="delivery_address">
-							<span id="order_info">배송지 주소</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<span id="info_ex">delivery_address example</span>
-						</div>
-					</div>
-                </div>
 				<div class="button_box">
 					<a><button id="button_01"><span>메인으로</span></button></a> &nbsp;
 					<a><button id="button_02"><span>주문배송조회</span></button></a>

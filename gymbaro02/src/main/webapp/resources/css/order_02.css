@@ -80,7 +80,6 @@
     width: 140px;
     height: 45px;
     border: none;
-    border-radius: 3%;
     font-size:large;
  }
  
@@ -90,7 +89,6 @@
     width: 140px;
     height: 45px;
     border: none;
-    border-radius: 7%;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: large;
  } 
@@ -203,6 +201,12 @@
     line-height: 17px;
     font-weight: normal;
     display: inline-block;
+}
+
+.cash-select-box select,
+.cash-select-box input {
+	width: 150px;
+    height: 35px;
 }
 
 p {

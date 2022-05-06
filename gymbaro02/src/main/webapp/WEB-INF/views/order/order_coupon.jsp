@@ -9,6 +9,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+body {
+font-family: "Musinsa", sans-serif !important;
+}
 .n-coupon-popup .popup-tit {
   padding: 20px;
   font-size: 24px;
@@ -17,40 +20,43 @@
 .n-coupon-popup .popup-cont {
   padding: 0 20px 20px;
 }
+.n-coupon-popup .n-table.table-col,
+.n-coupon-popup .n-table.table-col tr {
+	width: 700px;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    height: 70px;
+    border-radius: 5px;
+}
 .n-coupon-popup .n-table.table-col td {
   border-bottom: none;
 }
+
+.n-coupon-popup .n-table.table-col tr {
+	text-align:center;
+}
 .n-coupon-popup .n-table.table-col .coupon-price-area {
   text-align: center;
-  min-width: 424px;
   padding: 10px 0;
 }
-.n-coupon-popup .n-table.table-col .coupon-price-area > div {
-  display: inline-block;
-  text-align: center;
-  vertical-align: top;
-  font-size: 0;
-}
-.n-coupon-popup .n-table.table-col .coupon-price-area > div i {
-  padding-top: 14px;
-}
-.n-coupon-popup .n-table.table-col .coupon-price-area > div.coupon-sale-price {
+
+.n-coupon-popup .n-table.table-col .coupon-price-area > .coupon-sale-price {
   width: 100px;
 }
-.n-coupon-popup .n-table.table-col .coupon-price-area > div.coupon-product-cnt {
+.n-coupon-popup .n-table.table-col .coupon-price-area > .coupon-product-cnt {
   width: 36px;
   margin: 0 8px;
 }
-.n-coupon-popup .n-table.table-col .coupon-price-area > div > span {
+.n-coupon-popup .n-table.table-col .coupon-price-area > span {
   font-size: 11px;
   display: block;
   text-align: center;
 }
-.n-coupon-popup .n-table.table-col .coupon-price-area > div > strong {
+.n-coupon-popup .n-table.table-col .coupon-price-area > strong {
   font-size: 14px;
   line-height: 21px;
 }
-.n-coupon-popup .n-table.table-col .coupon-price-area > div > strong.font-w-noraml {
+.n-coupon-popup .n-table.table-col .coupon-price-area > strong.font-w-noraml {
   font-weight: normal;
 }
 .n-coupon-popup .n-table.table-col .no-data {
@@ -87,24 +93,12 @@
   margin-bottom: 10px;
   padding-top: 10px;
 }
-.n-coupon-popup .info-list li {
-  position: relative;
-  padding-left: 8px;
-  color: #333;
-  font-weight: 300;
-  font-size: 12px;
-  line-height: 18px;
-}
-.n-coupon-popup .info-list li:before {
-  position: absolute;
-  left: 0;
-  top: 0;
-  content: "-";
-}
+
 .n-coupon-popup .n-btn-group {
-  padding-bottom: 40px;
+  padding: 40px;
+  text-align:center;
 }
-.n-coupon-popup li .coupon-info {
+.n-coupon-popup .coupon-info {
   color: #0078ff;
   margin-top: 3px;
   font-size: 12px;
@@ -121,6 +115,15 @@
   font-size: 11px;
   line-height: 16px;
 }
+
+a.n-btn.btn-accent {
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid;
+    display: inline-block;
+    width: 100px;
+    padding: 5px;
+}
 </style>
 </head>
 <body>
@@ -133,12 +136,6 @@
 	<div class="popup-cont">
 		<!--쿠폰 리스트-->
 		<table class="n-table table-col">
-			<colgroup>
-				<col style="width:100px">
-				<col style="width:100px;">
-				<col style="width:100px">
-				<col style="width:100px">
-			</colgroup>
 			<thead>
 			<tr>
 				<th scope="col">쿠폰 선택</th>
@@ -150,34 +147,15 @@
 			<tbody>
 				<tr>
 				<td>
-					<div>
-						<input type="radio">
-					</div>
+					<input type="radio" name="coupon_check">
 				</td>
 				<td>
-					<div class="n-prd-row">
-					<!--
-						<span class="img-block">
-							<img src="${contextPath}/thumbnails.do?goods_id=${goodsVO.goods_id}&fileName=${goodsVO.goods_fileName}" alt="${goodsVO.goods_fileName}">
-						</span>
-					 -->
-						<ul class="info">
-							<li class="name">
-								10% 할인쿠폰
-							</li>
-						</ul>
-					</div>
+					10% 할인쿠폰
 				</td>
 				<td class="coupon-price-area">
-					<div>
-						<i class="ic-18-line-close"></i>
-					</div>
-					<div class="coupon-sale-price">
-						<span class="coupon-total-price">총 판매가</span>
-						<strong>${orderMap.total_price }원</strong>
-					</div>
+						<strong>10%</strong>
 				</td>
-				<td id="dc_amt_0" name="dc_amt_0">0원</td>
+				<td id="dc_amt_0" name="dc_amt_0">2022-05-27 까지</td>
 				<input type="hidden" name="goods_dc_amt_0" value="">
                 <input type="hidden" id="goods_opt" name="goods_opt_0" value="300">
                 <input type="hidden" id="goods_coupon_info" name="goods_coupon_info_0" value="">
@@ -189,12 +167,24 @@
 				<input type="hidden" name="max_limit_qty_0" value="">
 				<input type="hidden" id="goods_no_1900410" value="0">
 			</tr>
+			<tr>
+				<td>
+					<input type="radio" name="coupon_check">
+				</td>
+				<td>
+					10% 할인쿠폰
+				</td>
+				<td class="coupon-price-area">
+						<strong>10%</strong>
+				</td>
+				<td id="dc_amt_0" name="dc_amt_0">2022-05-27 까지</td>
+			</tr>
 						</tbody>
 		</table>
 		<input type="hidden" name="sum_dc_amt" value="">
 		<input type="hidden" name="coupon_info" value="">
 		<input type="hidden" name="layer_cnt" value="1">
-
+		<!-- 
 		<ul class="info-list">
 			<li>쿠폰 적용 시 한 주문, 한 상품에 한해서만 적용됩니다. (복수발급 쿠폰 제외)</li>
 			<li>각 쿠폰은 사용기한이 정해져 있습니다.</li>
@@ -203,6 +193,7 @@
 			<li>할인/적립(%) 쿠폰은 적립금할인 등을 제외한 실제 결제금액에 적용됩니다.</li>
 			<li>해당 상품에 대한 쿠폰은 해당 상품만 구매시 적용이 가능합니다.</li>
 		</ul>
+		 -->
 
 		<div class="n-btn-group"><a href="javascript:void(0)" onclick="ApplyCouponOrder(); return false;" class="n-btn btn-accent">쿠폰 적용</a></div>
 	</div>
