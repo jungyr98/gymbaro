@@ -2,13 +2,17 @@ package com.myspring.gymbaro02.order.vo;
 
 import java.sql.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component("orderVO")
 public class OrderVO {
 	private int order_seq_num;
-	private int order_id;
+	private String order_id;
 	private int uid;
 	private int goods_id;
-	private int goods_amount;
-	private int goods_price;
+	private String goods_name;
+	private String option_name;
+	private int goods_qty;
 	private String member_yn;
 	private String orderer_name;
 	private String receiver_name;
@@ -19,6 +23,7 @@ public class OrderVO {
 	private String receiver_extraAddress;
 	private String order_state;
 	private String payment;
+	private String delivery_memo;
 	private int total_price;
 	private Date creDate;
 	
@@ -26,19 +31,48 @@ public class OrderVO {
 		
 	}
 	
+
 	public int getOrder_seq_num() {
 		return order_seq_num;
 	}
+
+
 
 	public void setOrder_seq_num(int order_seq_num) {
 		this.order_seq_num = order_seq_num;
 	}
 
-	public int getOrder_id() {
+
+
+	public int getGoods_id() {
+		return goods_id;
+	}
+
+
+
+	public void setGoods_id(int goods_id) {
+		this.goods_id = goods_id;
+	}
+
+
+
+	public String getOption_name() {
+		return option_name;
+	}
+
+
+
+	public void setOption_name(String option_name) {
+		this.option_name = option_name;
+	}
+
+
+
+	public String getOrder_id() {
 		return order_id;
 	}
 
-	public void setOrder_id(int order_id) {
+	public void setOrder_id(String order_id) {
 		this.order_id = order_id;
 	}
 
@@ -49,30 +83,21 @@ public class OrderVO {
 	public void setUid(int uid) {
 		this.uid = uid;
 	}
-	
 
-	public int getGoods_id() {
-		return goods_id;
+	public String getGoods_name() {
+		return goods_name;
 	}
 
-	public void setGoods_id(int goods_id) {
-		this.goods_id = goods_id;
+	public void setGoods_name(String goods_name) {
+		this.goods_name = goods_name;
 	}
 
-	public int getGoods_amount() {
-		return goods_amount;
+	public int getGoods_qty() {
+		return goods_qty;
 	}
 
-	public void setGoods_amount(int goods_amount) {
-		this.goods_amount = goods_amount;
-	}
-
-	public int getGoods_price() {
-		return goods_price;
-	}
-
-	public void setGoods_price(int goods_price) {
-		this.goods_price = goods_price;
+	public void setGoods_qty(int goods_qty) {
+		this.goods_qty = goods_qty;
 	}
 
 	public String getMember_yn() {
@@ -155,6 +180,14 @@ public class OrderVO {
 		this.payment = payment;
 	}
 
+	public String getDelivery_memo() {
+		return delivery_memo;
+	}
+
+	public void setDelivery_memo(String delivery_memo) {
+		this.delivery_memo = delivery_memo;
+	}
+
 	public int getTotal_price() {
 		return total_price;
 	}
@@ -170,5 +203,6 @@ public class OrderVO {
 	public void setCreDate(Date creDate) {
 		this.creDate = creDate;
 	}
+
 	
 }

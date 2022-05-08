@@ -144,10 +144,10 @@ function search(){
               <a href="${contextPath}/mypage/mypage.do">회원정보 수정</a>
             </li>
             <li>
-              <a href="${contextPath}/mypage/myPage02.do">주문/배송</a>
+              <a href="${contextPath}/mypage/listMyOrderHistory.do">주문/배송</a>
             </li>
             <li>
-              <a href="${contextPath}/mypage/myPage03.do" class="active">쿠폰/포인트</a>
+              <a href="${contextPath}/mypage/listMyPointHistory.do" class="active">쿠폰/포인트</a>
             </li>
             <li>
               <a href="${contextPath}/mypage/myPage04.do">예약 내역</a>
@@ -242,13 +242,31 @@ function search(){
                     	<td width=15%>주문번호</td>
                     	<td width=15%>적용 일시</td>
                     </tr>
-                    <c:forEach begin="0" end="10" step="1">
+                    <c:forEach var="point" items="#{myPointList}">
                     <tr>
-                    	<td>적립</td>
-                    	<td>+100</td>
-                    	<td>출석 포인트</td>
-                    	<td></td>
-                    	<td>[2022-04-10]</td>
+                    	<td>
+                    		<c:choose>
+                    			<c:when test="${point.point_state=='적립'}">
+                    			<span style="color:#0078FF">${point.point_state }</span>
+                    			</c:when>
+                    			<c:otherwise>
+                    			<span style="color:#FF0000">${point.point_state }</span>
+                    			</c:otherwise>
+                    		</c:choose>
+                    	</td>
+                    	<td>
+                    		<c:choose>
+                    			<c:when test="${point.point_state=='적립'}">
+                    			<span style="color:#0078FF">+ ${point.point}</span>
+                    			</c:when>
+                    			<c:otherwise>
+                    			<span style="color:#FF0000">- ${point.point}</span>
+                    			</c:otherwise>
+                    		</c:choose>
+                    	</td>
+                    	<td>${point.his_contents}</td>
+                    	<td>${point.order_id}</td>
+                    	<td>${point.creDate}</td>
                     </tr>
                     </c:forEach>
                </table>

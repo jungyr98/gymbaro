@@ -1,5 +1,8 @@
 package com.myspring.gymbaro02.goods.vo;
 
+import org.springframework.stereotype.Component;
+
+@Component("goodsVO")
 public class GoodsVO {
 	private int goods_id;
 	private String goods_name;

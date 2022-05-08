@@ -162,9 +162,13 @@ body {
  }
 
 .orderResult_box .orderer_info table {
-	width:220px;
+	width:260px;
 } 
- 
+
+.orderResult_box .orderer_info span {
+	width: 120px;
+    display: block;
+} 
  
  .checkmark {
 	 width: 40px;

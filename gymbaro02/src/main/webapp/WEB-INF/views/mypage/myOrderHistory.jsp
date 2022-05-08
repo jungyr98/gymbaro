@@ -144,7 +144,7 @@ function search(){
               <a href="${contextPath}/mypage/mypage.do">회원정보 수정</a>
             </li>
             <li>
-              <a href="${contextPath}/mypage/myPage02.do" class="active">주문/배송</a>
+              <a href="${contextPath}/mypage/listMyOrderHistory.do" class="active">주문/배송</a>
             </li>
             <li>
               <a href="${contextPath}/mypage/myPage03.do">쿠폰/포인트</a>
@@ -218,20 +218,36 @@ function search(){
           <div class="tab_cont">
                <table class="active myPage03_table">
                     <tr class="notice_board_first_tr">
-                    	<td width=15%>주문 번호</td>
-                    	<td width=15%>주문 일자</td>
+                    	<td width=15%>주문번호</td>
+                    	<td width=15%>주문일자</td>
                     	<td width=35%>상품명</td>
-                    	<td width=15%>결제 금액</td>
-                    	<td width=10%>주문 상태</td>
+                    	<td width=15%>결제금액(수량)</td>
+                    	<td width=10%>주문상태</td>
                     	<td width=10%></td>
                     </tr>
-                    <c:forEach begin="0" end="10" step="1">
+                    <c:forEach var="order" items="${myOrderList}">
                     <tr>
-                    	<td>[220331001]</td>
-                    	<td>2022-04-03</td>
-                    	<td>홈트레이닝 덤벨 4kg</td>
-                    	<td>17,490원</td>
-                    	<td>입금 완료</td>
+                    	<td><a href="#" id="order_id_atag">${order.order_id }</a></td>
+                    	<td>${order.creDate }</td>
+                    	<td><b>${order.goods_name }</b></td>
+                    	<td>
+                    		<fmt:formatNumber  value="${order.total_price}" type="number" var="price" />
+                    		${price }원<br>
+                    		${order.goods_qty }개
+                    	</td>
+                    	<td>${order.order_state }</td>
+                    	<td>
+                    		<c:choose>
+                    			<c:when test="${order.order_state == '입금완료'}">
+                    			<a href="#" id="order_state_atag">주문취소</a>
+                    			</c:when>
+                    			<c:when test="${order.order_state == '배송완료'}">
+                    			<a href="#" id="order_state_atag">리뷰쓰기</a>
+                    			</c:when>
+                    			<c:otherwise>
+                    			</c:otherwise>
+                    		</c:choose>
+                    	</td>
                     </tr>
                     </c:forEach>
                </table>
@@ -251,11 +267,11 @@ function search(){
           <DIV id="page_wrap">
 		 <c:forEach var="page" begin="1" end="10" step="1" >
 		         <c:if test="${section >1 && page==1 }"> <!-- section 2부터는 그 전 section으로 갈 수 있도록 pre라는 이름의 a태그를 보여줌 -->
-		          <a href="${pageContext.request.contextPath}/admin/member/adminMemberMain.do?section=${section-1}&pageNum=${(section-1)*10-page }">&nbsp;pre &nbsp;</a>
+		          <a href="${pageContext.request.contextPath}/mypage/listMyOrderHistory.do?section=${section-1}&pageNum=${(section-1)*10-page }">&nbsp;pre &nbsp;</a>
 		         </c:if>
-		          <a href="${pageContext.request.contextPath}/admin/member/adminMemberMain.do?section=${section}&pageNum=${page}">${(section-1)*10 +page } </a>
+		          <a href="${pageContext.request.contextPath}/mypage/listMyOrderHistory.do?section=${section}&pageNum=${page}">${(section-1)*10 +page } </a>
 		         <c:if test="${page ==10 }"> <!--  -->
-		          <a href="${pageContext.request.contextPath}/admin/member/adminMemberMain.do?section=${section+1}&pageNum=${section*10+1}">&nbsp; next</a>
+		          <a href="${pageContext.request.contextPath}/mypage/listMyOrderHistory.do?section=${section+1}&pageNum=${section*10+1}">&nbsp; next</a>
 		         </c:if> 
 	      </c:forEach> 
 		</DIV>

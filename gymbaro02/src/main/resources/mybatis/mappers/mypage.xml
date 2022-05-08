@@ -3,7 +3,7 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.mypage">
-<resultMap type="MemberVO" id="memberResult">
+<resultMap type="memberVO" id="memberResult">
 		<result property="uid" column="uid" />
 		<result property="member_id" column="member_id" />
 		<result property="member_pwd" column="member_pwd" />
@@ -28,7 +28,37 @@
 		<result property="joinDate" column="joinDate" />
 		<result property="gym_license" column="gym_license" />
 		<result property="SALT" column="SALT" />
-	</resultMap>
+</resultMap>
+<resultMap id="orderGoodsResult" type="orderVO">
+		<result property="order_seq_num" column="order_seq_num" />
+		<result property="order_id" column="order_id" />
+		<result property="uid" column="uid" />
+		<result property="goods_id" column="goods_id" />
+		<result property="goods_name" column="goods_name" />
+		<result property="option_name" column="option_name" />
+		<result property="goods_qty" column="goods_qty" />
+		<result property="member_yn" column="member_yn" />
+		<result property="orderer_name" column="orderer_name" />
+		<result property="receiver_name" column="receiver_name" />
+		<result property="receiver_phone_number" column="receiver_phone_number" />
+		<result property="receiver_zipcode" column="receiver_zipcode" />
+		<result property="receiver_roadAddress" column="receiver_roadAddress" />
+		<result property="receiver_jibunAddress" column="receiver_jibunAddress" />
+		<result property="receiver_extraAddress" column="receiver_extraAddress" />
+		
+		<result property="order_state" column="order_state" />
+		<result property="payment" column="payment" />
+		<result property="delivery_memo" column="delivery_memo" />
+		<result property="total_price" column="total_price" />
+</resultMap>
+<resultMap id="pointHisResult" type="pointVO">
+	<result property="history_id" column="history_id" />
+	<result property="point_state" column="point_state" />
+	<result property="creDate" column="creDate" />
+	<result property="point" column="point" />
+	<result property="his_contents" column="his_contents" />
+	<result property="uid" column="uid" />
+</resultMap>
 	
 <update id="updateMyInfo" parameterType="java.util.Map">
  			update member
@@ -61,6 +91,14 @@
 
 <select id="selectMyDetailInfo" parameterType="String" resultType="memberVO">
 	select * from member where member_id = #{member_id}
+</select>
+
+<select id="selectMyOrderHistory" parameterType="String" resultMap="orderGoodsResult">
+	select * from order_tbl where uid = #{uid} order by creDate desc limit #{first_limit},10
+</select>
+
+<select id="selectMyPointHistory" parameterType="String" resultMap="pointHisResult">
+	select * from point_his where uid = #{uid} order by creDate desc limit #{first_limit},10
 </select>
 
 <select id="confirmPwd" parameterType="String" resultType="int">

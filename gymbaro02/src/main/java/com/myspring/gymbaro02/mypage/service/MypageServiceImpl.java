@@ -1,5 +1,6 @@
 package com.myspring.gymbaro02.mypage.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,20 @@ import org.springframework.transaction.annotation.Transactional;
 import com.myspring.gymbaro02.member.service.SHA256Util;
 import com.myspring.gymbaro02.member.vo.MemberVO;
 import com.myspring.gymbaro02.mypage.dao.MypageDAO;
+import com.myspring.gymbaro02.mypage.vo.PointHisVO;
+import com.myspring.gymbaro02.order.vo.OrderVO;
 
 @Service("myPageService")
 @Transactional(propagation=Propagation.REQUIRED)
 public class MypageServiceImpl implements MypageService {
 	@Autowired
 	private MypageDAO myPageDAO;
+	
+	@Override
+	public MemberVO selectMyInfo(String member_id) throws Exception {
+		MemberVO memberVO = myPageDAO.selectMyDetailInfo(member_id);
+		return memberVO;
+	}
 	
 	@Override
 	public MemberVO modifyMyInfo(Map memberMap) throws Exception{
@@ -36,6 +45,20 @@ public class MypageServiceImpl implements MypageService {
 			 myPageDAO.updateMyInfo(memberMap); 
 		 }
 		 return myPageDAO.selectMyDetailInfo(member_id);
+	}
+	
+	// 주문내역 조회
+	@Override
+	public List<OrderVO> listMyOrderHistory(Map condMap) throws Exception {
+		List<OrderVO> myOrderList = myPageDAO.selectMyOrderHistory(condMap);
+		return myOrderList;
+	}
+	
+	// 포인트 내역 조회
+	@Override
+	public List<PointHisVO> listMyPointHistory(Map condMap) throws Exception {
+		List<PointHisVO> myPointList = myPageDAO.selectMyPointHistory(condMap);
+		return myPointList;
 	}
 	
 }

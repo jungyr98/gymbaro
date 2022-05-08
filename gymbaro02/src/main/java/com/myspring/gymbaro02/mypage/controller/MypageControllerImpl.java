@@ -1,6 +1,7 @@
 package com.myspring.gymbaro02.mypage.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.gymbaro02.member.vo.MemberVO;
 import com.myspring.gymbaro02.mypage.service.MypageService;
+import com.myspring.gymbaro02.mypage.vo.PointHisVO;
+import com.myspring.gymbaro02.order.vo.OrderVO;
 
 @Controller("mypageController")
 @RequestMapping(value="/mypage")
@@ -36,26 +39,75 @@ public class MypageControllerImpl implements MypageController {
 		String viewName=(String)request.getAttribute("viewName");
 		
 		memberVO = (MemberVO)session.getAttribute("memberInfo");
-		session.setAttribute("memberInfo", memberVO);
+		String member_id = memberVO.getMember_id();
+		MemberVO _memberVO = myPageService.selectMyInfo(member_id);
+		session.setAttribute("memberInfo", _memberVO);
 		mav.setViewName(viewName);
 
 		return mav;
 	}
 	
-	@RequestMapping(value= "/myPage02.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView myPage02(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping(value= "/listMyOrderHistory.do", method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView listMyOrderHistory(@RequestParam Map<String, String> dateMap,HttpServletRequest request, 
+			HttpServletResponse response) throws Exception{
 		HttpSession session;
-		ModelAndView mav=new ModelAndView();
+		session = request.getSession();
+		memberVO = (MemberVO)session.getAttribute("memberInfo");
+		int uid = memberVO.getUid();
+		String section = (String)dateMap.get("section");
+		String pageNum = dateMap.get("pageNum");
+		
+		Map<String,Object> condMap=new HashMap<String,Object>();
+		condMap.put("uid", uid);
+		
+		if(section== null) {
+			section = "1";
+		}
+		condMap.put("section",section);
+		if(pageNum== null) {
+			pageNum = "1";
+		} // 초기 화면에서 section 과 page 값은 null이므로 첫번째 section 의 첫번째 page가 보일 수 있게 값을 1로 지정한다.
+		condMap.put("pageNum",pageNum);
+		
+		List<OrderVO> myOrderList = myPageService.listMyOrderHistory(condMap);
+		session.setAttribute("myOrderList", myOrderList);
+		
+		ModelAndView mav=new ModelAndView();				
+		mav.addObject("section", section);
+		mav.addObject("pageNum", pageNum);
 		String viewName=(String)request.getAttribute("viewName");
 		mav.setViewName(viewName);
 
 		return mav;
 	}
 	
-	@RequestMapping(value= "/myPage03.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView myPage03(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping(value= "/listMyPointHistory.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView listMyPointHistory(@RequestParam Map<String, String> dateMap, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
+		session = request.getSession();
+		memberVO = (MemberVO)session.getAttribute("memberInfo");
+		int uid = memberVO.getUid();
+		String section = (String)dateMap.get("section");
+		String pageNum = dateMap.get("pageNum");
+		
+		Map<String,Object> condMap=new HashMap<String,Object>();
+		condMap.put("uid", uid);
+		
+		if(section== null) {
+			section = "1";
+		}
+		condMap.put("section",section);
+		if(pageNum== null) {
+			pageNum = "1";
+		} // 초기 화면에서 section 과 page 값은 null이므로 첫번째 section 의 첫번째 page가 보일 수 있게 값을 1로 지정한다.
+		condMap.put("pageNum",pageNum);
+		
+		List<PointHisVO> myPointList = myPageService.listMyPointHistory(condMap);
+		session.setAttribute("myPointList", myPointList);
+		
 		ModelAndView mav=new ModelAndView();
+		mav.addObject("section", section);
+		mav.addObject("pageNum", pageNum);
 		String viewName=(String)request.getAttribute("viewName");
 		mav.setViewName(viewName);
 

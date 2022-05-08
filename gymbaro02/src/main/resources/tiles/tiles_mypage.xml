@@ -9,14 +9,14 @@
 		<put-attribute name="body" value="/WEB-INF/views/mypage/mypage.jsp" />
 	</definition>
 	
-	<definition name="/mypage/myPage02" extends="baseLayout">
+	<definition name="/mypage/listMyOrderHistory" extends="baseLayout">
 		<put-attribute name="title" value="주문/배송" />
-		<put-attribute name="body" value="/WEB-INF/views/mypage/myPage02.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myOrderHistory.jsp" />
 	</definition>
 	
-	<definition name="/mypage/myPage03" extends="baseLayout">
+	<definition name="/mypage/listMyPointHistory" extends="baseLayout">
 		<put-attribute name="title" value="쿠폰/포인트" />
-		<put-attribute name="body" value="/WEB-INF/views/mypage/myPage03.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myPointHistory.jsp" />
 	</definition>
 	
 	<definition name="/mypage/myPage04" extends="baseLayout">

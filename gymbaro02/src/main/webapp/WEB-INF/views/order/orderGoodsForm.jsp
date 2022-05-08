@@ -20,7 +20,7 @@
 <script>
 function kakaopay_btn() {
     $(function(){
-    
+    	var total_price = $('input[name="total_price"]').val();
     	//@@@@@@ 1번 @@@@@@@
         var IMP = window.IMP; // 생략가능
         IMP.init('imp55512719'); //가맹점 식별코드 삽입
@@ -47,7 +47,7 @@ function kakaopay_btn() {
             pay_method : 'card',
             merchant_uid : 'merchant_' + new Date().getTime(),
             name : 'vivipayment',
-            amount : ${orderMap.total_price},
+            amount : total_price,
             buyer_email : '이메일 넣기',
             buyer_name : '이름 넣기',
             buyer_tel : '번호 넣기',
@@ -58,7 +58,7 @@ function kakaopay_btn() {
             if ( rsp.success ) {
                 //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
                 jQuery.ajax({
-                    url: "${contextPath}/order/order_03.do", //cross-domain error가 발생하지 않도록 주의해주세요
+                    url: "${contextPath}/order/payToOrderGoods.do", //cross-domain error가 발생하지 않도록 주의해주세요
                     type: 'POST',
                     dataType: 'json',
                     contentType: 'application/json',
@@ -83,7 +83,13 @@ function kakaopay_btn() {
                     }
                 });
                 //성공시 이동할 페이지
-                location.href='${contextPath}/order/order_03.do?msg='+msg;
+                $('.receiver_name').prop("disabled", false);
+				$('.receiver_phone_number').prop("disabled", false);
+				$('#zipcode').prop("disabled", false);
+				$('#roadAddress').prop("disabled", false); 
+                var formObj = $('#orderForm');
+                formObj.removeAttr('onsubmit');
+                formObj.submit();
             } else {
                 msg = '결제에 실패하였습니다.';
                 msg += '에러내용 : ' + rsp.error_msg;
@@ -128,7 +134,13 @@ function credit_btn() {
 				        result ='1';
 				    }
 				    if(result=='0') {
-				    	location.href= "${contextPath}/order/order_03.do";
+				    	$('.receiver_name').prop("disabled", false);
+						$('.receiver_phone_number').prop("disabled", false);
+						$('#zipcode').prop("disabled", false);
+						$('#roadAddress').prop("disabled", false); 
+		                var formObj = $('#orderForm');
+		                formObj.removeAttr('onsubmit');
+		                formObj.submit();
 				    }
 				    alert(msg);
 				});
@@ -154,6 +166,10 @@ function order_btn(){
 			alert("입금은행을 선택해주세요!");
 			return false;
 		}
+		$('.receiver_name').prop("disabled", false);
+		$('.receiver_phone_number').prop("disabled", false);
+		$('#zipcode').prop("disabled", false);
+		$('#roadAddress').prop("disabled", false); 
 	}
 	return true;
 }
@@ -275,7 +291,7 @@ $(document).ready(function(){
     		$('input[name="point"]').val('');
     	}else if(parseInt($('input[name="point"]').val()) > 0){
     		var point = $('input[name="point"]').val();
-    		var old_total_price = ${orderMap.total_price};
+    		var old_total_price = ${orderInfo.total_price};
     		var new_total_price = old_total_price - point;
     		$('input[name="total_price"]').val(new_total_price);
 			var total_price = new_total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -290,13 +306,13 @@ $(document).ready(function(){
     	function(){
     		if(all_point.is(":checked")){
     			point.val('${memberInfo.member_point}');
-    			var old_total_price = ${orderMap.total_price};
+    			var old_total_price = ${orderInfo.total_price};
     			var new_total_price = old_total_price - point.val();
     			$('input[name="total_price"').val(new_total_price);
     			var total_price = new_total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     			$('#total_price_text').text(total_price+"원");
     		}else {
-    			var old_total_price = ${orderMap.total_price};
+    			var old_total_price = ${orderInfo.total_price};
     			point.val('');
     			$('input[name="total_price"]').val(old_total_price);
     			var total_price = old_total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -346,7 +362,7 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 		<div class="step_bar_02 bars"><span>배송정보·결제정보 입력</span></div>
 		<div class="step_bar_03 bars"><span>주문 완료</span></div>
 	 </div>
-	<form action="${contextPath}/order/order_03.do" method="post" onsubmit="return order_btn();">
+	<form action="${contextPath}/order/payToOrderGoods.do" method="post" id="orderForm" onsubmit="return order_btn();">
 		<div class="cell_order_form1">
             <h3 class="title-box font-mss">Recipient Info <span class="korSub">수령자 정보</span></h3>
         </div>	
@@ -426,9 +442,9 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 				<tr class="dot_line">
 					<td class="fixed_join">최종 결제 금액</td>
 				<td>
-					<fmt:formatNumber  value="${orderMap.total_price}" type="number" var="total_price" />
+					<fmt:formatNumber  value="${orderInfo.total_price}" type="number" var="total_price" />
 					<p id="total_price_text">${total_price}원</p>
-					<input type="hidden" name="total_price" value="${orderMap.total_price}" >
+					<input type="hidden" name="total_price" value="${orderInfo.total_price}" >
 				</td>
 				</tr>
 			</thead>
@@ -470,6 +486,7 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 							</select>
 							<input type="text" value="${memberInfo.member_name }" disabled>
 						</div>
+						<input type="hidden" name="goods_qty" value=${orderInfo.goods_qty } />
 						<input type="hidden" name="payment" value="" />
 					</td>
 				</tr>

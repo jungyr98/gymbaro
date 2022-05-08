@@ -111,9 +111,11 @@ var numberBoxChange = function(value){
 					<span>총 합계 금액</span>
 					<span id="total_price">0원</span>
 				</div>
-				<form class="gym_submit_btn_box" action="${contextPath}/order/order_01.do" method="post">
+				<form class="gym_submit_btn_box" action="${contextPath}/order/orderEachGoods.do" method="post">
+					<input type="hidden" name="goods_id" value="${goodsVO.goods_id}" />
+					<input type="hidden" name="goods_name" value="${goodsVO.goods_name}" />
 					<input type="hidden" name="option_name" class="option_name" />
-					<input type="hidden" name="goods_qty" class="goods_qty" />
+					<input type="hidden" name="goods_qty" class="goods_qty" value="1" />
 					<input type="hidden" name="total_price" class="total_price" />
 					<input type="button" class="option_submit_btn go_cart_btn" value="장바구니">
 					<input type="submit" class="option_submit_btn go_order_btn" value="구매하기">

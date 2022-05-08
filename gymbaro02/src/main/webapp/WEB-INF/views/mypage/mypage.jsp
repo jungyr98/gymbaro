@@ -495,10 +495,10 @@ function togglePassword(_id, _this) {
               <a href="${contextPath}/mypage/mypage.do" class="active">회원정보 수정</a>
             </li>
             <li>
-              <a href="${contextPath}/mypage/myPage02.do">주문/배송</a>
+              <a href="${contextPath}/mypage/listMyOrderHistory.do">주문/배송</a>
             </li>
             <li>
-              <a href="${contextPath}/mypage/myPage03.do">쿠폰/포인트</a>
+              <a href="${contextPath}/mypage/listMyPointHistory.do">쿠폰/포인트</a>
             </li>
             <li>
               <a href="${contextPath}/mypage/myPage04.do">예약 내역</a>

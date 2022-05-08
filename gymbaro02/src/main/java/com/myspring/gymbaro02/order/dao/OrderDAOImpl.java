@@ -2,6 +2,7 @@ package com.myspring.gymbaro02.order.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +23,28 @@ public class OrderDAOImpl implements OrderDAO {
 		return orderGoodsList;
 	}
 	
+	// 주문 데이터 추가하기
 	@Override
-	public void insertNewOrder(List<OrderVO> myOrderList) throws DataAccessException {
-		int order_id=selectOrderID();
+	public String insertNewOrder(List<OrderVO> myOrderList) throws DataAccessException {
+		String order_id="";
 		for(int i=0; i<myOrderList.size();i++){
 			OrderVO orderVO =(OrderVO)myOrderList.get(i);
-			orderVO.setOrder_id(order_id);
-			sqlSession.insert("mapper.order.insertNewOrder",orderVO);
+			sqlSession.insert("mapper.order.insertNewOrder", orderVO);
+			order_id = orderVO.getOrder_id();
 		}
+		return order_id;
 	}
+	
+	// 포인트 사용 시 원래 포인트에서 차감시키기
+	@Override
+	public void minusUsePoint(Map pointMap) throws DataAccessException {
+		int member_point = sqlSession.selectOne("mapper.order.selectMemberPoint", pointMap);
+		int usePoint = Integer.parseInt((String)pointMap.get("usePoint"));
+		member_point = member_point - usePoint;
+		pointMap.put("member_point", member_point);
+		sqlSession.update("mapper.order.minusUsePoint", pointMap);
+	}
+
 	
 	private int selectOrderID() throws DataAccessException{
 		return sqlSession.selectOne("mapper.order.selectOrderID");

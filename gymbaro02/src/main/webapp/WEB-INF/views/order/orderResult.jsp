@@ -2,6 +2,13 @@
 	pageEncoding="utf-8"
 	isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%
+	Date nowTime = new Date();
+	SimpleDateFormat sf = new SimpleDateFormat("yyyy년 MM월 dd일 a hh:mm:ss");
+%>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <!DOCTYPE html >
 <html>
@@ -33,28 +40,29 @@
                    			<tr>
                    				<td class="fixed_td">배송지 정보</td>
                    				<td>
-                   					<span>010-1234-5678</span><br>
-                   					<span>정유라</span><br>
-                   					<span>대전광역시 서구 괴정동</span>
+                   					<span>${myOrderInfo.receiver_phone_number}</span><br>
+                   					<span>${myOrderInfo.receiver_name}</span><br>
+                   					<span>${myOrderInfo.receiver_roadAddress}</span>
                    					<br><br>
                    				</td>
                    			</tr>
                    			<tr>
                    				<td class="fixed_td">배송 메모</td>
                    				<td>
-                   					<span>배송 전 연락주세요</span>
+                   					<span>${myOrderInfo.delivery_memo}</span>
                    				</td>
                    			</tr>
                    			<tr>
                    				<td class="fixed_td">결제 방법</td>
                    				<td>
-                   					<span>신용카드</span>
+                   					<span>${myOrderInfo.payment}</span>
                    				</td>
                    			</tr>
                    			<tr>
                    				<td class="fixed_td">최종 결제 금액</td>
                    				<td>
-                   					<span>44,000원</span>
+                   					<fmt:formatNumber  value="${myOrderInfo.total_price}" type="number" var="price" />
+                   					<span>${price}원</span>
                    				</td>
                    			</tr>
                    		</table>
@@ -63,19 +71,19 @@
                    			<tr>
                    				<td class="fixed_td">주문번호</td>
                    				<td>
-                   					<span>12345678910</span><br>
+                   					<span>${myOrderInfo.order_id }</span><br>
                    				</td>
                    			</tr>
                    			<tr>
                    				<td class="fixed_td">주문자명</td>
                    				<td>
-                   					<span>정유라</span>
+                   					<span>${memberInfo.member_name }</span>
                    				</td>
                    			</tr>
                    			<tr>
                    				<td class="fixed_td">주문일자</td>
                    				<td>
-                   					<span>2022-05-05</span>
+                   					<span><%= sf.format(nowTime) %></span>
                    				</td>
                    			</tr>
                    		</table>
@@ -85,8 +93,8 @@
             	</div>
             </div>
 				<div class="button_box">
-					<a><button id="button_01"><span>메인으로</span></button></a> &nbsp;
-					<a><button id="button_02"><span>주문배송조회</span></button></a>
+					<a href="${contextPath}/main/main.do"><button type="button" id="button_01"><span>메인으로</span></button></a> &nbsp;
+					<a href="${contextPath}/mypage/listMyOrderHistory.do"><button type="button" id="button_02"><span>주문배송조회</span></button></a>
                 </div>
                 </div>
 </html>

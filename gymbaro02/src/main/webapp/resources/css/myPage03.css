@@ -176,8 +176,14 @@ input[type="text"] {
 .myPage03_box .tab_cont table tr {position: relative; width: 400px; height: 30px; line-height: 30px; box-sizing: border-box;}
 .myPage03_box .tab_cont table tr td {height:50px;}
 .tab_menu a {display: block; transition: all 0.5s;}
-.tab_menu a:hover {color: white;}
-
+.tab_menu a:hover:not(#order_id_atag, #order_state_atag, #page_wrap a) {color: white;}
+#order_id_atag {font-size: 14px;}
+#order_id_atag:hover {color: #184798; text-decoration: underline;}
+a#order_state_atag {
+    font-size: 14px;
+    text-decoration: underline;
+    color: #184798;
+}
 
 .notice_board_first_tr {
 	background: #f0f0f0;
