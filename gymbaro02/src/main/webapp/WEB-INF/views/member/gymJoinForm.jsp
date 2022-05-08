@@ -229,7 +229,6 @@ margin-left:5px;
 }
 
 </style>
-</style>
 </head>
 <body>
 	<div class="main_container">

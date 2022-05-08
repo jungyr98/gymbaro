@@ -83,7 +83,7 @@ $(function () {
           </div>
      </div>
     <div class="atag">
-    <a href="${contextPath}/member/join01.do">회원가입</a>
+    <a href="${contextPath}/member/joinTypeForm.do">회원가입</a>
     |
     <a href="${contextPath}/member/idpwdFindForm.do">아이디찾기 / 비밀번호 찾기</a>
   </div>

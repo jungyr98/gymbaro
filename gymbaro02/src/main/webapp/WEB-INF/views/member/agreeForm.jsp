@@ -181,10 +181,10 @@ body {
 	<div class="button_box">
 		<a><button id="button_01"><span>이전 단계</span></button></a>
 		<c:if test="${join_type=='common'}">
-			<a href="${contextPath}/member/join03_1.do?"><button id="button_02"><span>가입하기</span></button></a>
+			<a href="${contextPath}/member/userJoinForm.do?"><button id="button_02"><span>가입하기</span></button></a>
 		</c:if>
 		<c:if test="${join_type=='gym'}">
-			<a href="${contextPath}/member/join03_2.do?"><button id="button_02"><span>가입하기</span></button></a>
+			<a href="${contextPath}/member/gymJoinForm.do?"><button id="button_02"><span>가입하기</span></button></a>
 		</c:if>
 	</div>
   </div>

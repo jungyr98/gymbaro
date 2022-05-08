@@ -90,11 +90,11 @@ button {
 		<span><b>유형 선택</b></span>
 	</div>
 	<div class="join_select_box">
-		<button class="first_button" onclick="location.href='${contextPath}/member/join02.do?join_type=common'">
+		<button class="first_button" onclick="location.href='${contextPath}/member/agreeForm.do?join_type=common'">
 			<img alt="icon_map" src="${contextPath}/resources/image/user.png"><br>
 			<b>일반</b><br>회원가입
 		</button>
-		<button class="second_button" onclick="location.href='${contextPath}/member/join02.do?join_type=gym'">
+		<button class="second_button" onclick="location.href='${contextPath}/member/agreeForm.do?join_type=gym'">
 			<img alt="icon_map" src="${contextPath}/resources/image/user02.png"><br>
 			<b>시설</b><br>회원가입
 		</button>

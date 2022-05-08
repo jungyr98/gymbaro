@@ -332,7 +332,7 @@ info_yn.change(
       <div class="step_bar_03 bars"><span>가입완료</span></div>
    </div>
    <div class="form_box">
-	<form name=form onsubmit="return checkAll()" action="${contextPath}/member/join04.do?join_type=common" method="post">	
+	<form name=form onsubmit="return checkAll()" action="${contextPath}/member/addMember.do?join_type=common" method="post">	
 		<table border="1" width="730px;" style="margin: 0 auto;">
 			<thead>
 				<tr>

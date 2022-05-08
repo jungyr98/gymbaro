@@ -175,7 +175,7 @@ $(function () {
 	      		<c:otherwise>
 	      			<li class = cell-r><a href="${contextPath}/cart/cartForm.do"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
 	      			<li class = cell-r><a href="${contextPath}/cs/csQnA.do">고객센터</a></li>
-	      			<li class = cell-r><a href="${contextPath}/member/join01.do">회원가입</a></li>
+	      			<li class = cell-r><a href="${contextPath}/member/joinTypeForm.do">회원가입</a></li>
 	        		<li class = cell-r><a href="${contextPath}/member/loginForm.do">로그인</a></li>
 	      		</c:otherwise>
 	      	</c:choose>

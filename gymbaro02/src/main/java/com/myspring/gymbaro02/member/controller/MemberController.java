@@ -27,11 +27,11 @@ public interface MemberController {
 	public ModelAndView idFindSuccessByNum(@RequestParam Map<String, String> idByNumMap, HttpServletRequest request, HttpServletResponse response) throws Exception; 
 	public ModelAndView newPwdForm(@RequestParam Map<String, String> findPwdMap, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView pwdFindSuccess(@RequestParam Map<String, String> pwdMap, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView join01(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView join02(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView join03_1(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView join03_2(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView join04(@RequestParam("hp") String hp, @RequestParam("email1") String email1, @RequestParam("join_type") String join_type, @RequestParam("email2") String email2, @ModelAttribute("memberVO") MemberVO _memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView joinTypeForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView agreeForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView userJoinForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView gymJoinForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView addMember(@RequestParam("hp") String hp, @RequestParam("email1") String email1, @RequestParam("join_type") String join_type, @RequestParam("email2") String email2, @ModelAttribute("memberVO") MemberVO _memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity overlapped(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 }

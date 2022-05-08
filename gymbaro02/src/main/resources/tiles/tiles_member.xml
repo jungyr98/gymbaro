@@ -4,29 +4,29 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
 
-	<definition name="/member/join01" extends="baseLayout">
+	<definition name="/member/joinTypeForm" extends="baseLayout">
 		<put-attribute name="title" value="회원가입 " />
-		<put-attribute name="body" value="/WEB-INF/views/member/join01.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/member/joinTypeForm.jsp" />
 	</definition>
 	
-	<definition name="/member/join02" extends="baseLayout">
+	<definition name="/member/agreeForm" extends="baseLayout">
 		<put-attribute name="title" value="약관동의 " />
-		<put-attribute name="body" value="/WEB-INF/views/member/join02.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/member/agreeForm.jsp" />
 	</definition>
 	
-	<definition name="/member/join03_1" extends="baseLayout">
+	<definition name="/member/userJoinForm" extends="baseLayout">
 		<put-attribute name="title" value="일반회원 정보입력" />
-		<put-attribute name="body" value="/WEB-INF/views/member/join_03_1.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/member/userJoinForm.jsp" />
 	</definition>
 	
-	<definition name="/member/join03_2" extends="baseLayout">
+	<definition name="/member/gymJoinForm" extends="baseLayout">
 		<put-attribute name="title" value="시설회원 정보입력" />
-		<put-attribute name="body" value="/WEB-INF/views/member/join_03_2.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/member/gymJoinForm.jsp" />
 	</definition>
 	
-	<definition name="/member/join04" extends="baseLayout">
+	<definition name="/member/addMember" extends="baseLayout">
 		<put-attribute name="title" value="가입 결과" />
-		<put-attribute name="body" value="/WEB-INF/views/member/join04.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/member/joinResult.jsp" />
 	</definition>
 
 	  <definition name="/member/loginForm" extends="baseLayout">

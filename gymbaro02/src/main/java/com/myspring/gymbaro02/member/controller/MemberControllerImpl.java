@@ -237,8 +237,8 @@ public class MemberControllerImpl implements MemberController {
 	}
 	
 	@Override
-	@RequestMapping(value= "/join01.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView join01(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping(value= "/joinTypeForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView joinTypeForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
 		String viewName=(String)request.getAttribute("viewName");
@@ -248,8 +248,8 @@ public class MemberControllerImpl implements MemberController {
 	}
 	
 	@Override
-	@RequestMapping(value= "/join02.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView join02(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping(value= "/agreeForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView agreeForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		session = request.getSession();
 		String join_type = request.getParameter("join_type");
@@ -262,8 +262,8 @@ public class MemberControllerImpl implements MemberController {
 	}
 	
 	@Override
-	@RequestMapping(value= "/join03_1.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView join03_1(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping(value= "/userJoinForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView userJoinForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
 		String viewName=(String)request.getAttribute("viewName");
@@ -273,8 +273,8 @@ public class MemberControllerImpl implements MemberController {
 	}
 	
 	@Override
-	@RequestMapping(value= "/join03_2.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView join03_2(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping(value= "/gymJoinForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView gymJoinForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
 		String viewName=(String)request.getAttribute("viewName");
@@ -284,8 +284,8 @@ public class MemberControllerImpl implements MemberController {
 	}
 	
 	@Override
-	@RequestMapping(value= "/join04.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView join04(@RequestParam("hp") String hp, @RequestParam("email1") String email1, @RequestParam("email2") String email2, 
+	@RequestMapping(value= "/addMember.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView addMember(@RequestParam("hp") String hp, @RequestParam("email1") String email1, @RequestParam("email2") String email2, 
 			@RequestParam("join_type") String join_type, @ModelAttribute("memberVO") MemberVO _memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		session = request.getSession();
