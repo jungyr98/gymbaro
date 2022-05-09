@@ -11,8 +11,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="../resources/css/loginForm.css">
 <meta charset="UTF-8">
+<link rel="stylesheet" href="${contextPath}/resources/css/loginForm.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
@@ -46,6 +46,15 @@ $(function () {
          tab_Cont.eq(index).show();
     });
 });
+
+function admin_id_check(){
+	var admin_id = $('#admin_id').val();
+	if(admin_id != 'admin'){
+		alert("아이디가 틀렸습니다!");
+		return false;
+	}
+	return true;
+}
 </script>
 </head>
 <body>
@@ -60,7 +69,7 @@ $(function () {
           <div class="tab_btn">
                <ul>
                     <li class="active"><a href="#">일반 로그인</a></li>
-                    <li><a href="#">시설 로그인</a></li>
+                    <li><a href="#">관리자로 로그인</a></li>
                     <li><a href="#">비회원 주문조회</a></li>
                </ul>    
           </div>
@@ -70,9 +79,9 @@ $(function () {
 					<input type="password" name="pwd" placeholder="비밀번호를 입력하세요" />
 					<input type="submit" value="로그인">
                </form>
-               <form>
-					<input type="text" name="id" placeholder="시설 회원 아이디를 입력하세요" />
-					<input type="password" name="pwd" placeholder="시설 회원 비밀번호를 입력하세요" />
+               <form action="${contextPath}/admin/member/login.do" method="post" onsubmit="return admin_id_check();">
+					<input type="text" name="id" id="admin_id" placeholder="관리자 아이디를 입력하세요" />
+					<input type="password" name="pwd" placeholder="관리자 비밀번호를 입력하세요" />
 					<input type="submit" value="로그인">
                </form>
                 <form>
