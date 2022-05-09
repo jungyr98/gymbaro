@@ -14,6 +14,32 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="${contextPath}/resources/css/goodsInfo.css">
 <title>Insert title here</title>
+<style>
+#layer {
+	z-index: 2;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+}
+
+#popup {
+	z-index: 3;
+	position: fixed;
+	text-align: center;
+	left: 50%;
+	top: 45%;
+	width: 300px;
+	height: 200px;
+	background-color: #ccffff;
+	border: 3px solid #87cb42;
+}
+
+#close {
+	z-index: 4;
+	float: right;
+}
+</style>
 <script type="text/javascript">
 $(function () {
     var tab_Btn = $(".tab_btn > ul > li");
@@ -62,6 +88,51 @@ var numberBoxChange = function(value){
 	total_price = total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	$('#select_option_price').text(total_price+"원");
 	$('#total_price').text(total_price+"원");
+}
+
+//장바구니 추가
+function add_cart(goods_id) {
+	$.ajax({
+		type : "post",
+		async : false, //false인 경우 동기식으로 처리한다.
+		url : "${contextPath}/cart/addGoodsInCart.do",
+		data : {
+			goods_id:goods_id
+			
+		},
+		success : function(data, textStatus) {
+			//alert(data);
+		//	$('#message').append(data);
+			if(data.trim()=='add_success'){
+				imagePopup('open', '.layer01');	
+			}else if(data.trim()=='already_existed'){
+				alert("이미 카트에 등록된 상품입니다.");	
+			}
+			
+		},
+		error : function(data, textStatus) {
+			alert("에러가 발생했습니다."+data);
+		},
+		complete : function(data, textStatus) {
+			//alert("작업을완료 했습니다");
+		}
+	}); //end ajax	
+}
+
+function imagePopup(type) {
+	if (type == 'open') {
+		// 팝업창을 연다.
+		jQuery('#layer').attr('style', 'visibility:visible');
+
+		// 페이지를 가리기위한 레이어 영역의 높이를 페이지 전체의 높이와 같게 한다.
+		jQuery('#layer').height(jQuery(document).height());
+	}
+
+	else if (type == 'close') {
+
+		// 팝업창을 닫는다.
+		jQuery('#layer').attr('style', 'visibility:hidden');
+	}
 }
 </script>
 </head>
@@ -234,7 +305,20 @@ var numberBoxChange = function(value){
           </div>
           </div>
      </div>
-	
+	<div class="clear"></div>
+	<div id="layer" style="visibility: hidden">
+		<!-- visibility:hidden 으로 설정하여 해당 div안의 모든것들을 가려둔다. -->
+		<div id="popup">
+			<!-- 팝업창 닫기 버튼 -->
+			<a href="javascript:" onClick="javascript:imagePopup('close', '.layer01');"> 
+			<img src="${contextPath}/resources/image/popclose.png" id="close" />
+			</a>
+			<br /><font size="12" id="contents">장바구니에 담았습니다.</font><br>
+				<form action='${contextPath}/cart/goodsCart.do'  >				
+				<input  type="submit" value="장바구니 보기">
+				</form>			
+</div>
+</div>
 </div>
 </body>
 </html>
