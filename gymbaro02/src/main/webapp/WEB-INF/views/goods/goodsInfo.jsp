@@ -21,24 +21,62 @@
 	top: 0px;
 	left: 0px;
 	width: 100%;
+	background-color:rgba(0,0,0,0.8);
 }
 
 #popup {
 	z-index: 3;
 	position: fixed;
-	text-align: center;
 	left: 50%;
-	top: 45%;
-	width: 300px;
-	height: 200px;
-	background-color: #ccffff;
-	border: 3px solid #87cb42;
+	top: 50%;
+	width: 361px;
+	margin-left:-10%;
+	height: 300px;
+	margin-top:-150px;
+	background-color: white;
+	border:1px solid #d1d8dd;
+	box-shadow:0 0 6px 1px rgb(0 0 0 / 30%);
 }
 
 #close {
 	z-index: 4;
 	float: right;
+	margin-top: 23px;
+    margin-right: 14px;
+    width: 15px;
 }
+
+#cartcontents{
+	font-weight: 700;
+    font-size: 20px;
+    margin-right: 175px;
+}
+
+.seeCart{
+	
+	color: white;
+    border: none;
+    background-color: #184798;
+    width: 152px;
+    height: 35px;
+    float: right;
+    margin-right: 20px;
+}
+
+.seeCart2{
+	
+	color: #424040;
+    border: none;
+    width: 152px;
+    height: 35px;
+    float: right;
+    margin-right: 20px;
+}
+
+#seecartform{
+	padding-top: 2px solid #424040;
+}
+
 </style>
 <script type="text/javascript">
 $(function () {
@@ -134,6 +172,8 @@ function imagePopup(type) {
 		jQuery('#layer').attr('style', 'visibility:hidden');
 	}
 }
+
+
 </script>
 </head>
 <body>
@@ -188,7 +228,7 @@ function imagePopup(type) {
 					<input type="hidden" name="option_name" class="option_name" />
 					<input type="hidden" name="goods_qty" class="goods_qty" value="1" />
 					<input type="hidden" name="total_price" class="total_price" />
-					<input type="button" class="option_submit_btn go_cart_btn" value="장바구니">
+					<input type="button" class="option_submit_btn go_cart_btn" value="장바구니" onClick="add_cart('${goodsVO.goods_id}')">
 					<input type="submit" class="option_submit_btn go_order_btn" value="구매하기">
 					<input type="button" class="option_submit_btn" value="비회원 구매하기"  onClick="location.href ='${contextPath}/order/order_02.do'">
 				</form>
@@ -313,10 +353,15 @@ function imagePopup(type) {
 			<a href="javascript:" onClick="javascript:imagePopup('close', '.layer01');"> 
 			<img src="${contextPath}/resources/image/popclose.png" id="close" />
 			</a>
-			<br /><font size="12" id="contents">장바구니에 담았습니다.</font><br>
-				<form action='${contextPath}/cart/goodsCart.do'  >				
-				<input  type="submit" value="장바구니 보기">
-				</form>			
+			<br><font id="cartcontents">장바구니 담기</font><br>
+				<form class="seecartform" action='${contextPath}/cart/goodsCart.do'  >
+				<br><img style="width:80px;" src="${contextPath}/resources/image/cart.png" id="cart" />
+				<br><br><span style="font-Weight:bold; text-size:large;">장바구니에 담겼습니다.</span><br>
+				<span style="text-size:medium;">바로 확인하시겠습니까?</span>
+				<br><br><br>
+				<input type="submit" class="seeCart" value="장바구니 보기">
+				<input type="button" class="seeCart2" value="쇼핑 계속하기" onClick="location.reload();">
+				</form>
 </div>
 </div>
 </div>
