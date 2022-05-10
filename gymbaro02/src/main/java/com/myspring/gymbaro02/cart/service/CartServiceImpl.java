@@ -39,6 +39,7 @@ public class CartServiceImpl implements CartService {
 			return null;
 		}
 		List<GoodsVO> myGoodsList = cartDAO.selectGoodsList(myCartList);
+		System.out.println("test:" + myGoodsList.get(0).getGoods_fileName());
 		cartMap.put("myCartList", myCartList);
 		cartMap.put("myGoodsList", myGoodsList);
 		return cartMap;

@@ -167,13 +167,13 @@ $(function () {
     	<ul class="member_header_box">
 	      	<c:choose>
 	      		<c:when test="${isLogOn == true  && memberInfo != null}">
-	      			<li class =cell-r><a href="${contextPath}/cart/goodsCart.do"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+	      			<li class =cell-r><a href="${contextPath}/cart/myCartList.do"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
 	      			<li class = cell-r><a href="${contextPath}/cs/csQnA.do">고객센터</a></li>
 	      			<li class = cell-r><a href="${contextPath}/member/logout.do">로그아웃</a></li>
 	        		<li class = cell-r><a href="${contextPath}/mypage/mypage.do" style="color:#184798;"><span class="glyphicon glyphicon-user"></span>&nbsp;${memberInfo.member_name}님!</a></li>
 	      		</c:when>
 	      		<c:otherwise>
-	      			<li class = cell-r><a href="${contextPath}/cart/goodsCart.do"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+	      			<li class = cell-r><a href="${contextPath}/cart/myCartList.do"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
 	      			<li class = cell-r><a href="${contextPath}/cs/csQnA.do">고객센터</a></li>
 	      			<li class = cell-r><a href="${contextPath}/member/joinTypeForm.do">회원가입</a></li>
 	        		<li class = cell-r><a href="${contextPath}/member/loginForm.do">로그인</a></li>

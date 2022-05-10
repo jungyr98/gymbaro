@@ -1,5 +1,6 @@
 package com.myspring.gymbaro02.cart.controller;
 
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +55,7 @@ public class CartControllerImpl implements CartController {
 		System.out.println("######");
 		cartVO.setUid(uid);
 		cartVO.setGoods_id(goods_id);
-		boolean isAlreadyExisted = cartService.findCartGoods(cartVO); //»óÇ°¹øÈ£°¡ Àå¹Ù±¸´Ï¿¡ ÀÖ´ÂÁö Á¶È¸
+		boolean isAlreadyExisted = cartService.findCartGoods(cartVO); //ï¿½ï¿½Ç°ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½Ù±ï¿½ï¿½Ï¿ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 		System.out.println("isAlreadyExisted: " + isAlreadyExisted);
 		if(isAlreadyExisted==true) {
 			return "already_existed";
@@ -69,13 +70,17 @@ public class CartControllerImpl implements CartController {
 	@RequestMapping(value="/myCartList.do", method=RequestMethod.GET)
 	public ModelAndView myCartMain(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String)request.getAttribute("viewName");
+		PrintWriter out = response.getWriter();
+		response.setContentType("text/html; charset=UTF-8");
 		ModelAndView mav = new ModelAndView(viewName);
 		HttpSession session = request.getSession();
 		MemberVO memberVO = (MemberVO)session.getAttribute("memberInfo");
-		int uid = memberVO.getUid();
-		cartVO.setUid(uid);
-		Map<String,List> cartMap = cartService.myCartList(cartVO);
-		session.setAttribute("cartMap", cartMap);
+	
+			int uid = memberVO.getUid();
+			cartVO.setUid(uid);
+			Map<String,List> cartMap = cartService.myCartList(cartVO);
+			session.setAttribute("cartMap", cartMap);
+		
 		return mav;
 		
 		

@@ -4,17 +4,6 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
 
-	<!-- <definition name="/cart/cartForm" extends="baseLayout">
-		<put-attribute name="title" value="커뮤니티" />
-		<put-attribute name="body" value="/WEB-INF/views/cart/cartForm.jsp" />
-	</definition> -->
-	
-	
-<definition name="/cart/goodsCart" extends="baseLayout">
-		<put-attribute name="title" value="장바구니" />
-		<put-attribute name="body" value="/WEB-INF/views/cart/goodsCart.jsp" />
-	</definition>
-	
 	<definition name="/cart/myCartList" extends="baseLayout">
        <put-attribute name="title" value="내 장바구니 정보" />
        <put-attribute name="body" value="/WEB-INF/views/cart/myCartList.jsp" />

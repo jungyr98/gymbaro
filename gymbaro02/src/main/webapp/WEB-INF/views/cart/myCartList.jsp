@@ -4,6 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<c:set var="myCartList"  value="${cartMap.myCartList}"  />
+<c:set var="myGoodsList"  value="${cartMap.myGoodsList}"  />
 <c:set var="result" value="${param.result }" />
 <%
    request.setCharacterEncoding("UTF-8");
@@ -13,6 +15,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${contextPath}/resources/css/cartform.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 <script type="text/javascript">
 let basket = {
@@ -100,258 +103,6 @@ let basket = {
 	    return nstr;
 	};
 </script>
-
-<style type="text/css">
-.cart_first_content {
-
-    margin-top:70px;
-    border-top:2px solid #C4C4C4;
- }
- 
- .cart_first_text {
-    position:relative;
-    top:-15px;
-
- }
- 
- .cart_first_text span {
- 
-    font-size: 21px;
-    background:white;
-    padding: 0 15px;
- }
- 
- .cart_first_text span b {
-    color: #184798;
- }
- 
-/* 회원권 헤더 */
-
-.cart_first_content2 {
-
-    margin-top:70px;
-    border-top:2px solid #C4C4C4;
- }
- 
- .cart_first_text2 {
-    margin-top:350px;
- }
- 
- .cart_first_text2 span {
- 
-    font-size: 21px;
-    background:white;
-    padding: 0 15px;
- }
- 
- .cart_first_text2 span b {
-    color: #184798;
- }
-/*  회원권헤더 끝 */
- 
-.basketdiv {
-    width: 1024px;
-    float: left;
-    font-size: 0.9375em;
-    margin-top: 50px;
-    margin-bottom: 20px;
-}
-    .basketdiv .row.head {
-        border-bottom: 2px solid #888;
-        box-sizing: border-box;
-        background-color: #f4f4f4;
-        font-weight: 500;
-    }
-    .basketdiv .data {
-        border-bottom: 1px dashed #888;
-        box-sizing: border-box;
-        cursor: pointer;
-        float: left;
-        width: 1054px;
-    }
-    .basketdiv .data .empty{
-        text-align: center;
-        padding: 12px 0;
-    }
-    .basketdiv .row.head .subdiv {
-        background-color: #f4f4f4;
-        
-    }
-    .basketdiv .row > .subdiv {
-        display: block;
-        float: left;
-    }
-    .basketdiv .row > .subdiv:nth-child(1) {
-        width: 50%;
-    }
-    .basketdiv .row > .subdiv:nth-child(2) {
-        width: 40%;
-    }
-    .basketdiv .row > .subdiv:nth-child(3) {
-        width: 10%;
-    }
-    .basketdiv2 .row > .subdiv:nth-child(1) {
-        width: 60%;
-    }
-    .basketdiv2 .row > .subdiv:nth-child(2) {
-        width: 40%;
-    }
-    .basketdiv .row > div > div {
-        display: block;
-        float: left;
-        text-align: center;
-        margin: 0;
-        padding: 12px 0;
-    }
-    .basketdiv .row.data > div > div {
-        line-height: 60px;
-    }
-        .basketdiv .data .num .updown {
-            color: #184798;
-            font-size: 2em;
-        }
-        .basketdiv .check {
-            width: 10%;
-        }
-    .basketdiv .check input[type=checkbox] {
-        transform: scale(1.5);
-    }
-    .basketdiv .img{
-        width: 20%;
-    }
-    .basketdiv .pname{
-        width: 70%;
-    }
-    .basketdiv2 .pname {
-        width: 80%;
-    }
-    .basketdiv .basketprice {
-        width: 33%;
-    }
-    .basketdiv .num {
-        width: 33%;
-      min-width: 105px;
-    }
-    .basketdiv .sum {
-        width: 34%;
-      max-width: 80px;
-        color: #184798;
-    }
-    .basketdiv .point {
-        width: 50%;
-    }
-    .basketdiv2 .basketprice {
-        width: 25%;
-    }
-
-    .basketdiv2 .num {
-        width: 25%;
-    }
-
-    .basketdiv2 .sum {
-        width: 25%;
-        color: #0000aa;
-    }
-
-    .basketdiv2 .point {
-        width: 25%;
-    }
-    .basketdiv .basketcmd{
-        width: 100%;
-    }
-    .basketdiv .data .pname {
-        text-align: center !important;
-    }
-    .basketdiv .data .price, .basketdiv .data .sum, .basketdiv .data .point {
-        text-align: center;
-        margin-left: 50px;
-    }
-    .baseform > tbody > tr > td:first-child {
-        width: 100px;
-    }
-
-.buttongroup {
-    padding: 11px 0;
-    margin: 50px 0;
-}
-.narrowbuttongroup{
-    margin: 15px 0;
-}
-    .buttongroup.center {
-        text-align: center;
-    }
-    .buttongroup input[type=text], .buttongroup input[type=password] {
-        height: 30px;
-    }
-    .buttongroup button, .buttongroup a {
-        margin-right: 5px;
-    }
-        .buttongroup button:last-child, .buttongroup a:last-child {
-            margin-right: 0;
-        }
-
-    .abutton, .abutton:link, .abutton:visited, .abutton:active, input[type=button] {
-        background-color: #383838;
-        border: 1px solid #888888;
-        color: #ffffff;
-        cursor: pointer;
-        letter-spacing: -1px;
-        padding: 3px 5px;
-        margin: 2px 3px;
-        width: auto;
-        word-break: keep-all;
-        border-radius: 5px;
-        text-decoration: none;
-        font-size: 0.9375em;
-    }
-
-.abutton-alt {
-    background-color: #d3e2c6;
-}
-
-.red {
-    color:#b00;
-}
-.blue {
-  color: #184798;
-}
-.basketrowcmd, .sumcount, .summoney{
-  text-align: right;
-  margin-bottom: 10px;
-}
-.sumcount, .summoney{
-  font-size: 1.25em;
-    font-weight: bold;
-}
-.buttongroup{
-  text-align: center;
-}
-.buttongroup a{
-  text-decoration: none;
-}
-.cmd a, .cmd span {
-	padding: 12px 30px;
-    box-sizing: border-box;
-    margin-top: 10px;
-    font-size: 1.2em;
-    color: #fff;
-    background-color: #184798;
-    border: 1px solid #184798;
-    text-align: center;
-}
-.cmd.small a, .cmd.small span {
-    padding: 6px 20px;
-    font-size: 0.8125em;
-}
-
-.orderform .p_num {
-    text-align: right;
-    width: 40px;
-    height:30px;
-    font-size: 1em;
-}
-
-</style>
 </head>
 <body>
  <div class="cart_first_content">
@@ -379,79 +130,35 @@ let basket = {
                     </div>
                     <div class="split"></div>
                 </div>
-        
+                
+        		<c:forEach var="item" items="${myGoodsList}" varStatus="cnt">
                 <div class="row data">
                     <div class="subdiv">
                         <div class="check"><input type="checkbox" name="buy" value="260"  onclick="javascript:basket.checkItem();">&nbsp;</div>
-                        <div class="img"><img src="${contextPath }/resources/image/dumbell.png" width="60"></div>
+                        <div class="img"><img src="${contextPath }/resources/image/${item.goods_fileName}" width="60"></div>
                         <div class="pname">
-                            <span>바벨</span>
+                            <span>${item.goods_name }</span>
                         </div>
                     </div>
                     <div class="subdiv">
-                        <div class="basketprice"><input type="hidden" name="p_price" id="p_price1" class="p_price" value="20000">20,000원</div>
+                        <div class="basketprice"><input type="hidden" name="p_price" id="p_price1" class="p_price" value="${item.goods_price}">${item.goods_price}원</div>
                         <div class="num">
                             <div class="updown">
-                                <span onclick="javascript:basket.changePNum(1);"><i class="fas fa-arrow-alt-circle-up up"></i></span>
-                                <input type="text" name="p_num1" id="p_num1" size="2" maxlength="4" class="p_num" value="2" onkeyup="javascript:basket.changePNum(1);">
+                                <span onclick="javascript:basket.changePNum(${cnt.count});"><i class="fas fa-arrow-alt-circle-up up"></i></span>
+                                <c:set var="cart_goods_qty" value="${myCartList[cnt.count-1].goods_qty}" />
+                                <input type="text" name="p_num${cnt.count}" id="p_num${cnt.count}" size="2" maxlength="4" class="p_num" value="${cart_goods_qty}" onkeyup="javascript:basket.changePNum(${cnt.count});">
                                 
-                                <span onclick="javascript:basket.changePNum(1);"><i class="fas fa-arrow-alt-circle-down down"></i></span>
+                                <span onclick="javascript:basket.changePNum(${cnt.count});"><i class="fas fa-arrow-alt-circle-down down"></i></span>
                             </div>
                         </div>
-                        <div class="sum">40,000원</div>
+                        <div class="sum">${item.goods_price}원</div>
                     </div>
                     <div class="subdiv">
                         <div class="basketcmd"><a href="javascript:void(0)" class="abutton" onclick="javascript:basket.delItem();">삭제</a></div>
                     </div>
                 </div>
-                <div class="row data">
-                    <div class="subdiv">
-                        <div class="check"><input type="checkbox" name="buy" value="261"  onclick="javascript:basket.checkItem();">&nbsp;</div>
-                        <div class="img"><img src="${contextPath }/resources/image/ballball.png" width="60"></div>
-                        <div class="pname">
-                            <span>필라테스 볼</span>
-                        </div>
-                    </div>
-                    <div class="subdiv">
-                        <div class="basketprice"><input type="hidden" name="p_price" id="p_price2" class="p_price" value="19000">19,000원</div>
-                        <div class="num">
-                            <div class="updown">
-                                <span onclick="javascript:basket.changePNum(2);"><i class="fas fa-arrow-alt-circle-up up"></i></span>
-                                <input type="text" name="p_num2" id="p_num2" size="2" maxlength="4" class="p_num" value="1" onkeyup="javascript:basket.changePNum(2);">
-                                
-                                <span onclick="javascript:basket.changePNum(2);"><i class="fas fa-arrow-alt-circle-down down"></i></span>
-                            </div>
-                        </div>
-                        <div class="sum">19,000원</div>
-                    </div>
-                    <div class="subdiv">
-                        <div class="basketcmd"><a href="javascript:void(0)" class="abutton" onclick="javascript:basket.delItem();">삭제</a></div>
-                    </div>
-                </div>
-                <div class="row data">
-                    <div class="subdiv">
-                        <div class="check"><input type="checkbox" name="buy" value="262" onclick="javascript:basket.checkItem();">&nbsp;</div>
-                        <div class="img"><img src="${contextPath }/resources/image/water.jpg" width="60"></div>
-                        <div class="pname">
-                            <span>수경</span>
-                        </div>
-                    </div>
-                    <div class="subdiv">
-                        <div class="basketprice"><input type="hidden" name="p_price" id="p_price3" class="p_price" value="15200">15,200원</div>
-                        <div class="num">
-                            <div class="updown">
-                                <span onclick="javascript:basket.changePNum(3);"><i class="fas fa-arrow-alt-circle-up up"></i></span>
-                                <input type="text" name="p_num3" id="p_num3" size="2" maxlength="4" class="p_num" value="1" onkeyup="javascript:basket.changePNum(3);">
-                                
-                                <span onclick="javascript:basket.changePNum(3);"><i class="fas fa-arrow-alt-circle-down down"></i></span>
-                            </div>
-                        </div>
-                        <div class="sum">15,200원</div>
-                    </div>
-                    <div class="subdiv">
-                        <div class="basketcmd"><a href="javascript:void(0)" class="abutton" onclick="javascript:basket.delItem();">삭제</a></div>
-                    </div>
-                </div>
+                </c:forEach>
+
         
             </div>
    

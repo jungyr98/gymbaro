@@ -30,13 +30,12 @@
 	
 	<!-- 모든 장바구니 정보 조회 -->
 	<select id="selectCartList" resultMap="cartResult">
-	<![CDATA[select * from cart_id, goods_id, member_id, uid, cart_goods_qty, creDate from cart where member_id = #{member_id}]]>
+	<![CDATA[select cart_id, goods_id, uid, goods_qty, creDate from cart where uid = #{uid}]]>
 	</select>
 	<!-- 장바구니테이블에 등록된 상품 번호를 이용해 상품정보 조회 -->
 	<select id="selectGoodsList" resultMap="goodsResult" parameterType="java.util.Map">
-	<![CDATA[select g.*,d.fileName from goods g, goods_detail_img d where d.filetype='main_image' and g.goods_id in ]]>
+	<![CDATA[select g.*,d.fileName from goods g inner join goods_detail_img d on g.goods_id = d.goods_id where d.filetype='main_image' and g.goods_id in]]>
 	<foreach item="item" collection="list" open="(" separator="," close=")">#{item.goods_id}</foreach>
-	order by g.goods_creDate desc
 	</select>
 	<!-- 장바구니에 추가하기 전에 그 상품 번호가 장바구니에 담겨있는지 조회 -->
 	<select id="selectCountInCart" resultType="String" parameterType="cartVO">
