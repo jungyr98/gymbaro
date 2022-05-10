@@ -47,14 +47,14 @@ public class CartControllerImpl implements CartController {
 
 	@Override
 	@RequestMapping(value="/addGoodsInCart.do", method= RequestMethod.POST,produces="application/text; charset=utf-8")
-	public @ResponseBody String addGoodsInCart(@RequestParam("goods_id") int goods_id,  HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public @ResponseBody String addGoodsInCart(@RequestParam("goods_id") int goods_id, @RequestParam("goods_qty") int goods_qty, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session = request.getSession();
 		memberVO = (MemberVO)session.getAttribute("memberInfo");
-		String member_id = memberVO.getMember_id();
 		int uid = memberVO.getUid();
 		System.out.println("######");
 		cartVO.setUid(uid);
 		cartVO.setGoods_id(goods_id);
+		cartVO.setGoods_qty(goods_qty);
 		boolean isAlreadyExisted = cartService.findCartGoods(cartVO); //��ǰ��ȣ�� ��ٱ��Ͽ� �ִ��� ��ȸ
 		System.out.println("isAlreadyExisted: " + isAlreadyExisted);
 		if(isAlreadyExisted==true) {
@@ -70,8 +70,6 @@ public class CartControllerImpl implements CartController {
 	@RequestMapping(value="/myCartList.do", method=RequestMethod.GET)
 	public ModelAndView myCartMain(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String viewName = (String)request.getAttribute("viewName");
-		PrintWriter out = response.getWriter();
-		response.setContentType("text/html; charset=UTF-8");
 		ModelAndView mav = new ModelAndView(viewName);
 		HttpSession session = request.getSession();
 		MemberVO memberVO = (MemberVO)session.getAttribute("memberInfo");

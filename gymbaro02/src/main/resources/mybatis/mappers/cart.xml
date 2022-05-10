@@ -43,6 +43,6 @@
 	</select>
 	<!-- 상품 추가 -->
 	<insert id="insertGoodsInCart" parameterType="cartVO">
-	<![CDATA[insert into cart(cart_id, goods_id, uid) values (#{cart_id}, #{goods_id}, #{uid})]]>
+	<![CDATA[insert into cart(goods_id, uid, goods_qty) values (#{goods_id}, #{uid}, #{goods_qty})]]>
 	</insert>
 </mapper>

@@ -130,13 +130,14 @@ var numberBoxChange = function(value){
 
 //장바구니 추가
 function add_cart(goods_id) {
+	var goods_qty = $('input[name=goods_qty]').val();
 	$.ajax({
 		type : "post",
 		async : false, //false인 경우 동기식으로 처리한다.
 		url : "${contextPath}/cart/addGoodsInCart.do",
 		data : {
-			goods_id:goods_id
-			
+			goods_id:goods_id,
+			goods_qty:goods_qty
 		},
 		success : function(data, textStatus) {
 			//alert(data);
@@ -354,7 +355,7 @@ function imagePopup(type) {
 			<img src="${contextPath}/resources/image/popclose.png" id="close" />
 			</a>
 			<br><font id="cartcontents">장바구니 담기</font><br>
-				<form class="seecartform" action='${contextPath}/cart/goodsCart.do'  >
+				<form class="seecartform" action='${contextPath}/cart/myCartList.do'  >
 				<br><img style="width:80px;" src="${contextPath}/resources/image/cart.png" id="cart" />
 				<br><br><span style="font-Weight:bold; text-size:large;">장바구니에 담겼습니다.</span><br>
 				<span style="text-size:medium;">바로 확인하시겠습니까?</span>
