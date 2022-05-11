@@ -1,14 +1,23 @@
 package com.myspring.gymbaro02.member.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,14 +67,14 @@ public class MemberControllerImpl implements MemberController {
 			String action=(String)session.getAttribute("action");
 			if(action!=null && action.equals("/order/orderEachGoods.do")){
 				mav.setViewName("forward:"+action);		
-				/* ·Î±×ÀÎ ¼º°øÇßÀ» ¶§ > mav¿¡ forward: order/orderEachGoods.do¶ó´Â 
-				 * viewName + ¼¼¼Ç¿¡ ÀúÀåÇÑ logOn»óÅÂ + memberinfo ¹İÈ¯ */
+				/* ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ > mavï¿½ï¿½ forward: order/orderEachGoods.doï¿½ï¿½ï¿½ 
+				 * viewName + ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ logOnï¿½ï¿½ï¿½ï¿½ + memberinfo ï¿½ï¿½È¯ */
 			}else{
 				mav.setViewName("redirect:/main/main.do");	
 			}
 		
 		}else{
-			String message="¾ÆÀÌµğ³ª ºñ¹Ğ¹øÈ£°¡ Æ²¸³´Ï´Ù. ´Ù½Ã ·Î±×ÀÎÇØÁÖ¼¼¿ä";
+			String message="ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½Ğ¹ï¿½È£ï¿½ï¿½ Æ²ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½Ù½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½";
 			mav.addObject("message", message);
 			mav.setViewName("/member/loginForm");
 		}
@@ -76,10 +85,10 @@ public class MemberControllerImpl implements MemberController {
 	@Override
 	@RequestMapping(value="/kakaoLogin", method=RequestMethod.GET)
 	public String kakaoLogin(@RequestParam(value = "code", required = false) String code,HttpServletRequest request) throws Exception {
-	System.out.println("#########" + code); //jsp ¿¡¼­ ¹ŞÀº code ÀßÃâ·ÂµÇ³ª È®ÀÎÇÔ
-	String access_Token = memberService.getAccessToken(code); //¼­ºñ½º È£Ãâ
-	System.out.println("###access_Token#### : " + access_Token); //ÅäÅ« °ª Ãâ·Â 200ÀÌ ¶°¾ß Á¤»ó
-	//access_token º¸³»¼­ »ç¿ëÀÚ Á¤º¸ ¾ò±â
+	System.out.println("#########" + code); //jsp ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ code ï¿½ï¿½ï¿½ï¿½ÂµÇ³ï¿½ È®ï¿½ï¿½ï¿½ï¿½
+	String access_Token = memberService.getAccessToken(code); //ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
+	System.out.println("###access_Token#### : " + access_Token); //ï¿½ï¿½Å« ï¿½ï¿½ ï¿½ï¿½ï¿½ 200ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//access_token ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	HashMap<String, Object> userInfo = memberService.getUserInfo(access_Token);
 	System.out.println("###access_Token#### : " + access_Token);
 	System.out.println("###nickname#### : " + userInfo.get("nickname"));
@@ -136,7 +145,7 @@ public class MemberControllerImpl implements MemberController {
 		} else {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.println("<script>alert('Á¸ÀçÇÏÁö ¾Ê´Â ÀÌ¸§ ¶Ç´Â ÀÌ¸ŞÀÏÀÔ´Ï´Ù.');</script>");
+			out.println("<script>alert('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½Ì¸ï¿½ ï¿½Ç´ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.');</script>");
 			out.flush();
 			mav.setViewName("/member/idpwdFindForm");
 		}
@@ -168,7 +177,7 @@ public class MemberControllerImpl implements MemberController {
 		} else {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.println("<script>alert('Á¸ÀçÇÏÁö ¾Ê´Â ÀÌ¸§ ¶Ç´Â ÀüÈ­¹øÈ£ÀÔ´Ï´Ù.');</script>");
+			out.println("<script>alert('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½Ì¸ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½È­ï¿½ï¿½È£ï¿½Ô´Ï´ï¿½.');</script>");
 			out.flush();
 			mav.setViewName("/member/idpwdFindForm");
 		}
@@ -191,12 +200,12 @@ public class MemberControllerImpl implements MemberController {
 		if (member_id != null) { 		                             
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.write("<script>alert('¾ÆÀÌµğ Ã¼Å© Åë°ú');</script>");
+			out.write("<script>alert('ï¿½ï¿½ï¿½Ìµï¿½ Ã¼Å© ï¿½ï¿½ï¿½');</script>");
 			out.flush();	
 		
 			if (pwdFindQ != null && pwdFindA != null) {
-				session.setAttribute("member_id", member_id); // ÀÌ¸§ ¼¿·ºÆ®¿ëÀ¸·Î º¸³»ÁÖ±â
-				out.write("<script>alert('ºñ¹Ğ¹øÈ£ Ã£±â Áú¹® Ã¼Å© Åë°ú');</script>");
+				session.setAttribute("member_id", member_id); // ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
+				out.write("<script>alert('ï¿½ï¿½Ğ¹ï¿½È£ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å© ï¿½ï¿½ï¿½');</script>");
 				out.flush();
 				session.setAttribute("member_id", member_id);
 				session.setAttribute("pwdFindQ", pwdFindQ);
@@ -205,7 +214,7 @@ public class MemberControllerImpl implements MemberController {
 				mav.setViewName("/member/newPwdForm");
 				
 		} else {
-			out.write("<script>alert('À¯È¿¼º °Ë»ç ´©¶ô');</script>");
+			out.write("<script>alert('ï¿½ï¿½È¿ï¿½ï¿½ ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½ï¿½');</script>");
 			out.flush();
 			mav.setViewName("/member/idpwdFindForm");
 
@@ -291,30 +300,30 @@ public class MemberControllerImpl implements MemberController {
 		session = request.getSession();
 		ModelAndView mav=new ModelAndView();
 		
-		// member_type ÁöÁ¤
+		// member_type ï¿½ï¿½ï¿½ï¿½
 		if(join_type.equals("common")) {
-			_memberVO.setMember_type("ÀÏ¹İ");
+			_memberVO.setMember_type("ï¿½Ï¹ï¿½");
 		} else if(join_type.equals("gym")) {
-			_memberVO.setMember_type("½Ã¼³");
+			_memberVO.setMember_type("ï¿½Ã¼ï¿½");
 		}
 		
-		// ÈŞ´ëÆù¹øÈ£ ÇÏÀÌÇÂ Ãß°¡
+		// ï¿½Ş´ï¿½ï¿½ï¿½ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 		String phone_number = phoneNumberHyphenAdd(hp);
 		_memberVO.setPhone_number(phone_number);
 		
-		// ÀÌ¸ŞÀÏÀÌ ³Î °ªÀÌ ¾Æ´Ï¶ó¸é if¹®
+		// ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ ifï¿½ï¿½
 		if(!(email1.equals("")) && !(email2.equals(""))) {
-			String email = email1 + "@" + email2; // ¹Ş¾Æ¿Â ÀÌ¸ŞÀÏ °ª Á¶ÇÕ
+			String email = email1 + "@" + email2; // ï¿½Ş¾Æ¿ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			_memberVO.setEmail(email); 
 		}
 		
 		memberService.addMember(_memberVO);
 		
-		// ¼¼¼Ç value ¿¡ ³ÖÀ» º¯¼ö Ãß°¡
+		// ï¿½ï¿½ï¿½ï¿½ value ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 		String member_id = _memberVO.getMember_id();
 		String member_name = _memberVO.getMember_name();
 		
-		// È¸¿ø°¡ÀÔ ¼º°ø È­¸é¿¡ ¾ÆÀÌµğ, ÀÌ¸§ º¸¿©ÁÖ±â
+		// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È­ï¿½é¿¡ ï¿½ï¿½ï¿½Ìµï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
 		session.setAttribute("member_id", member_id);
 		session.setAttribute("member_name", member_name);
 		
@@ -333,7 +342,7 @@ public class MemberControllerImpl implements MemberController {
 		return resEntity;
 	}
 	
-	/* ÈŞ´ëÆù ÀÎÁõ ÄÁÆ®·Ñ·¯ */
+	/* ï¿½Ş´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ */
 	@RequestMapping("/check/sendSMS")
     public @ResponseBody String sendSMS(String phoneNumber) {
 
@@ -344,13 +353,13 @@ public class MemberControllerImpl implements MemberController {
             numStr+=ran;
         }
 
-        System.out.println("¼ö½ÅÀÚ ¹øÈ£ : " + phoneNumber);
-        System.out.println("ÀÎÁõ¹øÈ£ : " + numStr);
+        System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ : " + phoneNumber);
+        System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ : " + numStr);
         memberService.certifiedPhoneNumber(phoneNumber,numStr);
         return numStr;
     }
 	
-	// ÈŞ´ëÆù ¹øÈ£ ÇÏÀÌÇÂ Ãß°¡ ÇÔ¼ö
+	// ï¿½Ş´ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½Ô¼ï¿½
 	public static String phoneNumberHyphenAdd(String num) {
 
 	    String formatNum = "";
@@ -365,4 +374,98 @@ public class MemberControllerImpl implements MemberController {
 	    
 	    return formatNum;
 	}
-}
+	
+	//ë„¤ì´ë²„ ë¡œê·¸ì¸ ì½œë°±
+	@RequestMapping(value="/callback.do",  produces = "application/text; charset=utf8")
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			  	String clientId = "a8bNpyJD5yF9SyCjSURA";//ì• í”Œë¦¬ì¼€ì´ì…˜ í´ë¼ì´ì–¸íŠ¸ ì•„ì´ë””ê°’";
+			    String clientSecret = "M1589m95FC";//ì• í”Œë¦¬ì¼€ì´ì…˜ í´ë¼ì´ì–¸íŠ¸ ì‹œí¬ë¦¿ê°’";
+			    String code = request.getParameter("code");
+			    String state = request.getParameter("state");
+			    String redirectURI = URLEncoder.encode("http://localhost:8080/gymbaro02/member/callback.do", "UTF-8");
+			    String apiURL;
+			    apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
+			    apiURL += "client_id=" + clientId;
+			    apiURL += "&client_secret=" + clientSecret;
+			    apiURL += "&redirect_uri=" + redirectURI;
+			    apiURL += "&code=" + code;
+			    apiURL += "&state=" + state;
+			    String access_token = "";
+			    String refresh_token = "";
+			    System.out.println("apiURL="+apiURL);
+			    try {
+			    	response.setContentType("text/xml;charset=UTF-8");
+			        response.setCharacterEncoding("utf-8");
+			      URL url = new URL(apiURL);
+			      HttpURLConnection con = (HttpURLConnection)url.openConnection();
+			      con.setRequestMethod("GET");
+			      int responseCode = con.getResponseCode();
+			      BufferedReader br;
+			      System.out.print("responseCode="+responseCode);
+			      if(responseCode==200) { // ì •ìƒ í˜¸ì¶œ
+			        br = new BufferedReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+			      } else {  // ì—ëŸ¬ ë°œìƒ
+			        br = new BufferedReader(new InputStreamReader(con.getErrorStream(),"UTF-8"));
+			      }
+			      String inputLine;
+			      StringBuffer res = new StringBuffer();
+			      while ((inputLine = br.readLine()) != null) {
+			        res.append(inputLine);
+			      }
+			      br.close();
+			      if(responseCode==200) {
+			    	  System.out.println(" if(responseCode==200)ë¬¸ ì§„ì…");
+			        System.out.println(res.toString());
+			        JSONParser parser = new JSONParser();
+			    	Object obj = parser.parse(res.toString());
+			    	JSONObject jsonObj = (JSONObject)obj;
+			    		        
+			    	access_token = (String)jsonObj.get("access_token");
+			    	refresh_token = (String)jsonObj.get("refresh_token");
+			      }
+			    } catch (Exception e) {
+			      System.out.println(e);
+			    }
+			        String token = "AAAANjocFOLJN3fWNmRjbj9svFPSC8R2GIu5yHjBhjoTHz-BB1tsyTtQMwDX509oEOIycxukTFCB3Jh3ycffGLGcsKY";// ë„¤ì•„ë¡œ ì ‘ê·¼ í† í° ê°’";
+			        String header = "Bearer " + token; // Bearer ë‹¤ìŒì— ê³µë°± ì¶”ê°€
+			        try {
+			        	response.setContentType("text/xml;charset=UTF-8");
+			            response.setCharacterEncoding("utf-8");
+			            String apiurl = "https://openapi.naver.com/v1/nid/me";
+			            URL url = new URL(apiurl);
+			            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+			            con.setRequestMethod("GET");
+			            con.setRequestProperty("Authorization", header);
+			            int responseCode = con.getResponseCode();
+			            BufferedReader br;
+			            if(responseCode==200) { // ì •ìƒ í˜¸ì¶œ
+			                br = new BufferedReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+			            } else {  // ì—ëŸ¬ ë°œìƒ
+			                br = new BufferedReader(new InputStreamReader(con.getErrorStream(),"UTF-8"));
+			            }
+			            String inputLine;
+			            StringBuffer res = new StringBuffer();
+			            while ((inputLine = br.readLine()) != null) {
+			                res.append(inputLine);
+			            }
+			            br.close();
+			            JSONParser parser = new JSONParser();
+			    		Object obj = parser.parse(res.toString());
+			    		JSONObject jsonObj = (JSONObject)obj;
+			    		JSONObject resObj = (JSONObject)jsonObj.get("response");
+			            System.out.println(res.toString());
+			        } catch (Exception e) {
+			            System.out.println(e);
+			        }
+			        
+			    }
+	}
+	
+
+			    	
+			    
+	
+	    
+	    
+	
+

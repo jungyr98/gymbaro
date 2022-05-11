@@ -63,4 +63,9 @@
          <put-attribute name="title" value="아이디/비밀번호 찾기" />
          <put-attribute name="body" value="/WEB-INF/views/member/pwdFindSuccess.jsp" />
       </definition>
+      
+        <definition name="/member/callback" extends="baseLayout">
+         <put-attribute name="title" value="네이버 콜백" />
+         <put-attribute name="body" value="/WEB-INF/views/member/loginForm.jsp" />
+      </definition>
 </tiles-definitions>
