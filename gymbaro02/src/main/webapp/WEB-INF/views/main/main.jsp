@@ -33,6 +33,59 @@ $(function () {
         });
     }, 3000);
 });
+
+
+var latitude = "", longitude = "";
+
+window.onload = function() {
+	if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    } else {
+        latitude = "", longitude = "";
+    }	
+}
+
+
+function onSuccess(position) {
+	latitude = position.coords.latitude;
+    longitude = position.coords.longitude;
+    console.log("성공");
+    console.log(latitude);
+    console.log(longitude);
+    $.ajax({
+    	type:"POST",
+    	url:"${contextPath}/main/ipCheck.do",
+    	data:{
+    		"latitude":latitude,
+    		"longitude":longitude
+    	},
+    	success:function(data, textStatus){
+    		console.log("전송 성공");
+    	},
+    	error:function(data, textStatus){
+    		alert("에러가 발생했습니다.");
+    	}
+    });
+}
+
+function onError() {
+	latitude ="N/A";
+	longitude = "N/A";
+	 $.ajax({
+     	type:"POST",
+     	url:"${contextPath}/main/ipCheck.do",
+     	data:{
+     		"latitude":latitude,
+     		"longitude":longitude
+     	},
+     	success:function(data, textStatus){
+     		console.log("전송 성공");
+     	},
+     	error:function(data, textStatus){
+     		alert("에러가 발생했습니다.");
+     	}
+     });        
+}    
 </script>
 <style type="text/css">
 .product_content {
