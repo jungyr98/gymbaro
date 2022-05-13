@@ -24,6 +24,31 @@
 <script type="text/javascript">
 document.addEventListener("touchstart", function () {}, true);
 
+function Loading() {
+    var maskHeight = $(document).height();
+    var maskWidth  = window.document.body.clientWidth;
+     
+    var mask       = "<div id='mask' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
+    var loadingImg ='';
+     
+    loadingImg +=" <div id='loadingImg'>";
+    loadingImg +=" <img src='${contextPath}/resources/image/Spinner2.gif' style='position:absolute; z-index:9500; text-align:center; display:block; margin-top:300px; margin-left:750px;'/>";
+    loadingImg += "</div>";  
+ 
+    $('body')
+        .append(mask)
+ 
+    $('#mask').css({
+            'width' : maskWidth,
+            'height': maskHeight,
+            'opacity' :'0.3'
+    });
+    
+    $('#mask').show();
+  
+    $('.loadingImg').append(loadingImg);
+    $('#loadingImg').show();
+}
 
 $(function () {
     $("#center_gnb > ul > li").hover(
@@ -130,7 +155,7 @@ $(function () {
                         </ul>
                     </li>
                     <li>
-                        <a href="${contextPath}/gym/searchGyms.do" style="color:#184798;">시설 찾기</a>
+                        <a href="${contextPath}/gym/searchGyms.do" style="color:#184798;" onclick="Loading()">시설 찾기</a>
                         <ul>
                             <li><a href="#">전체</a></li>
                             <li><a href="#">헬스</a></li>
@@ -215,6 +240,7 @@ $(function () {
 	</form>
   </div>
 </nav>
+<div id="map" class="loadingImg"></div>
 </div>
 </body>
 </html>

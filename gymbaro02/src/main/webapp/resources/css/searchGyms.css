@@ -1,12 +1,15 @@
 @charset "UTF-8";
 
 .main_container {
-	width:1024px;
+	width:100%;
 }
 
 .first_content, .second_content, .last_content {
-	margin-top:70px;
-	border-top:2px solid #C4C4C4;
+	width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-top: 2px solid #C4C4C4;
 }
 
 .first_text {
@@ -16,10 +19,12 @@
 }
 
 .first_text span {
-
-	font-size: 20px;
-	background:white;
-	padding: 0 15px;
+    font-size: 20px;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 50px;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
+    border: 3px solid #f4f5f6;
 }
 
 .first_text span b {
@@ -29,11 +34,14 @@
 .first_text span img {
 	width:20px;
 	height:20px;
+	margin-bottom: 5px;
 }
 
 .gym_content {
+	width:1024px;
 	display:flex;
-	justify-content: space-between;
+	justify-content: flex-start;
+	flex-wrap: wrap;
     margin-bottom: 5px;
 }
 
@@ -42,12 +50,19 @@
 	border-radius:5px;
 	box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
 	text-align:start;
-	transition:0.3s; 
+	transition:0.3s;
+	margin: 0px 1px 10px 1px;
+	background: white; 
 }
 
 .gym_image:hover {
 	cursor:pointer;
-	transition: 0.3;
+	color:#184798;
+	transition:0.3s;
+	margin-top:-5px;
+	padding-bottom:5px;
+	height:380px;
+	box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 8px rgb(0 0 0 / 24%);
 }
 
 .gym_image img {
@@ -91,9 +106,9 @@
 
 .my_location_setting_box {
 	display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    padding: 50px 15px 20px 15px;
+    padding: 50px 0px 15px 0px;
     color: white;
     background: #184798;
 }
@@ -118,6 +133,12 @@
 	font-size:15px;
 }
 
+.location_setting a {
+	color:white;
+	
+}
+
 .second_content {
 	margin-top:100px;
+	background: #f4f5f6;
 }

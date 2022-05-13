@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="mapper.gym">
+	<resultMap type="gymVO" id="gymResult">
+		<result property="gym_id" column="gym_id" />
+		<result property="gym_name" column="gym_name" />
+		<result property="hp" column="hp" />
+		<result property="firstAddress" column="firstAddress" />
+		<result property="extraAddress" column="extraAddress" />
+		
+		<result property="first_option" column="first_option" />
+		<result property="price_info1" column="price_info1" />
+		<result property="price_info2" column="price_info2" />
+		<result property="price_info3" column="price_info3" />
+		<result property="price_info4" column="price_info4" />
+		<result property="price_info5" column="price_info5" />
+		<result property="gym_intro" column="goods_sub_category" />
+		<result property="program_list" column="goods_state" />
+		<result property="insta_addr" column="insta_addr" />
+		<result property="fbook_addr" column="fbook_addr" />
+		<result property="nblog_addr" column="nblog_addr" />
+		<result property="home_addr" column="home_addr" />
+		<result property="service" column="service" />
+		<result property="regDate" column="regDate" />
+		<result property="gym_fileName" column="fileName" />
+		<result property="uid" column="uid" />
+	</resultMap>
+	<resultMap id="imageResult" type="gymImageFileVO">
+	   <result property="img_id" column="img_id" />
+	   <result property="gym_id" column="gym_id" />
+	   <result property="fileName" column="fileName" />
+	   <result property="fileType" column="fileType" />
+	   <result property="uid" column="uid" />
+	</resultMap>
+
+<select id="selectRecommandGymList" resultMap="gymResult" >
+		<![CDATA[
+			select g.*,d.fileName from gym g, gym_detail_img d 
+			where g.gym_id = d.gym_id and d.fileType='main_image' and g.recommand ='Y'
+			order by g.gym_id desc]]>
+</select>
+
+<select id="selectLocationGymList" parameterType="String" resultMap="gymResult">
+		<![CDATA[
+		select g.*,d.fileName from gym g, gym_detail_img d 
+		where g.gym_id = d.gym_id and d.fileType='main_image' and substring_index(g.firstAddress, ' ', 2) = (select substring(SUBSTRING_INDEX('대한민국 대전광역시 서구 둔산동', ' ', 3), 6))]]>
+</select>
+
+<!-- 상품상세조회  -->
+<select id="selectGymDetail" resultMap="gymResult" parameterType="String" >
+		<![CDATA[select g.*,d.fileName from gym g, gym_detail_img d 
+			where g.gym_id = d.gym_id and d.fileType='main_image' and g.gym_id=#{gym_id}
+			order by g.gym_id]]> 
+</select>
+
+<!-- 상품 상세 이미지 리스트 조회 -->
+<select id="selectGymDetailImage" resultMap="imageResult" parameterType="String"  >
+	<![CDATA[select * from gym_detail_img where fileType != 'main_image' and gym_id=#{gym_id}]]>
+</select>
+
+</mapper>

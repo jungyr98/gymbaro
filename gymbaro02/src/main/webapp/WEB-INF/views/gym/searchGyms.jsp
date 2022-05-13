@@ -4,6 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<c:set var="recommandList" value="${gymMap.recommandList}" />
+<c:set var="locationList" value="${gymMap.locationList}" />
 <%
   request.setCharacterEncoding("UTF-8");
 %>
@@ -22,11 +24,11 @@
  		<span><b>홈 > 시설 찾기</b></span>
  		<div>
  		<img alt="gps.png" src="${contextPath}/resources/image/gps.png">
- 		<span>서울 특별시 중구 명동</span>
+ 		<span>${address}</span>
  		</div>
  	</div>
  	<div class="location_setting">
- 		<a>재설정 ㅣ 위치지정</a>
+ 		<a href="${contextPath}/gym/searchMap.do">재설정 ㅣ 위치지정</a>
  	</div>
  </div>
  <div class="first_content">
@@ -35,93 +37,23 @@
 	</div>
 	
 	<div class="gym_content">
-		<div class="gym_image" onClick="location.href ='${contextPath}/gym/gymsInfo.do'">
-			<img alt="시설01" src="${contextPath}/resources/image/gym_01.PNG">
-			<div class="gym_image_info_box">
-				<span class="gym_image_info_title">홍제 짐굿라이프</span>
-				<div>
-					<span>서울 서대문구 홍제동</span>
-					<span>1.78 km</span>
-				</div>
-			</div>
-			<div class="gym_image_tag_box">
-				<span>P.T</span>
-				<span>헬스</span>
-			</div>
-		</div>
+		<c:forEach var="item" items="${recommandList}">
 		<div class="gym_image">
-			<img alt="시설02" src="${contextPath}/resources/image/gym_02.PNG">
+			<a href="${contextPath}/gym/gymsInfo.do?gym_id=${item.gym_id}">
+				<img width="75" alt="" src="${contextPath}/thumbnailsGym.do?gym_id=${item.gym_id}&fileName=${item.gym_fileName}">
+			</a>
 			<div class="gym_image_info_box">
-				<span class="gym_image_info_title">홍제 에이스 복싱</span>
+				<span class="gym_image_info_title">${item.gym_name}</span>
 				<div>
-					<span>서울 서대문구 홍제동</span>
-					<span>1.86 km</span>
+					<span>${item.firstAddress}</span>
+					<span>${item.distance}</span>
 				</div>
 			</div>
 			<div class="gym_image_tag_box">
-				<span>복싱</span>
-				<span>그룹P.T</span>
+				<span>${item.first_option}</span>
 			</div>
 		</div>
-		<div class="gym_image">
-			<img alt="시설03" src="${contextPath}/resources/image/gym_03.PNG">
-			<div class="gym_image_info_box">
-				<span class="gym_image_info_title">홍제 매직짐</span>
-				<div>
-					<span>서울 서대문구 홍제동</span>
-					<span>2.10 km</span>
-				</div>
-			</div>
-			<div class="gym_image_tag_box">
-				<span>헬스</span>
-				<span>P.T</span>
-			</div>
-		</div>
-	</div>
-	<div class="gym_content">
-		<div class="gym_image">
-			<img alt="시설03" src="${contextPath}/resources/image/gym_04.PNG">
-			<div class="gym_image_info_box">
-				<span class="gym_image_info_title">광화문 MCT GYM</span>
-				<div>
-					<span>서울 종로구 내수동</span>
-					<span>2.26 km</span>
-				</div>
-			</div>
-			<div class="gym_image_tag_box">
-				<span>P.T</span>
-				<span>헬스</span>
-			</div>
-		</div>
-		<div class="gym_image">
-			<img alt="시설04" src="${contextPath}/resources/image/gym_05.PNG">
-			<div class="gym_image_info_box">
-				<span class="gym_image_info_title">광화문 피트니스 101</span>
-				<div>
-					<span>서울 종로구 내수동</span>
-					<span>2.30 km</span>
-				</div>
-			</div>
-			<div class="gym_image_tag_box">
-				<span>P.T</span>
-				<span>헬스</span>
-				<span>기구 필라테스</span>
-			</div>
-		</div>
-		<div class="gym_image">
-			<img alt="시설05" src="${contextPath}/resources/image/gym_06.PNG">
-			<div class="gym_image_info_box">
-				<span class="gym_image_info_title">서대문 짐피닉스 PT스튜디오</span>
-				<div>
-					<span>서울 서대문구 교남동</span>
-					<span>2.67 km</span>
-				</div>
-			</div>
-			<div class="gym_image_tag_box">
-				<span>그룹P.T</span>
-				<span>헬스</span>
-			</div>
-		</div>
+		</c:forEach>
 	</div>
  </div>
   <div class="second_content">
@@ -130,93 +62,23 @@
 	</div>
 	
 	<div class="gym_content">
+		<c:forEach var="item" items="${locationList}">
 		<div class="gym_image">
-			<img alt="시설01" src="${contextPath}/resources/image/gym_01.PNG">
+			<a href="${contextPath}/gym/gymsInfo.do?gym_id=${item.gym_id}">
+				<img width="75" alt="" src="${contextPath}/thumbnailsGym.do?gym_id=${item.gym_id}&fileName=${item.gym_fileName}">
+			</a>
 			<div class="gym_image_info_box">
-				<span class="gym_image_info_title">홍제 짐굿라이프</span>
+				<span class="gym_image_info_title">${item.gym_name}</span>
 				<div>
-					<span>서울 서대문구 홍제동</span>
-					<span>1.78 km</span>
+					<span>${item.firstAddress}</span>
+					<span>${item.distance}</span>
 				</div>
 			</div>
 			<div class="gym_image_tag_box">
-				<span>P.T</span>
-				<span>헬스</span>
+				<span>${item.first_option}</span>
 			</div>
 		</div>
-		<div class="gym_image">
-			<img alt="시설02" src="${contextPath}/resources/image/gym_02.PNG">
-			<div class="gym_image_info_box">
-				<span class="gym_image_info_title">홍제 에이스 복싱</span>
-				<div>
-					<span>서울 서대문구 홍제동</span>
-					<span>1.86 km</span>
-				</div>
-			</div>
-			<div class="gym_image_tag_box">
-				<span>복싱</span>
-				<span>그룹P.T</span>
-			</div>
-		</div>
-		<div class="gym_image">
-			<img alt="시설03" src="${contextPath}/resources/image/gym_03.PNG">
-			<div class="gym_image_info_box">
-				<span class="gym_image_info_title">홍제 매직짐</span>
-				<div>
-					<span>서울 서대문구 홍제동</span>
-					<span>2.10 km</span>
-				</div>
-			</div>
-			<div class="gym_image_tag_box">
-				<span>헬스</span>
-				<span>P.T</span>
-			</div>
-		</div>
-	</div>
-	<div class="gym_content">
-		<div class="gym_image">
-			<img alt="시설03" src="${contextPath}/resources/image/gym_04.PNG">
-			<div class="gym_image_info_box">
-				<span class="gym_image_info_title">광화문 MCT GYM</span>
-				<div>
-					<span>서울 종로구 내수동</span>
-					<span>2.26 km</span>
-				</div>
-			</div>
-			<div class="gym_image_tag_box">
-				<span>P.T</span>
-				<span>헬스</span>
-			</div>
-		</div>
-		<div class="gym_image">
-			<img alt="시설04" src="${contextPath}/resources/image/gym_05.PNG">
-			<div class="gym_image_info_box">
-				<span class="gym_image_info_title">광화문 피트니스 101</span>
-				<div>
-					<span>서울 종로구 내수동</span>
-					<span>2.30 km</span>
-				</div>
-			</div>
-			<div class="gym_image_tag_box">
-				<span>P.T</span>
-				<span>헬스</span>
-				<span>기구 필라테스</span>
-			</div>
-		</div>
-		<div class="gym_image">
-			<img alt="시설05" src="${contextPath}/resources/image/gym_06.PNG">
-			<div class="gym_image_info_box">
-				<span class="gym_image_info_title">서대문 짐피닉스 PT스튜디오</span>
-				<div>
-					<span>서울 서대문구 교남동</span>
-					<span>2.67 km</span>
-				</div>
-			</div>
-			<div class="gym_image_tag_box">
-				<span>그룹P.T</span>
-				<span>헬스</span>
-			</div>
-		</div>
+		</c:forEach>
 	</div>
  </div>
 </div>
