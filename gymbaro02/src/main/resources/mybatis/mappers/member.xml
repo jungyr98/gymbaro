@@ -30,6 +30,11 @@
 		<result property="gym_license" column="gym_license" />
 		<result property="SALT" column="SALT" />
 	</resultMap>
+	<resultMap type="KakaoDTO" id="kdto">
+		<result property="k_number" column="k_number" />
+		<result property="k_name" column="k_name" />
+		<result property="k_email" column="k_email" />
+	</resultMap>
 
 
 <select id="login" parameterType="java.util.Map" resultMap="memberResult">
@@ -115,5 +120,15 @@
 	   from member
 	   where member_id = #{id}
 </select>
+
+<!-- 카카오 로그인 -->
+<select id="findKakao" parameterType="java.util.HashMap" resultType="com.myspring.gymbaro02.member.KakaoDTO">
+		select * from kakao_table where k_name=#{nickname} and k_email=#{email}
+	</select>
+
+
+<insert id="kakaoInsert" parameterType="java.util.HashMap">
+		insert into kakao_table(k_name, k_email) values(#{nickname}, #{email})
+</insert>
 	
 </mapper>

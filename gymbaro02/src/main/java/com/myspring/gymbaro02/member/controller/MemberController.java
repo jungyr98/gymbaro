@@ -1,15 +1,14 @@
 package com.myspring.gymbaro02.member.controller;
 
+import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,7 +19,7 @@ public interface MemberController {
 	public ModelAndView loginForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView login(@RequestParam Map<String, String> loginMap,
             HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public String kakaoLogin(@RequestParam("code") String code, HttpServletRequest request) throws Exception;
+	public String kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Exception;
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView idpwdFind(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView idFindSuccess(@RequestParam Map<String, String> idByEmail, HttpServletRequest request, HttpServletResponse response) throws Exception;
@@ -33,5 +32,6 @@ public interface MemberController {
 	public ModelAndView gymJoinForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView addMember(@RequestParam("hp") String hp, @RequestParam("email1") String email1, @RequestParam("join_type") String join_type, @RequestParam("email2") String email2, @ModelAttribute("memberVO") MemberVO _memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity overlapped(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public String callback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 	
 }

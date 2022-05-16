@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +20,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.myspring.gymbaro02.member.dao.MemberDAO;
+import com.myspring.gymbaro02.member.dao.MemberRepository;
+import com.myspring.gymbaro02.member.dto.KakaoDTO;
 import com.myspring.gymbaro02.member.vo.MemberVO;
 
 import net.nurigo.java_sdk.api.Message;
@@ -32,12 +32,14 @@ import net.nurigo.java_sdk.exceptions.CoolsmsException;
 public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private MemberDAO memberDAO;
-	
+	@Autowired
+	private MemberRepository mr;
+		
 	
 	@Override
 	public MemberVO login(Map loginMap) throws Exception{
 		
-		// ÀÔ·ÂÇÑ ¾ÆÀÌµğ¿¡ ÇØ´çÇÏ´Â ¼ÖÆ®°ª Ã£Àº ÈÄ ´Ù½Ã ¾ÏÈ£È­
+		// ì…ë ¥í•œ ì•„ì´ë””ì— í•´ë‹¹í•˜ëŠ” ì†”íŠ¸ê°’ ì°¾ì€ í›„ ë‹¤ì‹œ ì•”í˜¸í™”
 		String id = (String)loginMap.get("id");
 		String pwd = (String)loginMap.get("pwd");
 		
@@ -53,7 +55,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void addMember(MemberVO memberVO) throws Exception{
 		
-		// ºñ¹Ğ¹øÈ£ ¾ÏÈ£È­ ÈÄ ´Ù½Ã set
+		// ë¹„ë°€ë²ˆí˜¸ ì•”í˜¸í™” í›„ ë‹¤ì‹œ set
 		String salt = SHA256Util.generateSalt();
 		memberVO.setSALT(salt);
 		String password = memberVO.getMember_pwd();
@@ -86,7 +88,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public String pwdFindSuccess(Map pwdMap) throws Exception {
-		String member_id = (String)pwdMap.get("member_id"); // ÀÌ¸§ Ã£±â¿ë ¾ÆÀÌµğ
+		String member_id = (String)pwdMap.get("member_id"); // ì´ë¦„ ì°¾ê¸°ìš© ì•„ì´ë””
 		String newPwd = (String)pwdMap.get("newPwd");
 		String salt = memberDAO.getSaltById(member_id);
 		String password = newPwd;
@@ -98,9 +100,55 @@ public class MemberServiceImpl implements MemberService {
 	 
 		return member_name; 
 	}
+	
+	@Override
+	public KakaoDTO getUserInfo(String access_Token) {
+	// ï¿½ï¿½Ã»ï¿½Ï´ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ ï¿½Ö±â¿¡ HashMapÅ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	HashMap<String, Object> userInfo = new HashMap<String, Object>();
+	String reqURL = "https://kapi.kakao.com/v2/user/me";
+	try {URL url = new URL(reqURL);
+	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	conn.setRequestMethod("GET");
+	// ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ Headerï¿½ï¿½ ï¿½ï¿½ï¿½Ôµï¿½ ï¿½ï¿½ï¿½ï¿½
+	conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+	int responseCode = conn.getResponseCode();
+	System.out.println("responseCode : " + responseCode);
+	BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	String line = "";
+	String result = "";
+	while ((line = br.readLine()) != null) {
+		result += line;
+	}
+	System.out.println("response body : " + result);
+	JsonParser parser = new JsonParser();
+	JsonElement element = parser.parse(result);
+	JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+	JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+	String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+	String email = kakao_account.getAsJsonObject().get("email").getAsString();
+	userInfo.put("nickname", nickname);
+	userInfo.put("email", email);
+	} catch (IOException e) {
+	e.printStackTrace();
+	}
+	
+	KakaoDTO result = mr.findkakao(userInfo);
+	// ìœ„ ì½”ë“œëŠ” ë¨¼ì € ì •ë³´ê°€ ì €ì¥ë˜ìˆëŠ”ì§€ í™•ì¸í•˜ëŠ” ì½”ë“œ.
+	System.out.println("S:" + result);
+	if(result==null) {
+	// resultê°€ nullì´ë©´ ì •ë³´ê°€ ì €ì¥ì´ ì•ˆë˜ìˆëŠ”ê±°ë¯€ë¡œ ì •ë³´ë¥¼ ì €ì¥.
+		mr.kakaoinsert(userInfo);
+		// ìœ„ ì½”ë“œê°€ ì •ë³´ë¥¼ ì €ì¥í•˜ê¸° ìœ„í•´ Repositoryë¡œ ë³´ë‚´ëŠ” ì½”ë“œì„.
+		return mr.findkakao(userInfo);
+		// ìœ„ ì½”ë“œëŠ” ì •ë³´ ì €ì¥ í›„ ì»¨íŠ¸ë¡¤ëŸ¬ì— ì •ë³´ë¥¼ ë³´ë‚´ëŠ” ì½”ë“œì„.
+		//  resultë¥¼ ë¦¬í„´ìœ¼ë¡œ ë³´ë‚´ë©´ nullì´ ë¦¬í„´ë˜ë¯€ë¡œ ìœ„ ì½”ë“œë¥¼ ì‚¬ìš©.
+	} else {
+	return result;
+	}
+	}
 
 	
-	//access_token ¿äÃ»
+	//access_token ìš”ì²­
 	@Override
 	public String getAccessToken (String authorize_code) {
 	String access_Token = "";
@@ -111,28 +159,28 @@ public class MemberServiceImpl implements MemberService {
 	 
 	HttpURLConnection conn = (HttpURLConnection) 
 	url.openConnection();
-	// POST ¿äÃ»À» À§ÇØ ±âº»°ªÀÌ falseÀÎ setDoOutputÀ» true·Î
+	// POST ìš”ì²­ì„ ìœ„í•´ ê¸°ë³¸ê°’ì´ falseì¸ setDoOutputì„ trueë¡œ
 	 
 	conn.setRequestMethod("POST");
 	conn.setDoOutput(true);
-	// POST ¿äÃ»¿¡ ÇÊ¿ä·Î ¿ä±¸ÇÏ´Â ÆÄ¶ó¹ÌÅÍ ½ºÆ®¸²À» ÅëÇØ Àü¼Û
+	// POST ìš”ì²­ì— í•„ìš”ë¡œ ìš”êµ¬í•˜ëŠ” íŒŒë¼ë¯¸í„° ìŠ¤íŠ¸ë¦¼ì„ í†µí•´ ì „ì†¡
 	 
 	BufferedWriter bw = new BufferedWriter(new 
 	OutputStreamWriter(conn.getOutputStream()));
 	StringBuilder sb = new StringBuilder();
 	sb.append("grant_type=authorization_code");
 	 
-	sb.append("&client_id=b45cad6c7b351ab3b0f2ff42b3d5e362"); //º»ÀÎÀÌ ¹ß±Ş¹ŞÀº key
-	sb.append("&redirect_uri=http://localhost:8080/gymbaro02/member/kakaoLogin"); // º»ÀÎÀÌ ¼³Á¤ÇÑ ÁÖ¼Ò
+	sb.append("&client_id=b45cad6c7b351ab3b0f2ff42b3d5e362"); //ë³¸ì¸ì´ ë°œê¸‰ë°›ì€ key
+	sb.append("&redirect_uri=http://localhost:8080/gymbaro02/member/kakaoLogin"); // ë³¸ì¸ì´ ì„¤ì •í•œ ì£¼ì†Œ
 	 
 	sb.append("&code=" + authorize_code);bw.write(sb.toString());
 	bw.flush();
 	 
-	// °á°ú ÄÚµå°¡ 200ÀÌ¶ó¸é ¼º°ø
+	// ê²°ê³¼ ì½”ë“œê°€ 200ì´ë¼ë©´ ì„±ê³µ
 	int responseCode = conn.getResponseCode();
 	System.out.println("responseCode : " + responseCode);
 	 
-	// ¿äÃ»À» ÅëÇØ ¾òÀº JSONÅ¸ÀÔÀÇ Response ¸Ş¼¼Áö ÀĞ¾î¿À±â
+	// ìš”ì²­ì„ í†µí•´ ì–»ì€ JSONíƒ€ì…ì˜ Response ë©”ì„¸ì§€ ì½ì–´ì˜¤ê¸°
 	BufferedReader br = new BufferedReader(new 
 	InputStreamReader(conn.getInputStream()));
 	String line = "";
@@ -143,7 +191,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	System.out.println("response body : " + result);
 	 
-	// Gson ¶óÀÌºê·¯¸®¿¡ Æ÷ÇÔµÈ Å¬·¡½º·Î JSONÆÄ½Ì °´Ã¼ »ı¼º
+	// Gson ë¼ì´ë¸ŒëŸ¬ë¦¬ì— í¬í•¨ëœ í´ë˜ìŠ¤ë¡œ JSONíŒŒì‹± ê°ì²´ ìƒì„±
 	JsonParser parser = new JsonParser();
 	JsonElement element = parser.parse(result);
 	 
@@ -162,45 +210,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 	return access_Token;
 	}
-	//»ç¿ëÀÚ Á¤º¸ ¿äÃ»
-	@Override
-	public HashMap<String, Object> getUserInfo(String access_Token) {
-	// ¿äÃ»ÇÏ´Â Å¬¶óÀÌ¾ğÆ®¸¶´Ù °¡Áø Á¤º¸°¡ ´Ù¸¦ ¼ö ÀÖ±â¿¡ HashMapÅ¸ÀÔÀ¸·Î ¼±¾ğ
-	HashMap<String, Object> userInfo = new HashMap<String, 
-	Object>();
-	String reqURL = "https://kapi.kakao.com/v2/user/me";
-	try {URL url = new URL(reqURL);
-	HttpURLConnection conn = (HttpURLConnection) 
-	url.openConnection();
-	conn.setRequestMethod("GET");
-	// ¿äÃ»¿¡ ÇÊ¿äÇÑ Header¿¡ Æ÷ÇÔµÉ ³»¿ë
-	conn.setRequestProperty("Authorization", "Bearer " + 
-	access_Token);
-	int responseCode = conn.getResponseCode();
-	System.out.println("responseCode : " + responseCode);
-	BufferedReader br = new BufferedReader(new 
-	InputStreamReader(conn.getInputStream()));
-	String line = "";
-	String result = "";
-	while ((line = br.readLine()) != null) {
-	result += line;
-	}
-	System.out.println("response body : " + result);
-	JsonParser parser = new JsonParser();
-	JsonElement element = parser.parse(result);
-	JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-	JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-	String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-	String email = kakao_account.getAsJsonObject().get("email").getAsString();
-	userInfo.put("nickname", nickname);
-	userInfo.put("email", email);
-	} catch (IOException e) {
-	e.printStackTrace();
-	}
-	return userInfo;
-	}
 	
-	/* ÈŞ´ëÆù ÀÎÁõ ¼­ºñ½º ºÎºĞ */
+	/* íœ´ëŒ€í° ì¸ì¦ ì„œë¹„ìŠ¤ ë¶€ë¶„ */
 	@Override
 	public void certifiedPhoneNumber(String phoneNumber, String cerNum) {
 
@@ -210,10 +221,10 @@ public class MemberServiceImpl implements MemberService {
 
 	        // 4 params(to, from, type, text) are mandatory. must be filled
 	        HashMap<String, String> params = new HashMap<String, String>();
-	        params.put("to", phoneNumber);    // ¼ö½ÅÀüÈ­¹øÈ£
-	        params.put("from", "01030279772");    // ¹ß½ÅÀüÈ­¹øÈ£. Å×½ºÆ®½Ã¿¡´Â ¹ß½Å,¼ö½Å µÑ´Ù º»ÀÎ ¹øÈ£·Î ÇÏ¸é µÊ
+	        params.put("to", phoneNumber);    // ìˆ˜ì‹ ì „í™”ë²ˆí˜¸
+	        params.put("from", "01030279772");    // ë°œì‹ ì „í™”ë²ˆí˜¸. í…ŒìŠ¤íŠ¸ì‹œì—ëŠ” ë°œì‹ ,ìˆ˜ì‹  ë‘˜ë‹¤ ë³¸ì¸ ë²ˆí˜¸ë¡œ í•˜ë©´ ë¨
 	        params.put("type", "SMS");
-	        params.put("text", "[Áü¹Ù·Î] ÀÎÁõ¹øÈ£ " + cerNum + " ¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+	        params.put("text", "[ì§ë°”ë¡œ] ì¸ì¦ë²ˆí˜¸ " + cerNum + " ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
 	        params.put("app_version", "test app 1.2"); // application name and version
 
 	        try {

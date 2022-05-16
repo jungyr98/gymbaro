@@ -1,9 +1,13 @@
-.main_container {
-   width:1024px;
+body {
+		font-family: 'Noto Sans KR', sans-serif;
+	}
 
+.main_container {
+	width:900px;
+	margin-top:80px;
 }
 
-/* .first_content {
+ .first_content {
    margin-top:70px;
    border-top:2px solid #C4C4C4;
 }
@@ -23,7 +27,7 @@
 
 .first_text span b {
    color: #184798;
-} */
+} 
 
 .step_bar {
    display:flex;
@@ -31,11 +35,10 @@
 }
 
 .bars {
-   width:989px;
+   width:900px;
    height:43px;
    display:flex;
    justify-content:center;
-
    align-items:center;
 }
 
@@ -45,9 +48,6 @@
 
 .step_bar_01 {
    background-color: #f0f0f0;
-}
-
-.step_bar_03 span {
 }
 
 .step_bar_02 {
@@ -65,6 +65,7 @@
    justify-content:space-between;
    margin-top:40px;
    height:50px;
+   float: right;
 }
 
 .button button {
@@ -80,13 +81,12 @@
 }
 
 #button_01 {
-   background-color: #c4c4c4;
+   background-color: #f0f0f0;
    width: 140px;
    height: 45px;
    border: none;
-   border-radius: 7%;
-   font-family: 'Noto Sans KR', sans-serif;
    font-size: medium;
+
 }
 
 #button_02 {
@@ -95,42 +95,122 @@
    width: 140px;
    height: 45px;
    border: none;
-   border-radius: 7%;
-   font-family: 'Noto Sans KR', sans-serif;
    font-size: medium;
 } 
 
-#box {
-   width: 1024px;
-   height: 300px;
-   border: 1px solid;
-   text-align: left;
-   padding-top: 30px;
-   float: left;
-}
-
-.order_number, .order_date, .orderer, .payment_date, .reservation_date, .reservation_place {
-   padding-left: 50px;
-}
-
-.place_image {
-   width: 364px;
-   height: 288px;
-   float: right;
-}
-
-#bold {
-   font-size: 20px;
-   font-weight: bold;
-}
-
-#regular {
-   font-size: 18px;
-}
-
 #title {
-   color:#184798;
-   text-align: center;
-   font-size: 36px;
+   color: #184798; 
+   text-align: center; 
+   font-size: 36px; 
    font-weight: bold;
+}
+
+.membershipResult_box #box1 {
+   width: 900px;
+   border: 1px solid #ddd;
+   border-top: 3px solid #184798;
+   border-radius: 2px;
+}
+
+
+.order_price {
+   margin-left: 50px;
+   margin-top: 80px;
+}
+
+#box1_content {
+	margin: 50px 30px;
+	text-align: left;
+}
+
+#box1_content #table_div_box {
+	display: flex;
+    justify-content: space-between;
+}
+
+.membershipResult_box table, .membershipResult_box tr{
+   text-align: left;
+   vertical-align: top;
+   line-height: 1.8;
+}
+
+.membershipResult_box td {
+	padding-left: 10px;
+}
+
+.membershipResult_box #membership_success_title {
+	display: flex;
+    align-items: center;
+    font-size: 30px;
+    margin-bottom: 30px;
+    color: #184798;
+    margin-left: 8px;
+    font-weight:bold;
+}
+
+.membershipResult_box .fixed_td {
+    height: 43px;
+    width: 200px;
+    font-weight:bold;
+ }
+ 
+.membershipResult_box .member_info {
+	width: 335px;
+ 	background: #f0f0f0;
+    padding: 20px;
+    border-radius: 5px;
+ }
+
+.membershipResult_box .member_info table {
+	width:260px;
+} 
+
+.membershipResult_box .member_info span {
+	width: 120px;
+    display: block;
+} 
+ 
+ .checkmark {
+	 width: 40px;
+	 height: 40px;
+	 border-radius: 50%;
+
+	 stroke-width: 3;
+	 stroke: #fff;
+	 stroke-miterlimit: 10;
+	 box-shadow: inset 0px 0px 0px #184798;
+	 animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+}
+ .checkmark__circle {
+	 stroke-dasharray: 166;
+	 stroke-dashoffset: 166;
+	 stroke-width: 2;
+	 stroke-miterlimit: 10;
+	 stroke: #184798;
+	 fill: none;
+	 animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+ .checkmark__check {
+	 transform-origin: 50% 50%;
+	 stroke-dasharray: 48;
+	 stroke-dashoffset: 48;
+	 animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+ @keyframes stroke {
+	 100% {
+		 stroke-dashoffset: 0;
+	}
+}
+ @keyframes scale {
+	 0%, 100% {
+		 transform: none;
+	}
+	 50% {
+		 transform: scale3d(1.1, 1.1, 1);
+	}
+}
+ @keyframes fill {
+	 100% {
+		 box-shadow: inset 0px 0px 0px 30px #184798;
+	}
 }

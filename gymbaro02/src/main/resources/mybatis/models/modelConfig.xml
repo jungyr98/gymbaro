@@ -11,5 +11,8 @@
     <typeAlias type="com.myspring.gymbaro02.order.vo.OrderVO" alias="orderVO" />
     <typeAlias type="com.myspring.gymbaro02.cart.vo.CartVO" alias="cartVO" />
     <typeAlias type="com.myspring.gymbaro02.mypage.vo.PointHisVO" alias="pointVO" />
+    <typeAlias type="com.myspring.gymbaro02.gym.vo.GymVO" alias="gymVO" />
+    <typeAlias type="com.myspring.gymbaro02.gym.vo.GymImageFileVO" alias="gymImageFileVO" />
+    <typeAlias type="com.myspring.gymbaro02.member.KakaoDTO" alias="KakaoDTO" />
   </typeAliases>
 </configuration>

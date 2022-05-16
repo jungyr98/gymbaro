@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller("membershipController")
-@EnableAspectJAutoProxy
+@RequestMapping(value="/membership")
 public class MembershipControllerImpl implements MembershipController {
 
-	@RequestMapping(value= "/membership/membership_01.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView membership_01(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping(value= "/membershipForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView membershipForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
 		String viewName=(String)request.getAttribute("viewName");
@@ -24,8 +24,8 @@ public class MembershipControllerImpl implements MembershipController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/membership/membership_02.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView membership_02(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping(value= "/membershipResult.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView membershipResult(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		ModelAndView mav=new ModelAndView();
 		String viewName=(String)request.getAttribute("viewName");

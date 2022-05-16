@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"	isELIgnored="false"
+	pageEncoding="utf-8" isELIgnored="false"
 	%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<c:set var="gymVO" value="${gymMap.gymVO}" />
+<c:set var="imageList" value="${gymMap.imageList}" />
 <%
   request.setCharacterEncoding("UTF-8");
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,28 +36,34 @@ $(function () {
 <div class="main_container">
 	<div class="gym_info_header_box">
 		<div class="gym_info_header_img">
-			<img src="${contextPath}/resources/image/gym_01.PNG" alt="gym_01.PNG">
+			<img alt="HTML5 &amp; CSS3" src="${contextPath}/thumbnailsGym.do?gym_id=${gymVO.gym_id}&fileName=${gymVO.gym_fileName}">
 		</div>
 		<div class="gym_info_header_text">
-			<span class="gym_info_header_title">그린 헬스</span>
+			<span class="gym_info_header_title">${gymVO.gym_name}</span>
 			<div class="gym_stars_box">
 				⭐⭐⭐⭐⭐ 5.0
 			</div>
 			<div class="gym_location_box">
-				<span>대전 서구 대덕대로 182, 오라클빌딩/ 3층</span>
-				<span><img src="${contextPath}/resources/image/telephone.png" alt="telephone.png">042-476-2111</span>
+				<span>${gymVO.firstAddress} ${gymVO.extraAddress}</span>
+				<span><img src="${contextPath}/resources/image/telephone.png" alt="telephone.png">${gymVO.hp}</span>
 			</div>
 			<div class="gym_option_box">
 				<span>옵션 선택</span>
 				<select>
-					<option>헬스</option>
+					<option>${gymVO.first_option}</option>
 				</select>
 				<select>
 					<option>개월수</option>
-					<option>1개월</option>
-					<option>3개월</option>
-					<option>6개월</option>
-					<option>12개월</option>
+					<fmt:formatNumber value="${gymVO.price_info1}" type="number" var="price1" />
+					<fmt:formatNumber value="${gymVO.price_info2}" type="number" var="price2" />
+					<fmt:formatNumber value="${gymVO.price_info3}" type="number" var="price3" />
+					<fmt:formatNumber value="${gymVO.price_info4}" type="number" var="price4" />
+					<fmt:formatNumber value="${gymVO.price_info5}" type="number" var="price5" />
+					<option>1일권 ${price1}원</option>					
+					<option>1개월 ${price2}원</option>
+					<option>3개월 ${price3}원</option>
+					<option>6개월 ${price4}원</option>
+					<option>12개월 ${price5}원</option>
 				</select>
 				<input type="button" class="option_submit_btn" value="회원권 담기">
 			</div>
@@ -76,7 +83,7 @@ $(function () {
                <div class="active gymsInfo_first_tab_box">
 					<div class="info_content gymsInfo_first_text_box">
 						<p>
-						테스트 시설 소개
+						${gymVO.gym_intro}
 						</p>
 					</div>
 					<div class="info_content gymsInfo_priceInfo_box">
@@ -86,7 +93,7 @@ $(function () {
 						<p>운영시간</p>
 					</div>
 					<div class="info_content gymsInfo_programInfo_box">
-						<p>운영 프로그램</p>
+						<p>${gymVO.program_list}</p>
 					</div>
 					<div class="info_content gymsInfo_Info_box">
 						<p>편의시설</p>
@@ -97,7 +104,9 @@ $(function () {
                </div>
                <div class="gymsInfo_div">
 					<div class="gymsInfo_img_box">
-						<p>테스트 사진</p>
+					  	<c:forEach var="item" items="${imageList}">
+					  		<img class="gym_detail_img" src="${contextPath}/downloadGym.do?gym_id=${gymVO.gym_id}&fileName=${item.fileName}">
+					  	</c:forEach>
 					</div>
                </div>
                 <div class="gymsInfo_div">
@@ -156,8 +165,7 @@ $(function () {
                </div>
           </div>
           </div>
-     </div>
-	
+     </div>	
 </div>
 </body>
 </html>

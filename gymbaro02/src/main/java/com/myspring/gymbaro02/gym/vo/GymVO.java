@@ -6,10 +6,10 @@ public class GymVO {
 	private int gym_id;
 	private int uid;
 	private String gym_name;
-	private String zipcode;
-	private String roadAddress;
-	private String jibunAddress;
+	private String hp;
+	private String firstAddress;
 	private String extraAddress;
+	private String first_option;
 	private String gym_intro;
 	private String program_list;
 	private String insta_addr;
@@ -23,6 +23,8 @@ public class GymVO {
 	private int price_info5;
 	private String service;
 	private Date regDate; 
+	private String gym_fileName;
+	private String distance;
 
 
 public GymVO() {}
@@ -34,9 +36,6 @@ public GymVO(int gym_id, int uid, String gym_name, String zipcode, String roadAd
 	this.gym_id = gym_id;
 	this.uid = uid;
 	this.gym_name = gym_name;
-	this.zipcode = zipcode;
-	this.roadAddress = roadAddress;
-	this.jibunAddress = jibunAddress;
 	this.extraAddress = extraAddress;
 	this.gym_intro = gym_intro;
 	this.program_list = program_list;
@@ -75,32 +74,16 @@ public GymVO(int gym_id, int uid, String gym_name, String zipcode, String roadAd
 		
 		public void setGym_name(String gym_name) {
 			this.gym_name = gym_name;
-		}
+		}				
 		
-		public String getZipcode() {
-			return zipcode;
+		public String getHp() {
+			return hp;
 		}
-		
-		public void setZipcode(String zipcode) {
-			this.zipcode = zipcode;
+
+		public void setHp(String hp) {
+			this.hp = hp;
 		}
-		
-		public String getRoadAddress() {
-			return roadAddress;
-		}
-		
-		public void setRoadAddress(String roadAddress) {
-			this.roadAddress = roadAddress;
-		}
-		
-		public String getJibunAddress() {
-			return jibunAddress;
-		}
-		
-		public void setJibunAddress(String jibunAddress) {
-			this.jibunAddress = jibunAddress;
-		}
-		
+
 		public String getExtraAddress() {
 			return extraAddress;
 		}
@@ -211,5 +194,37 @@ public GymVO(int gym_id, int uid, String gym_name, String zipcode, String roadAd
 		
 		public void setRegDate(Date regDate) {
 			this.regDate = regDate;
+		}
+
+		public String getFirstAddress() {
+			return firstAddress;
+		}
+
+		public void setFirstAddress(String firstAddress) {
+			this.firstAddress = firstAddress;
+		}
+
+		public String getFirst_option() {
+			return first_option;
+		}
+
+		public void setFirst_option(String first_option) {
+			this.first_option = first_option;
+		}
+
+		public String getGym_fileName() {
+			return gym_fileName;
+		}
+
+		public void setGym_fileName(String gym_fileName) {
+			this.gym_fileName = gym_fileName;
+		}
+
+		public String getDistance() {
+			return distance;
+		}
+
+		public void setDistance(String distance) {
+			this.distance = distance;
 		}
 }

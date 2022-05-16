@@ -191,8 +191,15 @@
         <groupId>org.webjars</groupId>
         <artifactId>jquery</artifactId>
         <version>2.2.1</version>
-      </dependency>   
-      
+      </dependency>  
+       
+      <!-- lombok -->
+      <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.12</version>
+            <scope>provided</scope>
+      </dependency>
 	    
 	    <!-- 썸내일 기능 -->
         <dependency>
@@ -216,11 +223,30 @@
 		</dependency>
 		
 		<dependency>
+    		<groupId>com.fasterxml.jackson.core</groupId>
+   	 		<artifactId>jackson-databind</artifactId>
+    		<version>2.9.8</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.8.7</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+      	<dependency>
+         	<groupId>org.apache.commons</groupId>
+         	<artifactId>commons-lang3</artifactId>
+          	<version>3.12.0</version>
+      	</dependency>
+		
+		<dependency>
+    		<groupId>com.github.scribejava</groupId>
+    		<artifactId>scribejava-core</artifactId>
+    		<version>2.8.1</version>
+ 		</dependency>
+ 		
 		<!-- cool sms -->
 		<dependency>
     		<groupId>net.nurigo</groupId>
