@@ -34,22 +34,22 @@
                    			<tr>
                    				<td class="fixed_td">예약한 시설 정보</td>
                    				<td>
-                   					<span>둔산 코앞 휘트니스</span><br>
-                   					<span>헬스</span><br>
-                   					<span>1개월</span>
+                   					<span>${membershipMap.gym_name}</span><br>
+                   					<span>${membershipMap.first_option}</span><br>
+                   					<span>${membershipMap.option}개월</span>
                    					<br><br>
                    				</td>
                    			</tr>
                    			<tr>
                    				<td class="fixed_td">결제 방법</td>
                    				<td>
-                   					<span>무통장입금</span>
+                   					<span>${membershipMap.payment}</span>
                    				</td>
                    			</tr>
                    			<tr>
                    				<td class="fixed_td">최종 결제 금액</td>
                    				<td>
-                   					<fmt:formatNumber  value="20000" type="number" var="price" />
+                   					<fmt:formatNumber value="${membershipMap.total_price}" type="number" var="price" />
                    					<span>${price}원</span>
                    				</td>
                    			</tr>
@@ -65,13 +65,13 @@
                    			<tr>
                    				<td class="fixed_td">회원명</td>
                    				<td>
-                   					<span>정유라</span>
+                   					<span>${membershipMap.name}</span>
                    				</td>
                    			</tr>
                    			<tr>
                    				<td class="fixed_td">운동 시작일자</td>
                    				<td>
-                   					<span>2022-05-18 ~ 2022-06-18</span>
+                   					<span>${membershipMap.start_date} ~ ${membershipMap.last_date}</span>
                    				</td>
                    			</tr>
                    		</table>

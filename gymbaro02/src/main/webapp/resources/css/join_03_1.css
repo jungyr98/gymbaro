@@ -141,3 +141,7 @@ margin-left:5px;
 	display: flex;
     align-items: end;
 }
+
+input[name=license1], input[name=license2], input[name=license3] {
+	width:100px;
+}

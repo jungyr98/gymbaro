@@ -28,19 +28,16 @@
 	</resultMap>
 
 
+<!-- 내 주문내역 보기 -->
 <select id="selectMyOrderList" resultMap="orderGoodsResult"  parameterType="orderVO"  >
 	    <![CDATA[
-			select * from order_tbl 
-        	member_id=#{member_id}
-        	order by creDate
+			select case when count(goods_name) > 1 then concat(goods_name,' 외 ',(count(goods_name)-1),'개') else goods_name end as goods_name
+			from order_tbl where uid=#{uid} group by order_id order by creDate desc;
 		]]>
 </select>
 
 <!-- 주문 테이블 데이터 추가 -->
-<insert id="insertNewOrder" parameterType="orderVO" useGeneratedKeys="true" keyProperty="order_id">
-	    <selectKey resultType="String" keyProperty="order_id" order="BEFORE">
-	    	select concat(replace(curdate(), '-', ''),(case count(*) when 0 then 1 else max(cast(substring(order_id,9) as signed)) + 1  end)) from order_tbl
-	    </selectKey>
+<insert id="insertNewOrder" parameterType="orderVO">
 	    <![CDATA[
 				insert into order_tbl(order_id,
 										uid,
@@ -77,16 +74,28 @@
 						                #{delivery_memo},
 						                #{total_price})
     	]]>
-	</insert>
-	
+</insert>
+
+<!-- 장바구니에서 주문 했을시, 해당 상품 장바구니에서 삭제 -->
+<delete id="deleteCartItem" parameterType="java.util.Map">
+	delete from cart where cart_id in
+	<foreach item="item" collection="list" open="(" separator="," close=")">#{item.cart_id}</foreach>
+</delete>
+
+<!-- 주문할 때 포인트 사용했다면 포인트 수정 -->	
 <update id="minusUsePoint" parameterType="java.util.Map">
 	<![CDATA[
 			update member set member_point = #{member_point} where uid = #{uid}
 			]]>
 </update>
 
+<!-- 주문할 때 내 포인트 확인 -->
 <select id="selectMemberPoint" parameterType="java.util.Map" resultType="int">
 	<![CDATA[select member_point from member where uid = #{uid}]]>
 </select>
+
+ <select id="selectOrderID" resultType="String">
+	    <![CDATA[select concat(replace(curdate(), '-', ''),(case count(*) when 0 then 1 else max(cast(substring(order_id,9) as signed)) + 1  end)) from order_tbl]]>
+ </select>
 
 </mapper>

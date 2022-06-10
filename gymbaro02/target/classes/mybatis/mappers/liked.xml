@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="mapper.liked">
+	<resultMap type="likedVO" id="likedResult">
+		<result property="liked_id" column="liked_id" />
+		<result property="gym_id" column="gym_id" />
+		<result property="uid" column="uid" />
+		<result property="gym_name" column="gym_name" />
+		<result property="fileName" column="fileName" />
+	</resultMap>
+
+<insert id="insertLikedItem" parameterType="likedVO">
+	<selectKey resultType="int" keyProperty="liked_id" order="BEFORE">
+	    	select case count(*) when 0 then 1 else max(liked_id) + 1 end from liked_tbl
+	</selectKey>
+	insert into liked_tbl(liked_id, gym_id, uid) values(#{liked_id}, #{gym_id}, #{uid})
+</insert>
+
+<select id="selectMyLikedList" parameterType="int" resultMap="likedResult">
+	select l.*, g.gym_name, m.fileName from liked_tbl l, gym g, gym_detail_img m 
+	where l.gym_id = g.gym_id and l.gym_id = m.gym_id and m.fileType ='main_image' and l.uid = #{uid}
+</select>
+
+<delete id="deleteLikedItem" parameterType="likedVO">
+	delete from liked_tbl where gym_id = #{gym_id} and uid = #{uid}
+</delete>
+
+</mapper>

@@ -4,14 +4,14 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
 
-	<definition name="/membership/membership_01" extends="baseLayout">
+	<definition name="/membership/membershipForm" extends="baseLayout">
 		<put-attribute name="title" value="예약하기" />
-		<put-attribute name="body" value="/WEB-INF/views/membership/membership_01.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/membership/membershipForm.jsp" />
 	</definition>
 	
-	<definition name="/membership/membership_02" extends="baseLayout">
+	<definition name="/membership/addNewMembership" extends="baseLayout">
 		<put-attribute name="title" value="헬스  용품" />
-		<put-attribute name="body" value="/WEB-INF/views/membership/membership_02.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/membership/membershipResult.jsp" />
 	</definition>
 	
 </tiles-definitions>

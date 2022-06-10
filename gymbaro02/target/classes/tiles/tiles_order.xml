@@ -4,20 +4,25 @@
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
 
-	<definition name="/order/order_01" extends="baseLayout">
-		<put-attribute name="title" value="주문 페이지" />
-		<put-attribute name="body" value="/WEB-INF/views/order/order_01.jsp" />
-	</definition>
+	<definition name="/order/orderEachGoods" extends="baseLayout">
+       <put-attribute name="title" value="상품 주문 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/order/orderGoodsForm.jsp" />
+    </definition>
+    
+    <definition name="/order/orderGoodsForm" extends="baseLayout">
+       <put-attribute name="title" value="상품 주문 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/order/orderGoodsForm.jsp" />
+    </definition>
 	
 	<definition name="/order/order_02" extends="baseLayout">
 		<put-attribute name="title" value="주문 페이지" />
 		<put-attribute name="body" value="/WEB-INF/views/order/order_02.jsp" />
 	</definition>
 	
-		<definition name="/order/order_03" extends="baseLayout">
-		<put-attribute name="title" value="주문 완료 페이지" />
-		<put-attribute name="body" value="/WEB-INF/views/order/order_03.jsp" />
-	</definition>
+	 <definition name="/order/payToOrderGoods" extends="baseLayout">
+       <put-attribute name="title" value="상품 주문 결과 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/order/orderResult.jsp" />
+    </definition>
 	
 	<definition name="/order/order_coupon" template="/WEB-INF/views/order/order_coupon.jsp">
 		<put-attribute name="title" value="쿠폰 페이지" />

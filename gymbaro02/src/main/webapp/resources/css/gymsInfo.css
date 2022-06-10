@@ -38,7 +38,7 @@
 	display:flex;
 	flex-direction:column;
 	align-items:baseline;
-	width: 350px;
+	width: 500px;
 }
 
 .gym_info_header_text .gym_info_header_title {
@@ -75,7 +75,7 @@
 }
 
 .gym_info_header_text .gym_option_box select {
-	width: 350px;
+	width: 500px;
     height: 40px;
     font-size: 15px;
     padding: 0 5px;
@@ -86,7 +86,7 @@
 }
 
 .gym_info_header_text .gym_option_box .option_submit_btn {
-	width: 350px;
+	width: 500px;
 	height:50px;
     font-size: 17px;
     font-weight:600;
@@ -104,6 +104,7 @@
     flex-direction: column;
     align-items: center;
     padding: 50px 30px;
+    text-align: start;
 }
 
 .gymsInfo_first_tab_box .info_content {
@@ -203,4 +204,75 @@
 
 .user_review_list_box .user_review_content {
     margin: 20px 0 20px 65px;
+}
+
+.gymsInfo_first_tab_box p {
+	font-size: 16px;
+    color: #88898B;
+}
+
+.gymsInfo_first_tab_box h4 {
+    color: #58595B;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.gymInfo_service_box {
+    display: flex;
+    align-items: center;
+}
+
+.gymInfo_service_box .service_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+    color: #88898B;
+    font-size: 16px;
+    margin-right: 40px;
+}
+
+.price_info_box {
+    padding: 30px;
+    box-shadow: 0px 1px 3px 0px rgb(0 0 0 / 20%);
+    text-align: -webkit-right;
+}
+
+.gym_info_header_img {
+    width: 500px;
+    overflow-x: hidden;
+}
+
+.price_info_box .price_info_option {
+    display: flex;
+    justify-content: space-between;
+    width: 450px;
+    margin-bottom: 50px;
+    font-weight: bold;
+    color:#88898B;
+}
+
+.price_info_box .price_info_num {
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+}
+
+.price_info_box .price_info_num span {
+	box-shadow: inset 0 0 #fff, inset 0 -10px rgb(255 197 0 / 60%);
+	font-size: 18px;
+	color:#58595B;
+}
+
+
+.gym_info_header_text #title_and_heart_box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+}
+
+.gym_info_header_text #title_and_heart_box img {
+	cursor:pointer;
 }

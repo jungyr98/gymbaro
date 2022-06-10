@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.admin.membership">
+<resultMap id="membershipResult" type="membershipVO">
+		<result property="membership_id" column="membership_id" />
+		<result property="uid" column="uid" />
+		<result property="name" column="name" />
+		<result property="gender" column="gender" />
+		<result property="birth" column="birth" />
+		<result property="phone_number" column="phone_number" />
+		<result property="zipcode" column="zipcode" />
+		<result property="roadAddress" column="roadAddress" />
+		<result property="extraAddress" column="extraAddress" />
+		<result property="gym_id" column="gym_id" />
+		<result property="gym_name" column="gym_name" />
+		<result property="first_option" column="first_option" />
+		<result property="second_option" column="second_option" />
+		<result property="start_date" column="start_date" />
+		<result property="last_date" column="last_date" />
+		<result property="payment" column="payment" />
+		<result property="total_price" column="total_price" />
+		<result property="membership_state" column="membership_state" />
+		<result property="regDate" column="regDate" />
+</resultMap>
+
+<!-- 회원권 리스트 조회 -->
+<select id="selectMembershipList" resultMap="membershipResult">
+	select * from membership order by regDate desc;
+</select>
+
+<!-- 회원권 삭제하기 -->
+<delete id="deleteMembership" parameterType="String">
+	delete from membership where membership_id = #{membership_id}
+</delete>
+
+<!-- 회원권 상태 수정하기 -->
+<update id="updateMembershipState" parameterType="java.util.Map">
+	update membership <set> membership_state = #{membership_state} </set> where membership_id = #{membership_id}
+</update>
+
+</mapper>

@@ -148,6 +148,8 @@ function credit_btn() {
 
 // 주문하기 누를시 해당 결제방법으로 결제하기
 function order_btn(){
+	var check = confirm("주문을 결제하시겠습니까?");
+	if(check){
 	var payment = $('input[name=payment]').val();
 	if(payment == '신용카드'){
 		if(!credit_btn()){
@@ -170,6 +172,9 @@ function order_btn(){
 		$('.receiver_phone_number').prop("disabled", false);
 		$('#zipcode').prop("disabled", false);
 		$('#roadAddress').prop("disabled", false); 
+	}
+	} else {
+		return false;
 	}
 	return true;
 }
@@ -240,7 +245,9 @@ $(document).ready(function(){
 			$('#zipcode').val('${memberInfo.zipcode}');
 			$('#zipcode').prop("disabled", true);
 			$('#roadAddress').val('${memberInfo.roadAddress}');
-			$('#roadAddress').prop("disabled", true); 
+			$('#roadAddress').prop("disabled", true);
+			$('#extraAddress').val('${memberInfo.extraAddress}');
+			$('#extraAddress').prop("disabled", true);
         } else {
         	$('.receiver_name').val('');
 			$('.receiver_name').prop("disabled", false);
@@ -249,7 +256,9 @@ $(document).ready(function(){
 			$('#zipcode').val('');
 			$('#zipcode').prop("disabled", false);
 			$('#roadAddress').val('');
-			$('#roadAddress').prop("disabled", false); 
+			$('#roadAddress').prop("disabled", false);
+			$('#extraAddress').val('');
+			$('#extraAddress').prop("disabled", false);
         }
     });
     
@@ -286,7 +295,8 @@ $(document).ready(function(){
   
     $('input[name="point"]').focusout(function (e) {
     	e.preventDefault();
-    	if(parseInt($('input[name="point"]').val()) > ${memberInfo.member_point}){
+    	var member_point = $('input[name="member_point"]').val();
+    	if(parseInt($('input[name="point"]').val()) > member_point){
     		alert("포인트가 부족합니다.");
     		$('input[name="point"]').val('');
     	}else if(parseInt($('input[name="point"]').val()) > 0){
@@ -362,10 +372,171 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 		<div class="step_bar_02 bars"><span>배송정보·결제정보 입력</span></div>
 		<div class="step_bar_03 bars"><span>주문 완료</span></div>
 	 </div>
+	 <table id="goodsInfo_table">
+	 		<thead>
+	 			<tr id="non-border-1">
+	 				<td colspan="2">
+	 				<div class="cell_membership_form1">
+           				 <h3 class="title-box font-mss">Purchase Info <span class="korSub">구매 정보 확인</span></h3>
+       				 </div>
+	 				</td>
+	 			</tr>
+	 		</thead>
+	 		<c:forEach var="item" items="${myOrderList}">
+			<thead>
+				<tr id="non-border-2">
+					<td class="info_fixed_join">
+						<img width="100" alt="" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.fileName}">
+					</td>
+					<td>
+						<div id="goodsInfo_div">
+					  		<span id="goods_name">${item.goods_name}</span>
+					  		<div>
+					  			<span><b>옵션 : </b></span>&nbsp;
+					  			<span>${item.option_name}</span>&nbsp;&nbsp;
+					  			<span><b>수량 : </b></span>&nbsp;
+					  			<span>${item.goods_qty }개</span>
+					  		</div>
+					  	</div>
+					</td>
+				</tr>
+			</thead>
+			</c:forEach>
+	</table>
 	<form action="${contextPath}/order/payToOrderGoods.do" method="post" id="orderForm" onsubmit="return order_btn();">
 		<div class="cell_order_form1">
             <h3 class="title-box font-mss">Recipient Info <span class="korSub">수령자 정보</span></h3>
-        </div>	
+        </div>
+        <c:choose>
+        <c:when test="${empty memberInfo}">
+        <table id="main_table">
+			<thead>
+				<tr>
+					<td class="fixed_join">주문자 이름
+					</td>
+					<td>
+					  <input type="text" name="orderer_name" />
+					</td>
+				</tr>
+			</thead>
+			<thead>
+				<tr>
+					<td class="fixed_join">수령인</td>
+					<td>
+					<input name="receiver_name" class="receiver_name" type="text" id="receiver" /></td>
+				</tr>
+			</thead>
+			<thead>
+				<tr>
+					<td class="fixed_join">휴대폰 번호</td>
+					<td>
+						<input type="text" name="receiver_phone_number" class="receiver_phone_number" id="hp" />
+						&nbsp;<span id="phone_number_text"></span>
+					</td>
+				</tr>
+			</thead>
+			<thead>
+				<tr class="dot_line">
+					<td class="fixed_join">배송지 주소</td>
+					<td>
+					   <input type="text" id="zipcode" name="receiver_zipcode" size="10" />&nbsp;<button type="button" id="btn_zipcode"><a href="javascript:execDaumPostcode()">우편번호검색</a></button>
+					  <br>
+					  <p> 
+					 <input type="text" id="roadAddress" name="receiver_roadAddress" /> 
+					  </p>
+					  <input type="text" id="extraAddress" name="receiver_extraAddress" />
+					</td>
+				</tr>
+			</thead>
+			<thead>
+				<tr>
+					<td class="fixed_join">배송 메모</td>
+					<td> 
+						<select name="memo" onChange="selectBoxChange_memo(this.value);" title="배송 시 요청사항을 선택해 주세요" id="delivery_memo">
+									<option value="none">배송 시 요청사항을 선택해 주세요.</option>
+									<option value="배송 전 연락주세요">배송 전 연락주세요</option>
+									<option value="경비실에 맡겨주세요">경비실에 맡겨주세요</option>
+									<option value="현관 앞에 놓아주세요">현관 앞에 놓아주세요</option>
+									<option value="write_memo">직접입력</option>
+						</select>
+						<br>
+						<p>
+						<input type="text" name="delivery_memo" style="display:none;" />
+						</p>
+					</td>
+				</tr>
+			</thead>
+			<thead style="display:none;">
+				<tr>
+					<td class="fixed_join">포인트 사용</td>
+					<td>
+						<input size="10px" type="text" name="point" id="point" placeholder="0원" value="0" />&nbsp;<input type="checkbox" name="all_point"/>&nbsp;모두 사용하기
+						<input type="hidden" name="member_point" value="0">
+					</td>
+				</tr>
+			</thead>
+			<thead style="display:none;">
+				<tr class="dot_line">
+					<td class="fixed_join">쿠폰 사용</td>
+					<td><a><button type="button" id="coupon" onclick="showPopup();">쿠폰 조회/적용</button></a>  할인 금액 : </td>
+				</tr>
+			</thead>
+			<thead>
+				<tr class="dot_line">
+					<td class="fixed_join">최종 결제 금액</td>
+				<td>
+					<fmt:formatNumber  value="${orderInfo.total_price}" type="number" var="total_price" />
+					<p id="total_price_text">${total_price}원</p>
+					<input type="hidden" name="total_price" value="${orderInfo.total_price}" >
+				</td>
+				</tr>
+			</thead>
+			<thead>
+				<tr class="dot_line">
+					<td class="fixed_join">결제 수단</td> 
+					<td>
+						<label class="test_obj">
+    						<input type="radio" name="payment-radio" value="cash">
+   							<span>무통장 입금</span>
+						</label>
+ 
+						<label class="test_obj">
+    						<input type="radio" name="payment-radio" value="credit">
+    						<span>신용카드</span>
+						</label>
+ 
+						<label class="test_obj">
+    						<input type="radio" name="payment-radio" value="kakaopay">
+    						<span>카카오페이</span>
+						</label>
+						<!--onchange 추가하기-->
+						<div class="cash-select-box" style="display:none;">
+							<br><br>
+							<select id="cash-select">
+								<option value="none">입금은행 선택</option>
+								<option value="기업은행">기업은행</option>
+								<option value="국민은행">국민은행</option>
+								<option value="우리은행">우리은행</option>
+								<option value="수협">수협</option>
+								<option value="농협">농협</option>
+								<option value="부산은행">부산은행</option>
+								<option value="신한은행">신한은행</option>
+								<option value="KEB하나은행">KEB하나은행</option>
+								<option value="광주은행">광주은행</option>
+								<option value="우체국">우체국</option>
+								<option value="대구은행">대구은행</option>
+								<option value="경남은행">경남은행</option>
+							</select>
+							<input type="text" />
+						</div>
+						<input type="hidden" name="goods_qty" value=${orderInfo.goods_qty } />
+						<input type="hidden" name="payment" value="" />
+					</td>
+				</tr>
+			</thead>	
+		</table>
+        </c:when>
+        <c:otherwise>
 		<table id="main_table">
 			<thead>
 				<tr>
@@ -402,6 +573,7 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 					  <p> 
 					 <input type="text" id="roadAddress" name="receiver_roadAddress" value="${memberInfo.roadAddress }"> 
 					  </p>
+					  <input type="text" id="extraAddress" name="receiver_extraAddress" value="${memberInfo.extraAddress }">
 					</td>
 				</tr>
 			</thead>
@@ -427,8 +599,9 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 				<tr>
 					<td class="fixed_join">포인트 사용</td>
 					<td>
-						<input size="10px" type="text" name="point" id="point" placeholder="0원" />&nbsp;<input type="checkbox" name="all_point"/>&nbsp;모두 사용하기
+						<input size="10px" type="text" name="point" id="point" placeholder="0원" value="0" />&nbsp;<input type="checkbox" name="all_point"/>&nbsp;모두 사용하기
 						<span>(사용 가능 적립금 <b>${memberInfo.member_point }</b>원)</span>
+						<input type="hidden" name="member_point" value="${memberInfo.member_point}">
 					</td>
 				</tr>
 			</thead>
@@ -490,10 +663,10 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 						<input type="hidden" name="payment" value="" />
 					</td>
 				</tr>
-
-
 			</thead>	
 		</table>
+		</c:otherwise>
+		</c:choose>
 		<br>
 		<div class="button_box" style="float: right;">
 			<a><button id="button_01"><span>이전으로</span></button></a> &nbsp;

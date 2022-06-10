@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.myspring.gymbaro02.member.dto.KakaoDTO;
+import com.myspring.gymbaro02.member.vo.MemberVO;
 
 @Repository
 public class MemberRepository {
@@ -20,7 +20,7 @@ public class MemberRepository {
 		}
 
 		// 정보 확인
-		public KakaoDTO findkakao(HashMap<String, Object> userInfo) {
+		public MemberVO findkakao(HashMap<String, Object> userInfo) {
 			System.out.println("RN:"+userInfo.get("nickname"));
 			System.out.println("RE:"+userInfo.get("email"));
 			return sqlSession.selectOne("mapper.member.findKakao", userInfo);

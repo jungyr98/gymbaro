@@ -2,6 +2,7 @@
 	pageEncoding="utf-8"
 	isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <!DOCTYPE html >
 <html>
@@ -14,8 +15,39 @@
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- 아임포트 -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <head>
 <meta charset="utf-8">
+<script type="text/javascript">
+
+$.datepicker.setDefaults({
+    dateFormat: 'yy-mm-dd',
+    prevText: '이전 달',
+    nextText: '다음 달',
+    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+    showMonthAfterYear: true,
+    yearSuffix: '년'
+});
+
+$(function() {
+	var option = $('input[name="option"]').val();
+    $("#datepicker1").datepicker({
+    	onSelect: function(dateText, inst) {
+            var date = $(this).val();
+            var endDate = new Date(dateText);
+            var month = endDate.getMonth()+parseInt(option);
+            endDate.setMonth(month);
+            $('#datepicker2').datepicker('setDate', endDate);
+       }
+    });
+    $("#datepicker2").datepicker();
+});
+</script>
 <script>
 function execDaumPostcode() {
   new daum.Postcode({
@@ -69,30 +101,186 @@ function execDaumPostcode() {
 }
 
 
-$.datepicker.setDefaults({
-    dateFormat: 'yy-mm-dd',
-    prevText: '이전 달',
-    nextText: '다음 달',
-    monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-    monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-    dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-    dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-    showMonthAfterYear: true,
-    yearSuffix: '년'
-});
+function kakaopay_btn() {
+    $(function(){
+    	var total_price = $('input[name="total_price"]').val();
+    	//@@@@@@ 1번 @@@@@@@
+        var IMP = window.IMP; // 생략가능
+        IMP.init('imp55512719'); //가맹점 식별코드 삽입
+        var msg;
+        
+        //@@@@@@@@ 2번 @@@@@@@@
+        //url에서 parameter 가져오기 --> price값 알기 위해서
+        var getParam = function(key){
+            var _parammap = {};
+            document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
+                function decode(s) {
+                    return decodeURIComponent(s.split("+").join(" "));
+                }
 
-$(function() {
-    $("#datepicker1").datepicker({
-    	onSelect: function(dateText, inst) {
-            var date = $(this).val();
-            var endDate = new Date(dateText);
-            var month = endDate.getMonth()+1;
-            endDate.setMonth(month);
-            $('#datepicker2').datepicker('setDate', endDate);
-       }
+                _parammap[decode(arguments[1])] = decode(arguments[2]);
+            });
+
+            return _parammap[key];
+        };
+        
+		//@@@@@@ 3번 @@@@@@@
+            IMP.request_pay({
+            pg : 'kakaopay',
+            pay_method : 'card',
+            merchant_uid : 'merchant_' + new Date().getTime(),
+            name : 'vivipayment',
+            amount : total_price,
+            buyer_email : '이메일 넣기',
+            buyer_name : '이름 넣기',
+            buyer_tel : '번호 넣기',
+            buyer_addr : '주소 넣기',
+            buyer_postcode : '123-456',
+           // m_redirect_url : '결제 완료후 이동할 페이지'
+        }, function(rsp) {
+            if ( rsp.success ) {
+                //[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+                jQuery.ajax({
+                    url: "${contextPath}/order/payToOrderGoods.do", //cross-domain error가 발생하지 않도록 주의해주세요
+                    type: 'POST',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        uid : rsp.imp_uid,
+                        price: rsp.paid_amount
+                        //기타 필요한 데이터가 있으면 추가 전달
+                    })
+                }).done(function(data) {
+                    //[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+                    if ( everythings_fine ) {
+                        msg = '결제가 완료되었습니다.';
+                        msg += '\n고유ID : ' + rsp.imp_uid;
+                        msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+                        msg += '\n결제 금액 : ' + rsp.paid_amount;
+                        msg += '카드 승인번호 : ' + rsp.apply_num;
+
+                        alert(msg);
+                    } else {
+                        //[3] 아직 제대로 결제가 되지 않았습니다.
+                        //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+                    }
+                });
+                //성공시 이동할 페이지
+                $('.receiver_name').prop("disabled", false);
+				$('.receiver_phone_number').prop("disabled", false);
+				$('#zipcode').prop("disabled", false);
+				$('#roadAddress').prop("disabled", false); 
+                var formObj = $('#orderForm');
+                formObj.removeAttr('onsubmit');
+                formObj.submit();
+            } else {
+                msg = '결제에 실패하였습니다.';
+                msg += '에러내용 : ' + rsp.error_msg;
+                //실패시 이동할 페이지
+
+                alert(msg);
+                
+            }
+        });
+
     });
-    $("#datepicker2").datepicker();
+};
+
+function credit_btn() {
+	  //class가 btn_payment인 태그를 선택했을 때 작동한다.
+		console.log("크레딧함수");
+	  	IMP.init('imp55512719');
+	  	//결제시 전달되는 정보
+		IMP.request_pay({
+				    pg : 'html5_inicis', 
+				    pay_method : 'card',
+				    merchant_uid : 'merchant_' + new Date().getTime(),
+				    name : '주문명:결제테스트'/*상품명*/,
+				    amount : 100/*상품 가격*/, 
+				    buyer_email : 'iamport@siot.do'/*구매자 이메일*/,
+				    buyer_name : '구매자이름',
+				    buyer_tel : '010-1234-5678'/*구매자 연락처*/,
+				    buyer_addr : '서울특별시 강남구 삼성동'/*구매자 주소*/,
+				    buyer_postcode : '123-456'/*구매자 우편번호*/
+				}, function(rsp) {
+					var result = '';
+				    if ( rsp.success ) {
+				        var msg = '결제가 완료되었습니다.';
+				        msg += '고유ID : ' + rsp.imp_uid;
+				        msg += '상점 거래ID : ' + rsp.merchant_uid;
+				        msg += '결제 금액 : ' + rsp.paid_amount;
+				        msg += '카드 승인번호 : ' + rsp.apply_num;
+				        result ='0';
+				    } else {
+				        var msg = '결제에 실패하였습니다.';
+				        msg += '에러내용 : ' + rsp.error_msg;
+				        result ='1';
+				    }
+				    if(result=='0') {
+				    	$('.receiver_name').prop("disabled", false);
+						$('.receiver_phone_number').prop("disabled", false);
+						$('#zipcode').prop("disabled", false);
+						$('#roadAddress').prop("disabled", false); 
+		                var formObj = $('#orderForm');
+		                formObj.removeAttr('onsubmit');
+		                formObj.submit();
+				    }
+				    alert(msg);
+				});
+			}
+
+//주문하기 누를시 해당 결제방법으로 결제하기
+function order_btn(){
+	var check = confirm("회원권을 결제하시겠습니까?");
+	if(check){
+	var payment = $('input[name=payment]').val();
+	if(payment == '신용카드'){
+		if(!credit_btn()){
+			return false;
+		}
+	} else if(payment == '카카오페이'){
+		if(!kakaopay_btn()){
+			return false;
+		}
+	} else if(payment == ''){
+		alert("결제수단을 선택해주세요!");
+		return false;
+	} else if(payment == '무통장입금'){
+		var cashSelect = $('#cash-select');
+		if(cashSelect.val() == 'none'){
+			alert("입금은행을 선택해주세요!");
+			return false;
+		}
+		$('.receiver_name').prop("disabled", false);
+		$('.receiver_phone_number').prop("disabled", false);
+		$('#zipcode').prop("disabled", false);
+		$('#roadAddress').prop("disabled", false); 
+	  }
+	} else {
+		return false;
+	}
+	return true;
+}
+
+$(document).ready(function(){
+//결제 라디오버튼 클릭시 이벤트 발생
+$("input:radio[name='payment-radio']").click(function(){
+	$('.cash-select-box').css("display", "none");
+	$('.credit-select-box').css("display", "none");
+    if($("input[name='payment-radio']:checked").val() == "cash"){
+		$('.cash-select-box').css("display", "");
+		$('input[name=payment]').val('무통장입금');
+    }else if($("input[name='payment-radio']:checked").val() == "credit"){
+    	$('.credit-select-box').css("display", "");
+    	$('input[name=payment]').val('신용카드');
+    }else if($("input[name='payment-radio']:checked").val() == "kakaopay"){
+    	$('input[name=payment]').val('카카오페이');
+    }
+});
+$("#day").change(function(){
+	var birth = $("#year").val()+"-"+$("#month").val()+"-"+$("#day").val();
+	$("#birth").val(birth);
+});
 });
 </script>
 </head>
@@ -116,21 +304,21 @@ $(function() {
 			<thead>
 				<tr id="non-border-2">
 					<td class="fixed_join">
-						<img width="250" alt="" src="${contextPath}/thumbnailsGym.do?gym_id=1&fileName=gym_001.jpg">
+						<img width="250" alt="" src="${contextPath}/thumbnailsGym.do?gym_id=${optionMap.gym_id}&fileName=${optionMap.gym_fileName}">
 					</td>
 					<td>
 						<div id="gymInfo_div">
-					  		<span id="gym_name">탄방 굿라이프 휘트니스</span>
+					  		<span id="gym_name">${optionMap.gym_name}</span>
 					  		<div>
-					  			<span><b>헬스</b></span>
-					  			<span>1개월</span>
+					  			<span><b>${optionMap.first_option}</b></span>
+					  			<span>${optionMap.option}개월</span>
 					  		</div>
 					  	</div>
 					</td>
 				</tr>
 			</thead>
 	</table>
-	<form action="${contextPath}/membership/membership_02.do" id="membershipForm"  method="post">
+	<form action="${contextPath}/membership/addNewMembership.do" id="membershipForm"  method="post" onsubmit="return order_btn();">
 		<div class="cell_membership_form1">
             <h3 class="title-box font-mss">Membership Info <span class="korSub">회원권 정보</span></h3>
         </div>
@@ -140,7 +328,7 @@ $(function() {
 					<td class="fixed_join">이름
 					</td>
 					<td>
-					  <input type="text" name="name" id="name" value="정유라">
+					  <input type="text" name="name" id="name" value="${memberInfo.member_name}" readonly>
 					</td>
 				</tr>
 			</thead>
@@ -149,7 +337,7 @@ $(function() {
 					<td class="fixed_join">성별
 					</td>
 					<td>
-					  <input type="text" name="gender" id="gender" value="여자">
+					  <input type="text" name="gender" id="gender" value="${memberInfo.member_gender}" readonly>
 					</td>
 				</tr>
 			</thead>
@@ -160,6 +348,7 @@ $(function() {
 					<td>
 					  <input type="text" name="year" id="year" placeholder="YYYY">&nbsp;/<input type="text" name="month" id="month" placeholder="MM">/
 					  <input type="text" name="day" id="day" placeholder="DD">
+					  <input type="hidden" name="birth" id="birth" />
 					</td>
 				</tr>
 			</thead>
@@ -167,7 +356,7 @@ $(function() {
 				<tr>
 					<td class="fixed_join">연락처</td>
 					<td>
-						<input type="text" name="hp" id="hp" value="010-1234-5678">
+						<input type="text" name="phone_number" id="hp" value="${memberInfo.phone_number}" readonly>
 					</td>
 				</tr>
 			</thead>
@@ -175,10 +364,10 @@ $(function() {
 				<tr class="dot_line">
 					<td class="fixed_join">주소</td>
 					<td>
-					   <input type="text" id="zipcode" name="zipcode" size="10">&nbsp;<button type="button" id="btn_zipcode"><a href="javascript:execDaumPostcode()">주소찾기</a></button>
+					   <input type="text" id="zipcode" name="zipcode" value="${memberInfo.zipcode}" size="10">&nbsp;<button type="button" id="btn_zipcode"><a href="javascript:execDaumPostcode()">주소찾기</a></button>
 					  <br>
 					  <p> 
-					 <input type="text" id="roadAddress" name="roadAddress"> 
+					 <input type="text" id="roadAddress" name="roadAddress" value="${memberInfo.roadAddress}"> 
 					  </p>
 					  <input type="text" id="extraAddress" name="extraAddress" placeholder="나머지 주소"> 
 					</td>
@@ -188,8 +377,8 @@ $(function() {
 				<tr>
 					<td class="fixed_join">운동 시작일</td>
 					<td>
-						<input type="text" id="datepicker1" placeholder="달력에서 시작일을 지정해주세요"> ~
-  						<input type="text" id="datepicker2" disabled>
+						<input type="text" name="start_date" id="datepicker1" placeholder="달력에서 시작일을 지정해주세요"> ~
+  						<input type="text" name="last_date" id="datepicker2" readonly>
 					</td>
 				</tr>
 			</thead>
@@ -197,7 +386,9 @@ $(function() {
 				<tr class="dot_line">
 					<td class="fixed_join">최종 결제 금액</td>
 				<td>
-					<p> </p>
+					<fmt:formatNumber value="${optionMap.total_price}" type="number" var="total_price" />
+					<p>${total_price}원</p>
+					<input type="hidden" name="total_price" value="${optionMap.total_price}" />
 				</td>
 				</tr>
 			</thead>
@@ -237,9 +428,13 @@ $(function() {
 								<option value="대구은행">대구은행</option>
 								<option value="경남은행">경남은행</option>
 							</select>
-							<input type="text" value="" disabled>
+							<input type="text" value="${memberInfo.member_name}" disabled>
 						</div>
-						<input type="hidden" name="goods_qty" value="" />
+						<input type="hidden" name="uid" value="${memberInfo.uid}" />
+						<input type="hidden" name="gym_id" value="${optionMap.gym_id}" />
+						<input type="hidden" name="gym_name" value="${optionMap.gym_name}" />
+						<input type="hidden" name="first_option" value="${optionMap.first_option}" />
+						<input type="hidden" name="option" value="${optionMap.option}" />
 						<input type="hidden" name="payment" value="" />
 					</td>
 				</tr>
@@ -247,8 +442,8 @@ $(function() {
 		</table>
 		<br>
 		<div class="button_box" style="float: right;">
-			<a><button id="button_01"><span>이전 단계</span></button></a> &nbsp;
-			<a href="#"><button id="button_02"><span>예약하기</span></button></a>
+			<a><button type="button" id="button_01"><span>이전 단계</span></button></a> &nbsp;
+			<a href="#"><button type="submit" id="button_02"><span>예약하기</span></button></a>
 		 </div>
 	</form>	
 </div>

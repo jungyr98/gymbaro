@@ -3,9 +3,11 @@
 	%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <c:set var="gymVO" value="${gymMap.gymVO}" />
 <c:set var="imageList" value="${gymMap.imageList}" />
+<c:set var="likedState" value="${gymMap.likedState}" />
 <%
   request.setCharacterEncoding("UTF-8");
 %>
@@ -30,16 +32,105 @@ $(function () {
          tab_Cont.eq(index).show();
     });
 });
+
+//옵션 셀렉트 박스 체인지 부분
+var selectBoxChange_option = function(value){
+	if(value == 'none'){
+		$('#option').val('');
+		$('#total_price').val('');
+		return;
+	}
+	if(value == 1){
+		$('#total_price').val('${gymVO.price_info2}');
+		$('#option').val(value);
+	}else if(value == 3){
+		$('#total_price').val('${gymVO.price_info3}');
+		$('#option').val(value);
+	}else if(value == 6){
+		$('#total_price').val('${gymVO.price_info4}');
+		$('#option').val(value);
+	}else if(value == 12){
+		$('#total_price').val('${gymVO.price_info5}');
+		$('#option').val(value);
+	}
+}
+
+// 찜 상태 변경하기
+function updateLiked(gym_id, state) {
+	if(state == 'Y'){
+		var check = confirm("찜을 해제하시겠습니까?");
+		if(check){
+			$.ajax({
+				type : "post",
+				async : false, //false인 경우 동기식으로 처리한다.
+				url : "${contextPath}/liked/deleteLikedItem.do",
+				data : {
+					gym_id:gym_id,
+				},
+				
+				success : function(data, textStatus) {
+					//alert(data);
+					if(data.trim()=='delSuccess'){
+						alert("찜을 취소했습니다!");
+						location.reload();
+					}else if(data.trim()=='login'){
+						alert("로그인이 필요한 서비스입니다!");
+						location.href="${contextPath}/member/loginForm.do";
+					}
+					
+				},
+				error : function(data, textStatus) {
+					alert("에러가 발생했습니다."+data);
+				}
+			});
+		} else{
+			alert("취소하셨습니다");
+			return;
+		}
+	}else if(state == 'N') {
+			$.ajax({
+				type : "post",
+				async : false, //false인 경우 동기식으로 처리한다.
+				url : "${contextPath}/liked/addNewLiked.do",
+				data : {
+					gym_id:gym_id,
+				},
+				
+				success : function(data, textStatus) {
+					//alert(data);
+					if(data.trim()=='addSuccess'){
+						alert("찜 했습니다!");
+						location.reload();
+					}else if(data.trim()=='doLogin'){
+						alert("로그인이 필요한 서비스입니다.");
+						location.href="${contextPath}/member/loginForm.do";
+					}
+					
+				},
+				error : function(data, textStatus) {
+					alert("에러가 발생했습니다."+data);
+				}
+			});
+	}
+}
 </script>
 </head>
 <body>
 <div class="main_container">
 	<div class="gym_info_header_box">
 		<div class="gym_info_header_img">
-			<img alt="HTML5 &amp; CSS3" src="${contextPath}/thumbnailsGym.do?gym_id=${gymVO.gym_id}&fileName=${gymVO.gym_fileName}">
+			<img alt="HTML5 &amp; CSS3" src="${contextPath}/downloadGym.do?gym_id=${gymVO.gym_id}&fileName=${gymVO.gym_fileName}">
 		</div>
 		<div class="gym_info_header_text">
-			<span class="gym_info_header_title">${gymVO.gym_name}</span>
+			<div id="title_and_heart_box">
+				<span class="gym_info_header_title">${gymVO.gym_name}</span>
+				<c:if test="${likedState == 0}">
+					<img alt="pre_heart.png" src="${contextPath}/resources/image/pre_heart.png" onclick="updateLiked(${gymVO.gym_id}, 'N')">
+				</c:if>
+				<c:if test="${likedState == 1}">
+					<img alt="pre_heart.png" src="${contextPath}/resources/image/next_heart.png" onclick="updateLiked(${gymVO.gym_id}, 'Y')">
+				</c:if>
+			</div>
 			<div class="gym_stars_box">
 				⭐⭐⭐⭐⭐ 5.0
 			</div>
@@ -52,20 +143,28 @@ $(function () {
 				<select>
 					<option>${gymVO.first_option}</option>
 				</select>
-				<select>
-					<option>개월수</option>
+				<select name="option_select" id="option_select" onChange="selectBoxChange_option(this.value);">
+					<option value="none">개월수</option>
 					<fmt:formatNumber value="${gymVO.price_info1}" type="number" var="price1" />
 					<fmt:formatNumber value="${gymVO.price_info2}" type="number" var="price2" />
 					<fmt:formatNumber value="${gymVO.price_info3}" type="number" var="price3" />
 					<fmt:formatNumber value="${gymVO.price_info4}" type="number" var="price4" />
 					<fmt:formatNumber value="${gymVO.price_info5}" type="number" var="price5" />
-					<option>1일권 ${price1}원</option>					
-					<option>1개월 ${price2}원</option>
-					<option>3개월 ${price3}원</option>
-					<option>6개월 ${price4}원</option>
-					<option>12개월 ${price5}원</option>
+					<option value="1day">1일권 ${price1}원</option>					
+					<option value="1">1개월 ${price2}원</option>
+					<option value="3">3개월 ${price3}원</option>
+					<option value="6">6개월 ${price4}원</option>
+					<option value="12">12개월 ${price5}원</option>
 				</select>
-				<input type="button" class="option_submit_btn" value="회원권 담기">
+				<form action="${contextPath}/membership/membershipForm.do" method="post">
+					<input type="hidden" name="gym_id" value="${gymVO.gym_id}" />
+					<input type="hidden" name="gym_name" value="${gymVO.gym_name}" />
+					<input type="hidden" name="gym_fileName" value="${gymVO.gym_fileName}" />
+					<input type="hidden" name="first_option" value="${gymVO.first_option}" />
+					<input type="hidden" name="option" id="option" />
+					<input type="hidden" name="total_price" id="total_price" />
+					<input type="submit" class="option_submit_btn" value="회원권 담기">
+				</form>
 			</div>
 		</div>
 	</div>
@@ -87,19 +186,90 @@ $(function () {
 						</p>
 					</div>
 					<div class="info_content gymsInfo_priceInfo_box">
-						<p>테스트 가격정보</p>
+						<h4>가격정보</h4>
+						<div class="price_info_box">
+							<div class="price_info_option">
+								<span>1개월</span>
+								<span>3개월</span>
+								<span>6개월</span>
+								<span>12개월</span>
+							</div>
+							<div class="price_info_num">
+								<span>월 ${price2}원</span>
+								<span>월 ${price3}원</span>
+								<span>월 ${price4}원</span>
+								<span>월 ${price5}원</span>
+							</div>
+						</div>
 					</div>
 					<div class="info_content gymsInfo_timeInfo_box">
-						<p>운영시간</p>
+						<h4>운영시간</h4>
+						<p>${gymVO.time_info}</p>
 					</div>
 					<div class="info_content gymsInfo_programInfo_box">
+						<h4>운영 프로그램</h4>
 						<p>${gymVO.program_list}</p>
 					</div>
 					<div class="info_content gymsInfo_Info_box">
-						<p>편의시설</p>
+						<h4>편의시설</h4>
+						<div class="gymInfo_service_box">
+						<c:set var="service" value="${fn:split(gymVO.service,',')}" />
+							<c:forEach var="item" items="${service}">
+     							<c:if test="${item == 1}">
+     								<div class="service_box">
+     									<img width="60" src="${contextPath}/resources/image/gym-service1.png" id="" alt="gym-service1.png">주차장
+     								</div>
+     							</c:if>
+     							<c:if test="${item == 2}">
+     								<div class="service_box">
+     									<img width="60" src="${contextPath}/resources/image/gym-service2.png" id="" alt="gym-service2.png">운동복
+     								</div>
+     							</c:if>
+     							<c:if test="${item == 3}">
+     								<div class="service_box">
+     									<img width="60" src="${contextPath}/resources/image/gym-service3.png" id="" alt="gym-service3.png">수건
+     								</div>
+     							</c:if>
+     							<c:if test="${item == 4}">
+     								<div class="service_box">
+     									<img width="60" src="${contextPath}/resources/image/gym-service4.png" id="" alt="gym-service4.png">탈의실
+     								</div>
+     							</c:if>
+     							<c:if test="${item == 5}">
+     								<div class="service_box">
+     									<img width="60" src="${contextPath}/resources/image/gym-service5.png" id="" alt="gym-service5.png">샤워실
+     								</div>
+     							</c:if>
+     							<c:if test="${item == 6}">
+     								<div class="service_box">
+     									<img width="60" src="${contextPath}/resources/image/gym-service6.png" id="" alt="gym-service6.png">Wi-fi
+     								</div>
+     							</c:if>
+     							<c:if test="${item == 6}">
+     								<div class="service_box">
+     									<img width="60" src="${contextPath}/resources/image/gym-service7.png" id="" alt="gym-service7.png">체성분 검사
+     								</div>
+     							</c:if>
+							</c:forEach>
+						</div> 
 					</div>
 					<div class="info_content gymsInfo_url_box">
-						<p>바로가기</p>
+						<h4>바로가기</h4>
+						<c:if test="${not empty gymVO.kakao_addr}">
+							<a href="${gymVO.kakao_addr}"><img width="80" src="${contextPath}/resources/image/kakao.png" id="kakao" alt="카카오톡"></a>
+						</c:if>
+						<c:if test="${not empty gymVO.insta_addr}">
+					  		<a href="${gymVO.insta_addr}"><img width="80" src="${contextPath}/resources/image/instagram.png" id="instagram" alt="인스타그램"></a>
+					  	</c:if>
+					  	<c:if test="${not empty gymVO.nblog_addr}">
+					  		<a href="${gymVO.nblog_addr}"><img width="80" src="${contextPath}/resources/image/blog.png" id="naverblog" alt="네이버 블로그"></a>
+					  	</c:if>
+					  	<c:if test="${not empty gymVO.fbook_addr}">
+					  		<a href="${gymVO.fbook_addr}"><img width="80" src="${contextPath}/resources/image/facebook.png" id="facebook" alt="페이스북"></a>
+					  	</c:if>
+					  	<c:if test="${not empty gymVO.home_addr}">
+					 		<a href="${gymVO.home_addr}"><img width="80" src="${contextPath}/resources/image/home.png" id="home" alt="홈페이지"></a>
+						</c:if>
 					</div>
                </div>
                <div class="gymsInfo_div">

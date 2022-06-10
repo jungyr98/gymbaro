@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="mapper.admin.goods">
+<resultMap id="goodsResult" type="goodsVO">
+		<result property="goods_id" column="goods_id" />
+		<result property="goods_name" column="goods_name" />
+		<result property="goods_price" column="goods_price" />
+		<result property="event_id" column="event_id" />
+		<result property="goods_discount" column="goods_discount" />
+		
+		<result property="goods_amount" column="goods_amount" />
+		<result property="goods_main_category" column="goods_main_category" />
+		<result property="goods_sub_category" column="goods_sub_category" />
+		<result property="goods_state" column="goods_state" />
+		<result property="uid" column="uid" />
+		<result property="event_name" column="event_name" />
+		<result property="goods_fileName" column="fileName" />
+</resultMap>
+<resultMap id="optionResult" type="goodsOptionVO">
+		<result property="option_id" column="option_id" />
+		<result property="goods_id" column="goods_id" />
+		<result property="option_name" column="option_name" />
+		<result property="price" column="price" />
+</resultMap>
+<resultMap id="imageResult" type="goodsImageFileVO">
+	   <result property="ima_id" column="ima_id" />
+	   <result property="goods_id" column="goods_id" />
+	   <result property="fileName" column="fileName" />
+	   <result property="fileType" column="fileType" />
+	   <result property="uid" column="uid" />
+</resultMap>
+<resultMap id="eventResult" type="eventVO">
+	   <result property="event_id" column="event_id" />
+	   <result property="event_name" column="event_name" />
+	   <result property="discount" column="discount" />
+</resultMap>
+
+
+<!-- 상품 리스트  조회  -->
+<select id="selectGoodsList" parameterType="String" resultMap="goodsResult" >
+		<![CDATA[select t.* from(
+			select g.*,d.fileName, e.event_name from goods g, goods_detail_img d, event e
+			where g.goods_id = d.goods_id and d.fileType='main_image' 
+			order by g.goods_id desc) t limit 10]]>
+</select>
+
+<!-- 상품에 적용할 이벤트 리스트 조회 -->
+<select id="selectEventList" resultMap="eventResult">
+	select * from event
+</select>
+
+<!-- 상품 수정을 위한 상품 상세 정보 조회 -->
+<select id="selectGoodsDetail" parameterType="int" resultMap="goodsResult">
+		select g.*,d.fileName, e.event_name from goods g, goods_detail_img d, event e
+			where g.goods_id = d.goods_id and d.fileType='main_image' and g.goods_id = #{goods_id}
+</select>
+
+<!-- 상품 수정을 위한 상품 옵션 조회 -->
+<select id="selectGoodsOption" parameterType="int" resultMap="optionResult">
+	<![CDATA[select * from goods_option where goods_id = #{goods_id}]]>
+</select>
+
+<!-- 상품상세이미지조회  -->
+<select id="selectGoodsDetailImage" resultMap="imageResult" parameterType="int"  >
+	<![CDATA[select * from goods_detail_img where fileType != 'main_image' and goods_id=#{goods_id}]]>
+</select>
+
+<!-- 새상품 등록하기 -->
+<insert id="insertNewGoods" parameterType="goodsVO" useGeneratedKeys="true" keyProperty="goods_id">
+	<selectKey resultType="int" keyProperty="goods_id" order="BEFORE">
+	    	select case count(*) when 0 then 1 else max(goods_id) + 1 end from goods
+	</selectKey>
+	<![CDATA[
+	insert into goods(goods_id, goods_name, goods_price, goods_amount, goods_main_category, goods_sub_category, goods_state, uid) 
+	values(#{goods_id}, #{goods_name}, #{goods_price}, #{goods_amount}, #{goods_main_category}, #{goods_sub_category},
+	#{goods_state}, #{uid})
+	]]>
+</insert>
+
+<!-- 새상품 옵션 등록하기 -->
+<insert id="insertNewGoodsOption" parameterType="goodsOptionVO">
+	<selectKey resultType="int" keyProperty="option_id" order="BEFORE">
+	    	select case count(*) when 0 then 1 else max(option_id) + 1 end from goods_option
+	</selectKey>
+	<![CDATA[
+	insert into goods_option(option_id, goods_id, option_name, price) 
+	values(#{option_id}, #{goods_id}, #{option_name}, #{price})
+	]]>
+</insert>
+
+<!-- 새상품 이미지 등록하기 -->
+<insert id="insertNewGoodsImage" parameterType="goodsImageFileVO">
+	<selectKey resultType="int" keyProperty="img_id" order="BEFORE">
+	    	select case count(*) when 0 then 1 else max(img_id) + 1 end from goods_detail_img
+	</selectKey>
+	<![CDATA[
+		insert into goods_detail_img(img_id, goods_id, fileName, fileType, uid) 
+		values(#{img_id}, #{goods_id}, #{fileName}, #{fileType}, #{uid})
+	]]>
+</insert>
+
+<!-- 상품 상태 수정하기 -->
+<update id="updateGoodsState" parameterType="java.util.Map">
+	update goods <set> goods_state = #{goods_state} </set> where goods_id = #{goods_id}
+</update>
+
+<!-- 상품 삭제하기 -->
+<delete id="deleteGoods" parameterType="int">
+	delete from goods where goods_id = #{goods_id}
+</delete>
+
+<!-- 상품 상세 정보 수정하기 -->
+<update id="updateGoodsInfo" parameterType="java.util.Map">
+	update goods
+			   <set>
+			   	  <if test=" goods_name!='' and goods_name!=null">
+			         goods_name = #{goods_name},
+			      </if>
+			       <if test=" goods_price!='' and goods_price!=null">
+			         goods_price = #{goods_price},
+			      </if>
+			      <if test=" goods_amount!='' and goods_amount!=null">
+			         goods_amount = #{goods_amount},
+			      </if>
+			       <if test=" goods_main_category!='' and goods_main_category!=null">
+			         goods_main_category = #{goods_main_category},
+			         goods_sub_category = #{goods_sub_category},
+			      </if>
+			   </set>
+		where 
+		goods_id=#{goods_id}
+</update>
+
+<!-- 상품 옵션 수정하기 -->
+<update id="updateOption" parameterType="goodsOptionVO">
+	update goods_option 
+	<set> option_name=#{option_name}, price=#{price} </set> where option_id = #{option_id}
+</update>
+
+<!-- 상품 이미지 수정하기 -->
+<update id="updateGoodsImage" parameterType="goodsImageFileVO">
+	update goods_detail_img
+	<set> fileName = #{fileName} </set> where goods_id = #{goods_id} and fileType = #{fileType}
+</update>
+
+<!-- 상품 옵션 삭제하기 -->
+<delete id="deleteOption" parameterType="int">
+	delete from goods_option where option_id = #{option_id}
+</delete>
+
+<!-- 상품 이벤트 적용하기 -->
+<update id="updateGoodsEvent" parameterType="java.util.Map">
+<![CDATA[update goods set event_id = #{event_id} where goods_id in]]>
+	<foreach item="item" collection="goodsList" open="(" separator="," close=")">#{item.goods_id}</foreach>
+</update>
+
+<!-- 이벤트 적용시 상품 할인가격 변경하기 -->
+<update id="updateGoodsDiscount" statementType="CALLABLE" parameterType="int">
+{call procedure_update_goods_discount(        
+          #{goods_id},
+          (select event_id from goods where goods_id = #{goods_id})
+       )
+}
+</update>
+
+<!-- 이벤트 해제하기 -->
+<update id="deleteGoodsEvent" parameterType="java.util.List">
+	<![CDATA[update goods set event_id = null, goods_discount = null where goods_id in]]>
+	<foreach item="item" collection="list" open="(" separator="," close=")">#{item.goods_id}</foreach>
+</update>
+
+</mapper>

@@ -21,7 +21,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.myspring.gymbaro02.member.dao.MemberDAO;
 import com.myspring.gymbaro02.member.dao.MemberRepository;
-import com.myspring.gymbaro02.member.dto.KakaoDTO;
 import com.myspring.gymbaro02.member.vo.MemberVO;
 
 import net.nurigo.java_sdk.api.Message;
@@ -102,7 +101,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public KakaoDTO getUserInfo(String access_Token) {
+	public MemberVO getUserInfo(String access_Token) {
 	// ��û�ϴ� Ŭ���̾�Ʈ���� ���� ������ �ٸ� �� �ֱ⿡ HashMapŸ������ ����
 	HashMap<String, Object> userInfo = new HashMap<String, Object>();
 	String reqURL = "https://kapi.kakao.com/v2/user/me";
@@ -132,7 +131,7 @@ public class MemberServiceImpl implements MemberService {
 	e.printStackTrace();
 	}
 	
-	KakaoDTO result = mr.findkakao(userInfo);
+	MemberVO result = mr.findkakao(userInfo);
 	// 위 코드는 먼저 정보가 저장되있는지 확인하는 코드.
 	System.out.println("S:" + result);
 	if(result==null) {

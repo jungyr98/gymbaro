@@ -19,9 +19,16 @@ header #header_top_box {
 	display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 42px;
+    background: #212529;
 }
 header #logo {
-	margin-left: 10px; float: left;
+	margin-left: 20px; float: left;
+}
+
+header #logo a {
+	color: white;
+    font-size: 22px;
 }
 header #logo img {
 	width: 250px;
@@ -35,6 +42,10 @@ header #head_link {
 }
 header #head_link ul {
 	list-style: none;
+    display: flex;
+    color: white;
+    align-items: center;
+    margin:0;
 }
 /*
 header #head_link li {
@@ -45,10 +56,16 @@ header #head_link li {
 header #head_link ul li span {
 	font-size:14px;
 	margin-right:10px;
+	color:white;
+}
+
+header #head_link ul li span a {
+	color:white;
 }
 
 header #head_link img {
 	width:30px;
+	margin-right: 10px;
 }
 /*
 #head_link .no_line {
@@ -79,13 +96,13 @@ header #suggestList{
 
 header #suggestList button {
     /* margin: 0; */
-    width: 187px;
+    width: 166px;
     height: 90px;
     background: white;
     color: #333333;
     border:none;
-    border-left: 1px solid #ddd;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight:bold;
 }
 
 header #suggestList button span {
@@ -93,9 +110,14 @@ header #suggestList button span {
 	margin-bottom: 5px;
 }
 
+header #suggestList img {
+    margin-bottom: 5px;
+}
+
 header #suggestList button:hover {
-	background: #184798;
-    color: white;
+    cursor: pointer;
+    border: 1px solid #333333;
+    border-radius: 3px;
 }
 </style>
 <script type="text/javascript">
@@ -165,10 +187,8 @@ header #suggestList button:hover {
   <div id="header_top_box">
 	<div id="logo">
 		<a href="${contextPath}/admin/main/main.do">
-			<img width="124" alt="logo.png" src="${contextPath}/resources/image/gymbaro_admin_logo.png">
-		</a>
-		<a href="#" target="_blank" id="menual_atag">
-			<i class="ace-icon fa fa-book"></i>&nbsp;사용메뉴얼 보기
+		
+			<!-- <img width="124" alt="logo.png" src="${contextPath}/resources/image/gymbaro_admin_logo.png"> -->
 		</a>
 	</div>
 	<!--
@@ -183,30 +203,14 @@ header #suggestList button:hover {
 	</div>
 	 -->
 	<div id="head_link">
-		<ul>		   		     			 
-			   <li>
-			   		<span>Admin</span>
-			   		<img src="${contextPath }/resources/image/myPageUser.png" alt="myPageUser.png" />
-			   		</a>
-			   </li>     			  
+		<ul>
+			<li>
+				<span class="glyphicon glyphicon-user"></span>
+			  	<span>${memberInfo.member_id}님</span>
+			</li>  	   		     			    			  
 		</ul>
 	</div>
   </div>
-	<br>
-   <div id="suggest">
-        <div id="suggestList">
-        	<a href="#"><button type="button"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span><br>기본설정</button></a>
-        	<a href="#"><button type="button"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span><br>상품관리</button></a>
-        	<a href="#"><button type="button"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span><br>주문관리</button></a>
-        	<a href="#"><button type="button"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span><br>예약관리</button></a>
-        	<a href="#"><button type="button"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><br>회원관리</button></a>
-        	<a href="#"><button type="button"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span><br>게시판관리</button></a>
-        	<a href="#"><button type="button"><span class="glyphicon glyphicon-gift" aria-hidden="true"></span><br>이벤트</button></a>
-        	<a href="#"><button type="button"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span><br>매출관리</button></a>
-        </div>
-   </div>
-
-
 </header>
 </body>
 </html>

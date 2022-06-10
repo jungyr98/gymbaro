@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.admin.member">
+<resultMap type="MemberVO" id="memberResult">
+		<result property="uid" column="uid" />
+		<result property="member_id" column="member_id" />
+		<result property="member_name" column="member_name" />
+		<result property="member_gender" column="member_gender" />
+		
+		<result property="member_type" column="member_type" />
+		<result property="member_level" column="member_level" />
+		<result property="member_point" column="member_point" />
+		
+		<result property="phone_number" column="phone_number" />
+		<result property="email" column="email" />
+		
+		<result property="zipcode" column="zipcode" />
+		<result property="roadAddress" column="roadAddress" />
+		<result property="del_yn" column="del_yn" />
+		<result property="joinDate" column="joinDate" />
+		<result property="gym_license" column="gym_license" />
+	</resultMap>
+	
+<!-- 최근 가입한 순으로 회원 조회하기 -->
+<select id="selectMemberList" resultMap="memberResult">
+	select * from adminView_Member
+</select>
+
+<!-- 회원 등급 변경하기 -->
+<update id="updateMemberLevel" parameterType="java.util.Map">
+	update member <set> member_level= #{member_level} </set> where uid = #{uid}
+</update>
+
+<!-- 회원 포인트 변경하기 -->
+<update id="updateMemberPoint" parameterType="java.util.Map">
+	update member <set> member_point = member_point + cast(#{add_point} as signed) </set> where uid = #{uid}
+</update>
+
+<!-- 회원 포인트 추가 후 포인트 내역 테이블에 데이터 추가하기 -->
+<insert id="adminAddPoint" parameterType="java.util.Map">
+	<selectKey resultType="int" keyProperty="history_id" order="BEFORE">
+	    	select case count(*) when 0 then 1 else max(history_id) + 1 end from point_his
+	</selectKey>
+	insert into point_his(history_id, point_state, point, his_contents, uid) 
+	values(#{history_id}, '적립', #{add_point}, '관리자 적립', #{uid})
+</insert>
+
+<!-- 회원 탈퇴여부 탈퇴로 변경하기 -->
+<update id="deleteMember" parameterType="int">
+	update member set del_yn='Y' where uid = #{uid}
+</update>
+
+<!-- 회원 탈퇴여부 Y이면 아이디 이외의 개인정보 모두 N으로 변경하는 프로시저 호출 -->
+<update id="deleteMemberInfo" statementType="CALLABLE" parameterType="int">
+{call procedure_delete_member(        
+          #{uid},
+          (select del_yn from member where uid = #{uid})
+       )
+}
+</update>
+
+<!-- 해당 회원 상세 정보 view -->
+<select id="selectMemberDetail" parameterType="int" resultMap="memberResult">
+	select * from adminView_Member where uid = #{uid}
+</select> 
+
+</mapper>

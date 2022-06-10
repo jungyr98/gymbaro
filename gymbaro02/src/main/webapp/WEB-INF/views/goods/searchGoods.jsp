@@ -192,15 +192,16 @@ $(function () {
 					<c:choose>
 						<c:when test="${item.goods_discount != 0}">
 							<fmt:formatNumber  value="${item.goods_discount}" type="number" var="goods_discount" />
-							<span><b>${goods_discount}</b></span>
+							<fmt:parseNumber var="discount" integerOnly="true" value="${((item.goods_price-item.goods_discount)/item.goods_price)*100}" />
+							<span style="color:black;"><b>${goods_discount}원</b></span>
+							<span style='font-size:14px; color:#424040'><strike>${item.goods_price}</strike></span>
+							<span style='color:#184798'><b>${discount}%</b></span>
 						</c:when>
 						<c:otherwise>
 							<fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
-							<span><b>${goods_price}</b></span>
+							<span style="color:black;"><b>${goods_price}원</b></span>
 						</c:otherwise>
 					</c:choose>
-					<span style='font-size:14px; color:#424040'><strike>${item.goods_price}</strike></span>
-					<span style='color:#184798'><b>50%</b></span>
 				</div>
 				<div class="product_into_star" style="font-size:20px" >
 					<label for="rate1"><span class="fa fa-star" style="color:#184798; font-size:15px; "></span></label>
@@ -244,15 +245,16 @@ $(function () {
 					<c:choose>
 						<c:when test="${item.goods_discount != 0}">
 							<fmt:formatNumber  value="${item.goods_discount}" type="number" var="goods_discount" />
-							<span><b>${goods_discount}</b></span>
+							<fmt:parseNumber var="discount" integerOnly="true" value="${((item.goods_price-item.goods_discount)/item.goods_price)*100}" />
+							<span style="color:black;"><b>${goods_discount}원</b></span>
+							<span style='font-size:14px; color:#424040'><strike>${item.goods_price}</strike></span>
+							<span style='color:#184798'><b>${discount}%</b></span>
 						</c:when>
 						<c:otherwise>
 							<fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
-							<span><b>${goods_price}</b></span>
+							<span style="color:black;"><b>${goods_price}원</b></span>
 						</c:otherwise>
 					</c:choose>
-					<span style='font-size:14px; color:#424040'><strike>${item.goods_price}</strike></span>
-					<span style='color:#184798'><b>50%</b></span>
 				</div>
 				<div class="product_into_star" style="font-size:20px" >
 					<label for="rate1"><span class="fa fa-star" style="color:#184798; font-size:15px; "></span></label>
@@ -345,16 +347,17 @@ $(function () {
 				<div class="product_info_price">
 					<c:choose>
 						<c:when test="${item.goods_discount != 0}">
-							<fmt:formatNumber  value="${item.goods_discount}" type="number" var="goods_discount" />
+							<fmt:formatNumber value="${item.goods_discount}" type="number" var="goods_discount" />
+							<fmt:parseNumber var="discount" integerOnly="true" value="${((item.goods_price-item.goods_discount)/item.goods_price)*100}" />
 							<span><b>${goods_discount}</b></span>
+							<span style='font-size:14px; color:#424040'><strike>${item.goods_price}</strike></span>
+							<span style='color:#184798'><b>${discount}%</b></span>
 						</c:when>
 						<c:otherwise>
 							<fmt:formatNumber  value="${item.goods_price}" type="number" var="goods_price" />
 							<span><b>${goods_price}</b></span>
 						</c:otherwise>
 					</c:choose>
-					<span style='font-size:14px; color:#424040'><strike>${item.goods_price}</strike></span>
-					<span style='color:#184798'><b>50%</b></span>
 				</div>
 				<div class="product_into_star" style="font-size:20px" >
 					<label for="rate1"><span class="fa fa-star" style="color:#184798; font-size:15px; "></span></label>

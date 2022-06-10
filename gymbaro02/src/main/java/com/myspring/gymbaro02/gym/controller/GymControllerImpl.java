@@ -5,8 +5,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.gymbaro02.gym.service.GymService;
 import com.myspring.gymbaro02.gym.vo.GymVO;
+import com.myspring.gymbaro02.member.vo.MemberVO;
 
 @Controller("gymController")
 @RequestMapping(value="/gym")
@@ -41,12 +44,17 @@ public class GymControllerImpl implements GymController {
 		Map<String,List<GymVO>> gymMap = gymService.listGym(_address);
 		
 		List<GymVO> gymLocationList = gymMap.get("locationList");
-		for(int i=0; i < gymLocationList.size(); i++) {
-			GymVO gymVO = gymLocationList.get(i);
-			String address = gymVO.getExtraAddress();
-			String distance = checkDistance(address,request);
-			gymVO.setDistance(distance);
+		if(!_address.equals("N/A") && _address != null) {
+			for(int i=0; i < gymLocationList.size(); i++) {
+				GymVO gymVO = gymLocationList.get(i);
+				String address = gymVO.getExtraAddress();
+				String distance = checkDistance(address,request);
+				gymVO.setDistance(Double.parseDouble(distance));
+			}
+			// 리스트 거리순으로 내림차순 정렬하기
+			gymLocationList = gymLocationList.stream().sorted(Comparator.comparing(GymVO::getDistance)).collect(Collectors.toList());
 		}
+
 		gymMap.put("locationList", gymLocationList);
 		
 		session.setAttribute("gymMap", gymMap);
@@ -56,7 +64,7 @@ public class GymControllerImpl implements GymController {
 		return mav;
 	}
 	
-	private String checkDistance(String address, HttpServletRequest request) throws Exception {
+	public String checkDistance(String address, HttpServletRequest request) throws Exception {
 		String distance="";
 		
 		//주소 값 위도 경도로 변환
@@ -102,6 +110,8 @@ public class GymControllerImpl implements GymController {
 		jObj2= (JSONObject) jArray2.get(0);
 		jObj2 = (JSONObject) jObj2.get("distance");
 		distance = jObj2.get("text").toString();
+		String[] _distance = distance.split("\\s+");
+		distance = _distance[0];
 		//
 		return distance;
 	}
@@ -111,8 +121,12 @@ public class GymControllerImpl implements GymController {
 		HttpSession session;
 		session = request.getSession();				
 		ModelAndView mav=new ModelAndView();
-		
-		Map gymMap = gymService.GymDetail(gym_id);
+		int uid = 0;
+		if(session.getAttribute("memberInfo") != null) {
+			MemberVO memberVO = (MemberVO)session.getAttribute("memberInfo");
+			uid = memberVO.getUid();
+		}
+		Map gymMap = gymService.GymDetail(gym_id, uid);
 		session.setAttribute("gymMap", gymMap);
 		
 		String viewName=(String)request.getAttribute("viewName");
@@ -121,35 +135,6 @@ public class GymControllerImpl implements GymController {
 		return mav;
 	}
 	
-	@RequestMapping(value= "/insertGym_01.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView insertGym_01(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HttpSession session;
-		ModelAndView mav=new ModelAndView();
-		String viewName=(String)request.getAttribute("viewName");
-		mav.setViewName(viewName);
-
-		return mav;
-	}
-	
-	@RequestMapping(value= "/insertGym_02.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView insertGym_02(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HttpSession session;
-		ModelAndView mav=new ModelAndView();
-		String viewName=(String)request.getAttribute("viewName");
-		mav.setViewName(viewName);
-
-		return mav;
-	}
-	
-	@RequestMapping(value= "/insertGym_03.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView insertGym_03(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HttpSession session;
-		ModelAndView mav=new ModelAndView();
-		String viewName=(String)request.getAttribute("viewName");
-		mav.setViewName(viewName);
-
-		return mav;
-	}
 	
 	@RequestMapping(value= "/searchMap.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView searchMap(HttpServletRequest request, HttpServletResponse response) throws Exception{

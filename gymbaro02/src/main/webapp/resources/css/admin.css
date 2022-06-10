@@ -1,0 +1,190 @@
+@charset "UTF-8";
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+.goodsList_box a {
+	text-decoration:none;
+}
+
+.table_box {
+	width:1202px;
+	border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.table_box table {
+	width:1185px;
+	text-align: left;
+}
+.table_box table td {
+    padding-left: 10px;
+    border: 1px solid #f0f0f0;
+}
+
+.table_box tr {
+	height: 100px;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.table_box .fixed_tr,
+.table_box .count_tr {
+    height: 50px;
+    font-weight:bold;
+}
+
+.table_box .fixed_tr {
+	border-bottom: 2px solid #212529;
+}
+
+.table_box .count_tr {
+	background:#F7F7F7;
+	border-bottom: 1px solid #ddd;
+	width: 1199px;
+    font-size: 17px;
+    padding: 10px;
+}
+
+.frame {
+  	width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.custom-btn {
+  width: 180px;
+  height: 35px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  position: relative;
+  display: inline-block;
+  outline: none;
+  font-size: 14px;
+  margin:0 10px;
+  border: 1px solid #c4c4c4;
+  color:white;
+  font-weight:bold;
+}
+
+
+.goodsList_box  #goods_info_div {
+	display: flex;
+    width: 400px;
+    padding-left:10px;
+}
+
+.goodsList_box  #goods_info_div img {
+    border-radius: 3px;
+}
+
+.goodsList_box  #goods_info_div span {
+	font-size: 14px;
+    font-weight: bold;
+    margin-left: 10px;
+    color: #333333;
+}
+
+.goodsList_box .frame select {
+	height: 35px;
+    width: 160px;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #ddd;
+}
+
+.goodsList_box input[type="checkbox"] {
+    margin: 0;
+    width: 20px;
+    height: 15px;
+}
+
+#search_text {
+	width: 200px;
+    height: 32px;
+    border: none;
+    border-radius: 3px;
+    padding-left: 5px;
+}
+
+.goodsList_box #event_div {
+	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+    padding-left: 10px;
+}
+
+
+.goodsList_box #search_btn {
+	display: inline-block;
+    color: black;
+    text-align: center;
+    width: 50px;
+    height: 25px;
+    cursor: pointer;
+}
+
+#search_div {
+    border: 1px solid #ddd;
+    margin-left: 10px;
+    border-radius: 3px;
+}
+
+#location_box {
+    display: flex;
+    align-items: center;
+    font-size:26px;
+    margin-bottom:15px;
+}
+
+#change_btn_box {
+    display: flex;
+    flex-direction: column;
+    width: 19px;
+    font-size: 5px;
+}
+
+#change_btn_box button {
+    border: none;
+    background: white;
+    color: #c4c4c4;
+    height: 9px;
+    line-height: 0.5;
+}
+
+#change_btn_box button:hover {
+	color:#121212;
+}
+
+.table_box table th {
+    width: 80px;
+    height: 50px;
+    border: 1px solid #f0f0f0;
+    padding: 0px 10px;
+}
+
+.table_box table #th_box {
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+}
+
+.table_box .gym_tr, 
+.table_box .member_tr
+.table_box .order_tr {
+	height:50px;
+}
+
+
+#pagination a {
+display:inline-block;
+margin-right:5px;
+cursor:pointer;
+}

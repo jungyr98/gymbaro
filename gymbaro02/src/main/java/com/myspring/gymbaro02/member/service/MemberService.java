@@ -16,5 +16,5 @@ public interface MemberService {
 	public String idFindSuccessByNum(Map idByNumMap) throws Exception;
 	public String pwdFindSuccess(Map pwdMap) throws Exception;
 	public String newPwdForm(Map findPwdMap) throws Exception;
-	public KakaoDTO getUserInfo(String access_Token);
+	public MemberVO getUserInfo(String access_Token);
 }

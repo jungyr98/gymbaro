@@ -14,6 +14,7 @@ public class GoodsVO {
 	private String goods_sub_category;
 	private String goods_state;
 	private int uid;
+	private String event_name;
 	private String goods_fileName;
 	
 
@@ -101,6 +102,14 @@ public class GoodsVO {
 		this.uid = uid;
 	}
 	
+	public String getEvent_name() {
+		return event_name;
+	}
+
+	public void setEvent_name(String event_name) {
+		this.event_name = event_name;
+	}
+
 	public String getGoods_fileName() {
 		return goods_fileName;
 	}

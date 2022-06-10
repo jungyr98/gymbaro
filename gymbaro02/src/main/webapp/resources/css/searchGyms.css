@@ -39,6 +39,10 @@
     margin-bottom: 5px;
 }
 
+.gym_content a:hover {
+	text-decoration:none;
+}
+
 .gym_image {
 	border: 1px solid #c4c4c4;
 	border-radius:5px;

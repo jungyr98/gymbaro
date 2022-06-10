@@ -38,6 +38,9 @@ public class GoodsServiceImpl implements GoodsService {
 		// 수영 용품 리스트
 		goodsList=goodsDAO.selectGoodsList("수영");
 		goodsMap.put("swim",goodsList);
+		// 랭킹 상품 리스트
+		goodsList=goodsDAO.selectRankingList();
+		goodsMap.put("ranking", goodsList);
 		return goodsMap;
 	}
 	

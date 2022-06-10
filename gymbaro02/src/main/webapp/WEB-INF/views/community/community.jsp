@@ -29,6 +29,16 @@ $(function () {
 });
 
 </script>
+<script type="text/javascript">
+function login_yn(isLogOn, communityWrite, loginForm) {
+	if(isLogOn != '' && isLogOn != 'false') {
+		location.href = '${contextPath}/community/communityWrite.do';
+	} else {
+		var no_login = confirm("로그인 후 게시판 글 작성이 가능합니다.");
+		location.href = '${contextPath}/member/loginForm.do';		
+	}
+}
+</script> 
 <style type="text/css">
 .notice_box .tab_btn ul .active {
     background: rgb(24, 71, 152);
@@ -55,50 +65,73 @@ $(function () {
           <div class="tab_cont">
                <table class="active">
                     <tr class="notice_board_first_tr">
-                    	<td width=15%>글번호</td>
+                    	<td width=10%>글번호</td>
                     	<td width=50%>제목</td>
-                    	<td width=15%>작성자</td>
+                    	<td width=10%>작성자</td>
                     	<td width=20%>작성일</td>
+                    	<td width=10%>조회수</td>
                     </tr>
-                    <c:forEach begin="0" end="10" step="1">
+          			
+                    <c:forEach var="viewAll" items="${viewAll}">
+                    <c:if test="${viewAll.article_category == '자유게시판'}">
                     <tr>
-                    	<td>100</td>
-                    	<td><a href="${contextPath}/community/communityDetail.do">자유게시판 제목 테스트</a></td>
-                    	<td>정유라</td> 
-                    	<td>[2022-04-10]</td>
+                    	<td>${viewAll.articleNo}</td>
+                    	<c:if test="${viewAll.comment_cnt == 0 }">
+                    	<td id="title_td"><a href="${contextPath}/community/communityDetail.do?articleNo=${viewAll.articleNo}">${viewAll.title}&nbsp;</a></td>
+                    	</c:if>
+                    	<c:if test="${viewAll.comment_cnt != 0 }">
+                    	<td id="title_td"><a href="${contextPath}/community/communityDetail.do?articleNo=${viewAll.articleNo}">${viewAll.title}&nbsp;(${viewAll.comment_cnt})</a></td>
+                    	</c:if>
+                    	<td>${viewAll.writer} </td> 
+                    	<td><fmt:formatDate value="${viewAll.writeDate}" pattern="YYYY-MM-dd"></fmt:formatDate></td>
+                    	<td>${viewAll.view_cnt}</td>
                     </tr>
+                    </c:if>
                     </c:forEach>
+                	
+                	
                </table>
                <table>
                    <tr class="notice_board_first_tr">
                     	<td width=15%>글번호</td>
-                    	<td width=50%>제목</td>
+                    	<td width=40%>제목</td>
                     	<td width=15%>작성자</td>
                     	<td width=20%>작성일</td>
+                    	<td width=10%>조회수</td>
                     </tr>
-                    <c:forEach begin="0" end="10" step="1">
+                    
+                    <c:forEach var="viewAll" items="${viewAll}">
+                    <c:if test="${viewAll.article_category == '중고 거래'}">
                     <tr>
-                    	<td>100</td>
-                    	<td>중고 거래 제목 테스트</td>
-                    	<td>정유라</td>
-                    	<td>[2022-04-10]</td>
+                    	<td>${viewAll.articleNo}</td>
+                    	<td><a href="${contextPath}/community/communityDetail.do?articleNo=${viewAll.articleNo}">${viewAll.title}</a></td>
+                    	<td>${viewAll.writer} </td> 
+                    	<td><fmt:formatDate value="${viewAll.writeDate}" pattern="YYYY-MM-dd"></fmt:formatDate></td>
+                    	<td>${viewAll.view_cnt}</td>
                     </tr>
+                  	</c:if>
                     </c:forEach>
                </table>
+               
                <table>
                    <tr class="notice_board_first_tr">
-                    	<td width=15%>글번호</td>
-                    	<td width=50%>제목</td>
+                		<td width=15%>글번호</td>
+                    	<td width=40%>제목</td>
                     	<td width=15%>작성자</td>
                     	<td width=20%>작성일</td>
+                    	<td width=10%>조회수</td>
                     </tr>
-                    <c:forEach begin="0" end="10" step="1">
+                    
+                    <c:forEach var="viewAll" items="${viewAll}">
+                    <c:if test="${viewAll.article_category == '회원 양도'}">
                     <tr>
-                    	<td>100</td>
-                    	<td>양도 서비스 제목 테스트</td>
-                    	<td>정유라</td>
-                    	<td>[2022-04-10]</td>
+                    	<td>${viewAll.articleNo}</td>
+                    	<td><a href="${contextPath}/community/communityDetail.do?articleNo=${viewAll.articleNo}">${viewAll.title}</a></td>
+                    	<td>${viewAll.writer} </td> 
+                    	<td><fmt:formatDate value="${viewAll.writeDate}" pattern="YYYY-MM-dd"></fmt:formatDate></td>
+                    	<td>${viewAll.view_cnt}</td>
                     </tr>
+                    </c:if>
                     </c:forEach>
                </table>
           </div>
@@ -114,7 +147,7 @@ $(function () {
 	      </c:forEach> 
 		</DIV>
 		<div class="noticeWrite_btn_box">
-			<a href="${contextPath}/community/communityWrite.do">글 작성하기</a>
+			<a href="javascript:login_yn('${isLogOn}', '${contextPath}/community/communityWrite.do', '${contextPath}/member/loginForm.do')" id="writeBtn">글 작성하기</a>
 		</div>	
           </div>
      </div>

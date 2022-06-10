@@ -12,6 +12,7 @@ public class GymVO {
 	private String first_option;
 	private String gym_intro;
 	private String program_list;
+	private String kakao_addr;
 	private String insta_addr;
 	private String fbook_addr;
 	private String nblog_addr;
@@ -22,9 +23,13 @@ public class GymVO {
 	private int price_info4;
 	private int price_info5;
 	private String service;
+	private String time_info;
+	private String recommand;
 	private Date regDate; 
 	private String gym_fileName;
-	private String distance;
+	private Double distance;
+	private String state;
+	private int member_count;
 
 
 public GymVO() {}
@@ -108,6 +113,16 @@ public GymVO(int gym_id, int uid, String gym_name, String zipcode, String roadAd
 			this.program_list = program_list;
 		}
 		
+		
+		
+		public String getKakao_addr() {
+			return kakao_addr;
+		}
+
+		public void setKakao_addr(String kakao_addr) {
+			this.kakao_addr = kakao_addr;
+		}
+
 		public String getInsta_addr() {
 			return insta_addr;
 		}
@@ -220,11 +235,45 @@ public GymVO(int gym_id, int uid, String gym_name, String zipcode, String roadAd
 			this.gym_fileName = gym_fileName;
 		}
 
-		public String getDistance() {
+		public String getRecommand() {
+			return recommand;
+		}
+
+		public void setRecommand(String recommand) {
+			this.recommand = recommand;
+		}
+
+		public Double getDistance() {
 			return distance;
 		}
 
-		public void setDistance(String distance) {
+		public void setDistance(Double distance) {
 			this.distance = distance;
 		}
+
+		public String getState() {
+			return state;
+		}
+
+		public void setState(String state) {
+			this.state = state;
+		}
+
+		public int getMember_count() {
+			return member_count;
+		}
+
+		public void setMember_count(int member_count) {
+			this.member_count = member_count;
+		}
+
+		public String getTime_info() {
+			return time_info;
+		}
+
+		public void setTime_info(String time_info) {
+			this.time_info = time_info;
+		}
+				
+				
 }

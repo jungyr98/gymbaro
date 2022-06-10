@@ -4,6 +4,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<c:set var = "delivery_ing_total" value = "0" />
+<c:set var = "delivery_done_total" value = "0" />
+<c:set var = "delivery_cancel_total" value = "0" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,20 +16,6 @@
      <title>탭메뉴</title>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
-$(function () {
-    var tab_Btn = $(".tab_btn > ul > li");
-    var tab_Cont = $(".tab_cont > table");
-    tab_Cont.hide().eq(0).show();
-    tab_Btn.click(function (e) {
-         e.preventDefault();
-         var target = $(this);
-         var index = target.index();
-         tab_Btn.removeClass("active");
-         target.addClass("active");
-         tab_Cont.hide();
-         tab_Cont.eq(index).show();
-    });
-});
 
 //날짜 형식 체크 및 변경
 function checkDateFormat(obj) {
@@ -116,60 +105,166 @@ function search(){
 	$('#searchForm').submit();
 }
 
-</script>
+//테이블내 페이징
+function pagination() {
+	  var req_num_row = 5;
+	  var $tr = jQuery("tbody tr");
+	  var total_num_row = $tr.length;
+	  var num_pages = 0;
+	  if (total_num_row % req_num_row == 0) {
+	    num_pages = total_num_row / req_num_row;
+	  }
+	  if (total_num_row % req_num_row >= 1) {
+	    num_pages = total_num_row / req_num_row;
+	    num_pages++;
+	    num_pages = Math.floor(num_pages++);
+	  }
 
+	  jQuery(".pagination").append('<li><a class="prev">Previous</a></li>');
+
+	  for (var i = 1; i <= num_pages; i++) {
+	    jQuery(".pagination").append("<li><a>" + i + "</a></li>");
+	    jQuery(".pagination li:nth-child(2)").addClass("active");
+	    jQuery(".pagination a").addClass("pagination-link");
+	  }
+
+	  jQuery(".pagination").append('<li><a class="next">Next</a></li>');
+
+	  $tr.each(function (i) {
+	    jQuery(this).hide();
+	    if (i + 1 <= req_num_row) {
+	      $tr.eq(i).show();
+	    }
+	  });
+
+	  jQuery(".pagination a").click(".pagination-link", function (e) {
+	    e.preventDefault();
+	    $tr.hide();
+	    var page = jQuery(this).text();
+	    var temp = page - 1;
+	    var start = temp * req_num_row;
+	    var current_link = temp;
+
+	    jQuery(".pagination li").removeClass("active");
+	    jQuery(this).parent().addClass("active");
+
+	    for (var i = 0; i < req_num_row; i++) {
+	      $tr.eq(start + i).show();
+	    }
+
+	    if (temp >= 1) {
+	      jQuery(".pagination li:first-child").removeClass("disabled");
+	    } else {
+	      jQuery(".pagination li:first-child").addClass("disabled");
+	    }
+	  });
+
+	  jQuery(".prev").click(function (e) {
+	    e.preventDefault();
+	    jQuery(".pagination li:first-child").removeClass("active");
+	  });
+
+	  jQuery(".next").click(function (e) {
+	    e.preventDefault();
+	    jQuery(".pagination li:last-child").removeClass("active");
+	  });
+	}
+
+	jQuery("document").ready(function () {
+	  pagination();
+
+	  jQuery(".pagination li:first-child").addClass("disabled");
+	});
+</script>
+<style type="text/css">
+#order_state_box img {
+    background: #9099A9;
+    padding: 15px;
+    border-radius: 30px;
+}
+
+#order_state_box {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #EDEFF2;
+    height: 150px;
+}
+
+#order_state_box .img_span_box {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 95px;
+}
+
+#order_state_box .img_span_box .order_state_count {
+	font-size:35px;
+}
+
+.order_info_div {
+    display: flex;
+    align-items: center;
+    height:115px;
+}
+
+.order_info_box {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    margin-left: 20px;
+    height: 80px;
+}
+
+.order_info_box .order_info_span {
+	font-size:14px;
+}
+</style>
 </head>
 <body>
  <div class="myPage_box wrap show">
-      <div class="sub_top_wrap">
-        <div class="sub_top">   
-          <img class="myPageUser_icon" alt="myPageUser.png" src="${contextPath}/resources/image/myPageUser.png">
-          <div class="sub_top_member_info_box">
-           	<span class="member_id_span">${memberInfo.member_id}</span>
-           	<div class="level_and_joinDate">
-           		<span>LV.${memberInfo.member_level} 멤버</span>
-           		<span class="joinDate_span">가입일 : <fmt:formatDate value="${memberInfo.joinDate}" type="date"/></span>
-           	</div>	
-          </div>
-          <div class="sub_top_member_service_box">
-           	<span><img src="${contextPath}/resources/image/point.png">포인트 > ${memberInfo.member_point}</span>
-           	<span><img src="${contextPath}/resources/image/coupon.png">보유 쿠폰 > 0개</span>
-          </div>
-        </div>
-      </div>
-      <div id="content" class="sub_wrap">
-        <nav>
-          <ul>
-            <li>
-              <a href="${contextPath}/mypage/mypage.do">회원정보 수정</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/listMyOrderHistory.do" class="active">주문/배송</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/myPage03.do">쿠폰/포인트</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/myPage04.do">예약 내역</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/myPage05.do">내 게시물 관리</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/myPage06.do">1:1 문의 내역</a>
-            </li>
-          </ul>
-        </nav>
-  <div class="align_rt">
+   <div id="content" class="sub_wrap">
+  	<div class="align_rt">
       <div class="myPage03_box tab_menu">
      	<div class="first_content">
           <div class="tab_btn">
-               <ul>
-                    <li class="active"><a href="#">주문내역<img alt="coupon.png" src="${contextPath}/resources/image/shipped.png"></a></li>
-                    <li><a href="#">취소/반품/교환<img alt="coupon.png" src="${contextPath}/resources/image/cancel.png"></a></li>
-               </ul>
+             <div id="order_state_box">
+             	<c:forEach var="item" items="${myOrderList}">
+                    	<c:if test="${item.order_state eq '배송중'}">
+                    		<c:set var = "delivery_ing_total" value = "${delivery_ing_total + 1}" />
+                    	</c:if>
+                    	<c:if test="${item.order_state eq '배송완료'}">
+                    		<c:set var = "delivery_done_total" value = "${delivery_done_total + 1}" />
+                    	</c:if>
+                    	<c:if test="${item.order_state eq '주문취소' or item.order_state eq '반품'}">
+                    		<c:set var = "delivery_cancel_total" value = "${delivery_cancel_total + 1}" />
+                    	</c:if>
+                </c:forEach>
+               	<div class="order_state_item">
+               		<span>배송중</span>
+               		<div class="img_span_box">
+               			<img alt="" src="${contextPath}/resources/image/order_item01.png">
+               			<span class="order_state_count"><c:out value="${delivery_ing_total}"/></span>
+               		</div>
+               	</div>
+               	<div class="order_state_item">
+               		<span>배송완료</span>
+               		<div class="img_span_box">
+               			<img alt="" src="${contextPath}/resources/image/order_item02.png">
+               			<span class="order_state_count"><c:out value="${delivery_done_total}"/></span>
+               		</div>
+               	</div>
+               	<div class="order_state_item">
+               		<span>취소/반품</span>
+               		<div class="img_span_box">
+               			<img alt="" src="${contextPath}/resources/image/order_item03.png">
+               			<span class="order_state_count"><c:out value="${delivery_cancel_total}"/></span>
+               		</div>
+               	</div>
+             </div>
                
-               <form name="searchForm" id="searchForm"  method="get" action="/app/mypage/qa">
+               <form name="searchForm" id="searchForm"  method="get" action="${contextPath}/mypage/listMyOrderHistory.do">
 				<input type="hidden" name="period" value=""/>
 				<input type="hidden" name="page" value="1"/>
 				<div class="n-table-filter">
@@ -217,23 +312,30 @@ function search(){
           </div>
           <div class="tab_cont">
                <table class="active myPage03_table">
+               		<thead>
                     <tr class="notice_board_first_tr">
                     	<td width=15%>주문번호</td>
-                    	<td width=15%>주문일자</td>
-                    	<td width=35%>상품명</td>
-                    	<td width=15%>결제금액(수량)</td>
+                    	<td width=55%>주문정보</td>
                     	<td width=10%>주문상태</td>
                     	<td width=10%></td>
                     </tr>
+                    </thead>
+                    <tbody>
                     <c:forEach var="order" items="${myOrderList}">
                     <tr>
-                    	<td><a href="#" id="order_id_atag">${order.order_id }</a></td>
-                    	<td>${order.creDate }</td>
-                    	<td><b>${order.goods_name }</b></td>
+                    	<td><a href="${contextPath}/mypage/listMyOrderDetail.do?order_id=${order.order_id}" id="order_id_atag">${order.order_id}</a></td>
                     	<td>
                     		<fmt:formatNumber  value="${order.total_price}" type="number" var="price" />
-                    		${price }원<br>
-                    		${order.goods_qty }개
+                    		<div class="order_info_div">
+                    			<img width="100" alt="${order.fileName}" src="${contextPath}/thumbnails.do?goods_id=${order.goods_id}&fileName=${order.fileName}">
+                    			<div class="order_info_box">
+                    				<span class="order_info_span">${order.goods_name }</span>
+                    				<div>
+                    					<span class="order_info_span">${price }원 ${order.goods_qty }개</span>ㅣ
+                    					<span class="order_info_span"><b>${order.creDate }</b></span>
+                    				</div>
+                    			</div>
+                    		</div>
                     	</td>
                     	<td>${order.order_state }</td>
                     	<td>
@@ -250,31 +352,12 @@ function search(){
                     	</td>
                     </tr>
                     </c:forEach>
+                    </tbody>
                </table>
-               <table class="myPage03_table">
-                   <tr class="notice_board_first_tr">
-                    	<td width=15%>주문번호</td>
-                    	<td width=15%>주문일자</td>
-                    	<td width=40%>상품명</td>
-                    	<td width=15%>처리 내용</td>
-                    	<td width=15%>처리 상태</td>
-                    </tr>
-                    <tr>
-                    	<td colspan="5">취소/반품/교환 내역이 없습니다.</td>
-                    </tr>
-               </table>
+               <ul class="pagination">
+    
+  			   </ul>
           </div>
-          <DIV id="page_wrap">
-		 <c:forEach var="page" begin="1" end="10" step="1" >
-		         <c:if test="${section >1 && page==1 }"> <!-- section 2부터는 그 전 section으로 갈 수 있도록 pre라는 이름의 a태그를 보여줌 -->
-		          <a href="${pageContext.request.contextPath}/mypage/listMyOrderHistory.do?section=${section-1}&pageNum=${(section-1)*10-page }">&nbsp;pre &nbsp;</a>
-		         </c:if>
-		          <a href="${pageContext.request.contextPath}/mypage/listMyOrderHistory.do?section=${section}&pageNum=${page}">${(section-1)*10 +page } </a>
-		         <c:if test="${page ==10 }"> <!--  -->
-		          <a href="${pageContext.request.contextPath}/mypage/listMyOrderHistory.do?section=${section+1}&pageNum=${section*10+1}">&nbsp; next</a>
-		         </c:if> 
-	      </c:forEach> 
-		</DIV>
           </div>
      </div>
     </div>

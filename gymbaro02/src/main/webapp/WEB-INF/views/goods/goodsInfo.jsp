@@ -7,7 +7,7 @@
 <%
   request.setCharacterEncoding("UTF-8");
 %>
-
+<c:set var="discount_name" value="${((goodsVO.goods_price-goodsVO.goods_discount)/goodsVO.goods_price)*100}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -103,25 +103,34 @@ var selectBoxChange_option = function(value){
 	var value1 = value;
 	var value2 = $("#optionSelectedBox > option:selected").attr("value2");
 	var value3 = $("#optionSelectedBox > option:selected").attr("value3");
+	var goods_price = $('input[name="goods_price"]').val();
+	
+	if(value3==1){
+		$('#select_option_price').text(0+"원");
+		$('#total_price').text(0+"원");
+		return;
+	}
+	
 	$('.option_name').val(value1);
 	$('#select_option_name').text(value1);
-	$('#select_option_price').text(value2);
-	value3 = value3 * qty;
+	value3 = (parseInt(value3)+parseInt(goods_price)) * qty;
 	$('.total_price').val(value3);
 	value3 = value3.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	$('#select_option_price').text(value3+"원");
 	$('#total_price').text(value3 + "원");
 }
 
 // 수령 변경시 총 금액 체인지 부분
 var numberBoxChange = function(value){
 	var value3 = $("#optionSelectedBox > option:selected").attr("value3");
-	if(value3==0){
+	var goods_price = $('input[name="goods_price"]').val();
+	if(value3==1){
 		alert("옵션을 선택해주세요!");
 		$('input[type="number"]').val(1);
 		return;
 	}
 	$('.goods_qty').val(value);
-	var total_price = value3 * value;
+	var total_price = (parseInt(value3)+parseInt(goods_price)) * value;
 	$('.total_price').val(total_price);
 	total_price = total_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	$('#select_option_price').text(total_price+"원");
@@ -131,13 +140,18 @@ var numberBoxChange = function(value){
 //장바구니 추가
 function add_cart(goods_id) {
 	var goods_qty = $('input[name=goods_qty]').val();
+	var option_name = $('input[name=option_name]').val();
+	var add_price = $("#optionSelectedBox > option:selected").attr("value3");
+	console.log(add_price);
 	$.ajax({
 		type : "post",
 		async : false, //false인 경우 동기식으로 처리한다.
 		url : "${contextPath}/cart/addGoodsInCart.do",
 		data : {
 			goods_id:goods_id,
-			goods_qty:goods_qty
+			goods_qty:goods_qty,
+			option_name:option_name,
+			add_price:add_price
 		},
 		success : function(data, textStatus) {
 			//alert(data);
@@ -194,11 +208,25 @@ function imagePopup(type) {
 				<div class="goods_sale_price_box">
 					<span>판매가</span>
 					<fmt:formatNumber  value="${goodsVO.goods_price}" type="number" var="goods_price" />
-					<span>${goods_price}원</span>
+					<fmt:formatNumber  value="${goodsVO.goods_discount}" type="number" var="goods_discount" />
+					<fmt:parseNumber var="discount" integerOnly= "true" value= "${discount_name}" />
+					<c:choose>
+						<c:when test="${goods_discount eq '0'}">
+							<span>${goods_price}원</span>
+							<input type="hidden" name="goods_price" value="${goodsVO.goods_price}" />
+						</c:when>
+						<c:otherwise>
+							<span>
+								<b>${goods_discount}원</b>&nbsp;<strike>${goods_price}원</strike>
+								<b><span style="color:#184798;font-size:16px;">%${discount}</span></b>&nbsp;
+							</span>
+							<input type="hidden" name="goods_price" value="${goodsVO.goods_discount}" />
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<div class="goods_plus_price_box">
 					<span>배송비</span>
-					<span>3,500원</span>
+					<span>무료</span>
 				</div>
 				<div class="goods_point_info_box">
 					<span>포인트</span>
@@ -208,10 +236,10 @@ function imagePopup(type) {
 			<div class="gym_option_box">
 				<span>옵션 선택</span>
 				<select id="optionSelectedBox" onChange="selectBoxChange_option(this.value);" >
-					<option value="옵션 선택" value2="0원" value3="0">옵션 선택</option>
+					<option value="옵션 선택" value2="0원" value3="1">옵션 선택</option>
 				  <c:forEach var="option" items="${optionList}" >
 				  <fmt:formatNumber  value="${option.price}" type="number" var="price" />
-					<option value="${option.option_name }" value2="${price }원" value3="${option.price}">${option.option_name }</option>
+					<option value="${option.option_name }" value2="${price }원" value3="${option.price}">${option.option_name } (+${price}원)</option>
 				  </c:forEach>
 				</select>
 				<div class="goods_num_box">
@@ -229,6 +257,7 @@ function imagePopup(type) {
 					<input type="hidden" name="option_name" class="option_name" />
 					<input type="hidden" name="goods_qty" class="goods_qty" value="1" />
 					<input type="hidden" name="total_price" class="total_price" />
+					<input type="hidden" name="fileName" value="${goodsVO.goods_fileName}">
 					<input type="button" class="option_submit_btn go_cart_btn" value="장바구니" onClick="add_cart('${goodsVO.goods_id}')">
 					<input type="submit" class="option_submit_btn go_order_btn" value="구매하기">
 					<input type="button" class="option_submit_btn" value="비회원 구매하기"  onClick="location.href ='${contextPath}/order/order_02.do'">
@@ -259,18 +288,6 @@ function imagePopup(type) {
 						<c:forEach var="image" items="${imageList }">
 							<img class="goods_detail_img" src="${contextPath}/download.do?goods_id=${goodsVO.goods_id}&fileName=${image.fileName}">
 						</c:forEach>
-					</div>
-					<div class="info_content gymsInfo_timeInfo_box">
-						<p>테스트</p>
-					</div>
-					<div class="info_content gymsInfo_programInfo_box">
-						<p>테스트</p>
-					</div>
-					<div class="info_content gymsInfo_Info_box">
-						<p>테스트</p>
-					</div>
-					<div class="info_content gymsInfo_url_box">
-						<p>테스트</p>
 					</div>
                </div>
                <div class="gymsInfo_div">

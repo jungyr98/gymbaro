@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.board">
+<resultMap id="boardResult" type="boardVO">
+		<result property="articleNo" column="articleNo" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="writeDate" column="writeDate" />
+		<result property="writer" column="writer" />
+		<result property="uid" column="uid" />
+		<result property="view_cnt" column="view_cnt" />
+	</resultMap>
+	
+<resultMap id="commentResult" type="commentVO">
+	<result property="articleNo" column="articleNo" />
+	<result property="commentNo" column="commentNo" />
+	<result property="uid" column="uid" />
+	<result property="comment_writer" column="comment_writer" />
+	<result property="comment_content" column="comment_content" />
+	<result property="regDate" column="regDate" />
+	
+</resultMap>
+	
+<insert id="newArticle" parameterType="String">
+	<selectKey resultType="int" keyProperty="articleNo" order="BEFORE">
+		select case count(*) when 0 then 1 else max(articleNo) + 1 end from board
+	</selectKey>
+	<![CDATA[ 
+		insert into board (articleNo, article_category, title, content, uid, writer, view_cnt) 
+			values (#{articleNo}, #{article_category}, #{title}, #{txtContent}, #{uid}, #{writer}, #{view_cnt})
+	]]> 
+</insert>
+
+<select id= "viewAll" resultType="boardVO">
+	select articleNo, article_category, title, writer, writeDate, view_cnt, (select count(commentNo) from comment_tbl where board.articleNo = comment_tbl.articleNo) as comment_cnt from board order by writeDate DESC
+</select>
+
+<select id="readArticle" resultType="boardVO">
+<![CDATA[ 
+	select articleNo, article_category, title, content, writer, uid, writeDate, view_cnt, comment_cnt from board where articleNo = #{articleNo}	
+	]]> 
+	
+</select>
+
+<update id="increaseViewCnt" parameterType="String">
+	update board set view_cnt = view_cnt + 1 where articleNo = #{articleNo}
+</update>
+
+<update id="updateCommentCnt">
+	update board set comment_cnt = (select count(commentNo) from comment_tbl where board.articleNo = comment_tbl.articleNo)
+</update>
+
+<update id="modifyArticle" parameterType="java.util.Map">
+	update board set article_category = #{article_category}, title=#{title}, content=#{txtContent} where articleNo = #{articleNo}
+</update>
+
+<delete id="deleteArticle">
+	delete from board where articleNo = #{articleNo}
+</delete>
+
+<insert id="newComment" parameterType = "String">
+	<selectKey resultType="int" keyProperty="commentNo" order="BEFORE">
+		select case count(*) when 0 then 1 else max(commentNo) + 1 end from comment_tbl
+	</selectKey>
+	<![CDATA[
+		insert into comment_tbl (articleNo, commentNo, uid, comment_writer, comment_content) 
+		values (#{articleNo}, #{commentNo}, #{uid}, #{comment_writer}, #{comment_content})
+	]]>
+	
+</insert>
+
+<select id ="viewComment" parameterType="commentVO" resultType="commentVO">
+	SELECT uid, commentNo, comment_writer, comment_content, regDate from comment_tbl where articleNo = #{articleNo}
+</select>
+
+
+<update id="modifyComment" parameterType="commentVO">
+	update comment_tbl set comment_content where commentNo = #{commentNo}
+</update>
+
+<delete id="deleteComment" parameterType="String">
+	delete from comment_tbl where commentNo = #{commentNo}
+</delete>
+
+<select id="getPrevArticle" parameterType="String" resultType="String">
+	<![CDATA[select articleNo from board where articleNo < #{articleNo} order by articleNo desc limit 1;
+	]]> 
+</select>
+
+<select id="getNextArticle" parameterType="String" resultType="String">
+	<![CDATA[select articleNo from board where articleNo > #{articleNo} order by articleNo asc limit 1;
+	]]> 
+</select>
+
+</mapper>

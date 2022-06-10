@@ -116,60 +116,159 @@ function search(){
 	$('#searchForm').submit();
 }
 
-</script>
 
+//테이블내 페이징
+function pagination() {
+	  var req_num_row = 5;
+	  var $tr = jQuery("tbody tr");
+	  var total_num_row = $tr.length;
+	  var num_pages = 0;
+	  if (total_num_row % req_num_row == 0) {
+	    num_pages = total_num_row / req_num_row;
+	  }
+	  if (total_num_row % req_num_row >= 1) {
+	    num_pages = total_num_row / req_num_row;
+	    num_pages++;
+	    num_pages = Math.floor(num_pages++);
+	  }
+
+	  jQuery(".pagination").append('<li><a class="prev">Previous</a></li>');
+
+	  for (var i = 1; i <= num_pages; i++) {
+	    jQuery(".pagination").append("<li><a>" + i + "</a></li>");
+	    jQuery(".pagination li:nth-child(2)").addClass("active");
+	    jQuery(".pagination a").addClass("pagination-link");
+	  }
+
+	  jQuery(".pagination").append('<li><a class="next">Next</a></li>');
+
+	  $tr.each(function (i) {
+	    jQuery(this).hide();
+	    if (i + 1 <= req_num_row) {
+	      $tr.eq(i).show();
+	    }
+	  });
+
+	  jQuery(".pagination a").click(".pagination-link", function (e) {
+	    e.preventDefault();
+	    $tr.hide();
+	    var page = jQuery(this).text();
+	    var temp = page - 1;
+	    var start = temp * req_num_row;
+	    var current_link = temp;
+
+	    jQuery(".pagination li").removeClass("active");
+	    jQuery(this).parent().addClass("active");
+
+	    for (var i = 0; i < req_num_row; i++) {
+	      $tr.eq(start + i).show();
+	    }
+
+	    if (temp >= 1) {
+	      jQuery(".pagination li:first-child").removeClass("disabled");
+	    } else {
+	      jQuery(".pagination li:first-child").addClass("disabled");
+	    }
+	  });
+
+	  jQuery(".prev").click(function (e) {
+	    e.preventDefault();
+	    jQuery(".pagination li:first-child").removeClass("active");
+	  });
+
+	  jQuery(".next").click(function (e) {
+	    e.preventDefault();
+	    jQuery(".pagination li:last-child").removeClass("active");
+	  });
+	}
+
+	jQuery("document").ready(function () {
+	  pagination();
+
+	  jQuery(".pagination li:first-child").addClass("disabled");
+	});
+</script>
+<style type="text/css">
+#point_state_box #point_imo{
+    height: 42px;
+    width: 42px;
+    border-radius: 4px;
+    font-size: 26px;
+    color: #9099A9;
+    font-weight: bold;
+    border: 3px solid #9099A9;
+    text-align:center;
+}
+
+#point_state_box {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #EDEFF2;
+    height: 150px;
+}
+
+#point_state_box .img_span_box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width:172px;
+    height: 50px;
+}
+
+#point_state_box .img_span_box .order_state_count {
+	font-size:35px;
+	padding-bottom: 5px;
+	color: #9099A9;
+}
+
+.point_state_item {
+	text-align: left;
+}
+
+.point_info_div {
+    display: flex;
+    align-items: center;
+    height:115px;
+}
+
+.point_info_box {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    margin-left: 20px;
+    height: 80px;
+}
+
+.point_info_box .point_info_span {
+	font-size:14px;
+}
+
+#point_state_title {
+	color: #9D9D9E;
+    font-size: 12px;
+    font-weight: bold;
+}
+</style>
 </head>
 <body>
  <div class="myPage_box wrap show">
-      <div class="sub_top_wrap">
-        <div class="sub_top">   
-          <img class="myPageUser_icon" alt="myPageUser.png" src="${contextPath}/resources/image/myPageUser.png">
-          <div class="sub_top_member_info_box">
-           	<span class="member_id_span">${memberInfo.member_id}</span>
-           	<div class="level_and_joinDate">
-           		<span>LV.${memberInfo.member_level} 멤버</span>
-           		<span class="joinDate_span">가입일 : <fmt:formatDate value="${memberInfo.joinDate}" type="date"/></span>
-           	</div>	
-          </div>
-          <div class="sub_top_member_service_box">
-           	<span><img src="${contextPath}/resources/image/point.png">포인트 > ${memberInfo.member_point}</span>
-           	<span><img src="${contextPath}/resources/image/coupon.png">보유 쿠폰 > 0개</span>
-          </div>
-        </div>
-      </div>
       <div id="content" class="sub_wrap">
-        <nav>
-          <ul>
-            <li>
-              <a href="${contextPath}/mypage/mypage.do">회원정보 수정</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/listMyOrderHistory.do">주문/배송</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/listMyPointHistory.do" class="active">쿠폰/포인트</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/myPage04.do">예약 내역</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/myPage05.do">내 게시물 관리</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/myPage06.do">1:1 문의 내역</a>
-            </li>
-          </ul>
-        </nav>
   <div class="align_rt">
       <div class="myPage03_box tab_menu">
      	<div class="first_content">
           <div class="tab_btn">
-               <ul>
-                    <li class="active"><a href="#">쿠폰<img alt="coupon.png" src="${contextPath}/resources/image/coupon.png"></a></li>
-                    <li><a href="#">포인트<img alt="coupon.png" src="${contextPath}/resources/image/point.png"></a></li>
-               </ul>
-               
-                <form name="searchForm" id="searchForm"  method="get" action="/app/mypage/qa">
+          	<div id="point_state_box">
+               	<div class="point_state_item">
+               		<span id="point_state_title">보유 포인트</span>
+               		<div class="img_span_box">
+               			<span id="point_imo">P</span>
+               			<fmt:formatNumber  value="${memberInfo.member_point}" type="number" var="point" />
+               			<span class="order_state_count">${point}원</span>
+               		</div>
+               	</div>
+             </div>               
+                <form name="searchForm" id="searchForm"  method="get" action="${contextPath}/mypage/listMyPointHistory.do">
 				<input type="hidden" name="period" value=""/>
 				<input type="hidden" name="page" value="1"/>
 				<div class="n-table-filter">
@@ -216,25 +315,8 @@ function search(){
                
           </div>
           <div class="tab_cont">
-               <table class="active myPage03_table">
-                    <tr class="notice_board_first_tr">
-                    	<td width=15%>쿠폰번호</td>
-                    	<td width=40%>쿠폰명</td>
-                    	<td width=15%>할인금액</td>
-                    	<td width=15%>적용 범위</td>
-                    	<td width=15%>유효기간</td>
-                    </tr>
-                    <c:forEach begin="0" end="10" step="1">
-                    <tr>
-                    	<td>55741</td>
-                    	<td>운동 용품 10% 쿠폰</td>
-                    	<td>10%</td>
-                    	<td>모든 상품</td>
-                    	<td>2022-04-05 ~ 2022-04-18</td>
-                    </tr>
-                    </c:forEach>
-               </table>
                <table class="myPage03_table">
+               	<thead>
                    <tr class="notice_board_first_tr">
                     	<td width=15%>상태</td>
                     	<td width=15%>포인트</td>
@@ -242,7 +324,10 @@ function search(){
                     	<td width=15%>주문번호</td>
                     	<td width=15%>적용 일시</td>
                     </tr>
+                  </thead>
+                  <tbody>
                     <c:forEach var="point" items="#{myPointList}">
+                    <fmt:formatNumber  value="${point.point}" type="number" var="use_point" />
                     <tr>
                     	<td>
                     		<c:choose>
@@ -257,10 +342,10 @@ function search(){
                     	<td>
                     		<c:choose>
                     			<c:when test="${point.point_state=='적립'}">
-                    			<span style="color:#0078FF">+ ${point.point}</span>
+                    			<span style="color:#0078FF">+ ${use_point}</span>
                     			</c:when>
                     			<c:otherwise>
-                    			<span style="color:#FF0000">- ${point.point}</span>
+                    			<span style="color:#FF0000">- ${use_point}</span>
                     			</c:otherwise>
                     		</c:choose>
                     	</td>
@@ -269,20 +354,13 @@ function search(){
                     	<td>${point.creDate}</td>
                     </tr>
                     </c:forEach>
+                  </tbody>
                </table>
+               <ul class="pagination">
+    
+  			   </ul>
           </div>
-          <DIV id="page_wrap">
-		 <c:forEach var="page" begin="1" end="10" step="1" >
-		         <c:if test="${section >1 && page==1 }"> <!-- section 2부터는 그 전 section으로 갈 수 있도록 pre라는 이름의 a태그를 보여줌 -->
-		          <a href="${pageContext.request.contextPath}/admin/member/adminMemberMain.do?section=${section-1}&pageNum=${(section-1)*10-page }">&nbsp;pre &nbsp;</a>
-		         </c:if>
-		          <a href="${pageContext.request.contextPath}/admin/member/adminMemberMain.do?section=${section}&pageNum=${page}">${(section-1)*10 +page } </a>
-		         <c:if test="${page ==10 }"> <!--  -->
-		          <a href="${pageContext.request.contextPath}/admin/member/adminMemberMain.do?section=${section+1}&pageNum=${section*10+1}">&nbsp; next</a>
-		         </c:if> 
-	      </c:forEach> 
-		</DIV>
-          </div>
+        </div>
      </div>
     </div>
    </div>

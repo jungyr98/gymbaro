@@ -38,10 +38,8 @@ ul{
 }
 
 .sub_wrap .align_rt {
-    float: right;
-    
+    float: right;   
     margin-right: 31px;
-  	margin-top:20px;
   	margin-bottom:100px;
   	border: 1px solid #c4c4c4;
 	border-radius: 5px;
@@ -132,7 +130,7 @@ ul{
 }
 
 .sub_wrap{
-  width: 1024px;
+  width: 800px;
   margin:0 auto 0 auto;
   padding-top:54px;
   padding-bottom:54px;
@@ -214,11 +212,6 @@ p {
 	text-align:left;
 }
 
-.sub_wrap nav ul li a.active{
-  font-size:20px;
-  color:#184798;;
-  font-weight:bold;
-}
 
 .wrap.show, footer.show {
     opacity: 1;

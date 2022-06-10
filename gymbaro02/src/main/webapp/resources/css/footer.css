@@ -6,40 +6,33 @@ body {
 
 
 .footer_box{
-  position:relative;
-  padding:10px 16px 180px 16px;
-  background:white;
-  border-top: 0.3px solid #C4C4C4;
-  text-align: left;
-	bottom:0;
+  padding: 30px 60px 40px;
+  background:#FAFAFA;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }
 .footer_box a{text-decoration:none}
 .footer_box ul, .footer_box ol, .footer_box li{list-style:none}
 
-.footer_box .link li{
-    display:inline-block;
-}
-.footer_box div address {
-    color: rgba(0,0,0,0.38);
-    font-style: normal;
-    padding: 20px 0 0 0;
-    float: left;
-    background: white;
-    line-height: 30px;
-    font-size: 14px;
-    margin: 10px 0px 20px 40px;
-}
-.footer_box div .sc{
-  float:right;
-  background:white;
-  padding-top: 90px;
-  font-size: 10px;
-}
-.footer_box div .sc a{
-  color:#ffffff;
-  margin-left: 20px;
+.footer_box #shop_info_box {
+	display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    font-size: 12px;
+    height: 122px;
 }
 
-.footer_box img {
-    width: 124px;
+.footer_box #shop_info_box #csQnA_link {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+.footer_box #sns_url_box {
+	width: 118px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

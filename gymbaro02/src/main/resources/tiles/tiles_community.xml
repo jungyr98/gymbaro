@@ -18,5 +18,25 @@
 		<put-attribute name="title" value="커뮤니티 글쓰기" />
 		<put-attribute name="body" value="/WEB-INF/views/community/communityWrite.jsp" />
 	</definition>
+	
+	<definition name="/community/modifyForm" extends="baseLayout">
+		<put-attribute name="title" value="커뮤니티 글 수정하기" />
+		<put-attribute name="body" value="/WEB-INF/views/community/communityWrite.jsp" />
+	</definition>
+	
+	<definition name="/community/newComment" extends="baseLayout">
+		<put-attribute name="title" value="커뮤니티 댓글 작성하기" />
+		<put-attribute name="body" value="/WEB-INF/views/community/communityWrite.jsp" />
+	</definition>
+	
+	<definition name="/community/viewComment" extends="baseLayout">
+		<put-attribute name="title" value="커뮤니티 댓글 보기" />
+		<put-attribute name="body" value="/WEB-INF/views/community/communityDetail.jsp" />
+	</definition>	
+	
+	<definition name="/community/modifyComment" extends="baseLayout">
+		<put-attribute name="title" value="커뮤니티 댓글 수정하기" />
+		<put-attribute name="body" value="/WEB-INF/views/community/communityWrite.jsp" />
+	</definition>
 
 </tiles-definitions>

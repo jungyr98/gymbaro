@@ -8,6 +8,8 @@
 		<result property="cart_id" column="cart_id" />
 		<result property="goods_id" column="goods_id" />
 		<result property="uid" column="uid" />
+		<result property="option_name" column="option_name" />
+		<result property="add_price" column="add_price" />
 		<result property="goods_qty" column="goods_qty" />
 		<result property="creDate" column="creDate" />
 	</resultMap>
@@ -28,21 +30,48 @@
 	</resultMap>
 	
 	
-	<!-- 모든 장바구니 정보 조회 -->
-	<select id="selectCartList" resultMap="cartResult">
-	<![CDATA[select cart_id, goods_id, uid, goods_qty, creDate from cart where uid = #{uid}]]>
-	</select>
-	<!-- 장바구니테이블에 등록된 상품 번호를 이용해 상품정보 조회 -->
-	<select id="selectGoodsList" resultMap="goodsResult" parameterType="java.util.Map">
-	<![CDATA[select g.*,d.fileName from goods g inner join goods_detail_img d on g.goods_id = d.goods_id where d.filetype='main_image' and g.goods_id in]]>
-	<foreach item="item" collection="list" open="(" separator="," close=")">#{item.goods_id}</foreach>
-	</select>
-	<!-- 장바구니에 추가하기 전에 그 상품 번호가 장바구니에 담겨있는지 조회 -->
-	<select id="selectCountInCart" resultType="String" parameterType="cartVO">
-	<![CDATA[select case count(*) when 0 then 'false' else 'true' end from cart where goods_id=#{goods_id} and uid=#{uid}]]>
-	</select>
-	<!-- 상품 추가 -->
-	<insert id="insertGoodsInCart" parameterType="cartVO">
-	<![CDATA[insert into cart(goods_id, uid, goods_qty) values (#{goods_id}, #{uid}, #{goods_qty})]]>
-	</insert>
+<!-- 모든 장바구니 정보 조회 -->
+<select id="selectCartList" resultMap="cartResult">
+	<![CDATA[select * from cart where uid = #{uid}]]>
+</select>
+	
+<!-- 장바구니테이블에 등록된 상품 번호를 이용해 상품정보 조회 -->
+<select id="selectGoodsList" resultMap="goodsResult" parameterType="java.util.Map">
+	select g.*,d.fileName from goods g inner join goods_detail_img d on g.goods_id = d.goods_id right outer join cart c on c.goods_id = g.goods_id
+	where c.cart_id in
+	<foreach item="item1" collection="list" open="(" separator="," close=")">#{item1.cart_id}</foreach>
+	and d.filetype='main_image' and g.goods_id in
+	<foreach item="item2" collection="list" open="(" separator="," close=")">#{item2.goods_id}</foreach>
+	order by c.cart_id
+</select>
+
+<!-- 비회원 장바구니 조회 -->
+<select id="non_selectGoodsList" resultMap="goodsResult" parameterType="cartVO">
+	select g.*,d.fileName from goods g inner join goods_detail_img d on g.goods_id = d.goods_id 
+	where d.filetype='main_image' and g.goods_id = #{goods_id}
+</select>
+	
+<!-- 장바구니에 추가하기 전에 그 상품 번호가 장바구니에 담겨있는지 조회 -->
+<select id="selectCountInCart" resultType="String" parameterType="cartVO">
+	<![CDATA[select case count(*) when 0 then 'false' else 'true' end from cart where goods_id=#{goods_id} and uid=#{uid} and option_name=#{option_name}]]>
+</select>
+
+<!-- 상품 추가 -->
+<insert id="insertGoodsInCart" parameterType="cartVO">
+	<![CDATA[insert into cart(goods_id, uid, option_name, add_price, goods_qty) 
+	values (#{goods_id}, #{uid}, #{option_name}, #{add_price}, #{goods_qty})]]>
+</insert>
+
+<!-- 상품수량업데이트 -->
+<update id="updateCartGoodsQty" parameterType="cartVO">
+	<![CDATA[update cart
+			set goods_qty=#{goods_qty}
+			where uid=#{uid} and cart_id=#{cart_id}]]>
+</update>
+
+<!-- 장바구니에서 상품 삭제 -->
+<delete id="deleteCartGoods" parameterType="int">
+	<![CDATA[delete from cart where cart_id=#{cart_id}]]>
+</delete>
+
 </mapper>

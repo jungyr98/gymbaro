@@ -25,9 +25,6 @@
     color: white;
  }
  
- .step_bar_03 span {
- }
- 
  .step_bar_02 {
     background-color: #f0f0f0;
  }
@@ -40,7 +37,7 @@
     width: 129px;
     height: 43px;
     text-align: center; 
-    background-color: lightgray;
+    background-color: #f0f0f0;
     font-weight: bold;
  }
  
@@ -95,7 +92,7 @@
  
  #table1 {
     border: 1px solid;
-    width: 976px;
+    width: 1024px;
     height: 886px;
     margin: auto;
  }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.myspring.gymbaro02.cart.vo.CartVO;
 import com.myspring.gymbaro02.order.vo.OrderVO;
 
 @Repository("orderDAO")
@@ -26,11 +27,11 @@ public class OrderDAOImpl implements OrderDAO {
 	// 주문 데이터 추가하기
 	@Override
 	public String insertNewOrder(List<OrderVO> myOrderList) throws DataAccessException {
-		String order_id="";
+		String order_id= selectOrderID();
 		for(int i=0; i<myOrderList.size();i++){
 			OrderVO orderVO =(OrderVO)myOrderList.get(i);
+			orderVO.setOrder_id(order_id);
 			sqlSession.insert("mapper.order.insertNewOrder", orderVO);
-			order_id = orderVO.getOrder_id();
 		}
 		return order_id;
 	}
@@ -44,10 +45,14 @@ public class OrderDAOImpl implements OrderDAO {
 		pointMap.put("member_point", member_point);
 		sqlSession.update("mapper.order.minusUsePoint", pointMap);
 	}
+	// 주문 테이블에서 주문 성공했을시 장바구니에서 상품 제거
+	@Override
+	public void deleteCartItem(List<CartVO> deleteList) throws DataAccessException {
+		sqlSession.delete("mapper.order.deleteCartItem", deleteList);
+	}
 
 	
-	private int selectOrderID() throws DataAccessException{
-		return sqlSession.selectOne("mapper.order.selectOrderID");
-		
+	private String selectOrderID() throws DataAccessException{
+		return sqlSession.selectOne("mapper.order.selectOrderID");		
 	}
 }

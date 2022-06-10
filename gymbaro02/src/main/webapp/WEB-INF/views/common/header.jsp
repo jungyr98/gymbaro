@@ -24,55 +24,6 @@
 <script type="text/javascript">
 document.addEventListener("touchstart", function () {}, true);
 
-function Loading() {
-    var maskHeight = $(document).height();
-    var maskWidth  = window.document.body.clientWidth;
-     
-    var mask = "<div id='mask' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
-    var loadingImg ='';
-     
-    loadingImg +=" <div id='loadingImg'>";
-    loadingImg +=" <img src='${contextPath}/resources/image/Spinner2.gif' style='position:absolute; z-index:9500; text-align:center; display:block; margin-top:300px; margin-left:750px;'/>";
-    loadingImg += "</div>";  
- 
-    $('body')
-        .append(mask)
- 
-    $('#mask').css({
-            'width' : maskWidth,
-            'height': maskHeight,
-            'opacity' :'0.3'
-    });
-    
-    $('#mask').show();
-  
-    $('.loadingImg').append(loadingImg);
-    $('#loadingImg').show();
-}
-
-$(function () {
-    $("#center_gnb > ul > li").hover(
-        function () {
-            $("#center_gnb").addClass("active");
-        },
-        function () {
-            $("#center_gnb").removeClass("active");
-        }
-    );
-    $("#center_gnb > ul > li:first-child > a").focusin(function () {
-        $("#center_gnb").addClass("active");
-    });
-    $("#center_gnb li:last-child li:last-child a").focusout(function () {
-        $("#center_gnb").removeClass("active");
-    });
-    $("#center_gnb > ul > li > a").focusin(function () {
-        $(this).parent().addClass("active");
-    });
-    $("#center_gnb li li:last-child a").focusout(function () {
-        $("#center_gnb > ul > li").removeClass("active");
-    });
-});
-
 
 $(function () {
     var n = 0;
@@ -89,158 +40,164 @@ $(function () {
         });
     }, 3000);
 });
+
+
+$(function () {
+	  var shrinkHeader = 300;
+	  $(window).scroll(function () {
+	    var scroll = getCurrentScroll();
+	    if (scroll >= shrinkHeader) {
+	      $(".header").addClass("shrink");
+	      $(".sub-menu-box").addClass("shrink_sub_box");
+	    } else {
+	      $(".header").removeClass("shrink");
+	      $(".sub-menu-box").removeClass("shrink_sub_box");
+	    }
+	  });
+	  function getCurrentScroll() {
+	    return window.pageYOffset || document.documentElement.scrollTop;
+	  }
+	});
 </script>
 </head>
 <body>
-<div class="header_box">
-<!--    Made by Erik Terwan    -->
-<!--   24th of November 2015   -->
-<!--        MIT License        -->
-<nav role="navigation">
-  <div id="menuToggle">
-    <!--
-    A fake / hidden checkbox is used as click reciever,
-    so you can use the :checked selector on it.
-    -->
-    <input type="checkbox" />
-
-    <!--
-    Some spans to act as a hamburger.
-    
-    They are acting like a real hamburger,
-    not that McDonalds stuff.
-    -->
-    <span></span>
-    <span></span>
-    <span></span>
-
-    <!--
-    Too bad the menu has to be inside of the button
-    but hey, it's pure CSS magic.
-    -->
-    <ul id="menu">
-      <a href="#">
-        <li>Home</li>
-      </a>
-      <a href="#">
-        <li>About</li>
-      </a>
-      <a href="#">
-        <li>Info</li>
-      </a>
-      <a href="#">
-        <li>Contact</li>
-      </a>
-      <a href="https://erikterwan.com/" target="_blank">
-        <li>Show me more</li>
-      </a>
-    </ul>
-  </div>
- <div class="icon_and_gnb_box"> 
+ <div class="header">
+ <div class="main_menu_box">
   <div id="logo">
   	<a href="${contextPath}/main/main.do">
   		<img src="${contextPath}/resources/image/logo.png" alt="짐바로 로고">
   	</a>
   </div>
-   <div>
-        <div class="center_menu">
-            <nav id="center_gnb">
-                <ul>
+     <nav id="center_gnb">
+                <ul class="center-gnb-list">
                     <li>
                         <a href="${contextPath}/cs/notice.do">공지사항</a>
-                        <ul>
-                            <li><a href="#">공지사항</a></li>
-                            <li><a href="#">이벤트</a></li>
-
-                        </ul>
                     </li>
                     <li>
-                        <a href="${contextPath}/gym/searchGyms.do" style="color:#184798;" onclick="Loading()">시설 찾기</a>
-                        <ul>
-                            <li><a href="#">전체</a></li>
-                            <li><a href="#">헬스</a></li>
-                            <li><a href="#">필라테스</a></li>
-                            <li><a href="#">복싱</a></li>
-                            <li><a href="#">수영</a></li>
-                        </ul>
+                        <a href="${contextPath}/gym/searchGyms.do" style="color:#184798;">시설 찾기</a>
                     </li>
                     <li>
                         <a href="${contextPath}/goods/searchGoods.do">운동 용품</a>
-                        <ul>
-                            <li><a href="#">전체</a></li>
-                            <li><a href="#">헬스 용품</a></li>
-                            <li><a href="#">필라테스 용품</a></li>
-                            <li><a href="#">복싱 용품</a></li>
-                            <li><a href="#">수영 용품</a></li>
-                        </ul>
-                    </li><li>
-                        <a href="${contextPath}/trainer/findTrainer.do">트레이너</a>
                     </li>
                     <li>
                         <a href="${contextPath}/community/community.do">커뮤니티</a>
-                        <ul>
-                            <li><a href="#">자유게시판</a></li>
-                            <li><a href="#">중고 거래</a></li>
-                            <li><a href="#">회원 양도</a></li>
-                        </ul>
+                    </li>
+                    <li>
+                        <a href="${contextPath}/trainer/findTrainer.do">트레이너</a>
                     </li>
                 </ul>
+                <div class="sub-menu-box">
+	                <ul>
+	                  <li><a href="#">공지사항</a></li>
+                      <li><a href="#">이벤트</a></li>
+	                </ul>
+	                <ul>
+                      <li><a href="#">전체</a></li>
+                      <li><a href="#">헬스</a></li>
+                      <li><a href="#">필라테스</a></li>
+                      <li><a href="#">복싱</a></li>
+                      <li><a href="#">수영</a></li>
+                    </ul>
+                    <ul>
+                      <li><a href="#">전체</a></li>
+                      <li><a href="#">헬스 용품</a></li>
+                      <li><a href="#">필라테스 용품</a></li>
+                      <li><a href="#">복싱 용품</a></li>
+                      <li><a href="#">수영 용품</a></li>
+                   </ul>
+                   <ul>
+                      <li><a href="#">자유게시판</a></li>
+                      <li><a href="#">중고 거래</a></li>
+                      <li><a href="#">회원 양도</a></li>
+                   </ul>
+	           </div>  
             </nav>
-        </div>
-    </div> 
-    <div>
-    	<ul class="member_header_box">
+  	</div>
+  	<div id="user_menu_box">
+  		<div class="search_and_lanking_box">
+  			<form class="search-container" action="//llamaswill.tumblr.com/search">
+  				<button id="search-btn" type="submit" name="q" >
+  					<span class="glyphicon glyphicon-search search-icon"></span>
+  				</button>
+  				<input id="search-box" type="text" name="q" />
+			</form>
+  		</div>
 	      	<c:choose>
 	      		<c:when test="${isLogOn == true  && memberInfo != null}">
-	      			<li class =cell-r><a href="${contextPath}/cart/myCartList.do"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
-	      			<li class = cell-r><a href="${contextPath}/cs/csQnA.do">고객센터</a></li>
-	      			<li class = cell-r><a href="${contextPath}/member/logout.do">로그아웃</a></li>
-	        		<li class = cell-r><a href="${contextPath}/mypage/mypage.do" style="color:#184798;"><span class="glyphicon glyphicon-user"></span>&nbsp;${memberInfo.member_name}님!</a></li>
+	        		<ul class="gnb-list">
+	           			<li class="cell-r">
+	           				<a href="${contextPath}/mypage/mypage.do">
+	           					<img width="24" src="${contextPath }/resources/image/account.png" alt="account.png" />
+	           					<span>${memberInfo.member_name}님!</span>
+	           				</a>
+	           			</li>
+	           			<li class="cell-r">
+	           				<a href="${contextPath}/cart/myCartList.do">
+	           					<img width="24" src="${contextPath }/resources/image/shopping-cart.png" alt="shopping-cart.png" />
+	           					<span>장바구니</span>
+	           				</a>
+	           			</li>
+	           			<c:if test="${memberInfo.member_type eq '일반' or memberInfo.member_type eq 'SNS'}">
+	           			<li class="cell-r">
+	           				<a href="${contextPath}/liked/listMyLiked.do">
+	           					<img width="24" src="${contextPath }/resources/image/heart.png" alt="heart.png" />
+	           					<span>찜</span>
+	           				</a>
+	           			</li>
+	           			</c:if>
+	           			<c:if test="${memberInfo.member_type eq '시설'}">
+	           			<li class="cell-r">
+	           				<a href="${contextPath}/mypage/myGymInfo.do">
+	           					<img width="24" src="${contextPath }/resources/image/gym_header.png" alt="gym_header.png" />
+	           					<span>내 시설</span>
+	           				</a>
+	           			</li>
+	           			</c:if>
+	           			<c:if test="${memberInfo.member_type eq '관리자'}">
+	           			<li class="cell-r">
+	           				<a href="${contextPath}/admin/main/main.do">
+	           					<img width="24" src="${contextPath }/resources/image/admin_header.png" alt="admin_header.png" />
+	           					<span>관리자 모드</span>
+	           				</a>
+	           			</li>
+	           			</c:if>
+	           			<li class="cell-r">
+	           				<a href="${contextPath}/member/logout.do">
+	           					<img width="24" src="${contextPath }/resources/image/logout.png" alt="logout.png" />
+	           					<span>로그아웃</span>
+	           				</a>
+	           			</li>
+ 					</ul>
 	      		</c:when>
 	      		<c:otherwise>
-	      			<li class = cell-r><a href="${contextPath}/cart/myCartList.do"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
-	      			<li class = cell-r><a href="${contextPath}/cs/csQnA.do">고객센터</a></li>
-	      			<li class = cell-r><a href="${contextPath}/member/joinTypeForm.do">회원가입</a></li>
-	        		<li class = cell-r><a href="${contextPath}/member/loginForm.do">로그인</a></li>
+	      			<ul class="gnb-list">
+	      				<li class = cell-r>
+	      					<a href="${contextPath}/member/loginForm.do">
+	           					<img width="24" src="${contextPath}/resources/image/enter.png" alt="enter.png" />
+	           					<span>로그인</span>
+	           				</a></li>
+	      				<li class = cell-r>
+	      					<a href="${contextPath}/member/joinTypeForm.do">
+	      						<img width="24" src="${contextPath}/resources/image/add-user.png" alt="add-user.png" />
+	           					<span>회원가입</span>
+	      					</a>
+	      				</li>
+	       		 		<li class = cell-r>
+	       		 			<a href="${contextPath}/cart/myCartList.do">
+	           					<img width="24" src="${contextPath }/resources/image/shopping-cart.png" alt="shopping-cart.png" />
+	           					<span>장바구니</span>
+	           				</a>
+	       		 		</li>
+	       		 		<li class = cell-r>
+	       		 			<a href="${contextPath}/cs/csQnA.do">
+	           					<img width="24" src="${contextPath }/resources/image/help-desk.png" alt="help-desk.png" />
+	           					<span>고객센터</span>
+	           				</a>
+	       		 		</li>
+	      			</ul>
 	      		</c:otherwise>
 	      	</c:choose>
-	      	
-	      </ul>
-    </div>
-   </div>
-  <div class="search_and_lanking_box">
-  		<div class="slider">
-            <ul class="header_lanking_slider_ul">
-                <li class="active">
-                    <a href="#">
-                       1. 홈트레이닝
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                       2. 바벨
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                       3. 헬스장
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="#">
-                      4. 대전
-                    </a>
-                </li>
-            </ul>
-        </div>
-  	<form class="search-container" action="//llamaswill.tumblr.com/search">
-  		<input id="search-box" type="text" class="search-box" name="q" />
-  		<label for="search-box"><span class="glyphicon glyphicon-search search-icon"></span></label>
-  		<input type="submit" id="search-submit" />
-	</form>
-  </div>
-</nav>
-<div id="map" class="loadingImg"></div>
-</div>
+	   </div>   	
+    </div> 
 </body>
 </html>

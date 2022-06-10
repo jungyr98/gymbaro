@@ -1,5 +1,6 @@
 package com.myspring.gymbaro02.mypage.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.myspring.gymbaro02.gym.vo.GymVO;
 import com.myspring.gymbaro02.member.service.SHA256Util;
 import com.myspring.gymbaro02.member.vo.MemberVO;
+import com.myspring.gymbaro02.membership.vo.MembershipVO;
 import com.myspring.gymbaro02.mypage.dao.MypageDAO;
 import com.myspring.gymbaro02.mypage.vo.PointHisVO;
 import com.myspring.gymbaro02.order.vo.OrderVO;
@@ -56,9 +59,67 @@ public class MypageServiceImpl implements MypageService {
 	
 	// 포인트 내역 조회
 	@Override
-	public List<PointHisVO> listMyPointHistory(Map condMap) throws Exception {
+	public List<PointHisVO> listMyPointHistory(Map<String, Object> condMap) throws Exception {
 		List<PointHisVO> myPointList = myPageDAO.selectMyPointHistory(condMap);
 		return myPointList;
+	}
+	
+	// 내 시설 조회
+	@Override
+	public List<GymVO> listMyGym(int uid) throws Exception {
+		List<GymVO> gymInfo = myPageDAO.selectMyGymList(uid);
+		
+		// 내 시설 회원 수 구하기
+		for(int i=0; i<gymInfo.size(); i++) {
+		GymVO gymVO = gymInfo.get(i);
+		int gym_id = gymVO.getGym_id();
+		int allMember = myPageDAO.countMyGymMember(gym_id);
+		gymVO.setMember_count(allMember);
+		}
+		
+		return gymInfo;
+	}
+	
+	// 시설 등록하기
+	@Override
+	public int addNewGym(Map<String, Object> gymMap) throws Exception {
+		int gym_id = myPageDAO.insertNewGym(gymMap);
+		myPageDAO.insertNewGymImage(gymMap, gym_id);
+		return gym_id;
+	}
+	
+	// 내 회원권 내역 조회
+	@Override
+	public List<MembershipVO> listMyMembership(Map<String, Object> condMap) throws Exception {
+		List<MembershipVO> membershipList = myPageDAO.selectMyMembership(condMap);
+		return membershipList;
+	}
+	
+	// 주문내역 상세 조회
+	@Override
+	public List<OrderVO> listMyOrderDetail(String order_id) throws Exception {
+		List<OrderVO> orderDetailList = myPageDAO.selectOrderDetail(order_id);
+		return orderDetailList;
+	}
+	
+	// 회원권 예약 내역 상세 조회
+	@Override
+	public MembershipVO listMyMembershipDetail(String membership_id) throws Exception {
+		MembershipVO membershipVO = myPageDAO.selectMembershipDetail(membership_id);
+		return membershipVO;
+	}
+	
+	// 내 게시물 조회하기 (조건에 따라 댓글, 게시글, 리뷰 따로 가져옴)
+	@Override
+	public List<Object> listMyBoardItem(Map<String, Object> condMap) throws Exception {
+		List myBoardItem = new ArrayList();
+		if(condMap.get("search_type").equals("comment")) {
+			myBoardItem = myPageDAO.selectMyComment(condMap);
+		}else if(condMap.get("search_type").equals("article")) {
+			myBoardItem = myPageDAO.selectMyArticle(condMap);
+		}
+		
+		return myBoardItem;
 	}
 	
 }

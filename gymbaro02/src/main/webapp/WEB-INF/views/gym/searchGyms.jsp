@@ -34,14 +34,12 @@
  <div class="first_content">
 	<div class="first_text">
 		<span><b>짐바로 추천</b> 제휴 시설 <img alt="icon_map" src="${contextPath}/resources/image/gymbaro_like.png"></span>
-	</div>
-	
+	</div>	
 	<div class="gym_content">
 		<c:forEach var="item" items="${recommandList}">
+		<a href="${contextPath}/gym/gymsInfo.do?gym_id=${item.gym_id}">
 		<div class="gym_image">
-			<a href="${contextPath}/gym/gymsInfo.do?gym_id=${item.gym_id}">
-				<img width="75" alt="" src="${contextPath}/thumbnailsGym.do?gym_id=${item.gym_id}&fileName=${item.gym_fileName}">
-			</a>
+			<img width="75" alt="" src="${contextPath}/thumbnailsGym.do?gym_id=${item.gym_id}&fileName=${item.gym_fileName}">
 			<div class="gym_image_info_box">
 				<span class="gym_image_info_title">${item.gym_name}</span>
 				<div>
@@ -53,6 +51,7 @@
 				<span>${item.first_option}</span>
 			</div>
 		</div>
+		</a>
 		</c:forEach>
 	</div>
  </div>
@@ -62,23 +61,30 @@
 	</div>
 	
 	<div class="gym_content">
+		<c:choose>
+		<c:when test="${not empty locationList}">
 		<c:forEach var="item" items="${locationList}">
+		<a href="${contextPath}/gym/gymsInfo.do?gym_id=${item.gym_id}">
 		<div class="gym_image">
-			<a href="${contextPath}/gym/gymsInfo.do?gym_id=${item.gym_id}">
-				<img width="75" alt="" src="${contextPath}/thumbnailsGym.do?gym_id=${item.gym_id}&fileName=${item.gym_fileName}">
-			</a>
+			<img width="75" alt="" src="${contextPath}/thumbnailsGym.do?gym_id=${item.gym_id}&fileName=${item.gym_fileName}">
 			<div class="gym_image_info_box">
 				<span class="gym_image_info_title">${item.gym_name}</span>
 				<div>
 					<span>${item.firstAddress}</span>
-					<span>${item.distance}</span>
+					<span>${item.distance} km</span>
 				</div>
 			</div>
 			<div class="gym_image_tag_box">
 				<span>${item.first_option}</span>
 			</div>
 		</div>
+		</a>
 		</c:forEach>
+		</c:when>
+		<c:otherwise>
+			<h4>주변 운동 시설이 없습니다.</h4>
+		</c:otherwise>
+		</c:choose>
 	</div>
  </div>
 </div>

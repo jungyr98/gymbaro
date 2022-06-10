@@ -22,26 +22,20 @@
 </head>
 <body>
 	<footer class="footer_box">
-        <div class="align con">
-            <address>
-                <span><img src="${contextPath}/resources/image/logo.png" alt="짐바로 로고"></span>
-                <br>
-                <br>
-                스포츠 시설 예약 및 용품 구매 서비스 주식회사 ㅣ  대표이사 : 2조
-                <br>
-                주소 : 대전광역시 서구 대덕대로 182 오라클 빌딩 3층
-                <br>
-                사업자 등록번호 : 123-456-78910
-                <br>
-                Tel : 042-123-4567 ㅣ Fax : 070-123-4567
-                <br>
-                Copyright 2022 Team Gymbaro Inc. All rights reserved.
-            </address>
-            <div class="sc">
-                  <a href="#" target="_blank"  class="fa-brands fa-facebook"></a>
-                  <a href="#" target="_blank" class="fa-brands fa-instagram"></a>
-            </div>
-        </div>
+		<div id="shop_info_box">
+			<a href="${contextPath}/cs/csQnA.do" id="csQnA_link">고객센터 ></a>
+			<span> 스포츠 시설 예약 및 용품 구매 서비스 주식회사 ㅣ  대표이사 : 2조</span>
+			<span>주소 : 대전광역시 서구 대덕대로 182 오라클 빌딩 3층</span>
+			<span>사업자 등록번호 : 123-456-78910</span>
+			<span>Tel : 042-123-4567 ㅣ Fax : 070-123-4567</span>
+			<span>Copyright 2022 Team Gymbaro Inc. All rights reserved.</span>
+		</div>
+		<div id="sns_url_box">
+        	<img width="24" alt="" src="${contextPath}/resources/image/kakao.png">
+       		<img width="24" alt="" src="${contextPath}/resources/image/blog.png">
+       		<img width="24" alt="" src="${contextPath}/resources/image/facebook.png">
+       		<img width="24" alt="" src="${contextPath}/resources/image/instagram.png">
+		</div>
     </footer>
 </body>
 </html>

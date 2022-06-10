@@ -54,6 +54,10 @@
     width: 200px;
  }
  
+ .info_fixed_join {
+    height: 43px;
+ }
+ 
  
  .button_box {
     display:flex;
@@ -92,6 +96,45 @@
     font-family: 'Noto Sans KR', sans-serif;
     font-size: large;
  } 
+ 
+ 
+ #goodsInfo_table {
+	border: 1px;
+    width: 1024px;
+    /*height: 250px;*/
+    margin-top:30px;
+}
+
+#goodsInfo_table #goodsInfo_div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 94px;
+    margin-left:10px;
+}
+
+#goodsInfo_table #goodsInfo_div div {
+	display: flex;
+    width: 780px;
+    background: #f0f0f0;
+    padding: 10px;
+    border: 1px solid #c4c4c4;
+    border-radius: 2px;
+}
+
+#non-border-1 {
+	border-bottom:none;
+}
+
+#non-border-2 {
+	height: 120px;
+}
+
+#goodsInfo_table #goodsInfo_div #goods_name {
+	width: fit-content;
+    font-size: 16px;
+    padding-bottom: 5px;
+}
  
  #main_table {
      border: 1px;

@@ -25,6 +25,7 @@ public class OrderVO {
 	private String payment;
 	private String delivery_memo;
 	private int total_price;
+	private String fileName;
 	private Date creDate;
 	
 	public OrderVO() {
@@ -195,6 +196,17 @@ public class OrderVO {
 	public void setTotal_price(int total_price) {
 		this.total_price = total_price;
 	}
+	
+
+	public String getFileName() {
+		return fileName;
+	}
+
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 
 	public Date getCreDate() {
 		return creDate;

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.admin.gym">
+<resultMap type="gymVO" id="gymResult">
+		<result property="gym_id" column="gym_id" />
+		<result property="gym_name" column="gym_name" />
+		<result property="hp" column="hp" />
+		<result property="firstAddress" column="firstAddress" />
+		<result property="extraAddress" column="extraAddress" />
+		
+		<result property="first_option" column="first_option" />
+		<result property="price_info1" column="price_info1" />
+		<result property="price_info2" column="price_info2" />
+		<result property="price_info3" column="price_info3" />
+		<result property="price_info4" column="price_info4" />
+		<result property="price_info5" column="price_info5" />
+		<result property="gym_intro" column="goods_sub_category" />
+		<result property="program_list" column="goods_state" />
+		<result property="insta_addr" column="insta_addr" />
+		<result property="fbook_addr" column="fbook_addr" />
+		<result property="nblog_addr" column="nblog_addr" />
+		<result property="home_addr" column="home_addr" />
+		<result property="service" column="service" />
+		<result property="regDate" column="regDate" />
+		<result property="recommand" column="recommand" />
+		<result property="gym_fileName" column="fileName" />
+		<result property="uid" column="uid" />
+		<result property="state" column="state" />
+	</resultMap>
+	
+<!-- 시설 등록순으로 조회하기 -->
+<select id="selectGymList" resultMap="gymResult">
+	select * from gym order by regDate desc
+</select>
+
+<!-- 시설 상태 변경하기 -->
+<update id="updateGymState" parameterType="java.util.Map">
+	update gym <set> state = #{state} </set> where gym_id = #{gym_id}
+</update>
+
+<!-- 시설 추천여부 변경하기 -->
+<update id="updateRecommand" parameterType="java.util.Map">
+	update gym <set> recommand = #{recommand} </set> where gym_id = #{gym_id}
+</update>
+
+</mapper>

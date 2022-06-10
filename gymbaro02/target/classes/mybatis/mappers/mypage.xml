@@ -3,7 +3,7 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.mypage">
-<resultMap type="MemberVO" id="memberResult">
+<resultMap type="memberVO" id="memberResult">
 		<result property="uid" column="uid" />
 		<result property="member_id" column="member_id" />
 		<result property="member_pwd" column="member_pwd" />
@@ -28,7 +28,112 @@
 		<result property="joinDate" column="joinDate" />
 		<result property="gym_license" column="gym_license" />
 		<result property="SALT" column="SALT" />
+</resultMap>
+<resultMap id="orderGoodsResult" type="orderVO">
+		<result property="order_seq_num" column="order_seq_num" />
+		<result property="order_id" column="order_id" />
+		<result property="uid" column="uid" />
+		<result property="goods_id" column="goods_id" />
+		<result property="goods_name" column="goods_name" />
+		<result property="option_name" column="option_name" />
+		<result property="goods_qty" column="goods_qty" />
+		<result property="member_yn" column="member_yn" />
+		<result property="orderer_name" column="orderer_name" />
+		<result property="receiver_name" column="receiver_name" />
+		<result property="receiver_phone_number" column="receiver_phone_number" />
+		<result property="receiver_zipcode" column="receiver_zipcode" />
+		<result property="receiver_roadAddress" column="receiver_roadAddress" />
+		<result property="receiver_jibunAddress" column="receiver_jibunAddress" />
+		<result property="receiver_extraAddress" column="receiver_extraAddress" />
+		
+		<result property="order_state" column="order_state" />
+		<result property="payment" column="payment" />
+		<result property="delivery_memo" column="delivery_memo" />
+		<result property="total_price" column="total_price" />
+		<result property="fileName" column="fileName"/>
+</resultMap>
+<resultMap id="pointHisResult" type="pointVO">
+	<result property="history_id" column="history_id" />
+	<result property="point_state" column="point_state" />
+	<result property="creDate" column="creDate" />
+	<result property="point" column="point" />
+	<result property="his_contents" column="his_contents" />
+	<result property="uid" column="uid" />
+</resultMap>
+	<resultMap type="gymVO" id="gymResult">
+		<result property="gym_id" column="gym_id" />
+		<result property="gym_name" column="gym_name" />
+		<result property="hp" column="hp" />
+		<result property="firstAddress" column="firstAddress" />
+		<result property="extraAddress" column="extraAddress" />
+		
+		<result property="first_option" column="first_option" />
+		<result property="price_info1" column="price_info1" />
+		<result property="price_info2" column="price_info2" />
+		<result property="price_info3" column="price_info3" />
+		<result property="price_info4" column="price_info4" />
+		<result property="price_info5" column="price_info5" />
+		<result property="gym_intro" column="goods_sub_category" />
+		<result property="program_list" column="goods_state" />
+		<result property="insta_addr" column="insta_addr" />
+		<result property="fbook_addr" column="fbook_addr" />
+		<result property="nblog_addr" column="nblog_addr" />
+		<result property="home_addr" column="home_addr" />
+		<result property="service" column="service" />
+		<result property="regDate" column="regDate" />
+		<result property="gym_fileName" column="fileName" />
+		<result property="uid" column="uid" />
+		<result property="state" column="state" />
 	</resultMap>
+	<resultMap id="imageResult" type="gymImageFileVO">
+	   <result property="ima_id" column="ima_id" />
+	   <result property="gym_id" column="gym_id" />
+	   <result property="fileName" column="fileName" />
+	   <result property="fileType" column="fileType" />
+	   <result property="uid" column="uid" />
+	</resultMap>
+	<resultMap id="membershipResult" type="membershipVO">
+		<result property="membership_id" column="membership_id" />
+		<result property="uid" column="uid" />
+		<result property="name" column="name" />
+		<result property="gender" column="gender" />
+		<result property="birth" column="birth" />
+		<result property="phone_number" column="phone_number" />
+		<result property="zipcode" column="zipcode" />
+		<result property="roadAddress" column="roadAddress" />
+		<result property="extraAddress" column="extraAddress" />
+		<result property="gym_id" column="gym_id" />
+		<result property="gym_name" column="gym_name" />
+		<result property="first_option" column="first_option" />
+		<result property="second_option" column="second_option" />
+		<result property="start_date" column="start_date" />
+		<result property="last_date" column="last_date" />
+		<result property="payment" column="payment" />
+		<result property="total_price" column="total_price" />
+		<result property="membership_state" column="membership_state" />
+		<result property="regDate" column="regDate" />
+		<result property="fileName" column="fileName" />
+	</resultMap>
+	<resultMap id="boardResult" type="boardVO">
+		<result property="articleNo" column="articleNo" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="writeDate" column="writeDate" />
+		<result property="writer" column="writer" />
+		<result property="uid" column="uid" />
+		<result property="view_cnt" column="view_cnt" />
+	</resultMap>
+	
+<resultMap id="commentResult" type="commentVO">
+	<result property="articleNo" column="articleNo" />
+	<result property="commentNo" column="commentNo" />
+	<result property="uid" column="uid" />
+	<result property="comment_writer" column="comment_writer" />
+	<result property="comment_content" column="comment_content" />
+	<result property="regDate" column="regDate" />
+	<result property="comment_cnt" column="comment_cnt" />
+	<result property="title" column="title" />
+</resultMap>
 	
 <update id="updateMyInfo" parameterType="java.util.Map">
  			update member
@@ -59,14 +164,109 @@
 		member_id=#{member_id}
 </update>
 
+<!-- 내 정보 조회 -->
 <select id="selectMyDetailInfo" parameterType="String" resultType="memberVO">
 	select * from member where member_id = #{member_id}
 </select>
 
+<!-- 내 주문내역 조회 -->
+<select id="selectMyOrderHistory" parameterType="String" resultMap="orderGoodsResult">
+			select order_seq_num, order_id, o.uid, o.goods_id, case when count(goods_name) > 1 then concat(goods_name,' 외 ',(count(goods_name)-1),'개') else goods_name end as goods_name,
+			option_name, sum(goods_qty) as goods_qty, member_yn, orderer_name, receiver_name, receiver_phone_number, receiver_zipcode, receiver_roadAddress,
+			order_state, payment, total_price, delivery_memo, creDate, g.fileName
+			from order_tbl o, goods_detail_img g where o.uid=#{uid} and g.goods_id = o.goods_id
+			<if test=" dt_fr!='' and dt_fr!=null">
+			 and creDate between #{dt_fr} and #{dt_to} 
+			</if>
+			group by order_id order by creDate desc
+</select>
+
+<!-- 해당 주문내역 상세 조회 (주문번호로 찾기)-->
+<select id="selectOrderDetail" parameterType="String" resultMap="orderGoodsResult">
+	<![CDATA[
+		select o.*, g.fileName from order_tbl o inner join goods_detail_img g on o.goods_id = g.goods_id where o.order_id = #{order_id} and g.fileType = 'main_image'
+	]]>
+</select>
+
+<!-- 내 포인트 내역 조회 -->
+<select id="selectMyPointHistory" parameterType="java.util.Map" resultMap="pointHisResult">
+	select * from point_his where uid = #{uid} 
+	<if test=" dt_fr!='' and dt_fr!=null">
+		and creDate between #{dt_fr} and #{dt_to} 
+	</if>
+	order by creDate desc
+</select>
+
+<!-- 비밀번호 체크 -->
 <select id="confirmPwd" parameterType="String" resultType="int">
 	select case when count(*)>=1 then 1 else 0 end
 	from member
 	where member_pwd = #{member_pwd}
+</select>
+
+<!-- (시설회원) 내 시설 조회 -->
+<select id="selectMyGymList" parameterType="int" resultMap="gymResult" >
+		<![CDATA[
+			select g.*,d.fileName from gym g, gym_detail_img d 
+			where d.fileType='main_image' and g.gym_id = d.gym_id and g.uid=#{uid}]]>
+</select>
+
+<!-- (시설회원) 내 시설 등록 회원수 조회 -->
+<select id="countMyGymMember" parameterType="int" resultType="int">
+	select count(*) from membership where gym_id = #{gym_id}
+</select>
+
+<!-- (시설회원) 내 시설 등록하기 -->
+<insert id="insertNewGym" parameterType="gymVO" useGeneratedKeys="true" keyProperty="gym_id">
+		<selectKey resultType="int" keyProperty="gym_id" order="BEFORE">
+			select case count(*) when 0 then 1 else max(gym_id) + 1 end from gym
+	    </selectKey>
+	<![CDATA[
+		insert into gym(gym_id, gym_name, hp, firstAddress, extraAddress, first_option, price_info1, price_info2, price_info3,
+		price_info4, price_info5, gym_intro, program_list, time_info, kakao_addr, insta_addr, fbook_addr, nblog_addr, home_addr,
+		service, uid, state) values(#{gym_id}, #{gym_name}, #{hp}, #{firstAddress}, #{extraAddress}, #{first_option}, #{price_info1}
+		,#{price_info2}, #{price_info3}, #{price_info4}, #{price_info5}, #{gym_intro}, #{program_list}, #{time_info}, #{kakao_addr},
+		#{insta_addr}, #{fbook_addr}, #{nblog_addr}, #{home_addr}, #{service}, #{uid}, #{state})
+	]]>
+</insert>
+
+<!-- (시설회원) 내 시설 이미지 등록하기 -->
+<insert id="insertNewGymImage" parameterType="gymImageFileVO">
+		<![CDATA[
+		insert into gym_detail_img(gym_id, fileName, fileType, uid) values(#{gym_id}, #{fileName}, #{fileType}, #{uid})
+		]]>
+</insert>
+
+<!-- (일반회원) 내 회원권 내역 조회 -->
+<select id="selectMyMembership" parameterType="java.util.Map" resultMap="membershipResult">
+	select * from membership where uid = #{uid}  
+	<if test=" dt_fr!='' and dt_fr!=null">
+		and start_date between #{dt_fr} and #{dt_to}
+	</if>
+</select>
+
+<!-- (일반회원) 내 회원권 상세 조회  (회원권 번호로 찾기)-->
+<select id="selectMembershipDetail" parameterType="String" resultMap="membershipResult">
+	select m.*, g.fileName from membership m inner join gym_detail_img g on m.gym_id = g.gym_id
+	where m.membership_id = #{membership_id} and g.fileType = 'main_image'
+</select>
+
+<!-- 내 댓글 내역 조회 -->
+<select id="selectMyComment" parameterType="java.util.Map" resultMap="commentResult">
+	select c.*, b.title, b.comment_cnt from comment_tbl c inner join board b on c.articleNO = b.articleNO where c.uid = #{uid}
+	<if test=" dt_fr!='' and dt_fr!=null">
+		and c.regDate between #{dt_fr} and #{dt_to} 
+	</if>
+	order by c.regDate desc
+</select>
+
+<!-- 내 게시글 내역 조회 -->
+<select id="selectMyArticle" parameterType="java.util.Map" resultMap="boardResult">
+	select * from board where uid = #{uid} 
+	<if test=" dt_fr!='' and dt_fr!=null">
+		and writeDate between #{dt_fr} and #{dt_to} 
+	</if>
+	order by writeDate desc
 </select>
 
 </mapper>

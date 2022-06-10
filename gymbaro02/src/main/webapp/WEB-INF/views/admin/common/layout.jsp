@@ -12,6 +12,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <title>Insert title here</title>
 <style type="text/css">
 * {
@@ -29,16 +31,14 @@ body {
 	margin: 0px auto; padding: 0px; width: 100%;
 }
 #wrap {
-	margin: 0px auto; padding: 0px; width: 1500px;
+	margin: 0px auto; padding: 0px;
 }
-header {
-	margin-top: 20px;
-}
+
 aside {
-	width: 280px; float: left;
+	width: 240px; float: left;
 }
 article {
-	margin: 20px 0px 0px 15px; width: 1205px; float: right;
+	margin: 20px 0px 0px 15px; width: 1250px; float: right;
 }
 </style>
 </head>

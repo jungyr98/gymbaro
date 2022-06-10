@@ -8,6 +8,11 @@
        <put-attribute name="title" value="상품 주문 페이지" />
        <put-attribute name="body" value="/WEB-INF/views/order/orderGoodsForm.jsp" />
     </definition>
+    
+    <definition name="/order/orderGoodsForm" extends="baseLayout">
+       <put-attribute name="title" value="상품 주문 페이지" />
+       <put-attribute name="body" value="/WEB-INF/views/order/orderGoodsForm.jsp" />
+    </definition>
 	
 	<definition name="/order/order_02" extends="baseLayout">
 		<put-attribute name="title" value="주문 페이지" />

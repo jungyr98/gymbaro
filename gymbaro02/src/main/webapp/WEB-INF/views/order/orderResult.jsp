@@ -77,7 +77,12 @@
                    			<tr>
                    				<td class="fixed_td">주문자명</td>
                    				<td>
-                   					<span>${memberInfo.member_name }</span>
+                   					<c:if test="${not empty memberInfo}">
+                   						<span>${memberInfo.member_name }</span>
+                   					</c:if>
+                   					<c:if test="${empty memberInfo}">
+                   						<span>${myOrderInfo.orderer_name}</span>
+                   					</c:if>
                    				</td>
                    			</tr>
                    			<tr>

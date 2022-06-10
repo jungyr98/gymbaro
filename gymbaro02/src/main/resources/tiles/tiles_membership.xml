@@ -9,7 +9,7 @@
 		<put-attribute name="body" value="/WEB-INF/views/membership/membershipForm.jsp" />
 	</definition>
 	
-	<definition name="/membership/membershipResult" extends="baseLayout">
+	<definition name="/membership/addNewMembership" extends="baseLayout">
 		<put-attribute name="title" value="헬스  용품" />
 		<put-attribute name="body" value="/WEB-INF/views/membership/membershipResult.jsp" />
 	</definition>

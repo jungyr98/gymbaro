@@ -30,11 +30,41 @@
 		<result property="gym_license" column="gym_license" />
 		<result property="SALT" column="SALT" />
 	</resultMap>
+	<resultMap type="KakaoDTO" id="kdto">
+		<result property="k_number" column="k_number" />
+		<result property="k_name" column="k_name" />
+		<result property="k_email" column="k_email" />
+	</resultMap>
 
 
 <select id="login" parameterType="java.util.Map" resultMap="memberResult">
 	select * from member where member_id = #{id} and member_pwd = #{pwd}
 </select>
+
+<select id="selectDeletedMember" resultMap="memberResult">
+	select uid from member where del_yn = 'Y'
+</select>
+
+<update id="deletedMemberUpdate" parameterType="memberVO">
+	update member
+	<set>member_name = 'N',
+		member_pwd = 'N',
+		member_gender = 'N',
+        member_type = 'N',
+        member_point = 0,
+        phone_number = 'N',
+        email = 'N',
+        pwdFindQ = 'N',
+        pwdFindA = 'N',
+        zipcode = 'N',
+        roadAddress = 'N',
+        jibunAddress = 'N',
+        extraAddress = 'N',
+        info_yn = 'N',
+        deletedDate = now(),
+        SALT = 'N'</set>
+	where uid = #{uid}
+</update>
 
 <select id="getSaltbyId" parameterType="String" resultType="String">
 	select SALT from member where member_id = #{id}
@@ -115,5 +145,18 @@
 	   from member
 	   where member_id = #{id}
 </select>
+
+<!-- 카카오 로그인 -->
+<select id="findKakao" parameterType="java.util.HashMap" resultMap="memberResult">
+		select * from member where member_name=#{nickname} and member_id=#{email}
+	</select>
+
+
+<insert id="kakaoInsert" parameterType="java.util.HashMap">
+		<selectKey resultType="int" keyProperty="uid" order="BEFORE">
+	    	select case count(*) when 0 then 1 else max(uid) + 1 end from member
+		</selectKey>
+		insert into member(uid, member_name, member_id, member_type) values(#{uid}, #{nickname}, #{email}, 'SNS')
+</insert>
 	
 </mapper>

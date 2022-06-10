@@ -1,5 +1,6 @@
 package com.myspring.gymbaro02.member.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -64,5 +65,14 @@ public class MemberDAOImpl implements MemberDAO {
 	public String findMemberName(String member_id) throws DataAccessException{
 		String member_name = sqlSession.selectOne("mapper.member.findMemberName", member_id);
 		return member_name;
+	}
+	
+	// 스케줄러 테스트
+	public List<MemberVO> selectDeletedMember() throws DataAccessException{
+		return sqlSession.selectList("mapper.member.selectDeletedMember");
+	}
+	
+	public int deletedMemberUpdate(MemberVO memberVO) throws DataAccessException {
+		return sqlSession.update("deletedMemberUpdate", memberVO);
 	}
 }

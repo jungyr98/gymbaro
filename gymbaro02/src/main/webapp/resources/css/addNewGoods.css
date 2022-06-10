@@ -1,0 +1,217 @@
+@charset "UTF-8";
+
+body{
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.tab .tab_btn ul li{
+    display: inline-block;
+    float: none;
+    position: relative;
+    margin-right: 64px;
+    font-size: 18px;
+    line-height: normal;
+    text-align: left;
+    cursor: pointer;
+    padding-left:5px;
+    color:black;
+}
+
+.tab .tab_btn ul li a{
+  color:black;
+}
+
+.tab .tab_btn ul{
+  position:relative;
+  margin-top:30px;
+}
+.tab_each ul li div{
+	height:32px;
+}
+
+.tab_each ul li div span{
+  font-size:16px;
+  width:130px;
+  display:inline-block;
+  padding-top:4px;
+}
+
+thead tr td input{
+  width:400px;
+  font-size:14px;
+  padding-left: 5px;
+}
+
+.tab_each ul li a{
+  position:relative;
+  top:10px;
+}
+	
+table, tr, td {
+	border-collapse : collapse;
+	border-bottom: 0.5px solid #ddd;
+	width:600px;
+}
+
+td {
+	text-align:left;
+	color:#424040;
+	padding-left:10px;
+}
+td input {
+	height:23px;
+	border: 1px solid #c4c4c4;
+}	
+.main_container {
+   width:730px;
+}
+
+.first_content {
+
+   margin-top:70px;
+   border-top:2px solid #C4C4C4;
+}
+
+
+
+.form_box {
+	margin-top:30px;
+}
+
+.fixed_join{	
+    font-size: 17px;
+    width: 30%;
+    height: 40px;
+    text-align: left;
+}
+
+.form_btn {
+width:auto;
+height:27px;
+cursor:pointer;
+background-color: #184798;
+color: white;
+border-radius:5px;
+margin-left:5px;
+font-size:12px;
+}
+
+.button_box {
+   display: flex;
+    height: 50px;
+    padding-top: 20px;
+    border-top: 2px solid;
+}
+
+.button_box button {
+   border:none;
+   border-radius:2px;
+   width:300px;
+   height:40px;
+}
+
+.button_box button span {
+   font-size:20px;
+   color:white;
+}
+
+#button_01 {
+   background: #c4c4c4;
+}
+
+#button_02 {
+   background: #184798;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+.tab_each ul li div span{
+  font-size:16px;
+  width:130px;
+  display:inline-block;
+  padding-top:4px;
+}
+
+
+.addNewGoods_box .tab_each ul li a{
+  position:relative;
+  top:10px;
+}
+
+.addNewGoods_box #table1 label {
+    font-weight: normal;
+    margin-bottom: 5px;
+}
+
+.addNewGoods_box .title_box {
+    height: 50px;
+    font-size: 20px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid;
+}
+
+.addNewGoods_box #goods_price,
+.addNewGoods_box #goods_amount, 
+.addNewGoods_box select,
+.addNewGoods_box #addOptionBtn,
+.addNewGoods_box #option_price {
+    width: 180px;
+}
+
+.addNewGoods_box #addOptionBtn {
+	  margin: 10px 0;
+}
+
+.addNewGoods_box #option_price {
+	margin:5px 0 10px 0;
+}
+
+.addNewGoods_box .goods_image {
+	height:auto;
+	padding-left:0;
+}
+
+
+#image_container1, #image_container2 {
+ 	width:480px;
+ 	height:180px;
+ 	border:1px solid #c4c4c4;	
+ 	padding:5px;
+ 	margin-bottom:5px;
+}
+
+#image_container2 {
+	overflow:scroll;
+}
+
+.addNewGoods_box form {
+	display:flex;
+	flex-wrap:wrap;
+	justify-content:space-between;
+	margin-bottom: 50px;
+}
+
+.image_container_box {
+	margin: 0px 50px 10px 0px;
+}
+
+.image_container_box #image_container1 img {
+	width: 470px;
+    height: 170px;
+ 	object-fit: contain;
+}
+
+.image_container_box #image_container2 img {
+	width: 470px;
+}

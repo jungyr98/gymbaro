@@ -9,6 +9,8 @@ public class CartVO {
 	private int cart_id;
 	private int goods_id;
 	private int uid;
+	private String option_name;
+	private int add_price;
 	private int goods_qty;
 	private Date creDate;
 	
@@ -40,6 +42,20 @@ public class CartVO {
 	}
 	public void setUid(int uid) {
 		this.uid = uid;
+	}
+
+	public String getOption_name() {
+		return option_name;
+	}
+	public void setOption_name(String option_name) {
+		this.option_name = option_name;
+	}
+	
+	public int getAdd_price() {
+		return add_price;
+	}
+	public void setAdd_price(int add_price) {
+		this.add_price = add_price;
 	}
 	public int getGoods_qty() {
 		return goods_qty;

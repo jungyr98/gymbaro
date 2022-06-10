@@ -1,5 +1,7 @@
 package com.myspring.gymbaro02.mypage.controller;
 
+import java.io.File;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,21 +20,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myspring.gymbaro02.common.base.BaseController;
+import com.myspring.gymbaro02.gym.vo.GymImageFileVO;
+import com.myspring.gymbaro02.gym.vo.GymVO;
 import com.myspring.gymbaro02.member.vo.MemberVO;
+import com.myspring.gymbaro02.membership.vo.MembershipVO;
 import com.myspring.gymbaro02.mypage.service.MypageService;
 import com.myspring.gymbaro02.mypage.vo.PointHisVO;
 import com.myspring.gymbaro02.order.vo.OrderVO;
 
 @Controller("mypageController")
 @RequestMapping(value="/mypage")
-public class MypageControllerImpl implements MypageController {
+public class MypageControllerImpl extends BaseController implements MypageController {
+	private static final String CURR_IMAGE_REPO_PATH_GYMS = "C:\\gymbaro_img\\gyms";
 	@Autowired
 	private MemberVO memberVO;
 	@Autowired
 	private MypageService myPageService;
 	
+	// 마이페이지 기본창(내 정보 수정창)
+	@Override
 	@RequestMapping(value= "/mypage.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView myPage(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
@@ -47,93 +59,131 @@ public class MypageControllerImpl implements MypageController {
 		return mav;
 	}
 	
+	// 주문내역 전체 조회
+	@Override
 	@RequestMapping(value= "/listMyOrderHistory.do", method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView listMyOrderHistory(@RequestParam Map<String, String> dateMap,HttpServletRequest request, 
+	public ModelAndView listMyOrderHistory(@RequestParam Map<String, Object> condMap,HttpServletRequest request, 
 			HttpServletResponse response) throws Exception{
 		HttpSession session;
 		session = request.getSession();
-		memberVO = (MemberVO)session.getAttribute("memberInfo");
-		int uid = memberVO.getUid();
-		String section = (String)dateMap.get("section");
-		String pageNum = dateMap.get("pageNum");
 		
-		Map<String,Object> condMap=new HashMap<String,Object>();
-		condMap.put("uid", uid);
+		if(session.getAttribute("memberInfo") != null) {
+			memberVO = (MemberVO)session.getAttribute("memberInfo");
+			int uid = memberVO.getUid();
+			condMap.put("uid", uid);
 		
-		if(section== null) {
-			section = "1";
+			List<OrderVO> myOrderList = myPageService.listMyOrderHistory(condMap);
+			session.setAttribute("myOrderList", myOrderList);
 		}
-		condMap.put("section",section);
-		if(pageNum== null) {
-			pageNum = "1";
-		} // 초기 화면에서 section 과 page 값은 null이므로 첫번째 section 의 첫번째 page가 보일 수 있게 값을 1로 지정한다.
-		condMap.put("pageNum",pageNum);
-		
-		List<OrderVO> myOrderList = myPageService.listMyOrderHistory(condMap);
-		session.setAttribute("myOrderList", myOrderList);
 		
 		ModelAndView mav=new ModelAndView();				
-		mav.addObject("section", section);
-		mav.addObject("pageNum", pageNum);
 		String viewName=(String)request.getAttribute("viewName");
 		mav.setViewName(viewName);
 
 		return mav;
 	}
 	
+	// 주문내역 상세 조회
+	@Override
+	@RequestMapping(value= "/listMyOrderDetail.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView listMyOrderDetail(@RequestParam("order_id") String order_id, HttpServletRequest request, 
+			HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String)request.getAttribute("viewName");
+		
+		List<OrderVO> orderDetailList = myPageService.listMyOrderDetail(order_id);
+		session.setAttribute("orderDetailList", orderDetailList);
+		
+		mav.setViewName(viewName);
+		return mav;
+	}
+	
+	// 내 포인트 내역 조회
+	@Override
 	@RequestMapping(value= "/listMyPointHistory.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView listMyPointHistory(@RequestParam Map<String, String> dateMap, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView listMyPointHistory(@RequestParam Map<String, Object> condMap, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		session = request.getSession();
-		memberVO = (MemberVO)session.getAttribute("memberInfo");
-		int uid = memberVO.getUid();
-		String section = (String)dateMap.get("section");
-		String pageNum = dateMap.get("pageNum");
 		
-		Map<String,Object> condMap=new HashMap<String,Object>();
-		condMap.put("uid", uid);
-		
-		if(section== null) {
-			section = "1";
+		if(session.getAttribute("memberInfo") != null) {
+			memberVO = (MemberVO)session.getAttribute("memberInfo");
+			int uid = memberVO.getUid();
+			condMap.put("uid", uid);
+			List<PointHisVO> myPointList = myPageService.listMyPointHistory(condMap);
+			session.setAttribute("myPointList", myPointList);
 		}
-		condMap.put("section",section);
-		if(pageNum== null) {
-			pageNum = "1";
-		} // 초기 화면에서 section 과 page 값은 null이므로 첫번째 section 의 첫번째 page가 보일 수 있게 값을 1로 지정한다.
-		condMap.put("pageNum",pageNum);
-		
-		List<PointHisVO> myPointList = myPageService.listMyPointHistory(condMap);
-		session.setAttribute("myPointList", myPointList);
 		
 		ModelAndView mav=new ModelAndView();
-		mav.addObject("section", section);
-		mav.addObject("pageNum", pageNum);
+
 		String viewName=(String)request.getAttribute("viewName");
 		mav.setViewName(viewName);
 
 		return mav;
 	}
 	
-	@RequestMapping(value= "/myPage04.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView myPage04(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	// 내 회원권 목록 조회
+	@Override
+	@RequestMapping(value= "/myMembership.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView myMembership(@RequestParam Map<String,Object> condMap, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
+		session = request.getSession();
+		ModelAndView mav=new ModelAndView();
+		
+		if(session.getAttribute("memberInfo") != null) {
+			MemberVO memberVO = (MemberVO) session.getAttribute("memberInfo");
+			int uid = memberVO.getUid();
+			condMap.put("uid", uid);
+			List<MembershipVO> membershipList = myPageService.listMyMembership(condMap);
+			session.setAttribute("membershipList", membershipList);
+		}
+		
+		String viewName=(String)request.getAttribute("viewName");
+		mav.setViewName(viewName);
+
+		return mav;
+	}
+	
+	// 회원권 예약 내역 상세 조회
+	@Override
+	@RequestMapping(value= "/listMyMembershipDetail.do", method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView listMyMembershipDetail(@RequestParam("membership_id") String membership_id, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String) request.getAttribute("viewName");
+		
+		MembershipVO membershipVO = myPageService.listMyMembershipDetail(membership_id);
+		session.setAttribute("membershipVO", membershipVO);
+		
+		mav.setViewName(viewName);
+		return mav;
+	}
+	
+	// 내 게시물 내역 조회
+	@Override
+	@RequestMapping(value= "/listMyBoardHistory.do", method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView listMyBoardHistory(@RequestParam Map<String, Object> condMap, HttpServletRequest request, 
+			HttpServletResponse response) throws Exception{
+		HttpSession session = request.getSession();
 		ModelAndView mav=new ModelAndView();
 		String viewName=(String)request.getAttribute("viewName");
+		
+		if(session.getAttribute("memberInfo") != null) {
+			MemberVO memberVO = (MemberVO)session.getAttribute("memberInfo");
+			int uid = memberVO.getUid();
+			condMap.put("uid", uid);
+			List myBoardItem = myPageService.listMyBoardItem(condMap);		
+			String search_type = (String) condMap.get("search_type");
+			session.setAttribute("myBoardItem", myBoardItem);
+			session.setAttribute("search_type", search_type);
+		}
 		mav.setViewName(viewName);
 
 		return mav;
 	}
 	
-	@RequestMapping(value= "/myPage05.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView myPage05(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HttpSession session;
-		ModelAndView mav=new ModelAndView();
-		String viewName=(String)request.getAttribute("viewName");
-		mav.setViewName(viewName);
-
-		return mav;
-	}
-	
+	@Override
 	@RequestMapping(value= "/myPage06.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView myPage06(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
@@ -204,6 +254,149 @@ public class MypageControllerImpl implements MypageController {
 		mav.setViewName(viewName);
 
 		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value= "/myGymInfo.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView myGymInfo(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		HttpSession session;
+		session = request.getSession();
+		ModelAndView mav=new ModelAndView();
+		MemberVO memberVO = new MemberVO();
+		memberVO = (MemberVO) session.getAttribute("memberInfo");
+		int uid = memberVO.getUid();
+		
+		List<GymVO> gymInfo = myPageService.listMyGym(uid);
+		session.setAttribute("gymInfo", gymInfo);
+		
+		String viewName=(String)request.getAttribute("viewName");
+		mav.setViewName(viewName);
+
+		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value= "/addNewGymForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView addNewGymForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		HttpSession session;
+		ModelAndView mav=new ModelAndView();
+		String viewName=(String)request.getAttribute("viewName");
+		mav.setViewName(viewName);
+
+		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value= "/addNewGym.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView addNewGym(@RequestParam Map<String, Object> gymMap, @RequestParam List<String> service,
+			MultipartHttpServletRequest multipartRequest,
+			HttpServletRequest request, HttpServletResponse response) throws Exception{
+		HttpSession session;
+		session = multipartRequest.getSession();
+		ModelAndView mav=new ModelAndView();
+		String imageFileName=null;
+		GymVO gymVO = new GymVO();
+		
+		MemberVO memberVO = (MemberVO) session.getAttribute("memberInfo");
+		int uid = memberVO.getUid();
+		String _service = StringUtils.join(service, ","); // 리스트 쉼표 연결로 문자열로 만들기
+		//시설 등록정보 데이터 저장
+		if(gymMap.size() != 0) {
+			String gym_name = (String) gymMap.get("gym_name");
+			String hp = gymMap.get("hp1")+"-"+gymMap.get("hp2")+"-"+gymMap.get("hp3");
+			String firstAddress = (String) gymMap.get("firstAddress");
+			String extraAddress = (String) gymMap.get("extraAddress");
+			String first_option = (String) gymMap.get("first_option");
+			String price_info1 = (String) gymMap.get("price_info1");
+			String price_info2 = (String) gymMap.get("price_info2");
+			String price_info3 = (String) gymMap.get("price_info3");
+			String price_info4 = (String) gymMap.get("price_info4");
+			String price_info5 = (String) gymMap.get("price_info5");
+			String gym_intro = (String) gymMap.get("gym_intro");
+			String program_list = (String) gymMap.get("program_list");
+			String time_info = (String) gymMap.get("time_info");
+			String kakao_addr = (String) gymMap.get("kakao_addr");
+			String insta_addr = (String) gymMap.get("insta_addr");
+			String fbook_addr = (String) gymMap.get("fbook_addr");
+			String nblog_addr = (String) gymMap.get("nblog_addr");
+			String home_addr = (String) gymMap.get("home_addr");
+			
+			gymVO.setGym_name(gym_name);
+			gymVO.setHp(hp);
+			gymVO.setFirstAddress(firstAddress);
+			gymVO.setExtraAddress(extraAddress);
+			gymVO.setFirst_option(first_option);
+			gymVO.setPrice_info1(Integer.parseInt(price_info1));
+			gymVO.setPrice_info2(Integer.parseInt(price_info2));
+			gymVO.setPrice_info3(Integer.parseInt(price_info3));
+			gymVO.setPrice_info4(Integer.parseInt(price_info4));
+			gymVO.setPrice_info5(Integer.parseInt(price_info5));
+			gymVO.setGym_intro(gym_intro);
+			gymVO.setProgram_list(program_list);
+			gymVO.setTime_info(time_info);
+			gymVO.setInsta_addr(insta_addr);
+			gymVO.setFbook_addr(fbook_addr);
+			gymVO.setNblog_addr(nblog_addr);
+			gymVO.setHome_addr(home_addr);
+			gymVO.setUid(uid);
+			gymVO.setService(_service);
+			gymVO.setState("신청중");
+			gymMap.put("gymVO", gymVO);
+		}
+		
+		// 이미지 데이터 저장 부분
+		String main_image = request.getParameter("main_image");
+		GymImageFileVO _gymImageVO = new GymImageFileVO();
+		_gymImageVO.setUid(uid);
+		_gymImageVO.setFileName(main_image);
+		_gymImageVO.setFileType("main_image"); // 메인이미지 데이터 저장
+				
+		
+		Enumeration enu=multipartRequest.getParameterNames();
+		while(enu.hasMoreElements()){
+			String name=(String)enu.nextElement();
+			String value=multipartRequest.getParameter(name);
+			gymMap.put(name,value);
+		}
+		
+		
+		List<GymImageFileVO> imageFileList = uploadGym(multipartRequest);
+		if(imageFileList!= null && imageFileList.size()!=0) {
+			for(GymImageFileVO imageFileVO : imageFileList) {
+				imageFileVO.setUid(uid);
+				imageFileVO.setFileType("detail_image");
+			}
+		}
+		imageFileList.add(_gymImageVO);
+		gymMap.put("gymImageList", imageFileList);
+		
+		
+		try {
+			int gym_id = myPageService.addNewGym(gymMap);
+			if(imageFileList!=null && imageFileList.size()!=0) {
+				for(GymImageFileVO imageFileVO:imageFileList) {
+					imageFileName = imageFileVO.getFileName();
+					File srcFile = new File(CURR_IMAGE_REPO_PATH_GYMS+"\\"+"temp"+"\\"+imageFileName);
+					File destDir = new File(CURR_IMAGE_REPO_PATH_GYMS+"\\"+gym_id);
+					FileUtils.moveFileToDirectory(srcFile, destDir,true);
+				}
+			}
+
+		}catch(Exception e) {
+			if(imageFileList!=null && imageFileList.size()!=0) {
+				for(GymImageFileVO  imageFileVO:imageFileList) {
+					imageFileName = imageFileVO.getFileName();
+					File srcFile = new File(CURR_IMAGE_REPO_PATH_GYMS+"\\"+"temp"+"\\"+imageFileName);
+					srcFile.delete();
+				}
+			}
+		}
+		
+		
+		mav.setViewName("redirect:/mypage/myGymInfo.do");
+
+		return mav;
+		
 	}
 	
 	// 휴대폰 번호 하이픈 추가 함수

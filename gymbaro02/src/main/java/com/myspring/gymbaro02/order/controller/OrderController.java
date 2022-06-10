@@ -11,6 +11,8 @@ public interface OrderController {
 
 	public ModelAndView order_02(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView orderEachGoods(@RequestParam Map<String,String> orderMap, HttpServletRequest request, HttpServletResponse response)  throws Exception;
+	public void orderCheckCartGoods(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView orderGoodsform(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView payToOrderGoods(@RequestParam Map<String, String> receiverMap, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView order_coupon(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	

@@ -48,6 +48,13 @@
 			order by g.goods_id asc) t limit 10]]>
 </select>
 
+<!-- 인기 상품 5개 조회 -->
+<select id="selectRankingList" resultMap="goodsResult">
+	<![CDATA[select g.*,d.fileName from goods g, goods_detail_img d 
+			where g.goods_id = d.goods_id and d.fileType='main_image' 
+            and g.goods_id in((select goods_id from order_tbl group by goods_id order by count(*) desc))]]>
+</select>
+
 <!-- 상품상세조회  -->
 <select id="selectGoodsDetail" resultMap="goodsResult" parameterType="String" >
 		<![CDATA[select g.*, d.fileName from goods g, goods_detail_img d

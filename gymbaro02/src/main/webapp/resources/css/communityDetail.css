@@ -1,11 +1,9 @@
 .communityDetail_main_container {
    width:1024px;
-
 }
 
 .communityDetail_first_content {
    margin-top:70px;
-   border-top:2px solid #C4C4C4;
 }
 
 .communityDetail_first_text {
@@ -27,43 +25,52 @@
  
  .communityDetail_form_box {
     margin-top:30px;
-    width: 730px;
+    width: 1024px;
  }
  
  .communityDetail_fixed_detail{
-    
-    font-weight: bold;
      font-size: 14px;
      width:20%; 
      height:38px;
-     text-align:center;
+     text-align: center;
      color: #424040;
-     background-color: #f0f0f0;
+     border-top: 1px solid #ddd;
+     border-bottom: 1px solid #ddd;
  }
  .communityDetail_form{
    font-weight: bold;
    font-size: 14px;
    width:20%; 
-   height:300px;
-   text-align:center;
+   height:400px;
+   text-align: left;
    background-color: #f0f0f0;
+   padding-left: 20px;
  }
  .communityDetail_form_box input{
     border: 0;
     outline: none;
  }
 
+.communityDetail_content {
+	text-align : left;
+	padding-left: 10px;
+	font-size: 20px;
+    height: 63px;
+    font-weight: bold;
+    color: black;
+}
  .communityDetail_button_box {
-    float: center;
+    display:flex;
+    justify-content:space-between;
     height:50px;
+    padding:0px 10px;
  }
  
  .communityDetail_button_box button {
-    border:none;
-    border-radius:5px;
-    width: 100px;
-    height:30px;
-   
+    border: 1px solid #c4c4c4;
+    background: white;
+    border-radius: 2px;
+    height: 35px; 
  }
  
  .communityDetail_button_box button span {
@@ -73,8 +80,18 @@
  }
  
  #communityDetail_button_01 {
-    background: #184798;
+    background: #ddd;;
+    width: 100px;
+    height:30px;
  }
+ 
+ #communityDetail_button_02 {
+    background: #184798;
+    width: 100px;
+    height:30px;
+ }
+ 
+ 
  #communityDetail_current_date{
      float: right;
      color: #C4C4C4;
@@ -101,6 +118,86 @@
     margin-left: 10px;
 
  }
- communityDetail_current_date span{
-    color: #C4C4C4;
- }
+
+ #reply_count {
+ 	text-align: left;}
+ 	
+.comment_view table {
+	width: 1024px;
+	border: none;
+	
+} 	
+ 	
+#comment_view_title1 {
+	width: 146px;
+	height: 45px;
+	background-color: #f0f0f0;
+
+}
+
+#comment_view_title2 {
+	width: 365px;
+	height: 45px;
+	background-color: #f0f0f0;
+
+}
+
+#comment_view_title3 {
+	width: 219px;
+	height: 45px;
+	background-color: #f0f0f0;
+
+}
+
+#comment_view_content1 {
+	width: 146px;
+	height: 30px;
+}
+
+#comment_view_content2 {
+	width: 365px;
+	height: 30px;
+}
+
+#comment_view_content3 {
+	width: 219px;
+	height: 30px;
+}
+
+#comment_btn {
+	background-color: #184798;
+	color: white;
+	border: none;
+	
+}
+
+#comment_delete_title {
+	width: 100px;
+	background-color: #f0f0f0;
+	height: 45px;
+}
+
+#comment_delete_btn button {
+	border: none;
+}
+
+#notice_image {
+/* 	width: 700px;
+	height: 700px; */
+	object-fit: cover;
+	display: block;
+	margin:auto;
+	
+}
+
+#writer_info {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 10px;
+}
+
+#form_div_box {
+	display:flex;
+	width: 135px;
+    justify-content: space-between;
+}

@@ -3,39 +3,67 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
-
-	<definition name="/mypage/mypage" extends="baseLayout">
+	<definition name="myPageLayout" template="/WEB-INF/views/mypage/layout.jsp">
+		<put-attribute name="title" value="레이아웃 페이지" />
+		<put-attribute name="header" value="/WEB-INF/views/common/header.jsp" />
+		<put-attribute name="side" value="/WEB-INF/views/mypage/side.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp" />
+	</definition>
+	
+	<definition name="/mypage/mypage" extends="myPageLayout">
 		<put-attribute name="title" value="마이페이지" />
 		<put-attribute name="body" value="/WEB-INF/views/mypage/mypage.jsp" />
 	</definition>
 	
-	<definition name="/mypage/myPage02" extends="baseLayout">
+	<definition name="/mypage/listMyOrderHistory" extends="myPageLayout">
 		<put-attribute name="title" value="주문/배송" />
-		<put-attribute name="body" value="/WEB-INF/views/mypage/myPage02.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myOrderHistory.jsp" />
 	</definition>
 	
-	<definition name="/mypage/myPage03" extends="baseLayout">
+	<definition name="/mypage/listMyOrderDetail" extends="myPageLayout">
+		<put-attribute name="title" value="주문 상세" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myOrderDetail.jsp" />
+	</definition>
+	
+	<definition name="/mypage/listMyPointHistory" extends="myPageLayout">
 		<put-attribute name="title" value="쿠폰/포인트" />
-		<put-attribute name="body" value="/WEB-INF/views/mypage/myPage03.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myPointHistory.jsp" />
 	</definition>
 	
-	<definition name="/mypage/myPage04" extends="baseLayout">
+	<definition name="/mypage/myMembership" extends="myPageLayout">
 		<put-attribute name="title" value="예약 내역" />
-		<put-attribute name="body" value="/WEB-INF/views/mypage/myPage04.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myMembership.jsp" />
 	</definition>
 	
-	<definition name="/mypage/myPage05" extends="baseLayout">
+	<definition name="/mypage/listMyMembershipDetail" extends="myPageLayout">
+		<put-attribute name="title" value="예약 상세" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myMembershipDetail.jsp" />
+	</definition>
+	
+	<definition name="/mypage/listMyBoardHistory" extends="myPageLayout">
 		<put-attribute name="title" value="내 게시물 관리" />
-		<put-attribute name="body" value="/WEB-INF/views/mypage/myPage05.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myBoardHistory.jsp" />
 	</definition>
 	
-	<definition name="/mypage/myPage06" extends="baseLayout">
+	<definition name="/mypage/myPage06" extends="myPageLayout">
 		<put-attribute name="title" value="1:1 문의 내역" />
 		<put-attribute name="body" value="/WEB-INF/views/mypage/myPage06.jsp" />
 	</definition>
 	
-	<definition name="/mypage/outMember" extends="baseLayout">
+	<definition name="/mypage/outMember" extends="myPageLayout">
 		<put-attribute name="title" value="회원 탈퇴" />
 		<put-attribute name="body" value="/WEB-INF/views/mypage/outMember.jsp" />
 	</definition>
+	
+	<definition name="/mypage/myGymInfo" extends="myPageLayout">
+		<put-attribute name="title" value="내 시설 관리" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myGymInfo.jsp" />
+	</definition>
+	
+	<definition name="/mypage/addNewGymForm" extends="myPageLayout">
+		<put-attribute name="title" value="내 시설 관리" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/addNewGymForm.jsp" />
+	</definition>
+	
 </tiles-definitions>

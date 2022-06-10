@@ -2,23 +2,30 @@ package com.myspring.gymbaro02.community.vo;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
 // comment table
+@Component("commentVO")
 public class CommentVO {
 	private int articleNo;
 	private int commentNo;
 	private int uid;
-	private String content;
+	private String comment_writer;
+	private String comment_content;
 	private Date regDate;
-
+	private int comment_cnt; 
+	private String title;
 	
 	public CommentVO() {}
 	
-	public CommentVO(int articleNo, int commentNo, int uid, String content, Date regDate) {
+	public CommentVO(int articleNo, int commentNo, int uid, String comment_writer, String comment_content, Date regDate, int comment_cnt) {
 		this.articleNo = articleNo;
 		this.commentNo = commentNo;
 		this.uid = uid;
-		this.content = content;
+		this.comment_writer = comment_writer;
+		this.comment_content = comment_content;
 		this.regDate = regDate;
+		this.comment_cnt  = comment_cnt; 
 	}
 
 	public int getArticleNo() {
@@ -45,12 +52,20 @@ public class CommentVO {
 		this.uid = uid;
 	}
 
-	public String getContent() {
-		return content;
+	public String getComment_writer() {
+		return comment_writer;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setComment_writer(String comment_writer) {
+		this.comment_writer = comment_writer;
+	}
+
+	public String getComment_content() {
+		return comment_content;
+	}
+
+	public void setComment_content(String comment_content) {
+		this.comment_content = comment_content;
 	}
 
 	public Date getRegDate() {
@@ -59,6 +74,22 @@ public class CommentVO {
 
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
+	}
+
+	public int getComment_cnt() {
+		return comment_cnt;
+	}
+
+	public void setComment_cnt(int comment_cnt) {
+		this.comment_cnt = comment_cnt;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	

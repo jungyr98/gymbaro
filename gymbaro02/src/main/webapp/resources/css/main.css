@@ -7,85 +7,90 @@ body {
 
 
 .main_container {
-	width:1024px;
+	width:100%;
 	margin-top: 30px;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
 }
 
+/*
 .first_content, .second_content, .last_content {
 	margin-top:70px;
-	border-top:2px solid #C4C4C4;
 }
 
 .second_content {
 	margin-top:100px;
 }
+*/
 
 .last_content {
 	margin-top:100px;
 }
 
 .first_text {
-	position:relative;
-	top:-15px;
-	margin-bottom:50px;
+	margin-top: 50px;
+    width: 1130px;
+    height: 75px;
+    line-height: 3.5;
+    text-align: left;
+    padding-left: 3px;
 }
 
 .first_text span {
-
 	font-size: 20px;
-	background:white;
-	padding: 0 15px;
 }
 
-.first_text span b {
-	color: #184798;
-}
-
-.first_text span img {
-	width:20px;
-	height:20px;
-}
-
-.gym_content {
+.main_container .gym_content {
+	width:1130px;
 	display:flex;
-	justify-content: space-between;
+	justify-content: flex-start;
+	flex-wrap:wrap;
     margin-bottom: 5px;
 }
 
-.gym_image {
+.main_container .gym_content a:hover {
+	text-decoration:none;
+}
+
+.main_container .gym_image {
 	border: 1px solid #c4c4c4;
 	border-radius:5px;
 	box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
 	text-align:start;
+	margin: 0px 1px 10px 1px;
 	transition:0.3s; 
 }
 
-.gym_image:hover {
+.main_container .gym_image:hover {
 	cursor:pointer;
+	margin-top:-5px;
+	height:387px;
+	box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 2px 2px rgb(0 0 0 / 24%);
 	transition: 0.3;
 }
 
-.gym_image img {
-	width:337px;
-	height:227px;
+.main_container .gym_image img {
+	width: 372px;
+    height: 235px;
 }
 
-.gym_image .gym_image_tag_box {
+.main_container .gym_image .gym_image_tag_box {
 	margin-top:20px;
 }
 
-.gym_image .gym_image_info_box,
-.gym_image .gym_image_tag_box {
+.main_container .gym_image .gym_image_info_box,
+.main_container .gym_image .gym_image_tag_box {
 	margin: 20px 10px;
 }
 
-.gym_image .gym_image_info_box .gym_image_info_title {
+.main_container .gym_image .gym_image_info_box .gym_image_info_title {
 	font-size:17px;
 	font-weight:bold;
 	color: #424040;
 }
 
-.gym_image .gym_image_info_box div {
+.main_container .gym_image .gym_image_info_box div {
 	display:flex;
 	justify-content:space-between;
 	font-size: 15px;
@@ -93,48 +98,38 @@ body {
     margin-top: 5px;
 }
 
-.gym_image .gym_image_tag_box {
+.main_container .gym_image .gym_image_tag_box {
 	margin-top:40px;
 }
 
-.gym_image .gym_image_tag_box span {
+.main_container .gym_image .gym_image_tag_box span {
 	padding: 0 10px;
     border: 1px solid #424040;
     border-radius: 13px;
     color: #424040;
 }
 
-.product_content {
-	display:flex;
-	justify-content:space-between;
-	margin-top: 150px;
-}
 
-.product_image{
+.main_container .product_image{
 	margin-top:-100px;
 }
 
-.last_content .product_image {
+.main_container .last_content .product_image {
 	margin-top:0;
 }
 
-.product_image img {
-	width:300px;
-	height:280px;
-}
-
-.product_image .rank_mark img {
+.main_container .product_image .rank_mark img {
 	border:none;
 }
 
-.product_image .rank_mark {
+.main_container .product_image .rank_mark {
 	position:relative;
 	width:90px;
 	top:63px;
 	
 }
 
-.product_image .rank_num {
+.main_container .product_image .rank_num {
 	position:relative;
 	top:40px;
 	left:1px;
@@ -144,46 +139,256 @@ body {
 	z-index:10;
 }
 
-.product_image div img {
+.main_container .product_image div img {
 	width:90px;
 	height:60px;
 	filter: drop-shadow(1px 1px 1px #424040);
 }
 
-.product_info {
+.main_container .product_info {
 	display:flex;
 	flex-direction:column;
 	align-items:start;
 	margin-top:10px;
 }
 
-.product_info span {
+.main_container .product_info .goods_name_span {
+	font-weight: bold;
+    width: 220px;
+    /* padding: 0 5px; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.main_container .product_info span {
 	color:black;
 	font-size:16px;
 }
 
-.product_info_price {
+.main_container .product_info_price {
 	display:flex;
 	align-items:center;
 }
-.product_info_price span {
+.main_container .product_info_price span {
 	margin-right:7px;
 }
 
-.event_content {
-	display:flex;
-	justify-content: space-between;
-}
-
-.event_image img{
-	width: 500px;
-	height: 250px;
-}
 
 body, html {margin: 0; padding: 0;}
 ul {list-style: none; margin: 0; padding: 0;}
 
-.main_container .slider {position: relative; width: 1024px; height: 500px; overflow: hidden;}
-.main_container .slider ul {position: absolute; left: 0; top: 0; width: 4096px; height: 597px;}
-.main_container .slider li {float: left; width: 1024px; height: 597px;}
-.main_container .slider li img {max-width: 100%;}
+.main_container .slider {position: relative; width: 320px; height: 500px; overflow: hidden; border-radius: 7px;}
+.main_container .slider ul {position: absolute; left: 0; top: 0; width: 1280px; height: 500px;}
+.main_container .slider li {float: left; width: 320px; height: 500px;}
+.main_container .slider li img { width:320px; object-fit: cover;}
+
+.main_container .recommand_box {
+    width: 790px;
+    height: 500px;
+    overflow:hidden;
+    border-radius:7px;
+}
+
+.main_container .recommand_box img {
+	 width: 790px;
+    height: 500px;
+    object-fit: cover;
+    filter: brightness(50%);
+    transition: all 0.2s linear;
+}
+
+.main_container .recommand_box img:hover {
+	cursor:pointer;
+	transform: scale(1.2);
+}
+
+.recommand_box a:hover ~ #recommand_text_box #link_span {
+	background: #184798;
+}
+
+.main_container .main_img {
+    display: flex;
+    padding-bottom: 20px;
+    justify-content: space-between;
+    width: 1130px;
+}
+
+.main_container #recommand_text_box{
+	position: absolute;
+    top: 137%;
+    left: 18%;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 600px;
+}
+
+.main_container #gym_info_div {
+	display: flex;
+    flex-direction: column;
+}
+
+.main_container #gym_info_span {
+	width: 460px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.main_container #gym_address {
+	font-size: 18px;
+    text-align: left;
+}
+
+.main_container #recommand_text_box #link_span {
+	font-size: 16px;
+    border: 1px solid white;
+    border-radius: 3px;
+    padding: 10px 30px;
+}
+
+.main_container .second_content .product_content {
+	display:flex;
+	justify-content:flex-start;
+	flex-wrap: wrap;
+	margin-bottom:40px;
+}
+
+.main_container .second_content .product_image {
+	padding:10px;
+	margin: 0px 10px 10px 10px;
+	width: 240px;
+    margin-right: 15px;
+	
+}
+
+.main_container .second_content .product_image img {
+	width:220px;
+	height:210px;
+	border-radius: 5px;
+}
+
+.main_container .product_image:hover {
+	box-shadow: 3px 3px 3px 3px #f2f2f2;
+}
+
+
+
+.main_container .goods_slider {
+  background: white;
+  /*box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.125);*/
+  height: 314px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  width: 1200px;
+  border-radius: 5px;
+}
+.goods_slider::before, .goods_slider::after {
+  background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 100%);
+  content: "";
+  height: 314px;
+  position: absolute;
+  width: 240px;
+  z-index: 2;
+}
+.goods_slider::after {
+  right: 0;
+  top: 0;
+  transform: rotateZ(180deg);
+}
+.goods_slider::before {
+  left: 0;
+  top: 0;
+}
+.goods_slider .slide-track {
+  -webkit-animation: scroll 40s linear infinite;
+          animation: scroll 40s linear infinite;
+  display: flex;
+  width: calc(240px * 5);
+}
+.goods_slider .slide {
+    height: 314px;
+    width: 240px;
+}
+
+@-webkit-keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-240px * 5));
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-240px * 5));
+  }
+}
+
+
+.main_container .last_content a {
+	display: inline-block;
+    width: 526px;
+    padding: 23px 30px 22px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.main_container .last_content a:hover {
+	background:#EDEDED;
+	cursor:pointer;
+	text-decoration:none;
+}
+
+.main_container .last_content a #title_span {
+	font-size: 15px;
+    color: #424242;
+    font-weight: bold;
+}
+
+.main_container .last_content a #sub_span {
+	font-size: 12px;
+    color: #757575;
+    padding-left: 20px;
+}
+
+
+.carousel-fade .carousel-inner .item {
+  transition-property: opacity;
+}
+.carousel-fade .carousel-inner .item,
+.carousel-fade .carousel-inner .active.left,
+.carousel-fade .carousel-inner .active.right {
+  opacity: 0;
+}
+.carousel-fade .carousel-inner .active,
+.carousel-fade .carousel-inner .next.left,
+.carousel-fade .carousel-inner .prev.right {
+  opacity: 1;
+}
+.carousel-fade .carousel-inner .next,
+.carousel-fade .carousel-inner .prev,
+.carousel-fade .carousel-inner .active.left,
+.carousel-fade .carousel-inner .active.right {
+  left: 0;
+  transform: translate3d(0, 0, 0);
+}
+.carousel-fade .carousel-control {
+  z-index: 2;
+}
+
+.carousel,
+.carousel-inner,
+.carousel-inner .item {
+  height: 350px;
+  width: 100%;
+}

@@ -10,9 +10,6 @@ public interface GymController {
 
 	public ModelAndView searchGym(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView gymsInfo(@RequestParam("gym_id") String gym_id,HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView insertGym_01(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView insertGym_02(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView insertGym_03(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView searchMap(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 }

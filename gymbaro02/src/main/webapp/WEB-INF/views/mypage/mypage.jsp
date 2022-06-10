@@ -472,45 +472,7 @@ function togglePassword(_id, _this) {
 </head>
 <body class="pc">
     <div class="myPage_box wrap show">
-      <div class="sub_top_wrap">
-        <div class="sub_top">   
-          <img class="myPageUser_icon" alt="myPageUser.png" src="${contextPath}/resources/image/myPageUser.png">
-          <div class="sub_top_member_info_box">
-           	<span class="member_id_span">${memberInfo.member_id}</span>
-           	<div class="level_and_joinDate">
-           		<span>LV.${memberInfo.member_level} 멤버</span>
-           		<span class="joinDate_span">가입일 : <fmt:formatDate value="${memberInfo.joinDate}" type="date"/></span>
-           	</div>	
-          </div>
-          <div class="sub_top_member_service_box">
-           	<span><img src="${contextPath}/resources/image/point.png">포인트 > ${memberInfo.member_point}</span>
-           	<span><img src="${contextPath}/resources/image/coupon.png">보유 쿠폰 > 0개</span>
-          </div>
-        </div>
-      </div>
       <div id="content" class="sub_wrap">
-        <nav>
-          <ul>
-            <li>
-              <a href="${contextPath}/mypage/mypage.do" class="active">회원정보 수정</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/listMyOrderHistory.do">주문/배송</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/listMyPointHistory.do">쿠폰/포인트</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/myPage04.do">예약 내역</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/myPage05.do">내 게시물 관리</a>
-            </li>
-            <li>
-              <a href="${contextPath}/mypage/myPage06.do">1:1 문의 내역</a>
-            </li>
-          </ul>
-        </nav>
         <div class="align_rt">
           <div class="notice">
             <!-- Tab -->

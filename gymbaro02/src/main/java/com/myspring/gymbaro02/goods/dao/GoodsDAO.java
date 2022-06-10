@@ -15,5 +15,5 @@ public interface GoodsDAO {
 	public GoodsVO selectGoodsDetail(String goods_id) throws DataAccessException;
 	public List<GoodsOptionVO> selectGoodsOption(String goods_id) throws DataAccessException;
 	public List<GoodsImageFileVO> selectGoodsDetailImage(String goods_id) throws DataAccessException;
-
+	public List<GoodsVO> selectRankingList() throws DataAccessException;
 }

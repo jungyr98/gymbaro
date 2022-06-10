@@ -92,21 +92,21 @@ public class MemberControllerImpl implements MemberController {
 		String access_Token = memberService.getAccessToken(code);
 	    
 		// userInfo의 타입을 KakaoDTO로 변경 및 import.
-		KakaoDTO userInfo = memberService.getUserInfo(access_Token);
+		MemberVO _memberVO = memberService.getUserInfo(access_Token);
 	    
 		System.out.println("###access_Token#### : " + access_Token);
-		System.out.println("###nickname#### : " + userInfo.getK_name());
-		System.out.println("###email#### : " + userInfo.getK_email());
+		System.out.println("###nickname#### : " + _memberVO.getMember_name());
+		System.out.println("###email#### : " + _memberVO.getMember_id());
 		
 		session.invalidate();
 		// 위 코드는 session객체에 담긴 정보를 초기화 하는 코드.
-		session.setAttribute("kakaoN", userInfo.getK_name());
-		session.setAttribute("kakaoE", userInfo.getK_email());
+		session.setAttribute("kakaoN", _memberVO.getMember_name());
+		session.setAttribute("kakaoE", _memberVO.getMember_id());
 		// 위 2개의 코드는 닉네임과 이메일을 session객체에 담는 코드
 		// jsp에서 ${sessionScope.kakaoN} 이런 형식으로 사용할 수 있다.
 		MemberVO memberVO =new MemberVO();
-		 memberVO.setMember_name(userInfo.getK_name());
-		 memberVO.setMember_id(userInfo.getK_email());
+		 memberVO.setMember_name(_memberVO.getMember_name());
+		 memberVO.setMember_id(_memberVO.getMember_id());
 
 		if(memberVO != null && memberVO.getMember_id()!=null) {
 			
@@ -137,6 +137,19 @@ public class MemberControllerImpl implements MemberController {
 
 		return mav;
 	}
+	
+	private String relaceParameter(String param) {
+		String result = param;
+		
+		if(param != null) {
+			result = result.replaceAll("<", "&lt;");
+			result = result.replaceAll(">", "&gt;");
+			result = result.replaceAll("&", "&amp;");
+			result = result.replaceAll("\"", "&quot;");
+		}
+		return result;
+	}
+	
 
 	@Override
 	@RequestMapping(value = "/idFindSuccess.do", method = { RequestMethod.POST, RequestMethod.GET })
@@ -146,6 +159,13 @@ public class MemberControllerImpl implements MemberController {
 		
 		String member_name = idByEmailMap.get("member_name");		
 		String email = idByEmailMap.get("email");
+		//문자열 필터(크로스 사이트 스크립트 보안)
+		member_name = this.relaceParameter(member_name);
+		email = this.relaceParameter(email);
+		idByEmailMap.put("member_name", member_name);
+		idByEmailMap.put("email", email);
+		
+		//아이디 검색 서비스 호출
 		String member_id = (String)memberService.idFindSuccess(idByEmailMap); 
 		
 		if(member_name != null && email != null) {
@@ -308,7 +328,7 @@ public class MemberControllerImpl implements MemberController {
 	@Override
 	@RequestMapping(value= "/addMember.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView addMember(@RequestParam("hp") String hp, @RequestParam("email1") String email1, @RequestParam("email2") String email2, 
-			@RequestParam("join_type") String join_type, @ModelAttribute("memberVO") MemberVO _memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception{
+			@RequestParam("join_type") String join_type, @RequestParam("info_yn") String info_yn, @ModelAttribute("memberVO") MemberVO _memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		session = request.getSession();
 		ModelAndView mav=new ModelAndView();
@@ -318,8 +338,13 @@ public class MemberControllerImpl implements MemberController {
 			_memberVO.setMember_type("일반");
 		} else if(join_type.equals("gym")) {
 			_memberVO.setMember_type("시설");
+			String license1 = request.getParameter("license1"); // 타입이 시설일경우 사업자등록 번호를 받아온다
+			String license2 = request.getParameter("license2");
+			String license3 = request.getParameter("license3");
+			String gym_license = String.format("%s-%s-%s", license1, license2, license3);
+			_memberVO.setGym_license(gym_license);
 		}
-		
+		_memberVO.setInfo_yn(info_yn);
 		// 휴대폰번호 하이픈 추가
 		String phone_number = phoneNumberHyphenAdd(hp);
 		_memberVO.setPhone_number(phone_number);

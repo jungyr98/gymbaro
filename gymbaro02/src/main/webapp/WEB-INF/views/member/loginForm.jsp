@@ -59,6 +59,17 @@ function admin_id_check(){
 	}
 	return true;
 }
+
+function loginCheck() {
+	var id = $('input[name="id"]').val();
+	var pwd = $('input[name="pwd"]').val();
+	if(id == '' || pwd == ''){
+		alert("아이디와 비밀번호를 입력하세요!");
+		return false;
+	}else{
+	return true;
+	}
+}
 </script>
 </head>
 <body>
@@ -67,7 +78,7 @@ function admin_id_check(){
     <div class="loginForm_box main_container">
         <div class="first_content">
          <div class="first_text">
-            <span><b>로그인</b></span>
+            <span>로그인</span>
          </div>
     <div class="login_box tab_menu">
           <div class="tab_btn">
@@ -78,7 +89,7 @@ function admin_id_check(){
                </ul>    
           </div>
           <div class="tab_cont">
-               <form class="active" action="${contextPath}/member/login.do" method="post">
+               <form class="active" action="${contextPath}/member/login.do" onsubmit="return loginCheck();" method="post">
 					<input type="text" name="id" placeholder="아이디를 입력하세요" />
 					<input type="password" name="pwd" placeholder="비밀번호를 입력하세요" />
 					<input type="submit" value="로그인">
@@ -114,7 +125,7 @@ function admin_id_check(){
     apiURL += "&state=" + state;
     session.setAttribute("state", state);
  	%>
- 	<a href="<%=apiURL%>"><img height="50" src="http://static.nid.naver.com/oauth/small_g_in.PNG"/></a>
+ 	<a href="<%=apiURL%>"><img height="50" src="${contextPath}/resources/image/login_naver.png"/></a>
    
     <!-- 카카오 로그인 -->
 		<a class="p-2" href="https://kauth.kakao.com/oauth/authorize?

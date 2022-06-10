@@ -12,4 +12,7 @@ public interface CartDAO {
 	public void insertGoodsInCart(CartVO cartVO) throws DataAccessException;
 	public List<CartVO> selectCartList(CartVO cartVO) throws DataAccessException;
 	public List<GoodsVO> selectGoodsList(List<CartVO> cartList) throws DataAccessException;
+	public void updateCartGoodsQty(CartVO cartVO) throws DataAccessException;
+	public void deleteCartGoods(List<CartVO> deleteList) throws DataAccessException;
+	public List<GoodsVO> selectNonCartList(List<CartVO> cartList) throws DataAccessException;
 }

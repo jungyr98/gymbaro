@@ -1,5 +1,7 @@
 package com.myspring.gymbaro02.membership.service;
 
-public interface MembershipService {
+import java.util.Map;
 
+public interface MembershipService {
+	public String addNewMembership(Map<String,Object> membershipMap) throws Exception;
 }
