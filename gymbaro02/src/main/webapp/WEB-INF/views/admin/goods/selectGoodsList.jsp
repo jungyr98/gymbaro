@@ -545,8 +545,8 @@ $(document).ready(function() {
 							<td>
 								<div id="goods_info_div">
 								<a href="${contextPath}/admin/goods/updateGoodsForm.do?goods_id=${item.goods_id}">
-									<img width="80" alt="${item.goods_fileName}" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
-									<span>${item.goods_name }</span>
+									<img width="80" style="height:80px;object-fit:cover;" alt="${item.goods_fileName}" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+									<span style="width: 290px;text-overflow: ellipsis;display: inline-block;">${item.goods_name }</span>
 								</a>
 								</div>
 							</td>
@@ -562,7 +562,14 @@ $(document).ready(function() {
 								</c:otherwise>
 								</c:choose>
 							</td>
-							<td>
+							<td>	
+									<c:if test="${item.goods_state == '품절'}">
+										<select name="${item.goods_id}" style="color:tomato;">
+											<option value="${item.goods_state}" selected>품절</option>
+											<option value="판매중">판매중</option>
+											<option value="비활성화">비활성화</option>
+										</select>
+									</c:if>
 									<c:if test="${item.goods_state == '판매중'}">
 										<select name="${item.goods_id}" style="color:#0078ff;">
 											<option value="${item.goods_state}" selected>판매중</option>

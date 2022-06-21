@@ -4,9 +4,35 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="mapper.membership">
-	<resultMap id="membershipResult" type="membershipVO">
-	</resultMap>
-	
+<resultMap id="membershipResult" type="membershipVO">
+		<result property="membership_id" column="membership_id" />
+		<result property="uid" column="uid" />
+		<result property="name" column="name" />
+		<result property="gender" column="gender" />
+		<result property="birth" column="birth" />
+		<result property="phone_number" column="phone_number" />
+		<result property="zipcode" column="zipcode" />
+		<result property="roadAddress" column="roadAddress" />
+		<result property="extraAddress" column="extraAddress" />
+		<result property="gym_id" column="gym_id" />
+		<result property="gym_name" column="gym_name" />
+		<result property="first_option" column="first_option" />
+		<result property="second_option" column="second_option" />
+		<result property="start_date" column="start_date" />
+		<result property="last_date" column="last_date" />
+		<result property="payment" column="payment" />
+		<result property="total_price" column="total_price" />
+		<result property="membership_state" column="membership_state" />
+		<result property="regDate" column="regDate" />
+		<result property="fileName" column="fileName" />
+</resultMap>
+
+<!-- 예약하려는 시설에 이전 예약내역이 있는지 조회하기 -->
+<select id="selectMembershipHistory" parameterType="java.util.Map" resultMap="membershipResult">
+	select DATE_FORMAT(max(DATE_ADD(last_date, INTERVAL 1 DAY)),'%Y-%m-%d') as last_date from membership where gym_id = #{gym_id} and uid = #{uid}
+</select>
+
+<!-- 회원권 추가 -->	
 <insert id="insertNewMembership" parameterType="java.util.Map">
 	<![CDATA[
 	insert into membership(membership_id, uid, name, gender, birth, phone_number, zipcode, roadAddress,

@@ -10,11 +10,19 @@ import org.springframework.stereotype.Repository;
 
 import com.myspring.gymbaro02.community.vo.BoardVO;
 import com.myspring.gymbaro02.community.vo.CommentVO;
+import com.myspring.gymbaro02.notice.vo.NoticeVO;
 
 @Repository("communityDAO")
 public class CommunityDAOImpl implements CommunityDAO {
 	@Autowired
 	private SqlSession sqlSession;
+	
+	// 전체 글 개수
+	@Override
+	public int selectBoardListCnt(Map<String, Object> condMap) throws DataAccessException {
+		int listCnt = sqlSession.selectOne("mapper.board.selectBoardListCnt", condMap);
+		return listCnt;
+	}
 	
 	@Override
 	public void newArticle(Map newArticleMap) throws DataAccessException {
@@ -22,8 +30,15 @@ public class CommunityDAOImpl implements CommunityDAO {
 	} 
 	
 	@Override
-	public List<BoardVO> viewAll() throws DataAccessException {
-		return sqlSession.selectList("mapper.board.viewAll"); 	
+	public List<BoardVO> viewAll(Map<String, Object> condMap) throws DataAccessException {
+		return sqlSession.selectList("mapper.board.viewAll", condMap); 	
+	}
+	
+	// 중요 공지글 조회하기
+	@Override
+	public List<NoticeVO> selectNoticeList() throws DataAccessException {
+		List<NoticeVO> noticeList = sqlSession.selectList("mapper.board.selectNoticeList");
+		return noticeList;
 	}
 	
 	@Override
@@ -64,17 +79,20 @@ public class CommunityDAOImpl implements CommunityDAO {
 	public List<CommentVO> viewComment(String articleNo) throws DataAccessException {
 		return sqlSession.selectList("mapper.board.viewComment", articleNo);
 	}
-
 	
 	@Override
-	public CommentVO modifyComment(CommentVO commentVO) throws DataAccessException {
-		sqlSession.update("mapper.board.modifyArticle", commentVO);
-		return sqlSession.selectOne("mapper.board.viewComment");
+	public List<CommentVO> replyComment(String articleNo) throws DataAccessException {
+		return sqlSession.selectList("mapper.board.replyComment", articleNo);
+	}
+	
+	@Override
+	public void modifyComment(CommentVO commentVO) throws DataAccessException {
+		sqlSession.update("mapper.board.modifyComment", commentVO);
 	}
 	
 	@Override
 	public void deleteComment(String commentNo) throws DataAccessException {
-		sqlSession.delete("mapper.board.deleteComment", commentNo);
+		sqlSession.update("mapper.board.deleteComment", commentNo);
 		
 	}
 	

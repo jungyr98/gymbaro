@@ -8,6 +8,8 @@ import org.springframework.dao.DataAccessException;
 import com.myspring.gymbaro02.member.vo.MemberVO;
 
 public interface AdminMemberDAO {
+	public MemberVO adminLogin(Map<String,Object> loginMap) throws DataAccessException;
+	public String getSaltById(String id) throws DataAccessException;
 	public List<MemberVO> listMember() throws DataAccessException;
 	public void updateMemberLevel(Map<String, Object> updateLevelMap) throws DataAccessException;
 	public void updateMemberPoint(Map<String, Object> updatePointMap) throws DataAccessException;

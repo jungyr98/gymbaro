@@ -36,4 +36,9 @@
 		]]>
 </select>
 
+<!-- 주문상태 변경하기 -->
+<update id="updateOrderState" parameterType="java.util.Map">
+	update order_tbl <set> order_state = #{order_state} </set> where order_id = #{order_id}
+</update>
+
 </mapper>

@@ -74,6 +74,7 @@
     border-radius: 5px;
     height: 37px;
     color:black;
+    outline: 0;
 }
 
 .header .search_and_lanking_box {

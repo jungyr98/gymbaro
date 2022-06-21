@@ -36,7 +36,14 @@
                    				<td>
                    					<span>${membershipMap.gym_name}</span><br>
                    					<span>${membershipMap.first_option}</span><br>
-                   					<span>${membershipMap.option}개월</span>
+                   					<c:choose>
+                   					<c:when test="${membershipMap.option eq '1day'}">
+                   						<span>1일권</span>
+                   					</c:when>
+                   					<c:otherwise>
+                   						<span>${membershipMap.option}개월</span>
+                   					</c:otherwise>
+                   					</c:choose>
                    					<br><br>
                    				</td>
                    			</tr>
@@ -82,7 +89,7 @@
             </div>
 				<div class="button_box">
 					<a href="${contextPath}/main/main.do"><button type="button" id="button_01"><span>메인으로</span></button></a> &nbsp;
-					<a href="#"><button type="button" id="button_02"><span>회원권조회</span></button></a>
+					<a href="${contextPath}/mypage/myMembership.do"><button type="button" id="button_02"><span>회원권조회</span></button></a>
                 </div>
 		</div> 
 </body>

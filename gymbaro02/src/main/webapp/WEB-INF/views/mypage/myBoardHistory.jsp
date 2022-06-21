@@ -239,9 +239,10 @@ function pagination() {
                     <li><a href="${contextPath}/mypage/listMyBoardHistory.do?search_type=review">작성 리뷰</a></li>
                </ul>
                
-                <form name="searchForm" id="searchForm"  method="get" action="${contextPath}/mypage/listMyBoardHistory.do">
+                <form name="searchForm" id="searchForm"  method="get" action="${contextPath}/mypage/listMyBoardHistory.do?search_type=article">
 				<input type="hidden" name="period" value=""/>
 				<input type="hidden" name="page" value="1"/>
+				<input type="hidden" name="search_type" value="article"/>
 				<div class="n-table-filter">
 					<div class="n-radio-tab">
 						<input type="radio" id="radioTabGuide0" name="radioTabGuide" onClick="setPeriod(this,'1week');" >
@@ -299,7 +300,7 @@ function pagination() {
                   <c:choose>
                   <c:when test="${empty myBoardItem}">
                   	<tr>
-                    	<td colspan="3">게시글 목록이 없습니다.</td>
+                    	<td colspan="5">게시글 목록이 없습니다.</td>
                     </tr>
                   </c:when>
                   <c:otherwise>
@@ -335,6 +336,7 @@ function pagination() {
                 <form name="searchForm" id="searchForm"  method="get" action="${contextPath}/mypage/listMyBoardHistory.do?search_type=comment">
 				<input type="hidden" name="period" value=""/>
 				<input type="hidden" name="page" value="1"/>
+				<input type="hidden" name="search_type" value="comment"/>
 				<div class="n-table-filter">
 					<div class="n-radio-tab">
 						<input type="radio" id="radioTabGuide0" name="radioTabGuide" onClick="setPeriod(this,'1week');" >
@@ -426,9 +428,10 @@ function pagination() {
                     <li class="active"><a href="${contextPath}/mypage/listMyBoardHistory.do?search_type=review">작성 리뷰</a></li>
                </ul>
                
-                <form name="searchForm" id="searchForm"  method="get" action="${contextPath}/mypage/listMyBoardHistory.do?search_type=review">
+                <form name="searchForm" id="searchForm"  method="get" action="${contextPath}/mypage/listMyBoardHistory.do">
 				<input type="hidden" name="period" value=""/>
 				<input type="hidden" name="page" value="1"/>
+				<input type="hidden" name="search_type" value="review"/>
 				<div class="n-table-filter">
 					<div class="n-radio-tab">
 						<input type="radio" id="radioTabGuide0" name="radioTabGuide" onClick="setPeriod(this,'1week');" >
@@ -473,16 +476,39 @@ function pagination() {
           </div>
           <div class="tab_cont">
                 <table class="myPage03_table">
+               	<thead>
                    <tr class="notice_board_first_tr">
-                    	<td width=20%>정보</td>
-                    	<td width=40%>내용</td>
-                    	<td width=20%>작성일</td>
-                    	<td width=20%>후기 종류</td>
+                   		<td width="5%"></td>
+                    	<td width=60%>내용</td>
+                    	<td width=15%>작성일</td>
+                    	<td width=10%>주문번호</td>
                     </tr>
+                </thead>
+                <tbody>
+                  <c:choose>
+                  <c:when test="${empty myBoardItem}">
+                  	<tr>
+                    	<td colspan="5">리뷰 목록이 없습니다.</td>
+                    </tr>
+                  </c:when>
+                  <c:otherwise>
+                	<c:forEach var="item" items="${myBoardItem}">
                     <tr>
-                    	<td colspan="4">리뷰 내역이 없습니다.</td>
+                    	<td><label id="articleNo_label">${item.review_id}</label></td>
+                    	<td style="text-align:left;text-overflow: ellipsis;">
+                    		<a id="article_title_atag" href="${contextPath}/goods/goodsInfo.do?tab=review&goods_id=${item.goods_id}">${item.content}</a>
+                    	</td>
+                    	<td><label class="date_and_cnt_label"><fmt:formatDate value="${item.regDate}" pattern="yyyy.MM.dd"/></label></td>
+                    	<td><label class="date_and_cnt_label">${item.order_id}</label></td>
                     </tr>
+                    </c:forEach>
+                  </c:otherwise>
+                  </c:choose>
+				</tbody>
                </table>
+               <ul class="pagination">
+    
+  			   </ul>
           </div>
           </c:if> 
           </div>

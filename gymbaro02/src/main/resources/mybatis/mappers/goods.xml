@@ -17,6 +17,7 @@
 		<result property="goods_state" column="goods_state" />
 		<result property="uid" column="uid" />
 		<result property="goods_fileName" column="fileName" />
+		<result property="score" column="score"/>
 	</resultMap>
 <resultMap id="optionResult" type="goodsOptionVO">
 		<result property="option_id" column="option_id" />
@@ -31,13 +32,78 @@
 	   <result property="fileType" column="fileType" />
 	   <result property="uid" column="uid" />
 </resultMap>
+<resultMap id="goodsReviewResult" type="goodsReviewVO">
+	<result property="review_id" column="review_id" />
+	<result property="uid" column= "uid" />
+	<result property="review_writer" column="review_writer" />
+	<result property="gym_id" column="gym_id" />
+	<result property="content" column="content" />
+	<result property="score" column="score" />
+	<result property="regDate" column="regDate" />
+	<result property="order_count" column="order_count" />
+	<result property="member_level" column="member_level" />
+	<result property="order_id" column="order_id" />
+</resultMap>
+<resultMap type="csVO" id="csResult">
+		<result property="csNO" column="csNO" />
+		<result property="uid" column="uid" />
+		<result property="title" column="title" />
+		<result property="txtContent" column="txtContent" />
+		<result property="writeDate" column="writeDate" />
+		<result property="processing_status" column="processing_status"/>
+		<result property="cs_category" column="cs_category" />
+		<result property="writer" column="writer" />
+		<result property="secret" column="secret"/>
+</resultMap>
+<resultMap type="cscommentVO" id="csCommentResult">
+		<result property="cs_commentNO" column="cs_commentNO"/>
+		<result property="csNO" column="csNO"/>
+		<result property="uid" column="uid"/>
+		<result property="commentContent" column="commentContent"/>
+		<result property="writeDate" column="writeDate"/>
+		<result property="writer" column="writer"/>
+</resultMap>
 
 <!-- 상품리스트 카테고리 전체 조회  -->
-<select id="selectGoodsListALL" parameterType="String" resultMap="goodsResult" >
-		<![CDATA[select t.* from(
-			select g.*,d.fileName from goods g, goods_detail_img d 
-			where g.goods_id = d.goods_id and d.fileType='main_image' 
-			order by g.goods_id asc) t limit 10]]>
+<select id="selectGoodsListALL" parameterType="java.util.Map" resultMap="goodsResult" >
+		select g.*,d.fileName, count(o.goods_id), ifnull(round(avg(e.score), 2), 0) as score from goods g 
+		inner join goods_detail_img d on g.goods_id = d.goods_id 
+		left outer join order_tbl o on g.goods_id = o.goods_id
+		left outer join goods_review e on g.goods_id = e.goods_id
+		where d.fileType='main_image'
+		<if test=" main_item==2">
+			and g.goods_main_category='헬스'
+		</if>
+		<if test=" main_item==3">
+			and g.goods_main_category='필라테스'
+		</if>
+		<if test=" main_item==4">
+			and g.goods_main_category='복싱'
+		</if>
+		<if test=" main_item==5">
+			and g.goods_main_category='수영'
+		</if>
+		<if test="subItemList!='' and subItemList!=null">
+			and g.goods_sub_category in
+			<foreach item="item" collection="subItemList" open="(" separator="," close=")">#{item}</foreach>
+		</if>
+		 group by g.goods_id 
+		<if test=" order_item=='all'">
+			order by g.goods_id desc
+		</if>
+		<if test=" order_item=='high_price'">
+			order by g.goods_price desc
+		</if>
+		<if test=" order_item=='high_review'">
+			order by score desc
+		</if>
+		<if test=" order_item=='row_price'">
+			order by g.goods_price asc
+		</if>
+		<if test=" order_item=='high_order'">
+			order by count(o.goods_id) desc
+		</if>
+		limit #{limit}
 </select>
 
 <!-- 상품리스트 카테고리 별 조회  -->
@@ -70,6 +136,75 @@
 <!-- 상품상세이미지조회  -->
 <select id="selectGoodsDetailImage" resultMap="imageResult" parameterType="String"  >
 	<![CDATA[select * from goods_detail_img where fileType != 'main_image' and goods_id=#{goods_id}]]>
+</select>
+
+<!-- 상품리뷰등록 -->
+<insert id="addNewReview" parameterType="String">
+	<selectKey resultType="int" keyProperty="review_id" order="BEFORE">
+		select case count(*) when 0 then 1 else max(review_id) + 1 end from goods_review
+	</selectKey>
+	insert into goods_review(review_id, uid, goods_id, content, score, review_writer, order_id, option_name) 
+	values(#{review_id}, #{uid}, #{goods_id}, #{content}, #{score}, #{review_writer}, #{order_id}, #{option_name})
+</insert>
+
+<!-- 상품 리뷰 전체 조회 -->
+<select id="viewAll" parameterType="goodsReviewVO" resultMap="goodsReviewResult">
+	select M.member_level, R.review_id, R.content, R.score, R.regDate, R.uid, R.review_writer from goods_review as R inner join member as M on R.uid = M.uid  where goods_id= #{goods_id} order by R.regDate desc
+</select> 
+
+<!-- 상품 리뷰 별점 평균 산출 -->
+<select id="getScoreAvg" parameterType="int" resultType="double">
+	select ifnull(round(avg(score), 2), 0) from goods_review where goods_id = #{goods_id}
+</select>
+
+<!-- 상품 리뷰 개수 산출 -->
+<select id="getReviewCount" parameterType="int" resultType="int">
+	select count(*) from goods_review where goods_id = #{goods_id}
+</select>
+
+<!-- 별점 1점 개수 산출 -->
+<select id="countScore1" parameterType="int" resultType="int">
+	select count(*) from goods_review where score = 1 and goods_id = #{goods_id}
+</select>
+
+<!-- 별점 2점 개수 산출 -->
+<select id="countScore2" parameterType="int" resultType="int">
+	select count(*) from goods_review where score = 2 and goods_id = #{goods_id}
+</select>
+
+<!-- 별점 3점 개수 산출 -->
+<select id="countScore3" parameterType="int" resultType="int">
+	select count(*) from goods_review where score = 3 and goods_id = #{goods_id}
+</select>
+
+<!-- 별점 4점 개수 산출 -->
+<select id="countScore4" parameterType="int" resultType="int">
+	select count(*) from goods_review where score = 4 and goods_id = #{goods_id}
+</select>
+
+<!-- 별점 5점 개수 산출 -->
+<select id="countScore5" parameterType="int" resultType="int">
+	select count(*) from goods_review where score = 5 and goods_id = #{goods_id}
+</select>
+
+<!-- 리뷰 작성 여부 업데이트 -->
+<update id="updateReviewState" parameterType="java.util.Map">
+ 	update order_tbl set review_yn = 'Y' where order_id = #{order_id} and option_name = #{option_name} and goods_id = #{goods_id}
+</update>
+
+<!-- 리뷰 작성 여부 조회 -->
+<select id="getReviewInfo" parameterType="java.util.Map" resultType="String">
+	select review_yn from order_tbl where order_id = #{order_id} and goods_id = #{goods_id} and option_name = #{option_name}
+</select>
+
+<!-- 문의글 목록 조회 -->
+<select id="selectGoodsCS" resultMap="csResult" parameterType="String">
+	select * from cs where secret = 'N' and goods_id = #{goods_id} order by csNO desc;
+</select>
+	
+<!-- 굿즈 문의답변 조회 -->
+<select id="goodsCsComment" resultMap="csCommentResult">
+	select * from cs_comment
 </select>
 
 </mapper>

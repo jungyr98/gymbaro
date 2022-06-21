@@ -1,7 +1,7 @@
 package com.myspring.gymbaro02.gym.dao;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +20,14 @@ public class GymDAOImpl implements GymDAO {
 	// 추천 시설 리스트 조회
 	@Override
 	public List<GymVO> selectRecommandGymsList() throws DataAccessException {
-		List<GymVO> gymList = new ArrayList<GymVO>();
-		gymList = (ArrayList) sqlSession.selectList("mapper.gym.selectRecommandGymList");		
+		List<GymVO> gymList = sqlSession.selectList("mapper.gym.selectRecommandGymList");		
 		return gymList;
 	}
 	
 	// 주변 시설 리스트 조회
 	@Override
-	public List<GymVO> selectLocationGymsList(String address) throws DataAccessException {
-		List<GymVO> gymList = new ArrayList<GymVO>();
-		gymList = (ArrayList) sqlSession.selectList("mapper.gym.selectLocationGymList", address);		
+	public List<GymVO> selectLocationGymsList(Map<String, Object> condMap) throws DataAccessException {
+		List<GymVO> gymList = sqlSession.selectList("mapper.gym.selectLocationGymList", condMap);		
 		return gymList;
 	}
 	

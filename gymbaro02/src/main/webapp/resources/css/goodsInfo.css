@@ -7,12 +7,12 @@
 .myPage03_box .tab_btn {position: relative; width: 900px;}
 .myPage03_box .tab_btn a.more {position: absolute; right: 0; top: 13px; font-size: 13px;}
 .myPage03_box .tab_btn ul {display: flex; padding-left: 0; margin: 0;}
-.myPage03_box .tab_btn ul li {width: 900px; text-align: center; border: 1px solid #ccc; padding: 15px 0; box-sizing: border-box; margin-left: -1px; transition: all 0.5s;}
+.myPage03_box .tab_btn ul li {width: 900px; text-align: center; border: 1px solid #ccc; box-sizing: border-box; margin-left: -1px; transition: all 0.2s;}
 .myPage03_box .tab_btn ul li:hover,
 .myPage03_box .tab_btn ul li:active {background: rgb(24, 71, 152);}
 .myPage03_box .tab_btn ul .active {background: rgb(24, 71, 152);}
 .myPage03_box .tab_btn ul .active a {color:white;}
-.myPage03_box .tab_btn ul li a {display: flex; justify-content: center; align-items: center; font-size:18px;}
+.myPage03_box .tab_btn ul li a {display: flex; justify-content: center; align-items: center; font-size:18px; height: 50px;}
 .myPage03_box .tab_btn ul li a img {width:24px; height:24px; margin-left:10px;}
 .myPage03_box .tab_cont {margin-top: -1px;}
 .myPage03_box .tab_cont table {width: 900px; padding-top: 15px; box-sizing: border-box; margin: 0;}
@@ -52,6 +52,8 @@
 	border-bottom: 2px solid #f0f0f0;
 	padding-bottom: 20px;
 	margin:5px 0px 20px 0px;
+	display: flex;
+    align-items: center;
 }
 
 .gym_info_header_text .gym_location_box {
@@ -122,6 +124,10 @@
 .gym_option_box .gym_submit_btn_box .go_cart_btn,
 .gym_option_box .gym_submit_btn_box .go_order_btn {
 	width: 220px;
+}
+
+.gym_option_box .gym_submit_btn_box .go_order_btn {
+	margin-left:10px;
 }
 
 .gym_option_box .gym_submit_btn_box .go_cart_btn {
@@ -199,12 +205,12 @@
 .star_info_box {
     display: flex;
     flex-direction: column;
-    align-items: end;
+    align-items: flex-start;
     border-left: 1px solid #c4c4c4;
-    margin-left: 50px;
     padding-left: 50px;
     color: #424040;
     font-size: 16px;
+    margin-left: 40px;
 }
 
 .star_info_box div {
@@ -214,6 +220,13 @@
 .star_sum_box {
     font-size: 50px;
     /* color: rgb(24, 71, 152); */
+    float: left;
+}
+
+.star_count_box {
+	display: inline-block;
+	margin-left: 20px;
+	font-size: 18px;
 }
 
 .user_review_list_box {
@@ -225,6 +238,7 @@
     align-items: baseline;
 }
 
+/*
 .user_review_list_box .user_level {
     width: 50px;
     height: 50px;
@@ -236,6 +250,65 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+*/
+
+#user_level_welcome {
+	width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: chocolate;
+    margin-right: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	
+}
+
+#user_level_silver {
+	width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: lightgrey;
+    margin-right: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	
+}
+
+#user_level_gold {
+	width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: gold;
+    margin-right: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	
+}
+
+#user_level_admin {
+	width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: #184798;
+    margin-right: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	
 }
 
 .user_review_list_box .user_info_box {
@@ -258,4 +331,71 @@
 
 .user_review_list_box .user_review_content {
     margin: 20px 0 20px 65px;
+}
+
+#score fieldset{
+    border: 0; 
+    direction: rtl;
+    float: left;
+    padding-left: 10px;
+}
+#score input[type=radio]{
+    display: none; 
+}
+#score label{
+    font-size: 2em; 
+    color: transparent; 
+    text-shadow: 0 0 0 #f0f0f0; 
+}
+
+#score label:hover{
+    text-shadow: 0 0 0 #ffff00;
+}
+#score label:hover ~ label{
+    text-shadow: 0 0 0 #ffff00; 
+}
+
+#score input[type=radio]:checked ~ label{
+    text-shadow: 0 0 0 #184798; 
+}
+
+#goods_review_input {
+	width: 880px;
+	height: 100px;
+	resize: none;
+	padding-top : 5px;
+	padding-left: 3px;
+}
+
+#review_submit button {
+	border: 1px solid #c4c4c4;
+    border-radius: 3px;
+    width: 125px;
+    height: 40px;
+    background: none;
+    display: inline-block;
+    margin-left: 580px;
+}
+
+#review_submit button:hover {
+	 box-shadow: 0 80px 0 0  rgba(0,0,0,0.1) inset, 0 -80px 0 0 rgba(0,0,0,0.1) inset;
+}  
+
+.review_length {
+	padding-left: 800px;
+
+}
+
+.select_score { 
+	padding-top: 30px;
+	
+}
+
+.review_write {
+	margin-top: 30px;
+	margin-bottom: 50px;
+}
+
+#scoreAvg {
+
 }

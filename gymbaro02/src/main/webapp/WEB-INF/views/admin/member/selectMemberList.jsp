@@ -53,6 +53,7 @@ function deleteMember(uid) {
 			type : "POST",
 			async : false, //false인 경우 동기식으로 처리한다.
 			url : "${contextPath}/admin/member/deleteMember.do",
+			traditional : true,
 			data : {
 				uid:uid
 			},

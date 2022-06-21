@@ -27,13 +27,23 @@
     margin-left:10px;
 }
 
-#goodsInfo_table #goodsInfo_div div {
+#goodsInfo_table #goodsInfo_div .goods_option_qty_info {
 	display: flex;
     width: 700px;
     background: #EDEFF2;
     padding: 10px;
     border: 1px solid #c4c4c4;
     border-radius: 2px;
+}
+
+#goodsInfo_table #goodsInfo_div .goods_name_info {
+    border: none;
+    background: white;
+    width: 700px;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 #non-border-1 {
@@ -150,6 +160,14 @@
     border-bottom: 2px solid black;
     border-radius: 0;
  }
+ 
+#review_btn {
+    font-size: 14px;
+    background: white;
+    border: 1px solid #c4c4c4;
+    padding: 5px 10px;
+    margin-left: 10px;
+}
 </style>
 </head>
 <body>
@@ -174,12 +192,26 @@
 			<thead>
 				<tr id="non-border-2">
 					<td class="info_fixed_join">
-						<img width="100" alt="" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.fileName}">
+						<img width="100" style="height:95px;object-fit:cover;" alt="" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.fileName}">
 					</td>
 					<td>
 						<div id="goodsInfo_div">
-					  		<span id="goods_name">${item.goods_name}</span>
-					  		<div>
+							<div class="goods_name_info">
+							<span id="goods_name">${item.goods_name}</span> 
+							<c:choose>
+							   <c:when test="${item.review_yn == 'N' and item.order_state == '배송완료'}">
+							       <span><a href="${contextPath}/goods/goodsInfo.do?tab=review&goods_id=${item.goods_id}&order_id=${item.order_id}&option_name=${item.option_name}"> 
+					  		          <button type="button" id="review_btn">리뷰 쓰기</button>
+					  		       </a></span>
+					  		   </c:when>
+					  		   <c:when test="${item.review_yn == 'Y'}">
+					  		   		<a href="${contextPath}/goods/goodsInfo.do?tab=review&goods_id=${item.goods_id}&reviewWrite=ok">
+					  		         <button type="button" id="review_btn">리뷰 보기</button>
+					  		         </a>
+					  		   </c:when>
+					  		 </c:choose>
+							</div>	
+					  		<div class="goods_option_qty_info">
 					  			<span class="option_span"><b>옵션 : </b></span>&nbsp;
 					  			<span class="option_span">${item.option_name}</span>&nbsp;&nbsp;
 					  			<span class="option_span"><b>수량 : </b></span>&nbsp;

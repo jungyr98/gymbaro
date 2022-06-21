@@ -12,35 +12,85 @@
 		<result property="writer" column="writer" />
 		<result property="uid" column="uid" />
 		<result property="view_cnt" column="view_cnt" />
+		<result property="state" column="state" />
 	</resultMap>
 	
 <resultMap id="commentResult" type="commentVO">
 	<result property="articleNo" column="articleNo" />
+	<result property="parentNo" column="parentNo" />
 	<result property="commentNo" column="commentNo" />
 	<result property="uid" column="uid" />
 	<result property="comment_writer" column="comment_writer" />
 	<result property="comment_content" column="comment_content" />
 	<result property="regDate" column="regDate" />
+	<result property="state" column="state" />
 	
 </resultMap>
+<resultMap id="noticeResult" type="noticeVO">
+		<result property="noticeNo" column="noticeNo" />
+		<result property="notice_category" column="notice_category" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="regDate" column="regDate" />
+		<result property="notice_writer" column="notice_writer" />
+		<result property="uid" column="uid" />
+		<result property="view_cnt" column="view_cnt" />
+</resultMap>
+
+<!-- 페이징을 위한 전체 게시글 수 조회 -->
+<select id="selectBoardListCnt" parameterType="java.util.Map" resultType="int">
+	select count(*) from board 
+	<if test=" (dt_fr!=null and dt_fr!='') or (search_select!=null and search_select!='')">
+		where 
+	</if>
+	<if test=" dt_fr!='' and dt_fr!=null">
+		writeDate between #{dt_fr} and DATE_ADD(#{dt_to}, INTERVAL 1 DAY) 
+	</if>
+	<if test=" dt_fr!=null and dt_fr!='' and search_select!=null and search_select!=''">
+		and 
+	</if>
+	<if test=" search_select=='title'">
+		title like CONCAT('%',#{search_keyword},'%')
+	</if>
+	<if test=" search_select=='writer'">
+		writer like CONCAT('%',#{search_keyword},'%')
+	</if>
+</select>
 	
 <insert id="newArticle" parameterType="String">
 	<selectKey resultType="int" keyProperty="articleNo" order="BEFORE">
 		select case count(*) when 0 then 1 else max(articleNo) + 1 end from board
 	</selectKey>
 	<![CDATA[ 
-		insert into board (articleNo, article_category, title, content, uid, writer, view_cnt) 
-			values (#{articleNo}, #{article_category}, #{title}, #{txtContent}, #{uid}, #{writer}, #{view_cnt})
+		insert into board (articleNo, article_category, title, content, uid, writer, view_cnt, state) 
+			values (#{articleNo}, #{article_category}, #{title}, #{txtContent}, #{uid}, #{writer}, #{view_cnt}, '정상')
 	]]> 
 </insert>
 
-<select id= "viewAll" resultType="boardVO">
-	select articleNo, article_category, title, writer, writeDate, view_cnt, (select count(commentNo) from comment_tbl where board.articleNo = comment_tbl.articleNo) as comment_cnt from board order by writeDate DESC
+<select id= "viewAll" parameterType="java.util.Map" resultType="boardVO">
+	select articleNo, article_category, title, writer, writeDate, state, view_cnt, (select count(commentNo) 
+	from comment_tbl where board.articleNo = comment_tbl.articleNo) as comment_cnt from board 
+	<if test=" (dt_fr!=null and dt_fr!='') or (search_select!=null and search_select!='')">
+		where 
+	</if>
+	<if test=" dt_fr!='' and dt_fr!=null">
+		writeDate between #{dt_fr} and DATE_ADD(#{dt_to}, INTERVAL 1 DAY) 
+	</if>
+	<if test=" dt_fr!=null and dt_fr!='' and search_select!=null and search_select!=''">
+		and 
+	</if>
+	<if test=" search_select=='title'">
+		title like CONCAT('%',#{search_keyword},'%')
+	</if>
+	<if test=" search_select=='writer'">
+		writer like CONCAT('%',#{search_keyword},'%')
+	</if>
+	order by writeDate DESC limit #{startIndex}, #{pageSize}
 </select>
 
-<select id="readArticle" resultType="boardVO">
+<select id="readArticle" resultType="boardVO" parameterType="java.util.Map">
 <![CDATA[ 
-	select articleNo, article_category, title, content, writer, uid, writeDate, view_cnt, comment_cnt from board where articleNo = #{articleNo}	
+	select articleNo, article_category, title, content, writer, uid, writeDate, state, view_cnt, comment_cnt from board where articleNo = #{articleNo}	
 	]]> 
 	
 </select>
@@ -66,24 +116,27 @@
 		select case count(*) when 0 then 1 else max(commentNo) + 1 end from comment_tbl
 	</selectKey>
 	<![CDATA[
-		insert into comment_tbl (articleNo, commentNo, uid, comment_writer, comment_content) 
-		values (#{articleNo}, #{commentNo}, #{uid}, #{comment_writer}, #{comment_content})
+		insert into comment_tbl (articleNo, parentNo, commentNo, uid, comment_writer, comment_content, state) 
+		values (#{articleNo}, #{parentNo}, #{commentNo}, #{uid}, #{comment_writer}, #{comment_content}, #{state})
 	]]>
 	
 </insert>
 
 <select id ="viewComment" parameterType="commentVO" resultType="commentVO">
-	SELECT uid, commentNo, comment_writer, comment_content, regDate from comment_tbl where articleNo = #{articleNo}
+	SELECT * from comment_tbl where articleNo = #{articleNo} and parentNo = 0 order by commentNo asc
 </select>
 
+<select id="replyComment" parameterType="commentVO" resultType="commentVo">
+	select * from comment_tbl where articleNo = #{articleNo} and parentNo > 0 order by commentNo asc
+</select>
 
 <update id="modifyComment" parameterType="commentVO">
-	update comment_tbl set comment_content where commentNo = #{commentNo}
+	update comment_tbl set comment_content = #{comment_content} where commentNo = #{commentNo}
 </update>
 
-<delete id="deleteComment" parameterType="String">
-	delete from comment_tbl where commentNo = #{commentNo}
-</delete>
+<update id="deleteComment" parameterType="String">
+	update comment_tbl set state = 'DU' where commentNo = #{commentNo}
+</update>
 
 <select id="getPrevArticle" parameterType="String" resultType="String">
 	<![CDATA[select articleNo from board where articleNo < #{articleNo} order by articleNo desc limit 1;
@@ -93,6 +146,14 @@
 <select id="getNextArticle" parameterType="String" resultType="String">
 	<![CDATA[select articleNo from board where articleNo > #{articleNo} order by articleNo asc limit 1;
 	]]> 
+</select>
+
+<!-- 중요 공지글 조회하기 -->
+<select id="selectNoticeList" resultType="noticeVO">
+	<![CDATA[
+	select noticeNo, notice_category, title, notice_writer, regDate, view_cnt, impt_notice from notice
+	where impt_notice = 'Y' order by regDate DESC
+	]]>
 </select>
 
 </mapper>

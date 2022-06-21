@@ -1,6 +1,7 @@
 package com.myspring.gymbaro02.admin.order.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.gymbaro02.admin.order.service.AdminOrderService;
@@ -33,5 +36,18 @@ public class AdminOrderControllerImpl implements AdminOrderController {
 		
 		mav.setViewName(viewName);
 		return mav;
+	}
+	
+	// 주문상태 변경하기
+	@Override
+	@RequestMapping(value="/updateOrderState.do", method={RequestMethod.POST, RequestMethod.GET})
+	public @ResponseBody String updateOrderState(@RequestParam Map<String, Object> updateMap, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String message = "";
+		
+		adminOrderService.updateOrderState(updateMap);
+		message = "modifySuccess";
+		
+		return message;
 	}
 }

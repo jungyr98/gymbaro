@@ -63,4 +63,10 @@
          <put-attribute name="title" value="아이디/비밀번호 찾기" />
          <put-attribute name="body" value="/WEB-INF/views/member/pwdFindSuccess.jsp" />
       </definition>
+      
+      <definition name="/member/nonMemberOrderDetail" extends="baseLayout">
+         <put-attribute name="title" value="비회원 주문 조회" />
+         <put-attribute name="body" value="/WEB-INF/views/member/nonMemberOrderDetail.jsp" />
+      </definition>
+      
 </tiles-definitions>

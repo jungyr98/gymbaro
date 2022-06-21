@@ -1,10 +1,12 @@
 package com.myspring.gymbaro02.member.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
 import com.myspring.gymbaro02.member.vo.MemberVO;
+import com.myspring.gymbaro02.order.vo.OrderVO;
 
 public interface MemberDAO {
 	public MemberVO login(Map loginMap) throws DataAccessException;
@@ -16,4 +18,5 @@ public interface MemberDAO {
 	public String newPwdForm(Map findPwdForm) throws DataAccessException;
 	public int pwdFindSuccess(Map pwdMap) throws DataAccessException;
 	public String findMemberName(String member_id) throws DataAccessException;
+	public List<OrderVO> nonMemberOrderDetail (OrderVO orderVO) throws DataAccessException;
 }

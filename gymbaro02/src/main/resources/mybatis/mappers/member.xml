@@ -35,6 +35,29 @@
 		<result property="k_name" column="k_name" />
 		<result property="k_email" column="k_email" />
 	</resultMap>
+	<resultMap id="orderGoodsResult" type="orderVO">
+		<result property="order_seq_num" column="order_seq_num" />
+		<result property="order_id" column="order_id" />
+		<result property="uid" column="uid" />
+		<result property="goods_id" column="goods_id" />
+		<result property="goods_name" column="goods_name" />
+		<result property="option_name" column="option_name" />
+		<result property="goods_qty" column="goods_qty" />
+		<result property="member_yn" column="member_yn" />
+		<result property="orderer_name" column="orderer_name" />
+		<result property="receiver_name" column="receiver_name" />
+		<result property="receiver_phone_number" column="receiver_phone_number" />
+		<result property="receiver_zipcode" column="receiver_zipcode" />
+		<result property="receiver_roadAddress" column="receiver_roadAddress" />
+		<result property="receiver_jibunAddress" column="receiver_jibunAddress" />
+		<result property="receiver_extraAddress" column="receiver_extraAddress" />
+		
+		<result property="order_state" column="order_state" />
+		<result property="payment" column="payment" />
+		<result property="delivery_memo" column="delivery_memo" />
+		<result property="total_price" column="total_price" />
+		<result property="fileName" column="fileName"/>
+</resultMap>
 
 
 <select id="login" parameterType="java.util.Map" resultMap="memberResult">
@@ -158,5 +181,13 @@
 		</selectKey>
 		insert into member(uid, member_name, member_id, member_type) values(#{uid}, #{nickname}, #{email}, 'SNS')
 </insert>
+
+<!-- 비회원 주문 조회 -->
+<select id="nonMemberOrderDetail" parameterType="orderVO" resultMap="orderGoodsResult">
+	<![CDATA[
+		select o.*, g.fileName from order_tbl o inner join goods_detail_img g on o.goods_id = g.goods_id 
+		where o.order_id = #{order_id} and o.orderer_name = #{orderer_name} and o.member_yn = 'N' and g.fileType = 'main_image'
+	]]>
+</select>
 	
 </mapper>

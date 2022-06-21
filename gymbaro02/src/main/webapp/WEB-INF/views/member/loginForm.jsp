@@ -31,34 +31,12 @@ window.onload=function()
 }
 
 function result(){
-	alert("아이디나  비밀번호가 틀립니다. 다시 로그인해주세요");
+	alert('${message}'); 
 }
 </script>
 </c:if>
 <script>
-$(function () {
-    var tab_Btn = $(".tab_btn > ul > li");
-    var tab_Cont = $(".tab_cont > form");
-    tab_Cont.hide().eq(0).show();
-    tab_Btn.click(function (e) {
-         e.preventDefault();
-         var target = $(this);
-         var index = target.index();
-         tab_Btn.removeClass("active");
-         target.addClass("active");
-         tab_Cont.hide();
-         tab_Cont.eq(index).show();
-    });
-});
 
-function admin_id_check(){
-	var admin_id = $('#admin_id').val();
-	if(admin_id != 'admin'){
-		alert("아이디가 틀렸습니다!");
-		return false;
-	}
-	return true;
-}
 
 function loginCheck() {
 	var id = $('input[name="id"]').val();
@@ -70,6 +48,18 @@ function loginCheck() {
 	return true;
 	}
 }
+
+function orderCheck() {
+	var name = $('input[name="orderer_name"]').val();
+	var order_id = $('input[name="order_id"]').val();
+	if(name == '' || order_id == ''){
+		alert("주문자명과 주문번호를 입력하세요!");
+		return false;
+	}else{
+	return true;
+	}
+}
+
 </script>
 </head>
 <body>
@@ -78,33 +68,199 @@ function loginCheck() {
     <div class="loginForm_box main_container">
         <div class="first_content">
          <div class="first_text">
-            <span>로그인</span>
          </div>
-    <div class="login_box tab_menu">
-          <div class="tab_btn">
-               <ul>
-                    <li class="active"><a href="#">일반 로그인</a></li>
-                    <li><a href="#">관리자로 로그인</a></li>
-                    <li><a href="#">비회원 주문조회</a></li>
-               </ul>    
-          </div>
-          <div class="tab_cont">
-               <form class="active" action="${contextPath}/member/login.do" onsubmit="return loginCheck();" method="post">
-					<input type="text" name="id" placeholder="아이디를 입력하세요" />
-					<input type="password" name="pwd" placeholder="비밀번호를 입력하세요" />
-					<input type="submit" value="로그인">
-               </form>
-               <form action="${contextPath}/admin/member/login.do" method="post" onsubmit="return admin_id_check();">
-					<input type="text" name="id" id="admin_id" placeholder="관리자 아이디를 입력하세요" />
-					<input type="password" name="pwd" placeholder="관리자 비밀번호를 입력하세요" />
-					<input type="submit" value="로그인">
-               </form>
-                <form>
-					<input type="text" name="id" placeholder="주문자 이름을 입력하세요" />
-					<input type="password" name="pwd" placeholder="주문 번호를 입력하세요" />
-					<input type="submit" value="로그인">
-               </form>
-          </div>
+          <div class="login_wrap">
+                <ul class="menu_wrap" role="tablist">
+                	<c:if test="${mode eq 'common'}">
+                    <li class="menu_item" role="presentation">
+                        <!--[주] 탭메뉴 활성화시(=선택시) "on"을 추가해주세요. 접근성: aria-selected는 탭 선택시 true, 미선택시 false로 적용-->
+                        <!--[주:접근성] 탭메뉴의 id 값과 탭내용의 aria-controls를 연결하고 있습니다. -->
+                        <a href="${contextPath}/member/loginForm.do?mode=common" id="loinid" class="menu_id on" role="tab" aria-selected="true">
+                            <span class="menu_text"><span class="text">ID 로그인</span></span>
+                        </a>
+                    </li>
+                    <li class="menu_item" role="presentation">
+                        <a href="${contextPath}/member/loginForm.do?mode=admin" id="admin" class="menu_ones" role="tab" aria-selected="false">
+                            <span class="menu_text"><span class="text">관리자</span></span>
+                        </a>
+                    </li>
+                    <li class="menu_item" role="presentation">
+                        <a href="${contextPath}/member/loginForm.do?mode=non-member" id="non-member" class="menu_qr" role="tab" aria-selected="false">
+                            <span class="menu_text"><span class="text">비회원</span></span>
+                        </a>
+                    </li>
+                    </c:if>
+                    <c:if test="${mode eq 'admin'}">
+                    <li class="menu_item" role="presentation">
+                        <a href="${contextPath}/member/loginForm.do?mode=common" id="loinid" class="menu_id" role="tab" aria-selected="false">
+                            <span class="menu_text"><span class="text">ID 로그인</span></span>
+                        </a>
+                    </li>
+                    <li class="menu_item" role="presentation">
+                        <a href="${contextPath}/member/loginForm.do?mode=admin" id="admin" class="menu_ones on" role="tab" aria-selected="true">
+                            <span class="menu_text"><span class="text">관리자</span></span>
+                        </a>
+                    </li>
+                    <li class="menu_item" role="presentation">
+                        <a href="${contextPath}/member/loginForm.do?mode=non-member" id="non-member" class="menu_qr" role="tab" aria-selected="false">
+                            <span class="menu_text"><span class="text">비회원</span></span>
+                        </a>
+                    </li>
+                    </c:if>
+                    <c:if test="${mode eq 'non-member'}">
+                    <li class="menu_item" role="presentation">
+                        <a href="${contextPath}/member/loginForm.do?mode=common" id="loinid" class="menu_id" role="tab" aria-selected="false">
+                            <span class="menu_text"><span class="text">ID 로그인</span></span>
+                        </a>
+                    </li>
+                    <li class="menu_item" role="presentation">
+                        <a href="${contextPath}/member/loginForm.do?mode=admin" id="admin" class="menu_ones" role="tab" aria-selected="false">
+                            <span class="menu_text"><span class="text">관리자</span></span>
+                        </a>
+                    </li>
+                    <li class="menu_item" role="presentation">
+                        <a href="${contextPath}/member/loginForm.do?mode=non-member" id="non-member" class="menu_qr on" role="tab" aria-selected="true">
+                            <span class="menu_text"><span class="text">비회원</span></span>
+                        </a>
+                    </li>
+                    </c:if>
+                </ul>
+                <c:if test="${mode eq 'common'}">
+                <form id="frmNIDLogin" name="frmNIDLogin" onsubmit="return loginCheck();" action="${contextPath}/member/login.do" method="POST">
+					<ul class="panel_wrap">
+                        <li class="panel_item" style="display: block;">
+                            <div class="panel_inner" role="tabpanel" aria-controls="loinid">
+                                <div class="id_pw_wrap">
+                                    <div class="input_row" id="id_line">
+                                        <div class="icon_cell" id="id_cell">
+                                            <span class="icon_id">
+                                                <span class="blind">아이디</span>
+                                            </span>
+                                        </div>
+                                        <input type="text" id="id" name="id" placeholder="아이디" title="아이디" class="input_text" maxlength="41" value="">
+                                        <span role="button" class="btn_delete" id="id_clear" style="display: none;">
+                                            <span class="icon_delete">
+												<span class="blind">삭제</span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="input_row" id="pw_line">
+                                        <div class="icon_cell" id="pw_cell">
+                                            <span class="icon_pw">
+                                                <span class="blind">비밀번호</span>
+                                            </span>
+                                        </div>
+                                        <input type="password" id="pw" name="pwd" placeholder="비밀번호" title="비밀번호" class="input_text" maxlength="16">
+                                        <span role="button" class="btn_delete" id="pw_clear" style="display: none;">
+                                            <span class="icon_delete">
+                                                <span class="blind">삭제</span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="btn_login_wrap">
+
+                                    <button type="submit" class="btn_login" id="log.login">
+                                        <span class="btn_text">로그인</span>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+                </c:if>
+                <c:if test="${mode eq 'admin'}">
+                <form id="frmNIDLogin" name="frmNIDLogin" onsubmit="return loginCheck();" action="${contextPath}/admin/member/login.do" method="POST">
+					<ul class="panel_wrap">
+                        <li class="panel_item" style="display: block;">
+                            <div class="panel_inner" role="tabpanel" aria-controls="admin">
+                                <div class="id_pw_wrap">
+                                    <div class="input_row" id="id_line">
+                                        <div class="icon_cell" id="id_cell">
+                                            <span class="icon_id">
+                                                <span class="blind">아이디</span>
+                                            </span>
+                                        </div>
+                                        <input type="text" id="id" name="id" placeholder="아이디" title="아이디" class="input_text" maxlength="41" value="" onclick="borderOn('#id','#id_line')">
+                                        <span role="button" class="btn_delete" id="id_clear" style="display: none;">
+                                            <span class="icon_delete">
+												<span class="blind">삭제</span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="input_row" id="pw_line">
+                                        <div class="icon_cell" id="pw_cell">
+                                            <span class="icon_pw">
+                                                <span class="blind">비밀번호</span>
+                                            </span>
+                                        </div>
+                                        <input type="password" id="pw" name="pwd" placeholder="비밀번호" title="비밀번호" class="input_text" maxlength="16">
+                                        <span role="button" class="btn_delete" id="pw_clear" style="display: none;">
+                                            <span class="icon_delete">
+                                                <span class="blind">삭제</span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="btn_login_wrap">
+
+                                    <button type="submit" class="btn_login" id="log.login">
+                                        <span class="btn_text">로그인</span>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+                </c:if>
+                <c:if test="${mode eq 'non-member'}">
+                <form id="frmNIDLogin" name="frmNIDLogin"  onsubmit="return orderCheck();" action="${contextPath}/member/nonMemberOrderDetail.do" method="POST">
+					<ul class="panel_wrap">
+                        <li class="panel_item" style="display: block;">
+                            <div class="panel_inner" role="tabpanel" aria-controls="non-member">
+                                <div class="id_pw_wrap">
+                                    <div class="input_row" id="id_line">
+                                        <div class="icon_cell" id="id_cell">
+                                            <span class="icon_id">
+                                                <span class="blind">주문자명</span>
+                                            </span>
+                                        </div>
+                                        <input type="text" id="id" name="orderer_name" placeholder="주문자명" title="주문자명" class="input_text" maxlength="41" value="" onclick="borderOn('#id','#id_line')">
+                                        <span role="button" class="btn_delete" id="id_clear" style="display: none;">
+                                            <span class="icon_delete">
+												<span class="blind">삭제</span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="input_row" id="pw_line">
+                                        <div class="icon_cell" id="pw_cell">
+                                            <span class="icon_pw">
+                                                <span class="blind">주문번호</span>
+                                            </span>
+                                        </div>
+                                        <input type="password" id="pw" name="order_id" placeholder="주문번호" title="주문번호" class="input_text" maxlength="16">
+                                        <span role="button" class="btn_delete" id="pw_clear" style="display: none;">
+                                            <span class="icon_delete">
+                                                <span class="blind">삭제</span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="btn_login_wrap">
+
+                                    <button type="submit" class="btn_login" id="log.login">
+                                        <span class="btn_text">주문조회</span>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </form>
+                </c:if>
+            </div>
      </div>
     <div class="atag">
     <a href="${contextPath}/member/joinTypeForm.do">회원가입</a>

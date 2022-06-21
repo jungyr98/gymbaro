@@ -14,14 +14,63 @@
 		<put-attribute name="body" value="/WEB-INF/views/cs/personalQ.jsp" />
 	</definition>
 	
-	<definition name="/cs/notice" extends="baseLayout">
-		<put-attribute name="title" value="공지사항" />
-		<put-attribute name="body" value="/WEB-INF/views/cs/notice.jsp" />
+	<definition name="/cs/addNewcs" extends="baseLayout">
+		<put-attribute name="title" value="문의글 등록" />
+		<put-attribute name="body" value="/WEB-INF/views/cs/csQnA.jsp" />
 	</definition>
 	
-	<definition name="/cs/noticeWrite" extends="baseLayout">
-		<put-attribute name="title" value="공지사항 글 작성" />
-		<put-attribute name="body" value="/WEB-INF/views/cs/noticeWrite.jsp" />
+	<definition name="/cs/csDetail" extends="baseLayout">
+		<put-attribute name="title" value="문의글 상세" />
+		<put-attribute name="body" value="/WEB-INF/views/cs/csDetail.jsp" />
+	</definition>
+  	<definition name="/cs/updateCS" extends="baseLayout">
+		<put-attribute name="title" value="문의글 수정" />
+		<put-attribute name="body" value="/WEB-INF/views/cs/updateForm.jsp" />
+	</definition> 
+
+ 	<definition name="/cs/updateCS" extends="baseLayout">
+		<put-attribute name="title" value="문의글 수정" />
+		<put-attribute name="body" value="/WEB-INF/views/cs/csDetail.jsp" />
+	</definition>
+	
+	 <definition name="/cs/updateForm" extends="baseLayout">
+		<put-attribute name="title" value="문의글 수정폼" />
+		<put-attribute name="body" value="/WEB-INF/views/cs/updateForm.jsp" />
+	</definition> 
+	
+	<definition name="/cs/deleteCS" extends="baseLayout">
+		<put-attribute name="title" value="문의글 삭제" />
+		<put-attribute name="body" value="/WEB-INF/views/cs/csQnA.jsp" />
+	</definition>
+	
+	<definition name="/cs/cscommentlist" extends="baseLayout">
+		<put-attribute name="title" value="답변목록 조회" />
+		<put-attribute name="body" value="/WEB-INF/views/cs/csDetail.jsp" />
+	</definition>
+	
+	<definition name="/cs/insertCsComment" extends="baseLayout">
+		<put-attribute name="title" value="답변 추가" />
+		<put-attribute name="body" value="/WEB-INF/views/cs/csDetail.jsp" />
+	</definition>
+	
+	<definition name="/cs/updateCsForm" extends="baseLayout">
+		<put-attribute name="title" value="답변 수정 폼 "/>
+		<put-attribute name="body" value="/WEB-INF/views/cs/updateCsForm.jsp" />
+	</definition>
+	
+	<definition name="/cs/updateCsComment" extends="baseLayout">
+		<put-attribute name="title" value="답변 수정" />
+		<put-attribute name="body" value="/WEB-INF/views/cs/updateCsForm.jsp" />
+	</definition>
+	
+	<definition name="/cs/updateCsComment" extends="baseLayout">
+		<put-attribute name="title" value="답변 수정" />
+		<put-attribute name="body" value="/WEB-INF/views/cs/csDetail.jsp" />
+	</definition>
+	
+	<definition name="/cs/csCommentDelete" extends="baseLayout">
+		<put-attribute name="title" value="답변 삭제" />
+		<put-attribute name="body" value="/WEB-INF/views/cs/csDetail.jsp" />
 	</definition>
 
 </tiles-definitions>

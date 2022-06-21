@@ -17,6 +17,7 @@
 //옵션 선택 셀렉트 박스 체인지 부분
 var selectBoxChange_option = function(value){
 	$('input[name="first_option"]').val(value);
+	$('input[name="goods_main_category"]').val(value);
 	if(value == '헬스'){
 		$('select[name=1]').css("display", "");
 		$('select[name=2]').css("display", "none");
@@ -144,7 +145,7 @@ function setDetailThumbnail(event) {
 					   		<option value="복싱">복싱 용품</option>
 					   		<option value="수영">수영 용품</option>
 					   </select>
-					   <select name="1" onChange="selectBoxChange_sub_option(this.value);" style="display:none;">
+					   <select name="1" onChange="selectBoxChange_sub_option(this.value);">
 					   		<option value="바벨" selected>바벨</option>
 					   		<option value="아령">아령</option>
 					   		<option value="원판">원판</option>

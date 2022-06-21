@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,37 +18,49 @@ import com.myspring.gymbaro02.community.service.CommunityService;
 import com.myspring.gymbaro02.community.vo.BoardVO;
 import com.myspring.gymbaro02.community.vo.CommentVO;
 import com.myspring.gymbaro02.member.vo.MemberVO;
+import com.myspring.gymbaro02.notice.vo.NoticeVO;
+import com.myspring.gymbaro02.pagination.Pagination;
 
 @Controller("communityController")
-@EnableAspectJAutoProxy
+@RequestMapping(value="/community")
 public class CommunityControllerImpl implements CommunityController {
 	@Autowired
 	private CommunityService boardService;
 	
 	
 	// 커뮤니티  
-			@Override
-			@RequestMapping(value= "/community/community.do" ,method={RequestMethod.POST,RequestMethod.GET})
-			public ModelAndView community(HttpServletRequest request, HttpServletResponse response) throws Exception{
-				HttpSession session = request.getSession();
+	@Override
+	@RequestMapping(value= "/community.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView community(@RequestParam(value="curPage", defaultValue="1") int curPage, @RequestParam Map<String, Object> condMap, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		HttpSession session = request.getSession();
+		ModelAndView mav = new ModelAndView();
 				
-				session.setAttribute("section", 1);
-				session.setAttribute("pageNum", 1);
+		// 중요 공지글 가져오기
+		List<NoticeVO> noticeList = boardService.selectNoticeList();
 				
-				ModelAndView mav = new ModelAndView();
+		// 전체리스트 개수
+		int listCnt = boardService.selectBoardListCnt(condMap);
+		Pagination pagination = new Pagination(listCnt, curPage);
+		condMap.put("startIndex", pagination.getStartIndex());
+		condMap.put("pageSize", pagination.getPageSize());
+		System.out.println("test: " + pagination.getStartIndex() + ", " + pagination.getPageSize());
+		        
+		List<BoardVO> viewAll = boardService.viewAll(condMap);
+		String viewName=(String)request.getAttribute("viewName");		
 				
-				List<BoardVO> viewAll = boardService.viewAll();
-				String viewName=(String)request.getAttribute("viewName");		
+		mav.setViewName(viewName);
+		mav.addObject("viewAll", viewAll);
+		mav.addObject("noticeList", noticeList);
+		mav.addObject("listCnt", listCnt);
+		mav.addObject("pagination", pagination);
+		mav.addObject("condMap", condMap);
 				
-				mav.setViewName(viewName);
-				mav.addObject("viewAll", viewAll);		
-				
-				return mav;
-			}
+		return mav;
+	}
 	
 	// 커뮤니티 게시물 상세조회, 댓글 조회
 	@Override
-	@RequestMapping(value= "/community/communityDetail.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	@RequestMapping(value= "/communityDetail.do" ,method={RequestMethod.POST,RequestMethod.GET})
 		public ModelAndView communityDetail(@RequestParam Map <String, Object> readArticleMap, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session = request.getSession();
 		ModelAndView mav=new ModelAndView();
@@ -66,6 +77,7 @@ public class CommunityControllerImpl implements CommunityController {
 		MemberVO memberVO = (MemberVO) session.getAttribute("memberInfo");
 		
 		List<CommentVO> viewComment = boardService.viewComment(articleNo);
+		List<CommentVO> replyComment = boardService.replyComment(articleNo);
 		CommentVO commentVO = (CommentVO) request.getAttribute("commentVO");
 		
 		String prevArticleNo = boardService.getPrevArticle(articleNo); // 이전 글 번호 가져오기
@@ -75,13 +87,14 @@ public class CommunityControllerImpl implements CommunityController {
 		mav.addObject("nextArticleNo", nextArticleNo);
 		mav.addObject("commentVO", commentVO);
 		mav.addObject("viewComment", viewComment);
+		mav.addObject("replyComment", replyComment);
 		mav.setViewName(viewName);
 		return mav;
 	}
 	
-	// 커뮤니티 글 작성 
+		// 커뮤니티 글 작성 
 		@Override
-		@RequestMapping(value= "/community/communityWrite.do", method= {RequestMethod.POST, RequestMethod.GET})
+		@RequestMapping(value= "/communityWrite.do", method= {RequestMethod.POST, RequestMethod.GET})
 		public ModelAndView communityWrite(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			HttpSession session = request.getSession();
 			ModelAndView mav = new ModelAndView();
@@ -104,16 +117,16 @@ public class CommunityControllerImpl implements CommunityController {
 			return result;
 		}
 
-	// 커뮤니티 글 작성
+		// 커뮤니티 글 작성
 		@Override
-		@RequestMapping(value= "/community/addNewArticle.do" ,method={RequestMethod.POST,RequestMethod.GET})
+		@RequestMapping(value= "/addNewArticle.do" ,method={RequestMethod.POST,RequestMethod.GET})
 		public ModelAndView newArticle(@RequestParam Map <String, Object> newArticleMap, HttpServletRequest request, HttpServletResponse response) throws Exception{
 			HttpSession session = request.getSession();
 			ModelAndView mav=new ModelAndView();
 		
 			String article_category = (String) newArticleMap.get("article_category");
 			String title = (String) newArticleMap.get("title");
-			// 臾몄옄�뿴 �븘�꽣 �뀒�뒪�듃
+	
 			title = this.relaceParameter(title);
 			
 			String txtContent = (String) newArticleMap.get("txtContent");
@@ -142,9 +155,9 @@ public class CommunityControllerImpl implements CommunityController {
 			return mav;
 		}
 
-	// 커뮤니티 게시물 삭제
-	@Override
-		@RequestMapping(value="/community/deleteArticle.do", method= {RequestMethod.POST, RequestMethod.GET})
+		// 커뮤니티 게시물 삭제
+		@Override
+		@RequestMapping(value="/deleteArticle.do", method= {RequestMethod.POST, RequestMethod.GET})
 		public ModelAndView deleteArticle(@RequestParam("articleNo") String articleNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 			HttpSession session = request.getSession();
 			ModelAndView mav = new ModelAndView();
@@ -152,11 +165,11 @@ public class CommunityControllerImpl implements CommunityController {
 			boardService.deleteArticle(articleNo);
 			MemberVO memberVO = (MemberVO) session.getAttribute("memberInfo");
 			
-			mav.setViewName("redirect:community.do");
+			mav.setViewName("redirect:/community/community.do");
 			return mav;
 		}
-	// 커뮤니티 게시물 수정 
-	@RequestMapping(value="/community/modifyForm.do", method= {RequestMethod.POST, RequestMethod.GET})
+		// 커뮤니티 게시물 수정 
+		@RequestMapping(value="/modifyForm.do", method= {RequestMethod.POST, RequestMethod.GET})
 		public ModelAndView modifyForm(@RequestParam Map<String, Object> modArticleMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
 			ModelAndView mav = new ModelAndView();
 		
@@ -166,10 +179,21 @@ public class CommunityControllerImpl implements CommunityController {
 			mav.setViewName("/community/communityWrite");
 			return mav;	
 		}
+		
+		@Override
+		@RequestMapping(value="/modifyArticle.do", method= {RequestMethod.POST, RequestMethod.GET})
+		public ModelAndView modifyArticle(@RequestParam Map<String, Object> modArticleMap, HttpServletRequest request, 
+				HttpServletResponse response) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			boardService.modifyArticle(modArticleMap);
+			String articleNo = (String) modArticleMap.get("articleNo");
+			mav.setViewName("redirect:/community/community.do?articleNo="+articleNo);
+			return mav;
+		}
 
-	// 커뮤니티 댓글 작성
-	@Override
-		@RequestMapping(value="/community/addNewComment.do", method= {RequestMethod.POST, RequestMethod.GET})
+		// 커뮤니티 댓글 작성
+		@Override
+		@RequestMapping(value="/addNewComment.do", method= {RequestMethod.POST, RequestMethod.GET})
 		public ModelAndView newComment(@RequestParam Map<String, Object> readArticleMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
 			HttpSession session = request.getSession();
 			ModelAndView mav = new ModelAndView();
@@ -189,6 +213,14 @@ public class CommunityControllerImpl implements CommunityController {
 			commentVO.setUid(uid); 
 			commentVO.setComment_writer(comment_writer);
 			commentVO.setComment_content(comment_content);
+			commentVO.setState("정상");
+			
+			if(request.getParameter("parentNo") != null) {
+				String parentNo = request.getParameter("parentNo");
+				commentVO.setParentNo(Integer.parseInt(parentNo));
+			}else {
+				commentVO.setParentNo(0);
+			}
 			
 			boardService.newComment(commentVO);
 			
@@ -199,9 +231,9 @@ public class CommunityControllerImpl implements CommunityController {
 			return mav;
 		}
 
-	// 커뮤니티 댓글 삭제 
+		// 커뮤니티 댓글 삭제 
 		@Override
-		@RequestMapping(value="/community/deleteComment.do", method= {RequestMethod.POST, RequestMethod.GET})
+		@RequestMapping(value="/deleteComment.do", method= {RequestMethod.POST, RequestMethod.GET})
 		public ModelAndView deleteComment(@RequestParam("commentNo") String commentNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 			HttpSession session = request.getSession();
 			ModelAndView mav = new ModelAndView();
@@ -213,6 +245,21 @@ public class CommunityControllerImpl implements CommunityController {
 			boardService.deleteComment(commentNo);
 			
 			mav.addObject("commentVO", commentVO);
+			mav.setViewName("redirect:communityDetail.do?articleNo=" + articleNo);
+			return mav;
+		}
+	
+		// 커뮤니티 댓글 수정
+		@Override
+		@RequestMapping(value="/updateComment.do", method= {RequestMethod.POST, RequestMethod.GET})
+		public ModelAndView modifyComment(@RequestParam("comment_content") String comment_content, @RequestParam("commentNo") String commentNo,
+				@RequestParam("articleNo") String articleNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+			ModelAndView mav = new ModelAndView();
+			
+			CommentVO commentVO = new CommentVO();
+			commentVO.setComment_content(comment_content);
+			commentVO.setCommentNo(Integer.parseInt(commentNo));
+			boardService.modifyComment(commentVO);
 			mav.setViewName("redirect:communityDetail.do?articleNo=" + articleNo);
 			return mav;
 		}

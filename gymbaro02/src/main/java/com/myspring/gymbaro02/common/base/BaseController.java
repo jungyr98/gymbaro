@@ -16,11 +16,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.gymbaro02.goods.vo.GoodsImageFileVO;
 import com.myspring.gymbaro02.gym.vo.GymImageFileVO;
+import com.myspring.gymbaro02.notice.vo.NoticeImageFileVO;
 
 
 public abstract class BaseController {
 	private static final String CURR_IMAGE_REPO_PATH_GOODS = "C:\\gymbaro_img\\goods";
 	private static final String CURR_IMAGE_REPO_PATH_GYMS = "C:\\gymbaro_img\\gyms";
+	private static final String CURR_IMAGE_REPO_PATH_NOTICE = "C:\\gymbaro_img\\notice";
 	
 	//파일 업로드
 	protected List<GoodsImageFileVO> upload(MultipartHttpServletRequest multipartRequest) throws Exception{
@@ -73,6 +75,32 @@ public abstract class BaseController {
 			}
 			return fileList;
 		}
+		
+		// 공지사항 파일 업로드
+		protected List<NoticeImageFileVO> uploadNotice(MultipartHttpServletRequest multipartRequest) throws Exception{
+			List<NoticeImageFileVO> imageFileList= new ArrayList<NoticeImageFileVO>();
+			Iterator<String> fileNames = multipartRequest.getFileNames();
+			while(fileNames.hasNext()){
+				NoticeImageFileVO noticeImageFileVO = new NoticeImageFileVO();
+				String fileName = fileNames.next();
+				
+				MultipartFile mFile = multipartRequest.getFile(fileName);
+				String originalFileName=mFile.getOriginalFilename();
+				noticeImageFileVO.setImageFileName(originalFileName);
+				imageFileList.add(noticeImageFileVO);
+				
+				File file = new File(CURR_IMAGE_REPO_PATH_NOTICE +"\\"+ fileName);
+				if(mFile.getSize()!=0){ //File Null Check
+					if(! file.exists()){ 
+						if(file.getParentFile().mkdirs()){ 
+								file.createNewFile(); 
+						}
+					}
+					mFile.transferTo(new File(CURR_IMAGE_REPO_PATH_NOTICE +"\\"+"temp"+ "\\"+originalFileName)); 
+				}
+			}
+			return imageFileList;
+		}	
 	
 	//이미지 파일 삭제
 	private void deleteFile(String fileName) {

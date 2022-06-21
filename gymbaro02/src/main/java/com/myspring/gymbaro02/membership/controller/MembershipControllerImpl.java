@@ -1,5 +1,7 @@
 package com.myspring.gymbaro02.membership.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myspring.gymbaro02.member.vo.MemberVO;
 import com.myspring.gymbaro02.membership.service.MembershipService;
+import com.myspring.gymbaro02.membership.vo.MembershipVO;
 
 @Controller("membershipController")
 @RequestMapping(value="/membership")
@@ -28,8 +32,19 @@ public class MembershipControllerImpl implements MembershipController {
 		session = request.getSession();
 		ModelAndView mav=new ModelAndView();
 		
+		if(session.getAttribute("memberInfo")!=null) {
+			System.out.println("ifπÆ ¡¯¿‘");
+			Map<String, Object> infoMap = new HashMap<String, Object>();
+			MemberVO memberVO = (MemberVO) session.getAttribute("memberInfo");
+			int uid = memberVO.getUid();
+			String gym_id = (String) optionMap.get("gym_id");
+			infoMap.put("uid", uid);
+			infoMap.put("gym_id", gym_id);
+			MembershipVO minDate = membershipService.selectMembershipHistory(infoMap);
+			System.out.println("test:" + uid + ", " + gym_id);
+			mav.addObject("minDate", minDate);
+		}
 		session.setAttribute("optionMap", optionMap);
-		
 		String viewName=(String)request.getAttribute("viewName");
 		mav.setViewName(viewName);
 

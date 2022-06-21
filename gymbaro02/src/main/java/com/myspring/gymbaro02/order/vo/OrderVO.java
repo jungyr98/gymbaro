@@ -27,6 +27,7 @@ public class OrderVO {
 	private int total_price;
 	private String fileName;
 	private Date creDate;
+	private String review_yn;
 	
 	public OrderVO() {
 		
@@ -216,5 +217,16 @@ public class OrderVO {
 		this.creDate = creDate;
 	}
 
+
+	public String getReview_yn() {
+		return review_yn;
+	}
+
+
+	public void setReview_yn(String review_yn) {
+		this.review_yn = review_yn;
+	}
+
+	
 	
 }

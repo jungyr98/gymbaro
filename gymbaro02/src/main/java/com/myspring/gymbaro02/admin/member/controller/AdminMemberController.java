@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 public interface AdminMemberController {
-	
+	public ModelAndView login(@RequestParam Map<String, Object> loginMap,
+            HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView selectMemberList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public @ResponseBody String updateMemberLevel(@RequestParam Map<String,Object> updateLevelMap, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public @ResponseBody String updateMemberPoint(@RequestParam Map<String,Object> updatePointMap, HttpServletRequest request, HttpServletResponse response) throws Exception;

@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.myspring.gymbaro02.member.vo.MemberVO;
+import com.myspring.gymbaro02.order.vo.OrderVO;
 
 @Repository("memberDAO")
 public class MemberDAOImpl implements MemberDAO {
@@ -74,5 +75,11 @@ public class MemberDAOImpl implements MemberDAO {
 	
 	public int deletedMemberUpdate(MemberVO memberVO) throws DataAccessException {
 		return sqlSession.update("deletedMemberUpdate", memberVO);
+	}
+	
+	// 비회원 주문 조회 (주문자명, 주문번호)
+	public List<OrderVO> nonMemberOrderDetail (OrderVO orderVO) throws DataAccessException {
+		List<OrderVO> orderDetailList = sqlSession.selectList("mapper.member.nonMemberOrderDetail", orderVO);
+		return orderDetailList;
 	}
 }

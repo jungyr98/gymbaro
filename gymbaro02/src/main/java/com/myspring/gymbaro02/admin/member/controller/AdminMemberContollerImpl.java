@@ -26,17 +26,16 @@ public class AdminMemberContollerImpl implements AdminMemberController {
 	@Autowired
 	private MemberVO memberVO;
 	@Autowired
-	private MemberService memberService;
-	@Autowired
 	private AdminMemberService adminMemberService;
 	
 	
 	// 관리자 로그인
+	@Override
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
-	public ModelAndView login(@RequestParam Map<String, String> loginMap,
+	public ModelAndView login(@RequestParam Map<String, Object> loginMap,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		memberVO = memberService.login(loginMap);
+		MemberVO memberVO = adminMemberService.adminLogin(loginMap);
 		
 		if(memberVO!= null && memberVO.getMember_id()!=null){
 			HttpSession session=request.getSession();
@@ -103,6 +102,7 @@ public class AdminMemberContollerImpl implements AdminMemberController {
 			int _uid = Integer.parseInt(uid[i]);
 			memberVO.setUid(_uid);
 			deleteList.add(memberVO);
+			System.out.println("uid:" + _uid);
 		}
 		adminMemberService.deleteMember(deleteList); // 회원 삭제하기 위한 고유번호 전달
 		message = "delSuccess";

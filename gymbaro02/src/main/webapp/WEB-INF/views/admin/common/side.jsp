@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <title>Insert title here</title>
 <style type="text/css">
 body {
@@ -111,7 +112,7 @@ body {
 		</div>
 		<span class="side_sub_menu">common</span>
 		<a href="#"><span class="glyphicon glyphicon-cog"></span>기본 설정</a>
-		<a href="#"><span class="glyphicon glyphicon-stats"></span>매출 관리</a>
+		<a href="${contextPath}/admin/sales/selectSalesList.do?sales_type=order"><span class="glyphicon glyphicon-stats"></span>매출 관리</a>
 		<br>
 		<span class="side_sub_menu">member</span>
 		<a href="${contextPath}/admin/gym/selectGymList.do"><span class="glyphicon glyphicon-home"></span>시설 관리</a>
@@ -121,8 +122,8 @@ body {
        	<a href="${contextPath}/admin/goods/selectGoodsList.do"><span class="glyphicon glyphicon-tag"></span>상품 관리</a>
        	<a href="${contextPath}/admin/order/selectOrderList.do"><span class="glyphicon glyphicon-shopping-cart"></span>주문 관리</a>
        	<a href="${contextPath}/admin/membership/listMembership.do"><span class="glyphicon glyphicon-calendar"></span>예약 관리</a>
-       	<a href="#"><span class="glyphicon glyphicon-edit"></span>게시물 관리</a>
-        <a href="#"><span class="glyphicon glyphicon-gift"></span>이벤트 관리</a>
+       	<a href="${contextPath}/admin/community/selectArticleList.do?article_type=board"><span class="glyphicon glyphicon-edit"></span>게시물 관리</a>
+        <a href="${contextPath}/admin/event/selectEventList.do"><span class="glyphicon glyphicon-gift"></span>이벤트 관리</a>
 	</div>
 </div>
 </body>

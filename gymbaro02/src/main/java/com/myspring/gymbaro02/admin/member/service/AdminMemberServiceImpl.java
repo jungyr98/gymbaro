@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myspring.gymbaro02.admin.member.dao.AdminMemberDAO;
+import com.myspring.gymbaro02.member.service.SHA256Util;
 import com.myspring.gymbaro02.member.vo.MemberVO;
 
 @Service("adminMemberService")
@@ -17,6 +18,24 @@ import com.myspring.gymbaro02.member.vo.MemberVO;
 public class AdminMemberServiceImpl implements AdminMemberService {
 	@Autowired
 	private AdminMemberDAO adminMemberDAO;
+	
+	
+	// 관리자 로그인
+	@Override
+	public MemberVO adminLogin(Map<String, Object> loginMap) throws Exception {
+		// 입력한 아이디에 해당하는 솔트값 찾은 후 다시 암호화
+			String id = (String)loginMap.get("id");
+			String pwd = (String)loginMap.get("pwd");
+			
+			String salt = adminMemberDAO.getSaltById(id);
+			if(salt != "" && salt != null) {
+				String password = pwd;
+				password  = SHA256Util.getEncrypt(password, salt);
+			
+				loginMap.put("pwd", password);
+			}	
+			return adminMemberDAO.adminLogin(loginMap);
+	}
 	
 	// 회원 리스트 조회
 	@Override

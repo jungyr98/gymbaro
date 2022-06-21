@@ -33,6 +33,29 @@ $(function () {
     });
 });
 
+//회원 주문하기 submit
+function membership_check(){
+	var value3 = $('#option').val();
+	var gym_id = $('input[name="gym_id"]').val();
+	var member_yn = $('input[name="member_yn"]').val();
+	var action = "/gym/gymsInfo.do?gym_id="+gym_id;
+	if(value3==''){
+		alert("옵션을 선택해주세요!");
+		return false;
+	}else if(member_yn == 'N'){
+		alert("로그인이 필요한 서비스입니다!");
+		location.href = "${contextPath}/member/loginForm.do?mode=common&action="+action;
+		return false;
+	}else{
+		var check = confirm("구매하시겠습니까?");
+		if(check){
+			return true;
+		}else{
+			return false;
+		}
+	}
+}
+
 //옵션 셀렉트 박스 체인지 부분
 var selectBoxChange_option = function(value){
 	if(value == 'none'){
@@ -51,6 +74,9 @@ var selectBoxChange_option = function(value){
 		$('#option').val(value);
 	}else if(value == 12){
 		$('#total_price').val('${gymVO.price_info5}');
+		$('#option').val(value);
+	}else if(value == "1day"){
+		$('#total_price').val('${gymVO.price_info1}');
 		$('#option').val(value);
 	}
 }
@@ -118,17 +144,26 @@ function updateLiked(gym_id, state) {
 <body>
 <div class="main_container">
 	<div class="gym_info_header_box">
+		<c:if test="${empty memberInfo}">
+			<input type="hidden" name="member_yn" value="N">
+		</c:if>
+		<c:if test="${not empty memberInfo}">
+			<input type="hidden" name="member_yn" value="Y">
+		</c:if>
 		<div class="gym_info_header_img">
 			<img alt="HTML5 &amp; CSS3" src="${contextPath}/downloadGym.do?gym_id=${gymVO.gym_id}&fileName=${gymVO.gym_fileName}">
 		</div>
 		<div class="gym_info_header_text">
 			<div id="title_and_heart_box">
 				<span class="gym_info_header_title">${gymVO.gym_name}</span>
+				<!-- 시설 회원에게는 찜 기능이 노출되지 않도록 한다  -->
+				<c:if test="${memberInfo.member_type != '시설'}">
 				<c:if test="${likedState == 0}">
 					<img alt="pre_heart.png" src="${contextPath}/resources/image/pre_heart.png" onclick="updateLiked(${gymVO.gym_id}, 'N')">
 				</c:if>
 				<c:if test="${likedState == 1}">
 					<img alt="pre_heart.png" src="${contextPath}/resources/image/next_heart.png" onclick="updateLiked(${gymVO.gym_id}, 'Y')">
+				</c:if>
 				</c:if>
 			</div>
 			<div class="gym_stars_box">
@@ -156,14 +191,19 @@ function updateLiked(gym_id, state) {
 					<option value="6">6개월 ${price4}원</option>
 					<option value="12">12개월 ${price5}원</option>
 				</select>
-				<form action="${contextPath}/membership/membershipForm.do" method="post">
+				<form action="${contextPath}/membership/membershipForm.do" method="post" onsubmit="return membership_check();">
 					<input type="hidden" name="gym_id" value="${gymVO.gym_id}" />
 					<input type="hidden" name="gym_name" value="${gymVO.gym_name}" />
 					<input type="hidden" name="gym_fileName" value="${gymVO.gym_fileName}" />
 					<input type="hidden" name="first_option" value="${gymVO.first_option}" />
 					<input type="hidden" name="option" id="option" />
 					<input type="hidden" name="total_price" id="total_price" />
-					<input type="submit" class="option_submit_btn" value="회원권 담기">
+					<c:if test="${not empty memberInfo and memberInfo.member_type != '시설'}">
+						<input type="submit" class="option_submit_btn" value="회원권 담기">
+					</c:if>
+					<c:if test="${not empty memberInfo and memberInfo.member_type eq '시설'}">
+						<input type="submit" style="background:#c4c4c4;" class="option_submit_btn" value="일반회원만 이용할 수 있습니다" disabled>
+					</c:if>
 				</form>
 			</div>
 		</div>
@@ -189,12 +229,14 @@ function updateLiked(gym_id, state) {
 						<h4>가격정보</h4>
 						<div class="price_info_box">
 							<div class="price_info_option">
+								<span>1일권</span>
 								<span>1개월</span>
 								<span>3개월</span>
 								<span>6개월</span>
 								<span>12개월</span>
 							</div>
 							<div class="price_info_num">
+								<span>월 ${price1}원</span>
 								<span>월 ${price2}원</span>
 								<span>월 ${price3}원</span>
 								<span>월 ${price4}원</span>

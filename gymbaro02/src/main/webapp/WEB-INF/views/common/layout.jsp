@@ -133,14 +133,13 @@ function goodsInfo(){
     
 	i_goods_id.name="goods_id";
 	i_goods_id.value=goods_id;
-	
     formObj.appendChild(i_goods_id);
     document.body.appendChild(formObj); 
     formObj.method="get";
-    formObj.action="${contextPath}/goods/goodsInfo.do?goods_id="+goods_id;
-    formObj.submit();
+    //formObj.action="${contextPath}/goods/goodsInfo.do?tab=info&goods_id="+goods_id;
+    //formObj.submit();
 	
-	
+	location.href = "${contextPath}/goods/goodsInfo.do?tab=info&goods_id="+goods_id;
 }
 </script>
 <style>
@@ -179,7 +178,7 @@ a {text-decoration:none;}
 .quickmenu ul li {float:left;width:100%;border-bottom:1px solid;text-align:center;display:inline-block;*display:inline;}
 .quickmenu ul li a {position:relative;float:left;width:100%;height:30px;line-height:30px;text-align:center;color:#999;font-size:9.5pt;text-decoration-line: none;}
 .quickmenu ul li:last-child {border-bottom:0;}
-
+#quick_top_btn {background:white;}
 #quick_top_btn:hover{color:white; background-color:#184798;cursor:pointer;}
 #quick_cart_btn:hover{color:white; background-color:#184798;}
 
@@ -187,8 +186,8 @@ a {text-decoration:none;}
 </style>
 </head>
 <body>
-<div class="quickmenu">
-	 <ul style="color:#ddd;">
+<div class="quickmenu" style="height:137px; background:white;">
+	 <ul style="color:#ddd;background: white;">
 		 <li><a href="${contextPath}/cart/myCartList.do" id="quick_cart_btn" style="text-decoration-line: none;"><span class="glyphicon glyphicon-shopping-cart"></span> 장바구니</a></li>
 		
 		 	<div class="recent">

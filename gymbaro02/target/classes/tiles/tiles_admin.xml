@@ -57,4 +57,30 @@
 		<put-attribute name="body" value="/WEB-INF/views/admin/order/selectOrderList.jsp" />
 	</definition>
 	
+	<definition name="/admin/community/selectArticleList" extends="adminLayout">
+		<put-attribute name="title" value="게시물 관리 페이지" />
+		<put-attribute name="body" value="/WEB-INF/views/admin/community/selectArticleList.jsp" />
+	</definition>
+	
+	<definition name="/admin/community/addNewNotice" extends="adminLayout">
+		<put-attribute name="title" value="새 공지 등록 페이지" />
+		<put-attribute name="body" value="/WEB-INF/views/notice/noticeWrite.jsp" />
+	</definition>
+	
+	<definition name="/admin/community/selectArticleDetail" extends="adminLayout">
+		<put-attribute name="title" value="게시글 상세 페이지" />
+		<put-attribute name="body" value="/WEB-INF/views/community/communityDetail.jsp" />
+	</definition>
+	
+	<definition name="/admin/event/selectEventList" extends="adminLayout">
+		<put-attribute name="title" value="이벤트 관리 페이지" />
+		<put-attribute name="body" value="/WEB-INF/views/admin/event/selectEventList.jsp" />
+	</definition>
+	
+	<definition name="/admin/sales/selectSalesList" extends="adminLayout">
+		<put-attribute name="title" value="매출 관리 페이지" />
+		<put-attribute name="body" value="/WEB-INF/views/admin/sales/selectSalesList.jsp" />
+	</definition>
+	
+	
 </tiles-definitions>

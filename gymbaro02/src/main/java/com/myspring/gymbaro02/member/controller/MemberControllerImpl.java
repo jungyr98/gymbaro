@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -29,9 +30,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.myspring.gymbaro02.member.dto.KakaoDTO;
 import com.myspring.gymbaro02.member.service.MemberService;
 import com.myspring.gymbaro02.member.vo.MemberVO;
+import com.myspring.gymbaro02.order.vo.OrderVO;
 
 @Controller("memberController")
 @RequestMapping(value="/member")
@@ -46,8 +47,20 @@ public class MemberControllerImpl implements MemberController {
 	@Override
 	@RequestMapping(value= "/loginForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView loginForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		HttpSession session;
+		HttpSession session = request.getSession();
 		ModelAndView mav=new ModelAndView();
+		
+		// 상품 주문 로그인 필요 시 로그인 성공 후 다시 상품창으로 가게끔 굿즈 아이디를 세션에 바인딩
+		if(request.getParameter("goods_id")!=null) {
+			String goods_id = request.getParameter("goods_id");
+			session.setAttribute("goods_id", goods_id);
+		}else if(request.getParameter("action")!=null) {
+			String action = request.getParameter("action");
+			session.setAttribute("action", action);
+		}
+		session.removeAttribute("message");
+		session.setAttribute("mode", request.getParameter("mode"));
+		
 		String viewName=(String)request.getAttribute("viewName");
 		mav.setViewName(viewName);
 
@@ -67,11 +80,12 @@ public class MemberControllerImpl implements MemberController {
 			session.setAttribute("isLogOn", true);
 			session.setAttribute("memberInfo",memberVO);
 			
-			String action=(String)session.getAttribute("action");
-			if(action!=null && action.equals("/order/orderEachGoods.do")){
-				mav.setViewName("forward:"+action);		
-				/* 로그인 성공했을 때 > mav에 forward: order/orderEachGoods.do라는 
-				 * viewName + 세션에 저장한 logOn상태 + memberinfo 반환 */
+			if(session.getAttribute("goods_id")!=null){
+				String goods_id = (String)session.getAttribute("goods_id");
+				mav.setViewName("forward:/goods/goodsInfo.do?tab=info&goods_id="+goods_id);
+			}else if(session.getAttribute("action")!=null) {
+				String action = (String)session.getAttribute("action");
+				mav.setViewName("forward:"+action);
 			}else{
 				mav.setViewName("redirect:/main/main.do");	
 			}
@@ -123,6 +137,11 @@ public class MemberControllerImpl implements MemberController {
 		HttpSession session=request.getSession();
 		session.setAttribute("isLogOn", false);
 		session.removeAttribute("memberInfo");
+		if(session.getAttribute("goods_id")!=null){
+			session.removeAttribute("goods_id");
+		}else if(session.getAttribute("action")!=null) {
+			session.removeAttribute("action");
+		}
 		mav.setViewName("redirect:/main/main.do");
 		return mav;
 	}
@@ -233,12 +252,12 @@ public class MemberControllerImpl implements MemberController {
 		if (member_id != null) { 		                             
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.write("<script>alert('아이디 체크 통과');</script>");
+			//out.write("<script>alert('아이디 체크 통과');</script>");
 			out.flush();	
 		
 			if (pwdFindQ != null && pwdFindA != null) {
 				session.setAttribute("member_id", member_id); // 이름 셀렉트용으로 보내주기
-				out.write("<script>alert('비밀번호 찾기 질문 체크 통과');</script>");
+				//out.write("<script>alert('비밀번호 찾기 질문 체크 통과');</script>");
 				out.flush();
 				session.setAttribute("member_id", member_id);
 				session.setAttribute("pwdFindQ", pwdFindQ);
@@ -247,7 +266,7 @@ public class MemberControllerImpl implements MemberController {
 				mav.setViewName("/member/newPwdForm");
 				
 		} else {
-			out.write("<script>alert('유효성 검사 누락');</script>");
+			//out.write("<script>alert('유효성 검사 누락');</script>");
 			out.flush();
 			mav.setViewName("/member/idpwdFindForm");
 
@@ -490,6 +509,34 @@ public class MemberControllerImpl implements MemberController {
 		String result = memberService.overlapped(id);
 		resEntity =new ResponseEntity(result, HttpStatus.OK);
 		return resEntity;
+	}
+	
+	// 비회원 주문 조회
+	@Override
+	@RequestMapping(value="/nonMemberOrderDetail.do", method = RequestMethod.POST)
+	public ModelAndView nonMemberOrderDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String) request.getAttribute("viewName");
+		
+		// 폼에서 받아 온 값 orderVO 셋팅
+		OrderVO orderVO = new OrderVO();
+		String order_id = request.getParameter("order_id");
+		String orderer_name = request.getParameter("orderer_name");
+		orderVO.setOrder_id(order_id);
+		orderVO.setOrderer_name(orderer_name);
+		
+		List<OrderVO> orderDetailList = memberService.nonMemberOrderDetail(orderVO);
+		if(orderDetailList != null && orderDetailList.size() > 0) {
+			session.setAttribute("orderDetailList", orderDetailList);
+			session.removeAttribute("message");
+			mav.setViewName(viewName);
+		}else{
+			session.setAttribute("message", "주문자명 또는 주문번호가 맞지 않습니다");
+			mav.setViewName("/member/loginForm");
+		}
+
+		return mav;
 	}
 	
 	/* 휴대폰 인증 컨트롤러 */

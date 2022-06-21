@@ -12,6 +12,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
@@ -19,20 +23,37 @@
 	google.charts.setOnLoadCallback(drawVisualization);
 	
 function drawVisualization() {
+	var memberCount1 = $('input[name="memberCount1"]').val();
+	var memberCount2 = $('input[name="memberCount2"]').val();
+	var memberCount3 = $('input[name="memberCount3"]').val();
+	var total_date1 = $('input[name="total_date1"]').val();
+	var total_date2 = $('input[name="total_date2"]').val();
+	var orderCount1 = $('input[name="orderCount1"]').val();
+	var orderCount2 = $('input[name="orderCount2"]').val();
+	var membershipCount1 = $('input[name="membershipCount1"]').val();
+	var membershipCount2 = $('input[name="membershipCount2"]').val();
+	var total_price1 = $('input[name="total_price1"]').val();
+	var total_price2 = $('input[name="total_price2"]').val();
+
+	var orderCount = $('input[name="orderCount"]');
+
+	var membershipCount = $('input[name="membershipCount"]');
+
+	var memberCount = $('input[name="memberCount"]');
+	
 	var data = google.visualization.arrayToDataTable([
 		['Month', '회원', '주문', '예약', '결제'],
-		['2004/05', 165, 938, 522, 998],
-		['2004/06', 135, 1120, 599, 1268],
-		['2004/07', 157, 1167, 587, 807],
-		['2004/08', 139, 1110, 615, 968],
-		['2004/09', 136, 691, 629, 1026]
+		['2022/03', 0, 0, 0, 0],
+		['2022/04', parseInt(memberCount3)*100000, 0, 0, 0],
+		[total_date1, parseInt(memberCount1)*100000, parseInt(orderCount1)*10000, parseInt(membershipCount1)*100000, total_price1],
+		[total_date2, parseInt(memberCount2)*100000, parseInt(orderCount2)*10000, parseInt(membershipCount2)*100000, total_price2]
 	]);
 	var options = {
 		title : "",
 		vAxis: {title: ''},
 		hAxis: {title: 'Month'},
 		seriesType: 'bars',
-		series: {5: {type: 'line'}}
+		series: {4: {type: 'line'}}
 	};
 	
 	var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
@@ -40,6 +61,10 @@ function drawVisualization() {
 }
 </script>
 <style type="text/css">
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+}
 
 #admin_main_box #location_box {
     display: flex;
@@ -61,12 +86,12 @@ function drawVisualization() {
 	width: 1200px;
 	display:flex;
 	justify-content:space-between;
-	height:200px;
+	height:500px;
 	margin-top:10px;
 }
 
 #admin_main_box #chart_div {
-	width: 700px;
+	width: 1200px;
 	border: 1px solid #ddd;
 }
 
@@ -74,6 +99,7 @@ function drawVisualization() {
 	width: 810px;
 	display:flex;
 	justify-content:space-between;
+	margin:30px 0px;
 }
 
 #admin_main_box #todo_goods_table {
@@ -93,42 +119,34 @@ function drawVisualization() {
 </head>
 <body>
 <div id="admin_main_box">
-	<div id="location_box">
-		<span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;HOME
-		<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>관리자 메인
-	</div>
+	<c:forEach var="item" items="${totalMap.memberCountList }" varStatus="cnt">
+		<input type="hidden" name="memberCount${cnt.count}" value="${item.count}" />
+		<input type="hidden" name="memberDate${cnt.count}" value="${item.date}" />
+	</c:forEach>
+	<c:forEach var="item" items="${totalMap.orderCountList }" varStatus="cnt">
+		<input type="hidden" name="orderCount${cnt.count}" value="${item.count}" />
+		<input type="hidden" name="orderDate${cnt.count}" value="${item.date}" />
+	</c:forEach>
+	<c:forEach var="item" items="${totalMap.membershipCountList }" varStatus="cnt">
+		<input type="hidden" name="membershipCount${cnt.count}" value="${item.count}" />
+		<input type="hidden" name="membershipDate${cnt.count}" value="${item.date}" />
+	</c:forEach>
+	<c:forEach var="item" items="${totalMap.allSalesList }" varStatus="cnt">
+		<input type="hidden" name="total_price${cnt.count}" value="${item.total_price}" />
+		<input type="hidden" name="total_date${cnt.count}" value="${item.date}" />
+	</c:forEach>
+	 
 	<div id="todo_list_box">
-		<span><img width="14" alt="logo.png" src="${contextPath}/resources/image/minus.jpg">&nbsp;오늘의 할 일</span>
-		<table id="todo_order_table">
-			<tr id="fixed_tr">
-				<td>입금전</td>
-				<td>입금완료</td>
-				<td>취소<br>신청/완료</td>
-				<td>교환<br>신청/완료</td>
-				<td>반품<br>신청/완료</td>
-				<td>배송준비중</td>
-				<td>배송중</td>
-				<td>배송완료</td>
-			</tr>
-			<tr id="value_tr">
-				<td>0</td>
-				<td>0</td>
-				<td>0 / 0</td>
-				<td>0 / 0</td>
-				<td>0 / 0</td>
-				<td>0</td>
-				<td>0</td>
-				<td>0</td>
-			</tr>
-		</table>
+		
 	</div>
+	
 	<div id="text_div">
-		<span><img width="14" alt="logo.png" src="${contextPath}/resources/image/minus.jpg">&nbsp;쇼핑몰 현황</span>
-		<span><img width="14" alt="logo.png" src="${contextPath}/resources/image/minus.jpg">&nbsp;상품 판매 순위</span>
+		<span style="font-size:20px;"><img width="20" alt="logo.png" src="${contextPath}/resources/image/minus.jpg">&nbsp;&nbsp;쇼핑몰 월별 현황</span>
 	</div>
 	<div id="todo_shopping_box">
 		<div id="chart_div">
 		</div>
+		<!-- 
 		<table id="todo_goods_table">
 			<tr id="fixed_tr">
 				<td>상품명</td>
@@ -155,6 +173,7 @@ function drawVisualization() {
 				<td>&nbsp;</td>
 			</tr>
 		</table>
+		 -->
 	</div>
 </div>
 </body>

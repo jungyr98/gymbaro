@@ -40,31 +40,32 @@ public class MainController {
 		String viewName=(String)request.getAttribute("viewName");
 		GymControllerImpl gymController = new GymControllerImpl();
 		Map<String,List<GymVO>> gymMap = new HashMap<String,List<GymVO>>();
+		
+		// 시설 목록 조회
+		Map<String, Object> _condMap = new HashMap<String, Object>();
+		_condMap.put("limit", 9);
+		gymMap = gymService.listGym(_condMap);
+		List<GymVO> gymLocationList = gymMap.get("locationList");
 
-		if(session.getAttribute("address") != null) {
-			String _address = (String) session.getAttribute("address");
-			gymMap = gymService.listGym(_address);
-			List<GymVO> gymLocationList = gymMap.get("locationList");
-			if(!_address.equals("N/A") && _address != null) {
-				for(int i=0; i < gymLocationList.size(); i++) {
-					GymVO gymVO = gymLocationList.get(i);
-					String address = gymVO.getExtraAddress();
-					String distance = gymController.checkDistance(address,request);
-					gymVO.setDistance(Double.parseDouble(distance));
-				}
-				// 리스트 거리순으로 내림차순 정렬하기
-				gymLocationList = gymLocationList.stream().sorted(Comparator.comparing(GymVO::getDistance)).collect(Collectors.toList());
-			}else {
-				session.setAttribute("addressCheck", "N");
+		if(session.getAttribute("address") != "N/A" && session.getAttribute("address") != null) {
+			String user_address = (String) session.getAttribute("address");
+			for(int i=0; i < gymLocationList.size(); i++) {
+				GymVO gymVO = gymLocationList.get(i);
+				String gym_address = gymVO.getExtraAddress();
+				String distance = gymController.checkDistance(gym_address,user_address,request);
+				gymVO.setDistance(Double.parseDouble(distance));
 			}
+			// 리스트 거리순으로 내림차순 정렬하기
+			gymLocationList = gymLocationList.stream().sorted(Comparator.comparing(GymVO::getDistance)).collect(Collectors.toList());
 			gymMap.put("locationList", gymLocationList);
 		}else {
-			String _address = (String) session.getAttribute("address");
-			gymMap = gymService.listGym(_address);
 			session.setAttribute("addressCheck", "N");
 		}
 		
-		Map<String,List<GoodsVO>> goodsMap = goodsService.listGoods();
+		Map<String,Object> condMap = new HashMap<String, Object>();
+		condMap.put("limit", 100);
+		condMap.put("order_item", "");
+		Map<String,List<GoodsVO>> goodsMap = goodsService.listGoods(condMap);
 		
 		session.setAttribute("goodsMap", goodsMap);		
 		session.setAttribute("gymMap", gymMap);

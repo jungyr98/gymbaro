@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
@@ -22,6 +23,7 @@ import com.google.gson.JsonParser;
 import com.myspring.gymbaro02.member.dao.MemberDAO;
 import com.myspring.gymbaro02.member.dao.MemberRepository;
 import com.myspring.gymbaro02.member.vo.MemberVO;
+import com.myspring.gymbaro02.order.vo.OrderVO;
 
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -43,10 +45,12 @@ public class MemberServiceImpl implements MemberService {
 		String pwd = (String)loginMap.get("pwd");
 		
 		String salt = memberDAO.getSaltById(id);
-		String password = pwd;
-		password  = SHA256Util.getEncrypt(password, salt);
+		if(salt != "" && salt != null) {
+			String password = pwd;
+			password  = SHA256Util.getEncrypt(password, salt);
 		
-		loginMap.put("pwd", password);
+			loginMap.put("pwd", password);
+		}
 		
 		return memberDAO.login(loginMap);
 	}
@@ -98,6 +102,13 @@ public class MemberServiceImpl implements MemberService {
 		int update = memberDAO.pwdFindSuccess(pwdMap); 
 	 
 		return member_name; 
+	}
+	
+	// 비회원 주문조회
+	@Override
+	public List<OrderVO> nonMemberOrderDetail(OrderVO orderVO) throws Exception {
+		List<OrderVO> orderDetailList = memberDAO.nonMemberOrderDetail(orderVO);
+		return orderDetailList;
 	}
 	
 	@Override

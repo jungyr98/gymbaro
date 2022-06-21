@@ -46,9 +46,9 @@
 		<put-attribute name="body" value="/WEB-INF/views/mypage/myBoardHistory.jsp" />
 	</definition>
 	
-	<definition name="/mypage/myPage06" extends="myPageLayout">
+	<definition name="/mypage/listMyCsHistory" extends="myPageLayout">
 		<put-attribute name="title" value="1:1 문의 내역" />
-		<put-attribute name="body" value="/WEB-INF/views/mypage/myPage06.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/listMyCsHistory.jsp" />
 	</definition>
 	
 	<definition name="/mypage/outMember" extends="myPageLayout">
@@ -64,6 +64,16 @@
 	<definition name="/mypage/addNewGymForm" extends="myPageLayout">
 		<put-attribute name="title" value="내 시설 관리" />
 		<put-attribute name="body" value="/WEB-INF/views/mypage/addNewGymForm.jsp" />
+	</definition>
+	
+	<definition name="/mypage/listMyGymMembership" extends="myPageLayout">
+		<put-attribute name="title" value="내 시설 회원 관리" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/listMyGymMembership.jsp" />
+	</definition>
+	
+	<definition name="/mypage/myGymSales" extends="myPageLayout">
+		<put-attribute name="title" value="내 시설 매출 관리" />
+		<put-attribute name="body" value="/WEB-INF/views/mypage/myGymSales.jsp" />
 	</definition>
 	
 </tiles-definitions>

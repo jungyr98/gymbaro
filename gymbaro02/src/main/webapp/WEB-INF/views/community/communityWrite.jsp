@@ -14,13 +14,13 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <!-- SmartEditor2 라이브러리 -->
-	<script type="text/javascript" src="${contextPath}/resources/smartEditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
-	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<!-- SmartEditor2 라이브러리 -->
+<script type="text/javascript" src="${contextPath}/resources/smartEditor/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <title>Document</title>
-    <link rel="stylesheet" href="${contextPath}/resources/css/communityWrite.css">
-    <script>
+<link rel="stylesheet" href="${contextPath}/resources/css/communityWrite.css">
+<script>
 
 function save(){
    oEditors.getById["txtContent"].exec("UPDATE_CONTENTS_FIELD", []);  
@@ -53,13 +53,10 @@ function modify_save(){
 	          // 값을 불러올 땐 document.get으로 받아오기
 	   	var article_check = confirm("게시물을 수정하시겠습니까?"); 
 		if(article_check == true) {
-			alert("게시물이 수정되었습니다!");
+			return true;
 		} else {
-			alert("게시물 수정이 취소되었습니다.");
+			return false;
 		}
-		
-		location.href= "${contextPath}/community/community.do";  
-	   return; 
 	}
 
 </script>
@@ -133,14 +130,14 @@ function modify_save(){
        <br>
        <div class="communityDetail_button_box">
           <a><button type="button" id="communityDetail_button_01"><span>돌아가기</span></button></a>
-          <a><button type="submit" id="communityDetail_button_02""><span>등록하기</span></button></a>	
+          <a><button type="submit" id="communityDetail_button_02"><span>등록하기</span></button></a>	
          </div>
      </form>     
     </c:if> 
 
     
       <c:if test="${boardVO != null }">
-      <form action="${contextPath}/community/modifyArticle.do" method="post">
+      <form action="${contextPath}/community/modifyArticle.do" method="post" onsubmit="return modify_save();">
        <table class="communityDetail_table" border="1">
         <thead>
             <tr>
@@ -200,7 +197,7 @@ function modify_save(){
        <div class="communityDetail_button_box">
        	  <input type="hidden" name="articleNo" value="${boardVO.articleNo}">
           <a><button type="button" id="communityDetail_button_01"><span>돌아가기</span></button></a>
-          <a><button type="submit" id="communityDetail_button_02" onclick="modify_save();"><span>수정하기</span></button></a>	
+          <a><button type="submit" id="communityDetail_button_02"><span>수정하기</span></button></a>	
         </div>
  	</form>
    </c:if>    

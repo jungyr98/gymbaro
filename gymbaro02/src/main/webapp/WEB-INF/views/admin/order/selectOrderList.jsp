@@ -13,20 +13,33 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
-$(document).ready(function() {
-	$("#cbx_chkAll").click(function() {
-		if($("#cbx_chkAll").is(":checked")) $("input[name=chk]").prop("checked", true);
-		else $("input[name=chk]").prop("checked", false);
-	});
-
-	$("input[name=chk]").click(function() {
-		var total = $("input[name=chk]").length;
-		var checked = $("input[name=chk]:checked").length;
-
-		if(total != checked) $("#cbx_chkAll").prop("checked", false);
-		else $("#cbx_chkAll").prop("checked", true); 
-	});
-});
+//주문 상태 수정
+function updateOrderState(order_id) {
+var check = confirm("상태를 수정하시겠습니까?");
+var updateState = $("select[name="+order_id+"]").val()
+	
+	if(check){
+		$.ajax({
+			type : "POST",
+			async : false, //false인 경우 동기식으로 처리한다.
+			url : "${contextPath}/admin/order/updateOrderState.do",
+			data : {
+				order_id:order_id,
+				order_state:updateState
+			},
+			success : function(data, textStatus) {
+					alert("상태가 변경되었습니다");
+					location.reload();				
+			},
+			error : function(data, textStatus) {
+				alert("에러가 발생했습니다."+data);
+			}
+		}); //end ajax
+	} else {
+		alert("취소하셨습니다");
+		return false;
+	}
+}
 
 
 function sortingNumber( a , b ){  
@@ -299,24 +312,20 @@ $(document).ready(function() {
 			<div style="display:flex;">
   				<select name="keword_select">
   					<option value="none">전체</option>
-  					<option value="2">주문번호</option>
-  					<option value="3">상품명</option>
-  					<option value="6">주문자명</option>
-  					<option value="8">주문일자</option>
+  					<option value="1">주문번호</option>
+  					<option value="2">상품명</option>
+  					<option value="5">주문자명</option>
+  					<option value="7">주문일자</option>
   				</select>
   				<div id="search_div">
   					<input type="text" name="search_text" id="search_text" class="keyword" placeholder="Search..."/>
   				</div>
   			</div>
-  			<div>
-  				<button class="custom-btn btn-1" onclick="delete_check_goods();" style="background: #DC3545;">선택 주문 삭제</button>
-  			</div>
   		</div>
 		<table id="orderTable">
 		<thead>
 			<tr class="fixed_tr">
-				<th width="5%"><input type="checkbox" id="cbx_chkAll"></th>
-				<th width="5%">
+				<th width="10%">
 					<div id="th_box">
 						<span>주문번호</span>
 						<div id="change_btn_box">
@@ -325,7 +334,7 @@ $(document).ready(function() {
 						</div>
 					</div>
 				</th>
-				<th width="20%">
+				<th width="30%">
 					<div id="th_box">
 						<span>상품명</span>
 						<div id="change_btn_box">
@@ -344,7 +353,7 @@ $(document).ready(function() {
 						</div>
 					</div>
 				</th>
-				<th width="20%">
+				<th width="10%">
 					<div id="th_box">
 						<span>주문자명</span>
 						<div id="change_btn_box">
@@ -378,7 +387,6 @@ $(document).ready(function() {
 					<tbody>
 					<c:forEach var="item" items="${listOrder}">
 						<tr class="order_tr">
-							<td><input type="checkbox" name="chk" value="${item.order_id}"></td>
 							<td>${item.order_id }</td>
 							<td><span>${item.goods_name }</span></td>
 							<td>${item.goods_qty}개</td>
@@ -418,14 +426,14 @@ $(document).ready(function() {
 									</c:if>
 									<c:if test="${item.order_state eq '교환' or item.order_state eq '반품'}">
 										<span style="color:tomato;">${item.order_state}</span>
+										<option value="배송완료">배송완료</option>
 									</c:if>
 							</td>
 							<td>
 								<fmt:formatDate value="${item.creDate}" pattern="yyyy-MM-dd"/>
 							</td>
 							<td>
-								<a onclick="updateState(${item.order_id})">수정</a>
-								<a onclick="deleteGym(${item.order_id})">삭제</a>
+								<a onclick="updateOrderState(${item.order_id})">수정</a>
 							</td>
 						</tr>
 					</c:forEach>

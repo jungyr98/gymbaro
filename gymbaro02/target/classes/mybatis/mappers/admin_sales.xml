@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="mapper.admin.sales">
+
+<!-- 최근 4개월 월별 회원수 체크 -->
+<select id="selectMemberCount" resultType="salesVO">
+	select count(*) as count, DATE_FORMAT(joinDate,'%Y/%m') as date from member group by MONTH(joinDate) order by MONTH(joinDate) asc limit 4
+</select>
+
+<!-- 최근 4개월 월별 주문량 체크 -->
+<select id="selectOrderCount" resultType="salesVO">
+	select count(*) as count, DATE_FORMAT(creDate,'%Y/%m') as date from order_tbl group by MONTH(creDate) order by MONTH(creDate) asc limit 4
+</select>
+
+<!-- 최근 4개월 월별 예약량 체크 -->
+<select id="selectMembershipCount" resultType="salesVO">
+	select count(*) as count, DATE_FORMAT(regDate,'%Y/%m') as date from membership group by MONTH(regDate) order by MONTH(regDate) asc limit 4
+</select>
+
+<!-- 최근 4개월 월별 통합 매출 체크 -->
+<select id="selectAllSales" resultType="salesVO">
+	select sum(total_price) as total_price, DATE_FORMAT(creDate,'%Y/%m') as date from 
+	(select total_price, creDate from order_tbl
+	union all
+	select total_price, regDate as creDate from membership) 
+	as t group by MONTH(creDate) order by MONTH(creDate) asc limit 4
+</select>
+
+<!-- 최근 4개월 월별 주문 매출 체크 -->
+<select id="selectOrderSales" resultType="salesVO">
+	select sum(total_price) as total_price, DATE_FORMAT(creDate,'%Y/%m') as date from order_tbl group by MONTH(creDate) order by MONTH(creDate) asc limit 4
+</select>
+
+<!-- 최근 4개월 월별 예약 매출 체크 -->
+<select id="selectMembershipSales" resultType="salesVO">
+	select sum(total_price) as total_price, DATE_FORMAT(regDate,'%Y/%m') as date from membership group by MONTH(regDate) order by MONTH(regDate) asc limit 4
+</select>
+
+<!-- 주문 일자별 매출 리스트 -->
+<select id="selectOrderDaySales" resultType="salesVO">
+SELECT DATE(credate) AS date, 
+sum(total_price) as total_price
+FROM order_tbl
+GROUP BY date order by date desc
+</select>
+
+<!-- 예약 일자별 매출 리스트 -->
+<select id="selectMembershipDaySales" resultType="salesVO">
+SELECT DATE(regdate) AS date, 
+sum(total_price) as total_price
+FROM membership
+GROUP BY date order by date desc
+</select>
+
+</mapper>

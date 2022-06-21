@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cs">
+<resultMap type="csVO" id="csResult">
+		<result property="csNO" column="csNO" />
+		<result property="uid" column="uid" />
+		<result property="goods_id" column="goods_id" />
+		<result property="title" column="title" />
+		<result property="txtContent" column="txtContent" />
+		<result property="writeDate" column="writeDate" />
+		<result property="processing_status" column="processing_status"/>
+		<result property="cs_category" column="cs_category" />
+		<result property="writer" column="writer" />
+		<result property="secret" column="secret"/>
+	</resultMap>
+	<resultMap type="cscommentVO" id="csCommentResult">
+		<result property="cs_commentNO" column="cs_commentNO"/>
+		<result property="csNO" column="csNO"/>
+		<result property="uid" column="uid"/>
+		<result property="commentContent" column="commentContent"/>
+		<result property="writeDate" column="writeDate"/>
+		<result property="writer" column="writer"/>
+	</resultMap>
+	<resultMap id="goodsResult" type="goodsVO">
+		<result property="goods_id" column="goods_id" />
+		<result property="goods_name" column="goods_name" />
+		<result property="goods_price" column="goods_price" />
+		<result property="event_id" column="event_id" />
+		<result property="goods_discount" column="goods_discount" />
+		
+		<result property="goods_amount" column="goods_amount" />
+		<result property="goods_main_category" column="goods_main_category" />
+		<result property="goods_sub_category" column="goods_sub_category" />
+		<result property="goods_state" column="goods_state" />
+		<result property="uid" column="uid" />
+		<result property="goods_fileName" column="fileName" />
+	</resultMap>
+	
+	<!-- 문의글 추가 -->
+	<insert id="addNewcs" parameterType="String">
+		<selectKey keyProperty="csNO" resultType="Int" order="BEFORE">
+			select case count(*) when 0 then 1 else max(csNO) + 1 end from cs
+		</selectKey>
+		insert into cs(
+				csNO,
+				uid,
+				goods_id,
+				title,
+				txtContent,
+				cs_category,
+				writer,
+				secret
+				) values(
+				#{csNO},
+				#{uid},
+				#{goods_id},
+				#{title},
+				#{txtContent},
+				#{cs_category},
+				#{writer},
+				#{secret}
+				)
+	</insert>
+	
+	<!-- 문의글 목록 조회 -->
+	<select id="selectCS" resultMap="csResult" >
+		select * from cs order by csNO desc;
+	</select>
+	
+	<!-- 문의글 상세 -->
+	<select id="csDetail" resultMap="csResult" parameterType="String">
+		select * from cs where csNO = #{csNO}
+	</select>
+	
+	<!--문의글 수정 -->
+	<update id="updateCS" parameterType="java.util.Map">
+		update cs set title=#{title}, txtContent=#{txtContent}, cs_category=#{cs_category}, secret=#{secret} where csNO=#{csNO}
+	</update>
+	
+	<!-- 문의글 삭제 -->
+	<delete id="deleteCS" parameterType="String">
+		delete from cs where csNO = #{csNO}
+	</delete>
+	
+	<!-- 답변 조회 -->
+	<select id="commentList" parameterType="int" resultMap="csCommentResult">
+		select * from cs_comment where csNO = #{csNO}
+	</select>
+	<!-- 답변 등록 -->
+	<insert id="insertCsComment" parameterType="String">
+		<selectKey keyProperty="cs_commentNO" resultType="int" order="BEFORE">
+			select case count(*) when 0 then 1 else max(cs_commentNO) + 1 end from cs_comment
+		</selectKey>
+		insert into cs_comment(
+				cs_commentNO,
+				csNO,
+				uid,
+				commentContent,
+				writer
+				) values(
+				#{cs_commentNO},
+				#{csNO},
+				#{uid},
+				#{commentContent},
+				#{writer}
+				)
+	</insert>
+	
+	<!-- 답변 수정 -->
+	<update id="csCommentModify" parameterType="String">
+		update cs_comment set commentContent = #{commentContent} where cs_commentNO = #{cs_commentNO}
+		
+	</update>
+	
+	<!-- 답변 삭제 -->
+	<delete id="csCommentDelete" parameterType="String">
+		delete from cs_comment where cs_commentNO = #{cs_commentNO} 
+	</delete>
+	
+</mapper>

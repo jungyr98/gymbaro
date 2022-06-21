@@ -212,7 +212,7 @@ function pagination() {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width:172px;
+    width:190px;
     height: 50px;
 }
 
@@ -263,7 +263,7 @@ function pagination() {
                		<span id="point_state_title">보유 포인트</span>
                		<div class="img_span_box">
                			<span id="point_imo">P</span>
-               			<fmt:formatNumber  value="${memberInfo.member_point}" type="number" var="point" />
+               			<fmt:formatNumber  value="${myInfo.member_point}" type="number" var="point" />
                			<span class="order_state_count">${point}원</span>
                		</div>
                	</div>

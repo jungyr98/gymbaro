@@ -8,6 +8,7 @@
     <typeAlias type="com.myspring.gymbaro02.goods.vo.GoodsVO" alias="goodsVO" />
     <typeAlias type="com.myspring.gymbaro02.goods.vo.GoodsOptionVO" alias="goodsOptionVO" />
     <typeAlias type="com.myspring.gymbaro02.goods.vo.GoodsImageFileVO" alias="goodsImageFileVO" />
+    <typeAlias type="com.myspring.gymbaro02.goods.vo.GoodsReviewVO" alias="goodsReviewVO" />
     <typeAlias type="com.myspring.gymbaro02.order.vo.OrderVO" alias="orderVO" />
     <typeAlias type="com.myspring.gymbaro02.cart.vo.CartVO" alias="cartVO" />
     <typeAlias type="com.myspring.gymbaro02.mypage.vo.PointHisVO" alias="pointVO" />
@@ -19,5 +20,10 @@
     <typeAlias type="com.myspring.gymbaro02.member.dto.KakaoDTO" alias="KakaoDTO" />
     <typeAlias type="com.myspring.gymbaro02.event.vo.EventVO" alias="eventVO" />
     <typeAlias type="com.myspring.gymbaro02.liked.vo.LikedVO" alias="likedVO" />
+    <typeAlias type="com.myspring.gymbaro02.notice.vo.NoticeVO" alias="noticeVO" />
+    <typeAlias type="com.myspring.gymbaro02.notice.vo.NoticeImageFileVO" alias="noticeImageFileVO" />
+    <typeAlias type="com.myspring.gymbaro02.cs.vo.CsVO" alias="csVO" />
+	<typeAlias type="com.myspring.gymbaro02.cs.vo.CsCommentVO" alias="cscommentVO"/>
+	<typeAlias type="com.myspring.gymbaro02.admin.sales.vo.SalesVO" alias="salesVO"/>
   </typeAliases>
 </configuration>

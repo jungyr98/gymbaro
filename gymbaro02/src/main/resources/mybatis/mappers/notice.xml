@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.notice">
+<resultMap id="noticeResult" type="noticeVO">
+		<result property="noticeNo" column="noticeNo" />
+		<result property="notice_category" column="notice_category" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="regDate" column="regDate" />
+		<result property="notice_writer" column="notice_writer" />
+		<result property="uid" column="uid" />
+		<result property="view_cnt" column="view_cnt" />
+	</resultMap>
+<resultMap id="imageResult" type="noticeImageFileVO">
+	<result property="imageFileNo" column="imageFileNo" />
+	<result property="imageFileName" column="imageFileName" />
+	<result property="noticeNo" column="noticeNo" />
+	
+</resultMap>
+
+
+<!-- 페이징을 위한 전체 게시글 수 조회 -->
+<select id="selectNoticeListCnt" parameterType="java.util.Map" resultType="int">
+	select count(*) from notice 
+	<if test=" (dt_fr!=null and dt_fr!='') or (search_select!=null and search_select!='')">
+		where 
+	</if>
+	<if test=" dt_fr!='' and dt_fr!=null">
+		regDate between #{dt_fr} and DATE_ADD(#{dt_to}, INTERVAL 1 DAY) 
+	</if>
+	<if test=" dt_fr!=null and dt_fr!='' and search_select!=null and search_select!=''">
+		and 
+	</if>
+	<if test=" search_select=='title'">
+		title like CONCAT('%',#{search_keyword},'%')
+	</if>
+	<if test=" search_select=='writer'">
+		writer like CONCAT('%',#{search_keyword},'%')
+	</if>
+</select>
+	
+<insert id="newNotice" parameterType="java.util.Map">
+	<![CDATA[ 
+		insert into notice (noticeNo, notice_category, title, content, uid, notice_writer, view_cnt, impt_notice) 
+			values (#{noticeNo}, #{notice_category}, #{title}, #{content}, #{uid}, #{notice_writer}, #{view_cnt}, #{impt_notice})
+	]]> 
+</insert>
+
+<select id="selectNoticeNo" resultType="int">
+	select case count(*) when 0 then 1 else max(noticeNo) + 1 end from notice
+</select>
+
+<insert id="insertNewNoticeImage" parameterType="noticeImageFileVO">
+	<selectKey resultType="int" keyProperty="imageFileNo" order="BEFORE">
+		select case count(*) when 0 then 1 else max(imageFileNo) + 1 end from notice_img
+	</selectKey>
+	<![CDATA[
+		insert into notice_img(imageFileNo, imageFileName, noticeNo) values(#{imageFileNo},#{imageFileName}, #{noticeNo})
+	]]>
+</insert>
+
+<select id="viewAll" resultType="noticeVO" parameterType="java.util.Map">
+	select noticeNo, notice_category, title, notice_writer, regDate, view_cnt, impt_notice from notice
+	<if test=" (dt_fr!=null and dt_fr!='') or (search_select!=null and search_select!='')">
+		where 
+	</if>
+	<if test=" dt_fr!='' and dt_fr!=null">
+		regDate between #{dt_fr} and DATE_ADD(#{dt_to}, INTERVAL 1 DAY) 
+	</if>
+	<if test=" dt_fr!=null and dt_fr!='' and search_select!=null and search_select!=''">
+		and 
+	</if>
+	<if test=" search_select=='title'">
+		title like CONCAT('%',#{search_keyword},'%')
+	</if>
+	<if test=" search_select=='writer'">
+		notice_writer like CONCAT('%',#{search_keyword},'%')
+	</if>
+	order by impt_notice = 'Y' DESC, regDate DESC limit #{startIndex}, #{pageSize}
+</select>
+
+<select id="readNotice" resultType="java.util.Map">
+	select noticeNo, notice_category, title, content, notice_writer, regDate, view_cnt from notice where noticeNo = #{noticeNo}
+</select>
+
+<update id="increaseViewCnt" parameterType="String">
+	update notice set view_cnt = view_cnt + 1 where noticeNo = #{noticeNo}
+</update>
+
+<select id="selectNoticeImage" resultMap="imageResult">
+	select imageFileName from notice_img where noticeNo = #{noticeNo}
+</select>
+
+<delete id="deleteNotice" parameterType="String">
+	delete from notice where noticeNo = #{noticeNo}
+</delete>
+
+<select id="getPrevNotice" parameterType="String" resultType="String">
+	<![CDATA[select noticeNo from notice where noticeNo < #{noticeNo} order by noticeNo desc limit 1;
+	]]> 
+</select>
+
+<select id="getNextNotice" parameterType="String" resultType="String">
+	<![CDATA[select noticeNo from notice where noticeNo > #{noticeNo} order by noticeNo asc limit 1;
+	]]> 
+</select>
+</mapper>

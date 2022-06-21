@@ -23,6 +23,11 @@
 		<result property="joinDate" column="joinDate" />
 		<result property="gym_license" column="gym_license" />
 	</resultMap>
+
+<!-- 관리자 로그인 -->
+<select id="adminLogin" parameterType="java.util.Map" resultMap="memberResult">
+	select * from member where member_id = #{id} and member_pwd = #{pwd} and member_level = 4 and member_type = '관리자'
+</select>
 	
 <!-- 최근 가입한 순으로 회원 조회하기 -->
 <select id="selectMemberList" resultMap="memberResult">

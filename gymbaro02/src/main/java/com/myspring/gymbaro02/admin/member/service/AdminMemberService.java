@@ -7,6 +7,7 @@ import com.myspring.gymbaro02.member.vo.MemberVO;
 
 public interface AdminMemberService {
 	
+	public MemberVO adminLogin(Map<String, Object> loginMap) throws Exception;
 	public List<MemberVO> listMember() throws Exception;
 	public void updateMemberLevel(Map<String, Object> updateLevelMap) throws Exception;
 	public void updateMemberPoint(Map<String, Object> updatePointMap) throws Exception;

@@ -8,11 +8,13 @@ import org.springframework.stereotype.Component;
 @Component("commentVO")
 public class CommentVO {
 	private int articleNo;
+	private int parentNo;
 	private int commentNo;
 	private int uid;
 	private String comment_writer;
 	private String comment_content;
 	private Date regDate;
+	private String state;
 	private int comment_cnt; 
 	private String title;
 	
@@ -91,6 +93,23 @@ public class CommentVO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	public int getParentNo() {
+		return parentNo;
+	}
+
+	public void setParentNo(int parentNo) {
+		this.parentNo = parentNo;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+	
 	
 	
 }

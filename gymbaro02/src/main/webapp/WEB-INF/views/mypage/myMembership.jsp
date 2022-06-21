@@ -254,7 +254,17 @@ function pagination() {
                     <c:forEach var="item" items="${membershipList}">
                     	<tr style="box-shadow: 0px 1px 3px 0px rgb(0 0 0 / 20%);">
                     		<td><a href="${contextPath}/mypage/listMyMembershipDetail.do?membership_id=${item.membership_id}">[${item.membership_id}]</a></td>
-                    		<td style="text-align:left;"><b>[${item.first_option} ${item.second_option}개월권]</b> ${item.gym_name }</td>
+                    		<td style="text-align:left;">
+                    			<c:choose>
+                    			<c:when test="${item.second_option eq '1day'}">
+                    			<b>[${item.first_option} 1일권]</b>
+                    			</c:when>
+                    			<c:otherwise>
+                    			<b>[${item.first_option} ${item.second_option}개월권]</b>
+                    			</c:otherwise>
+                    			</c:choose> 
+                    			${item.gym_name }
+                    		</td>
                     		<td><fmt:formatDate value="${item.start_date}" pattern="yyyy-MM-dd"/> ~ 
                     		<fmt:formatDate value="${item.last_date}" pattern="yyyy-MM-dd"/></td>
                     		<td>

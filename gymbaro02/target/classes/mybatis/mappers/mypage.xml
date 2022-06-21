@@ -45,6 +45,7 @@
 		<result property="receiver_roadAddress" column="receiver_roadAddress" />
 		<result property="receiver_jibunAddress" column="receiver_jibunAddress" />
 		<result property="receiver_extraAddress" column="receiver_extraAddress" />
+		<result property="review_yn" column="review_yn" />
 		
 		<result property="order_state" column="order_state" />
 		<result property="payment" column="payment" />
@@ -134,7 +135,32 @@
 	<result property="comment_cnt" column="comment_cnt" />
 	<result property="title" column="title" />
 </resultMap>
-	
+<resultMap type="csVO" id="csResult">
+		<result property="csNO" column="csNO" />
+		<result property="uid" column="uid" />
+		<result property="goods_id" column="goods_id" />
+		<result property="title" column="title" />
+		<result property="txtContent" column="txtContent" />
+		<result property="writeDate" column="writeDate" />
+		<result property="processing_status" column="processing_status"/>
+		<result property="cs_category" column="cs_category" />
+		<result property="writer" column="writer" />
+		<result property="secret" column="secret"/>
+</resultMap>
+<resultMap id="goodsReviewResult" type="goodsReviewVO">
+	<result property="review_id" column="review_id" />
+	<result property="uid" column= "uid" />
+	<result property="review_writer" column="review_writer" />
+	<result property="gym_id" column="gym_id" />
+	<result property="content" column="content" />
+	<result property="score" column="score" />
+	<result property="regDate" column="regDate" />
+	<result property="order_count" column="order_count" />
+	<result property="member_level" column="member_level" />
+	<result property="order_id" column="order_id" />
+</resultMap>
+
+<!-- 내 정보 수정 -->	
 <update id="updateMyInfo" parameterType="java.util.Map">
  			update member
 			   <set>
@@ -171,14 +197,14 @@
 
 <!-- 내 주문내역 조회 -->
 <select id="selectMyOrderHistory" parameterType="String" resultMap="orderGoodsResult">
-			select order_seq_num, order_id, o.uid, o.goods_id, case when count(goods_name) > 1 then concat(goods_name,' 외 ',(count(goods_name)-1),'개') else goods_name end as goods_name,
+			select order_seq_num, order_id, o.uid, o.goods_id, case when count(o.goods_id) > 2 then concat(goods_name,' 외 ',(count(o.goods_id)-1),'개') else goods_name end as goods_name,
 			option_name, sum(goods_qty) as goods_qty, member_yn, orderer_name, receiver_name, receiver_phone_number, receiver_zipcode, receiver_roadAddress,
-			order_state, payment, total_price, delivery_memo, creDate, g.fileName
-			from order_tbl o, goods_detail_img g where o.uid=#{uid} and g.goods_id = o.goods_id
+			order_state, payment, total_price, delivery_memo, creDate, g.fileName, o.review_yn
+			from order_tbl o inner join goods_detail_img g on g.goods_id = o.goods_id where o.uid=#{uid} and g.fileType = 'main_image'
 			<if test=" dt_fr!='' and dt_fr!=null">
-			 and creDate between #{dt_fr} and #{dt_to} 
+			 and creDate between #{dt_fr} and DATE_ADD(#{dt_to}, INTERVAL 1 DAY) 
 			</if>
-			group by order_id order by creDate desc
+			group by o.order_id order by o.creDate desc
 </select>
 
 <!-- 해당 주문내역 상세 조회 (주문번호로 찾기)-->
@@ -192,7 +218,7 @@
 <select id="selectMyPointHistory" parameterType="java.util.Map" resultMap="pointHisResult">
 	select * from point_his where uid = #{uid} 
 	<if test=" dt_fr!='' and dt_fr!=null">
-		and creDate between #{dt_fr} and #{dt_to} 
+		and creDate between #{dt_fr} and DATE_ADD(#{dt_to}, INTERVAL 1 DAY) 
 	</if>
 	order by creDate desc
 </select>
@@ -241,7 +267,7 @@
 <select id="selectMyMembership" parameterType="java.util.Map" resultMap="membershipResult">
 	select * from membership where uid = #{uid}  
 	<if test=" dt_fr!='' and dt_fr!=null">
-		and start_date between #{dt_fr} and #{dt_to}
+		and start_date between #{dt_fr} and DATE_ADD(#{dt_to}, INTERVAL 1 DAY)
 	</if>
 </select>
 
@@ -255,7 +281,7 @@
 <select id="selectMyComment" parameterType="java.util.Map" resultMap="commentResult">
 	select c.*, b.title, b.comment_cnt from comment_tbl c inner join board b on c.articleNO = b.articleNO where c.uid = #{uid}
 	<if test=" dt_fr!='' and dt_fr!=null">
-		and c.regDate between #{dt_fr} and #{dt_to} 
+		and c.regDate between #{dt_fr} and DATE_ADD(#{dt_to}, INTERVAL 1 DAY) 
 	</if>
 	order by c.regDate desc
 </select>
@@ -264,9 +290,50 @@
 <select id="selectMyArticle" parameterType="java.util.Map" resultMap="boardResult">
 	select * from board where uid = #{uid} 
 	<if test=" dt_fr!='' and dt_fr!=null">
-		and writeDate between #{dt_fr} and #{dt_to} 
+		and writeDate between #{dt_fr} and DATE_ADD(#{dt_to}, INTERVAL 1 DAY) 
 	</if>
 	order by writeDate desc
+</select>
+
+<!-- 내 1:1문의 내역 조회 -->
+<select id="listMyCsHistory" parameterType="java.util.Map" resultMap="csResult">
+	select * from cs where uid = #{uid}
+	<if test=" dt_fr!='' and dt_fr!=null">
+		and writeDate between #{dt_fr} and DATE_ADD(#{dt_to}, INTERVAL 1 DAY)
+	</if>
+	order by writeDate desc
+</select>
+
+<!-- 내 리뷰 내역 조회 -->
+<select id="listMyReview" parameterType="java.util.Map" resultMap="goodsReviewResult">
+	select * from goods_review where uid = #{uid}
+	<if test=" dt_fr!='' and dt_fr!=null">
+		and regDate between #{dt_fr} and DATE_ADD(#{dt_to}, INTERVAL 1 DAY)
+	</if>
+	order by regDate desc
+</select>
+
+<!-- (시설회원) 내 시설 회원 목록 조회 -->
+<select id="selectGymMembership" parameterType="java.util.Map" resultMap="membershipResult">
+	select * from membership where gym_id = (select gym_id from gym where uid = #{uid})
+	<if test=" dt_fr!='' and dt_fr!=null">
+		and regDate between #{dt_fr} and DATE_ADD(#{dt_to}, INTERVAL 1 DAY)
+	</if>
+	order by regDate desc
+</select>
+
+<!-- (시설회원) 내 시설 최근 4개월 매출 체크-->
+<select id="selectMyGymSales" parameterType="java.util.Map" resultType="salesVO">
+select sum(total_price) as total_price, DATE_FORMAT(regDate,'%Y/%m') as date from membership where gym_id = (select gym_id from gym where uid = #{uid}) group by MONTH(regDate) order by date asc
+</select>
+
+<!-- (시설회원) 내 시설 일자별 매출 체크 -->
+<select id="selectDaySales" parameterType="java.util.Map" resultType="salesVO">
+SELECT DATE(regdate) AS date, 
+sum(total_price) as total_price
+FROM membership
+where gym_id = (select gym_id from gym where uid = #{uid})
+GROUP BY date order by date desc
 </select>
 
 </mapper>

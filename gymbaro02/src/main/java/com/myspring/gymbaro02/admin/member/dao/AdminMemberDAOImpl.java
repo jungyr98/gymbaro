@@ -16,6 +16,20 @@ public class AdminMemberDAOImpl implements AdminMemberDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	// 관리자 로그인
+	@Override
+	public MemberVO adminLogin(Map<String,Object> loginMap) throws DataAccessException {
+		MemberVO memberVO = sqlSession.selectOne("mapper.admin.member.adminLogin", loginMap);
+		return memberVO;
+	}
+	
+	// 로그인하는 아이디 데이터에 있으면 솔트값 확인
+	@Override
+	public String getSaltById(String id) throws DataAccessException {
+		String salt = sqlSession.selectOne("mapper.member.getSaltbyId", id);
+		return salt;
+	}
+	
 	// 회원 리스트 조회
 	@Override
 	public List<MemberVO> listMember() throws DataAccessException {
@@ -41,6 +55,7 @@ public class AdminMemberDAOImpl implements AdminMemberDAO {
 	@Override
 	public void deleteMember(List<MemberVO> deleteList) throws DataAccessException {
 		for(int i=0; i<deleteList.size(); i++) {
+			System.out.println("진입");
 			MemberVO memberVO = deleteList.get(i);
 			int uid = memberVO.getUid();
 			sqlSession.update("mapper.admin.member.deleteMember", uid); // 탈퇴여부 Y로 변경시 트리거 발동

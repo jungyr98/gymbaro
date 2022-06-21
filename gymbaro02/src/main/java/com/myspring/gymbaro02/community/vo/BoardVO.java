@@ -17,6 +17,7 @@ public class BoardVO {
 	private int view_cnt;
 	private int commentNo;
 	private int comment_cnt;
+	private String state;
 
 
 	public BoardVO() {}
@@ -115,4 +116,12 @@ public class BoardVO {
 		this.comment_cnt = comment_cnt;
 	}
 
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+	
 }

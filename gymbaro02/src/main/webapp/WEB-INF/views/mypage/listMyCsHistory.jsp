@@ -12,6 +12,12 @@
      <link rel="stylesheet" href="${contextPath}/resources/css/myPage03.css">
      <title>탭메뉴</title>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+     <style>
+
+#myCsList_title:hover{
+	color:#184798;
+}
+     </style>
 <script type="text/javascript">
 $(function () {
     var tab_Btn = $(".tab_btn > ul > li");
@@ -115,7 +121,76 @@ function search(){
 
 	$('#searchForm').submit();
 }
+//테이블내 페이징
+function pagination() {
+	  var req_num_row = 5;
+	  var $tr = jQuery("tbody tr");
+	  var total_num_row = $tr.length;
+	  var num_pages = 0;
+	  if (total_num_row % req_num_row == 0) {
+	    num_pages = total_num_row / req_num_row;
+	  }
+	  if (total_num_row % req_num_row >= 1) {
+	    num_pages = total_num_row / req_num_row;
+	    num_pages++;
+	    num_pages = Math.floor(num_pages++);
+	  }
 
+	  jQuery(".pagination").append('<li><a class="prev">Previous</a></li>');
+
+	  for (var i = 1; i <= num_pages; i++) {
+	    jQuery(".pagination").append("<li><a>" + i + "</a></li>");
+	    jQuery(".pagination li:nth-child(2)").addClass("active");
+	    jQuery(".pagination a").addClass("pagination-link");
+	  }
+
+	  jQuery(".pagination").append('<li><a class="next">Next</a></li>');
+
+	  $tr.each(function (i) {
+	    jQuery(this).hide();
+	    if (i + 1 <= req_num_row) {
+	      $tr.eq(i).show();
+	    }
+	  });
+
+	  jQuery(".pagination a").click(".pagination-link", function (e) {
+	    e.preventDefault();
+	    $tr.hide();
+	    var page = jQuery(this).text();
+	    var temp = page - 1;
+	    var start = temp * req_num_row;
+	    var current_link = temp;
+
+	    jQuery(".pagination li").removeClass("active");
+	    jQuery(this).parent().addClass("active");
+
+	    for (var i = 0; i < req_num_row; i++) {
+	      $tr.eq(start + i).show();
+	    }
+
+	    if (temp >= 1) {
+	      jQuery(".pagination li:first-child").removeClass("disabled");
+	    } else {
+	      jQuery(".pagination li:first-child").addClass("disabled");
+	    }
+	  });
+
+	  jQuery(".prev").click(function (e) {
+	    e.preventDefault();
+	    jQuery(".pagination li:first-child").removeClass("active");
+	  });
+
+	  jQuery(".next").click(function (e) {
+	    e.preventDefault();
+	    jQuery(".pagination li:last-child").removeClass("active");
+	  });
+	}
+
+	jQuery("document").ready(function () {
+	  pagination();
+
+	  jQuery(".pagination li:first-child").addClass("disabled");
+	});
 </script>
 
 </head>
@@ -130,7 +205,7 @@ function search(){
                     <li class="active"><a href="#">1:1 문의 내역<img alt="coupon.png" src="${contextPath}/resources/image/customer-care.png"></a></li>
                </ul>
                
-                <form name="searchForm" id="searchForm"  method="get" action="/app/mypage/qa">
+                <form name="searchForm" id="searchForm"  method="get" action="${contextPath}/mypage/listMyCsHistory.do">
 				<input type="hidden" name="period" value=""/>
 				<input type="hidden" name="page" value="1"/>
 				<div class="n-table-filter">
@@ -147,7 +222,6 @@ function search(){
 						<input type="radio" id="radioTabGuide3" name="radioTabGuide" onClick="setPeriod(this,'');" checked>
 						<label for="radioTabGuide3">전체 시기</label>
 					</div>
-
 					<div class="n-datepicker sb">
 						<input type="text" class="n-input" name="dt_fr" value="" placeholder="-" onblur="checkDateFormat(this);">
 						<img class="ui-datepicker-trigger" src="//image.msscdn.net/skin/musinsa/images/ico_calendar.png?20200528" alt="날짜 선택" title="날짜 선택">
@@ -178,34 +252,43 @@ function search(){
           </div>
           <div class="tab_cont">
                <table class="active myPage03_table">
+               <thead>
                     <tr class="notice_board_first_tr">
-                    	<td width=20%>번호</td>
-                    	<td width=40%>항목</td>
+                    	<td width=20%>항목</td>
+                    	<td width=40%>제목</td>
                     	<td width=20%>작성일</td>
                     	<td width=20%>처리 상태</td>
  
                     </tr>
-                    <c:forEach begin="0" end="10" step="1">
+              </thead>
+                    <tbody>
+                    <c:choose>
+                    <c:when test="${empty myCsList}">
+                    	<tr>
+                    		<td colspan="4">문의 목록이 없습니다.</td>
+                    	</tr>
+                    </c:when>
+                    <c:otherwise>
+                    	<c:forEach var="item" items="${myCsList}">
                     <tr>
-                    	<td>12</td>
-                    	<td>교환/반품</td>
-                    	<td>2022-04-03</td>
-                    	<td>답변 완료</td>
+                    	<td><label id="cs_category">${item.cs_category}</label></td>
+                    	<td style="text-align:left;">
+                    	<a href="${contextPath}/cs/csDetail.do?csNO=${item.csNO}">
+                    	<span id="myCsList_title">${item.title}</span></a>
+                    	</td>
+                    	<td><label class="date_and_cnt_label"><fmt:formatDate value="${item.writeDate}" pattern="yyyy.MM.dd"/></label></td>
+                    	<td><label id="processing_status">${item.processing_status}</label></td>
                     </tr>
                     </c:forEach>
+                    </c:otherwise>
+                    </c:choose>
+                    </tbody>
+                    
                </table>
+                <ul class="pagination">
+    
+  			   </ul>
           </div>
-          <DIV id="page_wrap">
-		 <c:forEach var="page" begin="1" end="10" step="1" >
-		         <c:if test="${section >1 && page==1 }"> <!-- section 2부터는 그 전 section으로 갈 수 있도록 pre라는 이름의 a태그를 보여줌 -->
-		          <a href="${pageContext.request.contextPath}/admin/member/adminMemberMain.do?section=${section-1}&pageNum=${(section-1)*10-page }">&nbsp;pre &nbsp;</a>
-		         </c:if>
-		          <a href="${pageContext.request.contextPath}/admin/member/adminMemberMain.do?section=${section}&pageNum=${page}">${(section-1)*10 +page } </a>
-		         <c:if test="${page ==10 }"> <!--  -->
-		          <a href="${pageContext.request.contextPath}/admin/member/adminMemberMain.do?section=${section+1}&pageNum=${section*10+1}">&nbsp; next</a>
-		         </c:if> 
-	      </c:forEach> 
-		</DIV>
           </div>
      </div>
     </div>

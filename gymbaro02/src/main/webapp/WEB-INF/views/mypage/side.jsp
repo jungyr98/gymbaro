@@ -95,7 +95,7 @@ $(function () {
 <body>
 <nav id="myPage_side_nav">
     <c:choose>
-        <c:when test="${memberInfo.member_type == '일반'}">
+        <c:when test="${memberInfo.member_type == '일반' or memberInfo.member_type == 'SNS'}">
           <div id="side_member_info_box">
           	<c:if test="${memberInfo.member_level == 1 }">
           		<span class="level_span welcome">W</span>
@@ -109,7 +109,7 @@ $(function () {
           	<c:if test="${memberInfo.member_level == 4 }">
           		<span class="level_span admin">A</span>
           	</c:if>
-          	<fmt:formatNumber  value="${memberInfo.member_point}" type="number" var="point" />
+          	<fmt:formatNumber  value="${myInfo.member_point}" type="number" var="point" />
           	<span style="margin-top: 10px;">${memberInfo.member_name }님</span>
           	<span style="margin-top: 30px;">현재 포인트</span>
           	<span style="font-size: 20px; font-weight: bold;">${point}원</span>
@@ -131,7 +131,7 @@ $(function () {
               <a href="${contextPath}/mypage/listMyBoardHistory.do?search_type=article">내 게시물 관리</a>
             </li>
             <li>
-              <a href="${contextPath}/mypage/myPage06.do">1:1 문의 내역</a>
+              <a href="${contextPath}/mypage/listMyCsHistory.do">1:1 문의 내역</a>
             </li>
           </ul>
           </c:when>
@@ -165,19 +165,44 @@ $(function () {
               <a href="${contextPath}/mypage/listMyPointHistory.do">쿠폰/포인트</a>
             </li>
             <li>
-              <a href="${contextPath}/mypage/myPage04.do">회원/리뷰 관리</a>
+              <a href="${contextPath}/mypage/listMyGymMembership.do">회원/리뷰 관리</a>
             </li>
             <li>
               <a href="${contextPath}/mypage/myGymInfo.do">시설 관리</a>
             </li>
             <li>
-              <a href="${contextPath}/mypage/myPage04.do">매출 관리</a>
+              <a href="${contextPath}/mypage/myGymSales.do">매출 관리</a>
             </li>
             <li>
               <a href="${contextPath}/mypage/listMyBoardHistory.do?search_type=article">내 게시물 관리</a>
             </li>
             <li>
-              <a href="${contextPath}/mypage/myPage06.do">1:1 문의 내역</a>
+              <a href="${contextPath}/mypage/listMyCsHistory.do">1:1 문의 내역</a>
+            </li>
+          </ul>
+          </c:when>
+          <c:when test="${memberInfo.member_type == '관리자'}">
+          <div id="side_member_info_box">
+          	<c:if test="${memberInfo.member_level == 1 }">
+          		<span class="level_span welcome">W</span>
+          	</c:if>
+          	<c:if test="${memberInfo.member_level == 2 }">
+          		<span class="level_span silver">S</span>
+          	</c:if>
+          	<c:if test="${memberInfo.member_level == 3 }">
+          		<span class="level_span gold">G</span>
+          	</c:if>
+          	<c:if test="${memberInfo.member_level == 4 }">
+          		<span class="level_span admin">A</span>
+          	</c:if>
+          	<fmt:formatNumber  value="${memberInfo.member_point}" type="number" var="point" />
+          	<span style="margin-top: 10px;">${memberInfo.member_name }님</span>
+          	<span style="margin-top: 30px;">현재 포인트</span>
+          	<span style="font-size: 20px; font-weight: bold;">${point}원</span>
+          </div>
+          <ul>
+            <li>
+              <a href="${contextPath}/mypage/mypage.do">회원정보 수정</a>
             </li>
           </ul>
           </c:when>

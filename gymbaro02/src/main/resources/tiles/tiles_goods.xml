@@ -14,4 +14,19 @@
 		<put-attribute name="title" value="상품 상세페이지" />
 		<put-attribute name="body" value="/WEB-INF/views/goods/goodsInfo.jsp" />
 	</definition>
+	
+	<definition name="/goods/newReviewForm" extends="baseLayout">
+		<put-attribute name="title" value="상품 리뷰페이지" />
+		<put-attribute name="body" value="/WEB-INF/views/goods/goodsInfo.jsp" />
+	</definition>
+	
+	<definition name="/goods/goodsCsList" extends="baseLayout">
+		<put-attribute name="title" value="굿즈 상품문의" />
+		<put-attribute name="body" value="/WEB-INF/views/goods/goodsInfo.jsp" />
+	</definition>
+	
+	<definition name="/goods/goodscsUpdateForm" extends="baseLayout">
+		<put-attribute name="title" value="상품 문의 수정 페이지" />
+		<put-attribute name="body" value="/WEB-INF/views/goods/goodscsUpdateForm.jsp" />
+	</definition>
 </tiles-definitions>

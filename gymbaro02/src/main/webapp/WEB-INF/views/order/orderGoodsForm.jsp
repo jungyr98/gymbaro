@@ -226,8 +226,7 @@ function execDaumPostcode() {
       } else {
           document.getElementById('guide').innerHTML = '';
       }
-      
-     
+      self.close();
     }
   }).open();
 }
@@ -243,22 +242,22 @@ $(document).ready(function(){
 			$('.receiver_phone_number').val('${memberInfo.phone_number}');
 			$('.receiver_phone_number').prop("disabled", true);
 			$('#zipcode').val('${memberInfo.zipcode}');
-			$('#zipcode').prop("disabled", true);
+			//$('#zipcode').prop("disabled", true);
 			$('#roadAddress').val('${memberInfo.roadAddress}');
-			$('#roadAddress').prop("disabled", true);
+			//$('#roadAddress').prop("disabled", true);
 			$('#extraAddress').val('${memberInfo.extraAddress}');
-			$('#extraAddress').prop("disabled", true);
+			//$('#extraAddress').prop("disabled", true);
         } else {
         	$('.receiver_name').val('');
 			$('.receiver_name').prop("disabled", false);
 			$('.receiver_phone_number').val('');
 			$('.receiver_phone_number').prop("disabled", false);
 			$('#zipcode').val('');
-			$('#zipcode').prop("disabled", false);
+			//$('#zipcode').prop("disabled", false);
 			$('#roadAddress').val('');
-			$('#roadAddress').prop("disabled", false);
+			//$('#roadAddress').prop("disabled", false);
 			$('#extraAddress').val('');
-			$('#extraAddress').prop("disabled", false);
+			//$('#extraAddress').prop("disabled", false);
         }
     });
     
@@ -439,12 +438,15 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 				<tr class="dot_line">
 					<td class="fixed_join">배송지 주소</td>
 					<td>
-					   <input type="text" id="zipcode" name="receiver_zipcode" size="10" />&nbsp;<button type="button" id="btn_zipcode"><a href="javascript:execDaumPostcode()">우편번호검색</a></button>
+					   <input type="text" id="zipcode" name="receiver_zipcode" size="10" />
+					   &nbsp;<button type="button" id="btn_zipcode" onclick="execDaumPostcode()">우편번호검색</button>
 					  <br>
-					  <p> 
-					 <input type="text" id="roadAddress" name="receiver_roadAddress" /> 
-					  </p>
-					  <input type="text" id="extraAddress" name="receiver_extraAddress" />
+					  <p>
+					  <input type="text" id="roadAddress" name="receiver_roadAddress"/> 
+					  </p>					  
+					  <input type="hidden" id="jibunAddress" name="jibunAddress">
+					  <input type="hidden" id="guide">
+					  <input type="text" id="extraAddress" name="extraAddress" placeholder="나머지 주소" style="width:77%;">
 					</td>
 				</tr>
 			</thead>
@@ -568,7 +570,8 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 				<tr class="dot_line">
 					<td class="fixed_join">배송지 주소</td>
 					<td>
-					   <input type="text" id="zipcode" name="receiver_zipcode" size="10" value="${memberInfo.zipcode }">&nbsp;<button type="button" id="btn_zipcode"><a href="javascript:execDaumPostcode()">우편번호검색</a></button>
+					   <input type="text" id="zipcode" name="receiver_zipcode" size="10" value="${memberInfo.zipcode }">&nbsp;
+					   <button type="button" id="btn_zipcode" onclick="execDaumPostcode()">우편번호검색</button>
 					  <br>
 					  <p> 
 					 <input type="text" id="roadAddress" name="receiver_roadAddress" value="${memberInfo.roadAddress }"> 

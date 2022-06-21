@@ -1,6 +1,7 @@
 package com.myspring.gymbaro02.membership.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myspring.gymbaro02.membership.dao.MembershipDAO;
+import com.myspring.gymbaro02.membership.vo.MembershipVO;
 
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -17,6 +19,16 @@ public class MembershipServiceImpl implements MembershipService {
 	@Autowired
 	private MembershipDAO membershipDAO;
 	
+	
+	// 예약하려는 시설에 이전 예약내역이 있는지 확인하기
+	@Override
+	public MembershipVO selectMembershipHistory(Map<String, Object> infoMap) throws Exception {
+		MembershipVO minDate = membershipDAO.selectMembershipHistory(infoMap);
+		return minDate;
+	}
+	
+	// 회원권 추가하기
+	@Override
 	public String addNewMembership(Map<String,Object> membershipMap) throws Exception {
 		String membership_id = membershipDAO.insertNewMembership(membershipMap);
 		

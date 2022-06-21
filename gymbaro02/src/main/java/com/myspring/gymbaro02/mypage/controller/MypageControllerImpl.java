@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myspring.gymbaro02.admin.sales.vo.SalesVO;
 import com.myspring.gymbaro02.common.base.BaseController;
+import com.myspring.gymbaro02.cs.vo.CsVO;
 import com.myspring.gymbaro02.gym.vo.GymImageFileVO;
 import com.myspring.gymbaro02.gym.vo.GymVO;
 import com.myspring.gymbaro02.member.vo.MemberVO;
@@ -54,6 +56,7 @@ public class MypageControllerImpl extends BaseController implements MypageContro
 		String member_id = memberVO.getMember_id();
 		MemberVO _memberVO = myPageService.selectMyInfo(member_id);
 		session.setAttribute("memberInfo", _memberVO);
+		session.setAttribute("myInfo", _memberVO);
 		mav.setViewName(viewName);
 
 		return mav;
@@ -92,6 +95,13 @@ public class MypageControllerImpl extends BaseController implements MypageContro
 		ModelAndView mav = new ModelAndView();
 		String viewName = (String)request.getAttribute("viewName");
 		
+		if(session.getAttribute("memberInfo")!=null) {
+			memberVO = (MemberVO)session.getAttribute("memberInfo");
+			String member_id = memberVO.getMember_id();
+			MemberVO _memberVO = myPageService.selectMyInfo(member_id);
+			session.setAttribute("myInfo", _memberVO);
+		}
+		
 		List<OrderVO> orderDetailList = myPageService.listMyOrderDetail(order_id);
 		session.setAttribute("orderDetailList", orderDetailList);
 		
@@ -107,6 +117,12 @@ public class MypageControllerImpl extends BaseController implements MypageContro
 		session = request.getSession();
 		
 		if(session.getAttribute("memberInfo") != null) {
+			
+			memberVO = (MemberVO)session.getAttribute("memberInfo");
+			String member_id = memberVO.getMember_id();
+			MemberVO _memberVO = myPageService.selectMyInfo(member_id);
+			session.setAttribute("myInfo", _memberVO);
+			
 			memberVO = (MemberVO)session.getAttribute("memberInfo");
 			int uid = memberVO.getUid();
 			condMap.put("uid", uid);
@@ -183,14 +199,45 @@ public class MypageControllerImpl extends BaseController implements MypageContro
 		return mav;
 	}
 	
+	// 내 문의내역 조회
 	@Override
-	@RequestMapping(value= "/myPage06.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView myPage06(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	@RequestMapping(value= "/listMyCsHistory.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView listMyCsHistory(@RequestParam Map<String,Object> condMap, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
+		session = request.getSession();
 		ModelAndView mav=new ModelAndView();
 		String viewName=(String)request.getAttribute("viewName");
+		if(session.getAttribute("memberInfo") != null) {
+			memberVO = (MemberVO)session.getAttribute("memberInfo");
+			int uid = memberVO.getUid();
+			condMap.put("uid", uid);
+			List<CsVO> myCsList = myPageService.listMyCsHistory(condMap);
+			session.setAttribute("myCsList",myCsList);
+		}
+		
 		mav.setViewName(viewName);
 
+		return mav;
+	}
+	
+	// (시설회원) 내 시설 회원 목록 조회
+	@Override
+	@RequestMapping(value= "/listMyGymMembership.do", method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView listMyGymMembership(@RequestParam Map<String, Object> condMap, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String) request.getAttribute("viewName");
+		
+		if(session.getAttribute("memberInfo") != null) {
+			memberVO = (MemberVO)session.getAttribute("memberInfo");
+			int uid = memberVO.getUid();
+			condMap.put("uid", uid);
+			List<MembershipVO> myGymMemberList = myPageService.listMyGymMembership(condMap);
+			session.setAttribute("myGymMemberList", myGymMemberList);
+		}
+		
+		mav.setViewName(viewName);
 		return mav;
 	}
 	
@@ -246,6 +293,7 @@ public class MypageControllerImpl extends BaseController implements MypageContro
 		return resEntity;
 	}
 	
+	// 회원탈퇴폼
 	@RequestMapping(value= "/outMember.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView outMember(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
@@ -256,6 +304,7 @@ public class MypageControllerImpl extends BaseController implements MypageContro
 		return mav;
 	}
 	
+	// (시설회원) 내 시설 조회
 	@Override
 	@RequestMapping(value= "/myGymInfo.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView myGymInfo(HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -275,6 +324,27 @@ public class MypageControllerImpl extends BaseController implements MypageContro
 		return mav;
 	}
 	
+	// (시설회원) 내 시설 매출 조회
+	@Override
+	@RequestMapping(value= "/myGymSales.do" ,method={RequestMethod.POST,RequestMethod.GET})
+	public ModelAndView myGymSales(@RequestParam Map<String, Object> condMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String) request.getAttribute("viewName");
+		
+		if(session.getAttribute("memberInfo") != null) {
+			memberVO = (MemberVO)session.getAttribute("memberInfo");
+			int uid = memberVO.getUid();
+			condMap.put("uid", uid);
+			Map<String, List<SalesVO>> salesMap = myPageService.myGymSales(condMap);
+			session.setAttribute("salesMap", salesMap);
+		}
+		
+		mav.setViewName(viewName);
+		return mav;
+	}
+	
+	// (시설회원) 내 시설 등록하기폼
 	@Override
 	@RequestMapping(value= "/addNewGymForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView addNewGymForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -286,6 +356,7 @@ public class MypageControllerImpl extends BaseController implements MypageContro
 		return mav;
 	}
 	
+	// (시설회원) 내 시설 등록하기
 	@Override
 	@RequestMapping(value= "/addNewGym.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView addNewGym(@RequestParam Map<String, Object> gymMap, @RequestParam List<String> service,

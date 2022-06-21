@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.myspring.gymbaro02.admin.sales.vo.SalesVO;
 import com.myspring.gymbaro02.community.vo.BoardVO;
 import com.myspring.gymbaro02.community.vo.CommentVO;
+import com.myspring.gymbaro02.cs.vo.CsVO;
+import com.myspring.gymbaro02.goods.vo.GoodsReviewVO;
 import com.myspring.gymbaro02.gym.vo.GymImageFileVO;
 import com.myspring.gymbaro02.gym.vo.GymVO;
 import com.myspring.gymbaro02.member.vo.MemberVO;
@@ -132,6 +135,41 @@ public class MypageDAOImpl implements MypageDAO {
 	public List<BoardVO> selectMyArticle(Map<String, Object> condMap) throws DataAccessException {
 		List<BoardVO> myArticleList = sqlSession.selectList("mapper.mypage.selectMyArticle", condMap);
 		return myArticleList;
+	}
+	
+	// 내 리뷰 내역 조회
+	@Override
+	public List<GoodsReviewVO> selectMyReview(Map<String, Object> condMap) throws DataAccessException {
+		List<GoodsReviewVO> myReviewList = sqlSession.selectList("mapper.mypage.listMyReview", condMap);
+		return myReviewList;
+	}
+	
+	//1:1 문의 내역 조회
+	@Override
+	public List<CsVO> listMyCsHistory(Map<String, Object> condMap) throws DataAccessException{
+		List<CsVO> myCsList = sqlSession.selectList("mapper.mypage.listMyCsHistory",condMap);
+		return myCsList;
+	}
+	
+	// (시설 회원) 내 시설 회원 목록 조회
+	@Override
+	public List<MembershipVO> listMyGymMembership(Map<String, Object> condMap) throws DataAccessException {
+		List<MembershipVO> myGymMemberList = sqlSession.selectList("mapper.mypage.selectGymMembership", condMap);
+		return myGymMemberList;
+	}
+	
+	// (시설 회원) 내 시설 4개월 월별 매출 조회
+	@Override
+	public List<SalesVO> listMonthSales(Map<String, Object> condMap) throws DataAccessException {
+		List<SalesVO> listMonthSales = sqlSession.selectList("mapper.mypage.selectMyGymSales", condMap);
+		return listMonthSales;
+	}
+	
+	// (시설 회원) 내 시설 일자별 매출 조회
+	@Override
+	public List<SalesVO> listDaySales(Map<String, Object> condMap) throws DataAccessException {
+		List<SalesVO> listDaySales = sqlSession.selectList("mapper.mypage.selectDaySales", condMap);
+		return listDaySales;
 	}
 	
 }

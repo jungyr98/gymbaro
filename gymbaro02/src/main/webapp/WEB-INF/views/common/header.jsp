@@ -43,7 +43,7 @@ $(function () {
 
 
 $(function () {
-	  var shrinkHeader = 300;
+	  var shrinkHeader = 200;
 	  $(window).scroll(function () {
 	    var scroll = getCurrentScroll();
 	    if (scroll >= shrinkHeader) {
@@ -71,13 +71,13 @@ $(function () {
      <nav id="center_gnb">
                 <ul class="center-gnb-list">
                     <li>
-                        <a href="${contextPath}/cs/notice.do">공지사항</a>
+                        <a href="${contextPath}/notice/notice.do">공지사항</a>
                     </li>
                     <li>
                         <a href="${contextPath}/gym/searchGyms.do" style="color:#184798;">시설 찾기</a>
                     </li>
                     <li>
-                        <a href="${contextPath}/goods/searchGoods.do">운동 용품</a>
+                        <a href="${contextPath}/goods/searchGoods.do?main_item=1&order_item=all">운동 용품</a>
                     </li>
                     <li>
                         <a href="${contextPath}/community/community.do">커뮤니티</a>
@@ -88,22 +88,22 @@ $(function () {
                 </ul>
                 <div class="sub-menu-box">
 	                <ul>
-	                  <li><a href="#">공지사항</a></li>
+	                  <li><a href="${contextPath}/notice/notice.do">공지사항</a></li>
                       <li><a href="#">이벤트</a></li>
 	                </ul>
 	                <ul>
-                      <li><a href="#">전체</a></li>
-                      <li><a href="#">헬스</a></li>
-                      <li><a href="#">필라테스</a></li>
-                      <li><a href="#">복싱</a></li>
-                      <li><a href="#">수영</a></li>
+                      <li><a></a></li>
+                      <li><a></a></li>
+                      <li><a></a></li>
+                      <li><a></a></li>
+                      <li><a></a></li>
                     </ul>
                     <ul>
-                      <li><a href="#">전체</a></li>
-                      <li><a href="#">헬스 용품</a></li>
-                      <li><a href="#">필라테스 용품</a></li>
-                      <li><a href="#">복싱 용품</a></li>
-                      <li><a href="#">수영 용품</a></li>
+                      <li><a href="${contextPath}/goods/searchGoods.do?main_item=1&order_item=all">전체</a></li>
+                      <li><a href="${contextPath}/goods/searchGoods.do?main_item=2&order_item=all">헬스 용품</a></li>
+                      <li><a href="${contextPath}/goods/searchGoods.do?main_item=3&order_item=all">필라테스 용품</a></li>
+                      <li><a href="${contextPath}/goods/searchGoods.do?main_item=4&order_item=all">복싱 용품</a></li>
+                      <li><a href="${contextPath}/goods/searchGoods.do?main_item=5&order_item=all">수영 용품</a></li>
                    </ul>
                    <ul>
                       <li><a href="#">자유게시판</a></li>
@@ -115,11 +115,11 @@ $(function () {
   	</div>
   	<div id="user_menu_box">
   		<div class="search_and_lanking_box">
-  			<form class="search-container" action="//llamaswill.tumblr.com/search">
+  			<form class="search-container" action="${contextPath}/gym/searchGyms.do">
   				<button id="search-btn" type="submit" name="q" >
   					<span class="glyphicon glyphicon-search search-icon"></span>
   				</button>
-  				<input id="search-box" type="text" name="q" />
+  				<input id="search-box" type="text" name="keyword" placeholder="지역, 시설명을 검색해보세요!" />
 			</form>
   		</div>
 	      	<c:choose>
@@ -172,7 +172,7 @@ $(function () {
 	      		<c:otherwise>
 	      			<ul class="gnb-list">
 	      				<li class = cell-r>
-	      					<a href="${contextPath}/member/loginForm.do">
+	      					<a href="${contextPath}/member/loginForm.do?mode=common">
 	           					<img width="24" src="${contextPath}/resources/image/enter.png" alt="enter.png" />
 	           					<span>로그인</span>
 	           				</a></li>

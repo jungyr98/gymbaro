@@ -41,10 +41,11 @@
 
 <!-- 상품 리스트  조회  -->
 <select id="selectGoodsList" parameterType="String" resultMap="goodsResult" >
-		<![CDATA[select t.* from(
-			select g.*,d.fileName, e.event_name from goods g, goods_detail_img d, event e
-			where g.goods_id = d.goods_id and d.fileType='main_image' 
-			order by g.goods_id desc) t limit 10]]>
+		<![CDATA[
+			select g.*,d.fileName, e.event_name from goods g inner join goods_detail_img d
+			on g.goods_id = d.goods_id left outer join event e on g.event_id = e.event_id where d.fileType='main_image' 
+			order by g.goods_id desc
+			]]>
 </select>
 
 <!-- 상품에 적용할 이벤트 리스트 조회 -->
@@ -54,8 +55,8 @@
 
 <!-- 상품 수정을 위한 상품 상세 정보 조회 -->
 <select id="selectGoodsDetail" parameterType="int" resultMap="goodsResult">
-		select g.*,d.fileName, e.event_name from goods g, goods_detail_img d, event e
-			where g.goods_id = d.goods_id and d.fileType='main_image' and g.goods_id = #{goods_id}
+		select g.*,d.fileName, e.event_name from goods g inner join goods_detail_img d on g.goods_id = d.goods_id
+left outer join event e on g.event_id = e.event_id where d.fileType='main_image' and g.goods_id = #{goods_id}
 </select>
 
 <!-- 상품 수정을 위한 상품 옵션 조회 -->

@@ -22,11 +22,11 @@ public class GymServiceImpl implements GymService {
 	
 	//시설 리스트 추출
 	@Override
-	public Map<String,List<GymVO>> listGym(String address) throws Exception {
+	public Map<String,List<GymVO>> listGym(Map<String, Object> condMap) throws Exception {
 		Map<String,List<GymVO>> gymMap=new HashMap<String,List<GymVO>>();
 		List<GymVO> gymRecommandList = gymDAO.selectRecommandGymsList();
 		gymMap.put("recommandList", gymRecommandList);
-		List<GymVO> gymLocationList = gymDAO.selectLocationGymsList(address);
+		List<GymVO> gymLocationList = gymDAO.selectLocationGymsList(condMap);
 		gymMap.put("locationList", gymLocationList);
 
 		return gymMap;

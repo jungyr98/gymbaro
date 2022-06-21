@@ -5,15 +5,26 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myspring.gymbaro02.community.dao.CommunityDAO;
 import com.myspring.gymbaro02.community.vo.BoardVO;
 import com.myspring.gymbaro02.community.vo.CommentVO;
+import com.myspring.gymbaro02.notice.vo.NoticeVO;
 
 @Service("communityService")
+@Transactional(propagation=Propagation.REQUIRED)
 public class CommunityServiceImpl implements CommunityService {
 	@Autowired
 	private CommunityDAO boardDAO;
+	
+	// 전체 글 개수 조회
+	@Override
+	public int selectBoardListCnt(Map<String, Object> condMap) throws Exception {
+		int listCnt = boardDAO.selectBoardListCnt(condMap);
+		return listCnt;
+	}
 	
 	@Override
 	public void newArticle(Map newArticleMap) throws Exception {
@@ -21,8 +32,14 @@ public class CommunityServiceImpl implements CommunityService {
 	} 
 	
 	@Override
-	public List<BoardVO> viewAll() throws Exception {
-		return boardDAO.viewAll();
+	public List<BoardVO> viewAll(Map<String, Object> condMap) throws Exception {
+		return boardDAO.viewAll(condMap);
+	}
+	
+	@Override
+	public List<NoticeVO> selectNoticeList() throws Exception {
+		List<NoticeVO> noticeList = boardDAO.selectNoticeList();
+		return noticeList;
 	}
 	
 	@Override
@@ -61,12 +78,15 @@ public class CommunityServiceImpl implements CommunityService {
 		return boardDAO.viewComment(articleNo);
 	}
 	
+	@Override
+	public List<CommentVO> replyComment(String articleNo) throws Exception {
+		return boardDAO.replyComment(articleNo);
+	}
+	
 	
 	@Override
-	public CommentVO modifyComment(CommentVO commentVO) throws Exception {
+	public void modifyComment(CommentVO commentVO) throws Exception {
 		boardDAO.modifyComment(commentVO);
-		String articleNo = "";
-		return (CommentVO) boardDAO.viewComment(articleNo);
 	}
 	
 	@Override

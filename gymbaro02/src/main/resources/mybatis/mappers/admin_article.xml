@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="mapper.admin.article">
+<resultMap id="boardResult" type="boardVO">
+		<result property="articleNo" column="articleNo" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="writeDate" column="writeDate" />
+		<result property="writer" column="writer" />
+		<result property="uid" column="uid" />
+		<result property="view_cnt" column="view_cnt" />
+		<result property="state" column="state" />
+	</resultMap>
+	
+<resultMap id="commentResult" type="commentVO">
+	<result property="articleNo" column="articleNo" />
+	<result property="parentNo" column="parentNo" />
+	<result property="commentNo" column="commentNo" />
+	<result property="uid" column="uid" />
+	<result property="comment_writer" column="comment_writer" />
+	<result property="comment_content" column="comment_content" />
+	<result property="regDate" column="regDate" />
+	<result property="state" column="state" />	
+</resultMap>
+<resultMap id="noticeResult" type="noticeVO">
+		<result property="noticeNo" column="noticeNo" />
+		<result property="notice_category" column="notice_category" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="regDate" column="regDate" />
+		<result property="notice_writer" column="notice_writer" />
+		<result property="uid" column="uid" />
+		<result property="view_cnt" column="view_cnt" />
+</resultMap>
+<resultMap id="goodsReviewResult" type="goodsReviewVO">
+	<result property="review_id" column="review_id" />
+	<result property="uid" column= "uid" />
+	<result property="review_writer" column="review_writer" />
+	<result property="gym_id" column="gym_id" />
+	<result property="content" column="content" />
+	<result property="score" column="score" />
+	<result property="regDate" column="regDate" />
+	<result property="order_count" column="order_count" />
+	<result property="member_level" column="member_level" />
+	<result property="order_id" column="order_id" />
+</resultMap>
+<resultMap type="csVO" id="csResult">
+		<result property="csNO" column="csNO" />
+		<result property="uid" column="uid" />
+		<result property="title" column="title" />
+		<result property="txtContent" column="txtContent" />
+		<result property="writeDate" column="writeDate" />
+		<result property="processing_status" column="processing_status"/>
+		<result property="cs_category" column="cs_category" />
+		<result property="writer" column="writer" />
+		<result property="secret" column="secret"/>
+</resultMap>
+
+<!-- 커뮤니티 글 조회 -->
+<select id="selectBoardList" resultType="boardVO">
+	select articleNo, article_category, title, writer, writeDate, state, view_cnt, (select count(commentNo) 
+	from comment_tbl where board.articleNo = comment_tbl.articleNo) as comment_cnt from board order by writeDate DESC
+</select>
+
+<!-- 커뮤니티 댓글 조회 -->
+<select id ="selectCommentList" resultMap="commentResult">
+	select c.*, b.title, b.comment_cnt from comment_tbl c inner join board b on c.articleNO = b.articleNO
+</select>
+
+<!-- 공지글 조회하기 -->
+<select id="selectNoticeList" resultType="noticeVO">
+	<![CDATA[
+	select noticeNo, notice_category, title, notice_writer, regDate, view_cnt, impt_notice from notice order by regDate DESC
+	]]>
+</select>
+
+<!-- 리뷰 목록 조회하기 -->
+<select id="selectReviewList" resultMap="goodsReviewResult">
+	select * from goods_review order by regDate desc
+</select>
+
+<!-- 문의글 조회하기 -->
+<select id="selectCsList" resultMap="csResult">
+	select * from cs order by writeDate desc
+</select>
+
+<!-- 게시글 숨김처리 하기 -->
+<update id="updateBoardHidden" parameterType="java.util.List">
+	<![CDATA[update board set state = 'DA' where articleNo in]]>
+	<foreach item="item" collection="list" open="(" separator="," close=")">#{item.articleNo}</foreach>
+</update>
+
+<!-- 게시글 숨김해제 하기 -->
+<update id="updateBoardView" parameterType="int">
+	<![CDATA[update board set state = '정상' where articleNo = #{articleNo}]]>
+</update>
+
+<!-- 댓글 숨김처리 하기 -->
+<update id="updateCommentHidden" parameterType="java.util.List">
+	<![CDATA[update comment_tbl set state = 'DA' where commentNo in]]>
+	<foreach item="item" collection="list" open="(" separator="," close=")">#{item.commentNo}</foreach>
+</update>
+
+<!-- 댓글 숨김해제 하기 -->
+<update id="updateCommentView" parameterType="int">
+	<![CDATA[update comment_tbl set state = '정상' where commentNo = #{commentNo}]]>
+</update>
+
+<!-- 공지글 삭제하기 -->
+<delete id="deleteNotice" parameterType="java.util.List">
+	<![CDATA[delete from notice where noticeNo in]]>
+	<foreach item="item" collection="list" open="(" separator="," close=")">#{item.noticeNo}</foreach>
+</delete>
+
+<!-- 공지글 이미지 삭제하기 (참조키 noticeNo 때문에 글삭제 전에 이미지 테이블에서 이미지 먼저 삭제해준다)-->
+<delete id="deleteNoticeImage" parameterType="java.util.List">
+	<![CDATA[delete from notice_img where noticeNo in]]>
+	<foreach item="item" collection="list" open="(" separator="," close=")">#{item.noticeNo}</foreach>
+</delete>
+
+</mapper>

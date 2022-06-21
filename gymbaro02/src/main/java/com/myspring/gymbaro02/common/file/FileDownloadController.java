@@ -16,6 +16,7 @@ import net.coobird.thumbnailator.Thumbnails;
 public class FileDownloadController {
 	private static String CURR_IMAGE_REPO_PATH_GOODS = "C:\\gymbaro_img\\goods";
 	private static String CURR_IMAGE_REPO_PATH_GYMS = "C:\\gymbaro_img\\gyms";
+	private static String CURR_IMAGE_REPO_PATH_NOTICE = "C:\\gymbaro_img\\notice";
 
 	@RequestMapping("/download")
 	protected void download(@RequestParam("fileName") String fileName,
@@ -54,6 +55,29 @@ public class FileDownloadController {
 		while(true){
 			int count=in.read(buffer); //버퍼에 읽어들인 문자개수
 			if(count==-1)  //버퍼의 마지막에 도달했는지 체크
+				break;
+			out.write(buffer,0,count);
+		}
+		in.close();
+		out.close();
+	}
+	
+	//공지사항 이미지 다운로드
+	@RequestMapping("/downloadNoticeImage")
+	protected void downloadNoticeImage(@RequestParam("imageFileName") String imageFileName,
+		                 	@RequestParam("noticeNo") String noticeNo,
+			                 HttpServletResponse response) throws Exception {
+		OutputStream out = response.getOutputStream();
+		String filePath= CURR_IMAGE_REPO_PATH_NOTICE + "\\" + noticeNo + "\\" + imageFileName;
+		File image = new File(filePath);
+
+		response.setHeader("Cache-Control","no-cache");
+		response.addHeader("Content-disposition", "attachment; fileName="+ imageFileName);
+		FileInputStream in=new FileInputStream(image); 
+		byte[] buffer=new byte[1024*8];
+		while(true){
+			int count=in.read(buffer);
+			if(count==-1)
 				break;
 			out.write(buffer,0,count);
 		}

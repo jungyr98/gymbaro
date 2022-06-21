@@ -433,13 +433,14 @@ info_yn.change(
 					<td class="fixed_join">주소</td>
 					<td>
 					   <input type="text" id="zipcode" name="zipcode" size="10" style="width:40%; margin-top: 13px;">
-					   <button type="button" style="width:20%; height:27px;">
-					   		<a href="javascript:execDaumPostcode()">우편번호검색</a>
-					   	</button>
+					   <button type="button" style="width:20%; height:27px;" onclick="execDaumPostcode();">우편번호검색</button>
 					  <br>
 					  <p> 
-					 <input type="text" id="roadAddress"  name="roadAddress" style="width:77%;"> 
+					 <input type="text" id="roadAddress"  name="roadAddress" style="width:77%;">
 					  </p>
+					  <input type="hidden" id="jibunAddress" name="jibunAddress">
+					 <input type="hidden" id="guide">
+					 <input type="text" id="extraAddress"  name="extraAddress" placeholder="나머지 주소" style="width:77%;">
 					</td>
 				</tr>
 			</thead>

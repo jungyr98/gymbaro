@@ -1,6 +1,7 @@
 package com.myspring.gymbaro02.mypage.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.myspring.gymbaro02.admin.sales.vo.SalesVO;
+import com.myspring.gymbaro02.cs.vo.CsVO;
 import com.myspring.gymbaro02.gym.vo.GymVO;
 import com.myspring.gymbaro02.member.service.SHA256Util;
 import com.myspring.gymbaro02.member.vo.MemberVO;
@@ -117,9 +120,36 @@ public class MypageServiceImpl implements MypageService {
 			myBoardItem = myPageDAO.selectMyComment(condMap);
 		}else if(condMap.get("search_type").equals("article")) {
 			myBoardItem = myPageDAO.selectMyArticle(condMap);
+		}else if(condMap.get("search_type").equals("review")) {
+			myBoardItem = myPageDAO.selectMyReview(condMap);
 		}
 		
 		return myBoardItem;
+	}
+	
+	//1:1문의 내역
+	@Override
+	public List<CsVO> listMyCsHistory(Map<String, Object> condMap) throws Exception{
+		List<CsVO> myCsList = myPageDAO.listMyCsHistory(condMap);
+		return myCsList;
+	}
+	
+	// (시설회원) 내 시설 회원 목록 조회
+	@Override
+	public List<MembershipVO> listMyGymMembership(Map<String, Object> condMap) throws Exception {
+		List<MembershipVO> myGymMemberList = myPageDAO.listMyGymMembership(condMap);
+		return myGymMemberList;
+	}
+	
+	// (시설회원) 내 시설 매출 조회하기
+	@Override
+	public Map<String, List<SalesVO>> myGymSales(Map<String, Object> condMap) throws Exception {
+		Map<String, List<SalesVO>> salesMap = new HashMap<String, List<SalesVO>>();
+		List<SalesVO> listMonthSales = myPageDAO.listMonthSales(condMap);
+		List<SalesVO> listDaySales = myPageDAO.listDaySales(condMap);
+		salesMap.put("listMonthSales", listMonthSales);
+		salesMap.put("listDaySales", listDaySales);
+		return salesMap;
 	}
 	
 }

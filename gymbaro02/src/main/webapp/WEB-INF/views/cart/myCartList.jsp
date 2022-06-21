@@ -296,7 +296,7 @@ function order_check_goods(){
 			<td width="400">
 				<div id="goods_info_div">
 					<a href="${contextPath}/goods/goodsInfo.do?goods_id=${item.goods_id}">
-						<img width="100" alt="${item.goods_fileName}" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+						<img style="width:100px;height:95px;object-fit:cover;" alt="${item.goods_fileName}" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
 					</a>
 					<div id="goods_info">
 						<span id="goods_name_span">${item.goods_name }</span>
@@ -380,7 +380,7 @@ function order_check_goods(){
 			<td width="400">
 				<div id="goods_info_div">
 					<a href="${contextPath}/goods/goodsInfo.do?goods_id=${item.goods_id}">
-						<img width="100" alt="${item.goods_fileName}" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
+						<img style="width:100px;height:95px;object-fit:cover;" alt="${item.goods_fileName}" src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
 					</a>
 					<div id="goods_info">
 						<span id="goods_name_span">${item.goods_name }</span>

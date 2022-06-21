@@ -32,6 +32,7 @@ public interface MemberController {
 	public ModelAndView gymJoinForm(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView addMember(@RequestParam("hp") String hp, @RequestParam("email1") String email1, @RequestParam("join_type") String join_type, @RequestParam("email2") String email2, @RequestParam("info_yn") String info_yn, @ModelAttribute("memberVO") MemberVO _memberVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity overlapped(@RequestParam("id") String id,HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView nonMemberOrderDetail(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public String callback(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 	
 }

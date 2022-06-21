@@ -1,10 +1,11 @@
 package com.myspring.gymbaro02.member.service;
 
 
+import java.util.List;
 import java.util.Map;
 
-import com.myspring.gymbaro02.member.dto.KakaoDTO;
 import com.myspring.gymbaro02.member.vo.MemberVO;
+import com.myspring.gymbaro02.order.vo.OrderVO;
 
 public interface MemberService {
 	public MemberVO login(Map loginMap) throws Exception;
@@ -17,4 +18,5 @@ public interface MemberService {
 	public String pwdFindSuccess(Map pwdMap) throws Exception;
 	public String newPwdForm(Map findPwdMap) throws Exception;
 	public MemberVO getUserInfo(String access_Token);
+	public List<OrderVO> nonMemberOrderDetail(OrderVO orderVO) throws Exception;
 }

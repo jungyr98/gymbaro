@@ -3,6 +3,8 @@ package com.myspring.gymbaro02.mypage.service;
 import java.util.List;
 import java.util.Map;
 
+import com.myspring.gymbaro02.admin.sales.vo.SalesVO;
+import com.myspring.gymbaro02.cs.vo.CsVO;
 import com.myspring.gymbaro02.gym.vo.GymVO;
 import com.myspring.gymbaro02.member.vo.MemberVO;
 import com.myspring.gymbaro02.membership.vo.MembershipVO;
@@ -20,4 +22,7 @@ public interface MypageService {
 	public List<OrderVO> listMyOrderDetail(String order_id) throws Exception;
 	public MembershipVO listMyMembershipDetail(String membership_id) throws Exception;
 	public List<Object> listMyBoardItem(Map<String, Object> condMap) throws Exception;
+	public List<CsVO> listMyCsHistory(Map<String, Object> condMap) throws Exception;
+	public List<MembershipVO> listMyGymMembership(Map<String, Object> condMap) throws Exception;
+	public Map<String, List<SalesVO>> myGymSales(Map<String, Object> condMap) throws Exception;
 }

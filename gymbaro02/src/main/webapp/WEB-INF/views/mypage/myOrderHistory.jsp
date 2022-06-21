@@ -10,11 +10,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="${contextPath}/resources/css/myPage03.css">
-     <title>탭메뉴</title>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="${contextPath}/resources/css/myPage03.css">
+<title>탭메뉴</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 
 //날짜 형식 체크 및 변경
@@ -121,7 +121,6 @@ function pagination() {
 	  }
 
 	  jQuery(".pagination").append('<li><a class="prev">Previous</a></li>');
-
 	  for (var i = 1; i <= num_pages; i++) {
 	    jQuery(".pagination").append("<li><a>" + i + "</a></li>");
 	    jQuery(".pagination li:nth-child(2)").addClass("active");
@@ -156,6 +155,7 @@ function pagination() {
 	      jQuery(".pagination li:first-child").removeClass("disabled");
 	    } else {
 	      jQuery(".pagination li:first-child").addClass("disabled");
+	      jQuery(".pagination li:last-child").removeClass("disabled");
 	    }
 	  });
 
@@ -174,6 +174,7 @@ function pagination() {
 	  pagination();
 
 	  jQuery(".pagination li:first-child").addClass("disabled");
+
 	});
 </script>
 <style type="text/css">
@@ -219,6 +220,10 @@ function pagination() {
 
 .order_info_box .order_info_span {
 	font-size:14px;
+}
+
+.disabled {
+pointer-events: none;
 }
 </style>
 </head>
@@ -327,7 +332,7 @@ function pagination() {
                     	<td>
                     		<fmt:formatNumber  value="${order.total_price}" type="number" var="price" />
                     		<div class="order_info_div">
-                    			<img width="100" alt="${order.fileName}" src="${contextPath}/thumbnails.do?goods_id=${order.goods_id}&fileName=${order.fileName}">
+                    			<img width="100" style="height:95px;object-fit:cover;" alt="${order.fileName}" src="${contextPath}/thumbnails.do?goods_id=${order.goods_id}&fileName=${order.fileName}">
                     			<div class="order_info_box">
                     				<span class="order_info_span">${order.goods_name }</span>
                     				<div>
@@ -343,11 +348,6 @@ function pagination() {
                     			<c:when test="${order.order_state == '입금완료'}">
                     			<a href="#" id="order_state_atag">주문취소</a>
                     			</c:when>
-                    			<c:when test="${order.order_state == '배송완료'}">
-                    			<a href="#" id="order_state_atag">리뷰쓰기</a>
-                    			</c:when>
-                    			<c:otherwise>
-                    			</c:otherwise>
                     		</c:choose>
                     	</td>
                     </tr>

@@ -150,7 +150,7 @@ $(".carousel").carousel();
 		<div class="recommand_box">
 			<input type="hidden" name="addressCheck" value="${addressCheck}">
 			<c:choose>
-			<c:when test="${not empty locationList}">
+			<c:when test="${not empty address and address != 'N/A'}">
 				<a href="${contextPath}/gym/gymsInfo.do?gym_id=${locationList[0].gym_id}"><img alt="" src="${contextPath}/downloadGym?gym_id=${locationList[0].gym_id}&fileName=${locationList[0].gym_fileName}"></a>
 				<div id="recommand_text_box">
 					<div id="gym_info_div">
@@ -199,7 +199,7 @@ $(".carousel").carousel();
 	</div>
  	<div class="first_text">
  		<c:choose>
-			<c:when test="${not empty locationList}">
+			<c:when test="${not empty address and address != 'N/A'}">
 				<span><b>접속 위치 주변</b> 운동 시설 <span class="glyphicon glyphicon-map-marker"></span></span>
 			</c:when>
 			<c:otherwise>
@@ -210,11 +210,11 @@ $(".carousel").carousel();
  <div class="first_content">
 	<div class="gym_content">
 	<c:choose>
-		<c:when test="${not empty locationList}">
+		<c:when test="${not empty address and address != 'N/A'}">
 		<c:forEach var="item" items="${locationList}">
 		<a href="${contextPath}/gym/gymsInfo.do?gym_id=${item.gym_id}">
 		<div class="gym_image">
-				<img width="75" alt="" src="${contextPath}/thumbnailsGym.do?gym_id=${item.gym_id}&fileName=${item.gym_fileName}">
+			<img width="75" alt="" src="${contextPath}/thumbnailsGym.do?gym_id=${item.gym_id}&fileName=${item.gym_fileName}">
 			<div class="gym_image_info_box">
 				<span class="gym_image_info_title">${item.gym_name}</span>
 				<div>

@@ -16,6 +16,7 @@ public class GoodsVO {
 	private int uid;
 	private String event_name;
 	private String goods_fileName;
+	private Double score;
 	
 
 	public GoodsVO() {
@@ -117,5 +118,15 @@ public class GoodsVO {
 	public void setGoods_fileName(String goods_fileName) {
 		this.goods_fileName = goods_fileName;
 	}
+
+	public Double getScore() {
+		return score;
+	}
+
+	public void setScore(Double score) {
+		this.score = score;
+	}
+	
+	
 
 }

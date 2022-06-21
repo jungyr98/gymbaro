@@ -126,7 +126,7 @@ body {
 	<br>
 	<div class="button_box">
      	 <a href="${contextPath}/main/main.do"><button type="button" id="button_01"><span>메인으로</span></button></a>
-     	 <a href="${contextPath}/member/loginForm.do"><button type="button" id="button_02"><span>로그인</span></button></a>
+     	 <a href="${contextPath}/member/loginForm.do?mode=common"><button type="button" id="button_02"><span>로그인</span></button></a>
    		</div>
 	</div>
 </div>

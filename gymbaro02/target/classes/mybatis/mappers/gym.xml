@@ -37,6 +37,8 @@
 	   <result property="uid" column="uid" />
 	</resultMap>
 
+
+<!-- 추천 시설 리스트 조회 -->
 <select id="selectRecommandGymList" parameterType="String" resultMap="gymResult" >
 		<![CDATA[select t.* from(
 			select g.*,d.fileName from gym g, gym_detail_img d 
@@ -44,9 +46,21 @@
 			order by g.gym_id desc) t limit 10]]>
 </select>
 
-<select id="selectLocationGymList" parameterType="String" resultMap="gymResult" >
-		<![CDATA[select g.*,d.fileName from gym g, gym_detail_img d 
-		where g.gym_id = d.gym_id and d.fileType='main_image' and substring_index(g.firstAddress, ' ', 1) = (select substring(SUBSTRING_INDEX(#{address}, ' ', 2), 6))]]>
+<!-- 시설 리스트 조회 -->
+<select id="selectLocationGymList" parameterType="java.util.Map" resultMap="gymResult" >
+		<if test=" keyword==null or keyword==''">
+		select g.*,d.fileName from gym g inner join gym_detail_img d 
+		on g.gym_id = d.gym_id where d.fileType='main_image'
+		limit #{limit}
+		</if>
+		<if test=" keyword!=null and keyword!=''">
+		select  g.*, d.fileName from gym g inner join gym_detail_img d 
+		on g.gym_id = d.gym_id where g.gym_id in
+		(select  g.gym_id from gym g inner join gym_detail_img d on g.gym_id = d.gym_id 
+		where gym_name like CONCAT('%',#{keyword},'%') or firstAddress like CONCAT('%',#{keyword},'%') or 
+		extraAddress like CONCAT('%',#{keyword},'%') or first_option like CONCAT('%',#{keyword},'%'))
+		and d.fileType='main_image' limit #{limit};
+		</if>
 </select>
 
 <!-- 시설 상세조회  -->
