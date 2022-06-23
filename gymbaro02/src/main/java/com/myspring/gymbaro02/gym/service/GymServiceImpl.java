@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.myspring.gymbaro02.gym.dao.GymDAO;
 import com.myspring.gymbaro02.gym.vo.GymImageFileVO;
+import com.myspring.gymbaro02.gym.vo.GymReviewVO;
 import com.myspring.gymbaro02.gym.vo.GymVO;
 import com.myspring.gymbaro02.liked.vo.LikedVO;
 
@@ -52,5 +53,70 @@ public class GymServiceImpl implements GymService {
 		map.put("likedState", likedState);
 		//
 		return map;
+	}
+	
+	@Override
+	public void newReview(GymReviewVO gymReviewVO) {
+		gymDAO.newReview(gymReviewVO);
+	}
+	
+	@Override
+	public List<GymReviewVO> viewAll(String gym_id) {
+		return gymDAO.viewAll(gym_id);
+	}
+	
+	@Override
+	public double getGymAvg(String gym_id) {
+		return gymDAO.getGymAvg(gym_id);
+	}
+	
+	@Override
+	public double getInstructorAvg(String gym_id) {
+		return gymDAO.getInstructorAvg(gym_id);
+	}
+	
+	@Override
+	public double getAccessAvg(String gym_id) {
+		return gymDAO.getAccessAvg(gym_id);
+	}
+	
+	@Override
+	public double getPersonalScoreAvg_gym(Map personalScoreMap) {
+		return gymDAO.getPersonalScoreAvg_gym(personalScoreMap);
+	}
+	
+	@Override
+	public double getPersonalScoreAvg_instructor(Map personalScoreMap) {
+		return gymDAO.getPersonalScoreAvg_instructor(personalScoreMap);
+	}
+	
+	@Override
+	public double getPersonalScoreAvg_access(Map personalScoreMap) {
+		return gymDAO.getPersonalScoreAvg_access(personalScoreMap);
+	}
+	
+	@Override
+	public String getReviewCount(String gym_id) {
+		return gymDAO.getReviewCount(gym_id);
+	}
+	
+	@Override
+	public void deleteReview(int review_id) {
+		gymDAO.deleteReview(review_id);
+	}
+	
+	@Override
+	public int getMembershipInfo(Map membershipInfoMap) {
+		return gymDAO.getMembershipInfo(membershipInfoMap);
+	}
+	
+	@Override
+	public void updateReviewState(Map updateReviewMap) {
+		gymDAO.updateReviewState(updateReviewMap);
+	}
+	
+	@Override
+	public void deleteGymReview(Map deleteReviewMap) {
+		gymDAO.deleteGymReview(deleteReviewMap);
 	}
 }

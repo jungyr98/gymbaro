@@ -14,5 +14,7 @@ public interface GymController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView gymsInfo(@RequestParam("gym_id") String gym_id,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView searchMap(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView newReview(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView deleteGymReview(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 }

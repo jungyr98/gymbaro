@@ -27,6 +27,7 @@ public class MembershipVO {
 	private String membership_state;
 	private Date regDate;
 	private String fileName;
+	private String review_yn;
 	
 	public MembershipVO() {
 		
@@ -197,4 +198,14 @@ public class MembershipVO {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
+
+	public String getReview_yn() {
+		return review_yn;
+	}
+
+	public void setReview_yn(String review_yn) {
+		this.review_yn = review_yn;
+	}
+	
+	
 }

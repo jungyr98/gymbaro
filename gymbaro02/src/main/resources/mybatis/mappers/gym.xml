@@ -36,6 +36,16 @@
 	   <result property="fileType" column="fileType" />
 	   <result property="uid" column="uid" />
 	</resultMap>
+	<resultMap id="gymReviewResult" type="gymReviewVO">
+		<result property="review_id" column="review_id" />
+		<result property="uid" column="uid" />
+		<result property="gym_id" column="gym_id" />
+		<result property="content" column="content" />
+		<result property="score" column="score" />
+		<result property="regDate" column="regDate" />
+		<result property="review_writer" column="review_writer" />
+		<result property="member_level" column="member_level" />
+	</resultMap>
 
 
 <!-- 추천 시설 리스트 조회 -->
@@ -79,5 +89,68 @@
 <select id="likedState" resultType="int" parameterType="likedVO">
 	select count(*) from liked_tbl where gym_id = #{gym_id} and uid = #{uid}
 </select>
+
+<!-- 새 리뷰 등록 -->
+<insert id="addNewReview" parameterType="gymReviewVO">
+	<selectKey resultType="int" keyProperty="review_id" order="BEFORE">
+		select case count(*) when 0 then 1 else max(review_id) + 1 end from gym_review
+	</selectKey>
+	<![CDATA[ 
+		insert into gym_review (review_id, uid, gym_id, content, score_gym, score_instructor, score_access, review_writer, membership_id) 
+			values (#{review_id}, #{uid}, #{gym_id}, #{content}, #{score_gym}, #{score_instructor}, #{score_access}, #{review_writer}, #{membership_id})
+	]]> 
+</insert>
+
+<!-- 전체 리뷰 출력 -->
+<select id="viewAll" parameterType="gymReviewVO" resultMap="gymReviewResult">
+	select M.member_level, R.review_id, R.content, R.regDate, R.uid, R.review_writer, R.membership_id from gym_review as R inner join member as M on M.uid = R.uid where gym_id = #{gym_id} order by regDate desc
+</select> 
+
+<!-- 시설 평균 별점 출력 -->
+<select id="getGymAvg" parameterType="int" resultType="double">
+	select ifnull(round(avg(score_gym), 1), 0) from gym_review where gym_id = #{gym_id}
+</select>
+
+<!-- 강사 평균 별점 출력 -->
+<select id="getInstructorAvg" parameterType="int" resultType="double">
+	select ifnull(round(avg(score_instructor), 1), 0) from gym_review where gym_id = #{gym_id}
+</select>
+
+<!-- 접근성 평균 별점 출력 -->
+<select id="getAccessAvg" parameterType="int" resultType="double">
+	select ifnull(round(avg(score_access), 1), 0) from gym_review where gym_id = #{gym_id}
+</select>
+
+<select id="getPersonalScoreAvg_gym" parameterType="java.util.Map" resultType="double">
+	select ifnull(round(avg(score_gym), 1), 0) from gym_review where membership_id = #{membership_id} and gym_id = #{gym_id}
+</select> 
+
+<select id="getPersonalScoreAvg_instructor" parameterType="java.util.Map" resultType="double">
+	select ifnull(round(avg(score_instructor), 1), 0) from gym_review where membership_id = #{membership_id} and gym_id = #{gym_id}
+</select>
+
+<select id="getPersonalScoreAvg_access" parameterType="java.util.Map" resultType="double">
+	select ifnull(round(avg(score_access), 1), 0) from gym_review where membership_id = #{membership_id} and gym_id = #{gym_id}
+</select> 
+
+<!-- 리뷰 개수 카운트 -->
+<select id="getReviewCount" parameterType="String" resultType="String">
+	select count(*) from gym_review where gym_id = #{gym_id}
+</select>
+
+<!-- 회원권 정보 확인 -->
+<select id="getMembershipInfo" parameterType="java.util.Map" resultType="int">
+	select ifnull(max(M.uid), 0) from member as M inner join membership as B on M.uid = B.uid where M.uid = #{uid} and B.gym_id = #{gym_id}
+</select> 
+
+<!-- 리뷰 상태 업데이트 -->
+<update id="updateReviewState" parameterType="java.util.Map">
+	update membership set review_yn = 'Y' where gym_id = #{gym_id} and membership_id = #{membership_id}
+</update>
+
+<!-- 리뷰 삭제  -->
+<delete id="deleteGymReview" parameterType="java.util.Map">
+	delete from gym_review where membership_id = #{membership_id} and gym_id = #{gym_id}
+</delete>
 
 </mapper>

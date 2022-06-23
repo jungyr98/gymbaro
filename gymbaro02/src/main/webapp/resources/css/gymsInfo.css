@@ -171,7 +171,7 @@
     align-items: baseline;
 }
 
-.user_review_list_box .user_level {
+/* .user_review_list_box .user_level {
     width: 50px;
     height: 50px;
     border-radius: 25px;
@@ -182,6 +182,64 @@
     display: flex;
     justify-content: center;
     align-items: center;
+} */
+
+#user_level_welcome {
+	width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: chocolate;
+    margin-right: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	
+}
+
+#user_level_silver {
+	width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: lightgrey;
+    margin-right: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	
+}
+
+#user_level_gold {
+	width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: gold;
+    margin-right: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	
+}
+
+#user_level_admin {
+	width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: #184798;
+    margin-right: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	
 }
 
 .user_review_list_box .user_info_box {
@@ -275,4 +333,133 @@
 
 .gym_info_header_text #title_and_heart_box img {
 	cursor:pointer;
+}
+
+#score_gym {
+	width: 33%;
+	flex: 1;
+	direction: rtl;
+}
+
+#score_gym fieldset{
+    border: 0; 
+    padding-left: 10px;
+    float: left;
+}
+#score_gym input[type=radio]{
+    display: none; 
+}
+#score_gym label{
+    font-size: 2em; 
+    color: transparent; 
+    text-shadow: 0 0 0 #f0f0f0; 
+}
+
+#score_gym label:hover{
+    text-shadow: 0 0 0 #ffff00;
+}
+#score_gym label:hover ~ label{
+    text-shadow: 0 0 0 #ffff00; 
+}
+
+#score_gym input[type=radio]:checked ~ label{
+    text-shadow: 0 0 0 #184798; 
+}
+
+#score_instructor {
+	width: 33%;
+	direction: rtl;
+}
+#score_instructor fieldset{
+    border: 0; 
+    float: left;
+    padding-left: 10px;
+}
+
+#score_instructor input[type=radio]{
+    display: none; 
+}
+#score_instructor label{
+    font-size: 2em; 
+    color: transparent; 
+    text-shadow: 0 0 0 #f0f0f0; 
+}
+
+#score_instructor label:hover{
+    text-shadow: 0 0 0 #ffff00;
+}
+#score_instructor label:hover ~ label{
+    text-shadow: 0 0 0 #ffff00; 
+}
+
+#score_instructor input[type=radio]:checked ~ label{
+    text-shadow: 0 0 0 #184798; 
+}
+
+#score_access {
+	width: 33%;
+	direction: rtl;
+}
+
+#score_access fieldset{
+    border: 0; 
+    float: left;
+    padding-left: 10px;
+}
+#score_access input[type=radio]{
+    display: none; 
+}
+#score_access label{
+    font-size: 2em; 
+    color: transparent; 
+    text-shadow: 0 0 0 #f0f0f0; 
+}
+
+#score_access label:hover{
+    text-shadow: 0 0 0 #ffff00;
+}
+#score_access label:hover ~ label{
+    text-shadow: 0 0 0 #ffff00; 
+}
+
+#score_access input[type=radio]:checked ~ label {
+    text-shadow: 0 0 0 #184798; 
+}
+
+
+#gym_review_input {
+	width: 880px;
+	height: 100px;
+	resize: none;
+	padding-top : 5px;
+	padding-left: 3px;
+}
+
+#review_submit button {
+	border: 1px solid #c4c4c4;
+    border-radius: 3px;
+    width: 125px;
+    height: 40px;
+    background: none;
+    display: inline-block;
+    margin-left: 600px;
+}
+
+#review_submit button:hover {
+	 box-shadow: 0 80px 0 0  rgba(0,0,0,0.1) inset, 0 -80px 0 0 rgba(0,0,0,0.1) inset;
+}  
+
+.review_length {
+	padding-left: 800px;
+
+}
+
+.select_score { 
+	padding-top: 30px;
+	
+}
+
+.review_write {
+	margin-top: 30px;
+	margin-bottom: 50px;
 }

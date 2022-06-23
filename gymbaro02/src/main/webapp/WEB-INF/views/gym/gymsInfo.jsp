@@ -81,6 +81,51 @@ var selectBoxChange_option = function(value){
 	}
 }
 
+//리뷰 글자수 제한
+$(function(e) { 
+$('#gym_review_input').keyup(function (e) {
+	let content = $(this).val();
+		if (content.length == 0 || content == '') {
+			$('.text_count').text('0');	
+		} else {
+			$('.text_count').text(content.length);
+		}	
+		if (content.length > 200) {
+			$(this).val($(this).val().substring(0, 200));
+			alert('리뷰는 200자까지 입력할 수 있습니다!');
+		};
+});
+});
+
+function review_check() {
+	var content = $("#gym_review_input").val();
+	var score_gym = $('input[name="score_gym"]').is(':checked');
+	var score_instructor = $('input[name="score_instructor"]').is(':checked');
+	var score_access = $('input[name="score_access"]').is(':checked');
+	
+	if (content == '') {
+		alert("내용을 입력해주세요!");
+		return false;
+	} else if (score_gym == false) {
+		alert("시설 별점을 선택해주세요!");
+		return false;
+	} else if (score_instructor == false) {
+		alert("시설 별점을 선택해주세요!");
+		return false;
+	} else if (score_access == false) {
+		alert("접근성 별점을 선택해주세요!");
+		return false;
+	} else {
+		var review_check = confirm("리뷰를 등록하시겠습니까?");
+		if(review_check == true) {
+			alert("리뷰가 등록되었습니다!");
+			return true;
+		} else {
+			alert("리뷰 작성이 취소되었습니다.");
+			return false;
+		}
+	}
+}
 // 찜 상태 변경하기
 function updateLiked(gym_id, state) {
 	if(state == 'Y'){
@@ -215,7 +260,7 @@ function updateLiked(gym_id, state) {
                <ul>
                     <li class="active"><a href="#">시설정보</a></li>
                     <li><a href="#">사진</a></li>
-                    <li><a href="#">이용후기(11)</a></li>
+                    <li><a href="#">이용후기(${reviewCount})</a></li>
                </ul>               
           </div>
           <div class="tab_cont">
@@ -323,55 +368,111 @@ function updateLiked(gym_id, state) {
                </div>
                 <div class="gymsInfo_div">
 					<div class="gymsInfo_review_box">
-						<div class="gym_review_box">
+						<div class="gym_review_box">							
 							<div class="gym_review_box_title">
 								<span>이용 후기</span>
-							</div>
+							</div>						
+							<c:if test="${viewAll != null}">
 							<div class="gym_review_star_box">
 								<div class="star_sum_box">
-									⭐ 5.0
+									<p>⭐ ${avg_result}</p>
 								</div>
 								<div class="star_info_box">
-									<div>시설 ⭐⭐⭐⭐⭐</div>
-									<div>강사 ⭐⭐⭐⭐⭐</div>
-									<div>친절함 ⭐⭐⭐⭐⭐</div>
-									<div>청결함 ⭐⭐⭐⭐⭐</div>
+									<div><p>시설 ${score_gym}</p></div>
+									<div><p>강사 ${score_instructor}</p></div>
+									<div><p>접근성 ${score_access}</p></div>
 								</div>
 							</div>
+							
+							<c:if test="${memberInfo != null && reviewState == 'N' }">
+							<form action="${contextPath}/gym/addNewReview.do" method="post" id="" onsubmit="return review_check();">
+							<div class="gym_score">
+							<fieldset>	
+								<div id="score_gym">
+								<p>시설</p>
+									<input type="radio" name="score_gym" value="5" id="rate1"><label for="rate1">★</label>
+									<input type="radio" name="score_gym" value="4" id="rate2"><label for="rate2">★</label>
+									<input type="radio" name="score_gym" value="3" id="rate3"><label for="rate3">★</label>
+									<input type="radio" name="score_gym" value="2" id="rate4"><label for="rate4">★</label>
+									<input type="radio" name="score_gym" value="1" id="rate5"><label for="rate5">★</label>
+								</div>		
+							</fieldset>
+							
+							<fieldset>
+								<div id="score_instructor">
+								<p>강사</p>
+									<input type="radio" name="score_instructor" value="5" id="rate6"><label for="rate6">★</label>
+									<input type="radio" name="score_instructor" value="4" id="rate7"><label for="rate7">★</label>
+									<input type="radio" name="score_instructor" value="3" id="rate8"><label for="rate8">★</label>
+									<input type="radio" name="score_instructor" value="2" id="rate9"><label for="rate9">★</label>
+									<input type="radio" name="score_instructor" value="1" id="rate10"><label for="rate10">★</label>
+								</div>
+							</fieldset>
+							
+							<fieldset>
+								<div id="score_access">
+								<p>접근성</p>
+									<input type="radio" name="score_access" value="5" id="rate11"><label for="rate11">★</label>
+									<input type="radio" name="score_access" value="4" id="rate12"><label for="rate12">★</label>
+									<input type="radio" name="score_access" value="3" id="rate13"><label for="rate13">★</label>
+									<input type="radio" name="score_access" value="2" id="rate14"><label for="rate14">★</label>
+									<input type="radio" name="score_access" value="1" id="rate15"><label for="rate15">★</label>
+								</div>
+							</fieldset>
+							
+							
+							<div id="review_submit">
+							<input type="hidden" name="gym_id" value="${gym_id}">
+							<input type="hidden" name="uid" value="${gymReviewVO.uid}">								
+							 <a><button type="submit" id="review_submit">이용후기 등록</button></a>
+							</div>
+							<div class="review_write">
+								<div class="review_length">
+									<span class="text_count">0</span> 
+									<span>/ 200자</span>
+								</div>
+								<textarea name="content" id="gym_review_input" placeholder="이용 후기를 입력하세요."></textarea>
+							</div>
+							</div>
+							</form>
+							</c:if>
+					
+							<c:forEach var="gymReview" items="${viewAll}">
 							<div class="user_review_list_box">
 								<div class="user_info_box">
 									<div class="user_level">
-										<span>Gold</span>
+									<c:choose>
+										<c:when test="${gymReview.member_level == 1}">
+											<span id="user_level_welcome">welcome</span>
+										</c:when>
+										<c:when test="${gymReview.member_level == 2}">
+											<span id="user_level_silver">Silver</span>
+										</c:when>
+										<c:when test="${gymReview.member_level == 3}">
+											<span id="user_level_gold">Gold</span>
+										</c:when>
+										<c:otherwise>
+											<span id="user_level_admin">관리자</span>
+										</c:otherwise>
+									</c:choose> 
 									</div>
 									<div class="user_info">
-										 ⭐⭐⭐⭐⭐
+										 <p>${personal_avg_result}</p>
 										 <div>
-										 	<span class="review_user_name">허용준</span>
-										 	<span class="review_write_date">2022.04.04</span>
+										 	<span class="review_user_name">${gymReview.review_writer}</span>
+										 	<span class="review_write_date"><fmt:formatDate value="${gymReview.regDate}" pattern="YYYY-MM-dd"></fmt:formatDate></span> 
 										 </div>
 									</div>
 								</div>
 								<div class="user_review_content">
-									<span>쾌적하고 운동기구가 많아 좋네요. 운동마치고 사우나하고 나오면 하루가 행복합니다. 최고!</span>
+									<span>${gymReview.content}</span>
 								</div>
 							</div>
-														<div class="user_review_list_box">
-								<div class="user_info_box">
-									<div class="user_level">
-										<span>Gold</span>
-									</div>
-									<div class="user_info">
-										 ⭐⭐⭐⭐⭐
-										 <div>
-										 	<span class="review_user_name">한다슬</span>
-										 	<span class="review_write_date">2022.03.08</span>
-										 </div>
-									</div>
-								</div>
-								<div class="user_review_content">
-									<span>시설이 참 좋고 카운터 직원분들이 친절하세요</span>
-								</div>
-							</div>
+							</c:forEach> 
+							</c:if>	
+							<c:if test="${viewAll == null}">
+								<p id="no_review_message"> 등록된 리뷰가 없습니다. </p>
+							</c:if>				
 						</div>
 					</div>
                </div>

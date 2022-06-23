@@ -13,6 +13,7 @@
     <typeAlias type="com.myspring.gymbaro02.cart.vo.CartVO" alias="cartVO" />
     <typeAlias type="com.myspring.gymbaro02.mypage.vo.PointHisVO" alias="pointVO" />
     <typeAlias type="com.myspring.gymbaro02.gym.vo.GymVO" alias="gymVO" />
+    <typeAlias type="com.myspring.gymbaro02.gym.vo.GymReviewVO" alias="gymReviewVO" />
     <typeAlias type="com.myspring.gymbaro02.membership.vo.MembershipVO" alias="membershipVO" />
     <typeAlias type="com.myspring.gymbaro02.community.vo.BoardVO" alias="boardVO" />
     <typeAlias type="com.myspring.gymbaro02.community.vo.CommentVO" alias="commentVO" />
