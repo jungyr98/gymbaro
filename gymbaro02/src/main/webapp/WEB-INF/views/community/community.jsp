@@ -35,8 +35,9 @@ function login_yn(isLogOn, communityWrite, loginForm) {
 	if(isLogOn != '' && isLogOn != 'false') {
 		location.href = '${contextPath}/community/communityWrite.do';
 	} else {
+		var action = "/community/community.do";
 		var no_login = confirm("로그인 후 게시판 글 작성이 가능합니다.");
-		location.href = '${contextPath}/member/loginForm.do';		
+		location.href = '${contextPath}/member/loginForm.do?mode=common&action='+action;
 	}
 }
 
@@ -353,7 +354,7 @@ var selectBoxChange_search = function(value){
           				<tr bgcolor="#F9F9F8">
                       	<td><strong class="impt_notice_text">필독</strong></td>
                     	<td style="text-align:left;">
-                    		<a href="${contextPath}/notice/noticeDetail.do?noticeNo=${item.noticeNo}" style="color:#ff4e59;font-size:14px;">
+                    		<a href="${contextPath}/notice/noticeDetail.do?from=community&noticeNo=${item.noticeNo}" style="color:#ff4e59;font-size:14px;">
                     			<strong><span class="category_head">[${item.notice_category}]</span> ${item.title}</strong>
                     		</a>
                     	</td>

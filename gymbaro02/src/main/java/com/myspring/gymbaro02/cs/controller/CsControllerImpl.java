@@ -70,12 +70,15 @@ public class CsControllerImpl implements CsController {
 						GoodsVO goodsVO = (GoodsVO)session.getAttribute("goodsVO");
 						int goods_id = goodsVO.getGoods_id();
 						map.put("goods_id", goods_id);
+						// 상품창에서 문의를 눌렀다면 글입력 성공 후 다시 해당 상품의 문의창으로 감
+						mav.setViewName("redirect:/goods/goodsInfo.do?tab=cs&goods_id="+goods_id);
 					}else if(session.getAttribute("goodsVO") == null) {
 						map.put("goods_id",0);
+						// 고객센터에서 문의글을 썼다면 글입력 성공 후 고객센터 문의글 목록창으로 감
+						mav.setViewName("redirect:/cs/csQnA.do");
 					}
 					csService.addcsList(map);
 					System.out.println(map.get("secret"));
-					mav.setViewName("redirect:/cs/csQnA.do");
 				}
 				return mav;
 			}

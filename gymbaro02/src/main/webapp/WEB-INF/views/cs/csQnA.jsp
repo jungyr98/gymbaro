@@ -214,49 +214,129 @@ function pagination() {
                         <ul id="tab1" class="active">
                             <li>
                                 <input type="checkbox" class="question" id="que-1">
-                                <label for="que-1">자주묻는질문 배송문의1</label>
-                                <div class="answer" id="ans-1">자주묻는질문 배송문의1 테스트</div>
+                                <label for="que-1">[배송] 주문한 상품은 언제 배송되나요?</label>
+                                <div class="answer" id="ans-1">
+                                <span>
+                                	온라인몰에서 주문하신 상품은 주문일 기준 3일~5일 이내(주말 및 공휴일 제외)로 배송됩니다.
+									<br><br>
+									※ 도서산간, 제주도 지역의 경우 5~7일 이내 배송됩니다.
+									<br>
+									※ 브랜드 세일 기간에는 주문량 폭주로 인해 주문일로부터 5~7일 이내 배송됩니다.
+									<br>
+									※ 예약배송 상품의 경우, 지정된 배송일에 배송됩니다.
+								</span>
+                                </div>
                             </li>
                             <li>
                                 <input type="checkbox" class="question" id="que-2">
-                                <label for="que-2">자주묻는질문 배송문의2</label>
-                                <div class="answer" id="ans-1">자주묻는질문 배송문의2 테스트</div>
+                                <label for="que-2">[배송] 증정품이 배송되지 않았어요</label>
+                                <div class="answer" id="ans-1">
+                                 <span>
+                                		증정품의 경우, 한정수량으로 진행됨에 따라 조기 소진 시 배송되지 않을 수 있습니다.
+                                		<br><br>
+										상품 주문 시 '결제하기' 버튼을 클릭하시면 수령하실 수 있는 증정품에 대한 안내가 팝업으로 노출되며,
+										<br><Br>
+										해당 안내가 노출되는 경우 증정품 수령이 가능하지만, 노출되지 않는다면 증정품이 소진되어
+										배송이 어려운 경우입니다.
+										<br><br>
+										주문 이후, 주문/배송 조회 화면에서 '주문상세보기' 버튼을 눌러 주문상세를 조회하시면
+										<br>
+										해당 화면에서도 수령하실 수 있는 증정품에 대한 내역을 확인 하실 수 있습니다.
+										<br><Br>
+										결제 시 팝업 노출도 되었고, 주문상세조회에서도 증정품 내역을 확인하실 수 있으나 증정품을
+										수령하지 못하신 경우라면 
+										<br>
+										고객센터(1234-1234)로 연락 주시면
+										신속하게 처리 도와 드리겠습니다.
+                                	</span>
+                                </div>
                             </li>
                         </ul>
                         <ul id="tab2">
                             <li>
                                 <input type="checkbox" class="question" id="que-3">
-                                <label for="que-3">자주묻는질문 반품교환1</label>
-                                <div class="answer" id="ans-3">자주묻는질문 반품교환1 테스트</div>
+                                <label for="que-3">[반품] 반품할 때 비용이 드나요?</label>
+                                <div class="answer" id="ans-3">
+                                <span>
+                                		반품 시 지불하셔야 하는 반품비용은 회수비 2,500원입니다.<br>
+										단, 매장반품의 경우 별도 회수비용 없이 반품가능합니다.<br><br>
+										
+										※ 추가비용이 발생하는 경우<br>
+										 - 도서산간: +2,500원 (5,000원)<br>
+										 - 제주도:  +2,500원 (5,000원)<br>
+										 - 제주도의 도서산간 지역:  +7,000원 (9,500원)<br>
+										 - 무료배송이었으나 부분적인 반품으로 인해 무료배송 조건(결제금액 2만원 이상)이 깨진 경우<br>
+										   :  면제받으셨던 초기 배송비 2,500원 추가 발생<br>
+										   *  오늘드림 배송 옵션 별 상이 발생 <br><br>
+										
+										※ 반품비는 환불금액에서 차감처리 됩니다.<br>
+										※ 업체배송 상품의 경우 업체의 규정에 따라 비용이 상이할 수 있습니다.<br>
+										※ 상품의 불량, 배송 오류 등 당사의 실수로 인한 반품의 경우, 반품에 필요한 비용은 당사가 부담합니다.<br>
+                                	</span>
+                                </div>
                             </li>
                             <li>
                                 <input type="checkbox" class="question" id="que-4">
-                                <label for="que-4">자주묻는질문 반품교환2</label>
-                                <div class="answer" id="ans-4">자주묻는질문 반품교환2 테스트</div>
+                                <label for="que-4">[교환] 교환은 언제까지 가능한가요?</label>
+                                <div class="answer" id="ans-4">
+                                <span>
+                                		교환은 상품을 수령하신 날짜를 기준으로 15일 이내에 가능합니다.<br>
+										다만 상품의 불량, 배송오류 등 당사의 실수로 인한 교환인 경우, 30일 이내 신청이 가능합니다.
+                                	</span>
+                                </div>
                             </li>
                         </ul>
                         <ul id="tab3">
                             <li>
                                 <input type="checkbox" class="question" id="que-5">
-                                <label for="que-5">자주묻는질문 주문문의1</label>
-                                <div class="answer" id="ans-5">자주묻는질문 주문문의1 테스트</div>
+                                <label for="que-5">[주문] 주문 후에 언제까지 입금해야 하나요?</label>
+                                <div class="answer" id="ans-5">
+                                <span>
+                                		무통장 입금으로 주문 시 24시간 이내에 입금해주셔야 주문이 가능하며,
+										24시간 이후에는 자동으로 주문이 취소됩니다.
+                                </span>
+                                </div>
                             </li>
                             <li>
                                 <input type="checkbox" class="question" id="que-6">
-                                <label for="que-6">자주묻는질문 결제문의2</label>
-                                <div class="answer" id="ans-6">자주묻는질문 결제문의2 테스트</div>
+                                <label for="que-6">[결제] 결제 수단 별 환불기간이 어떻게 되나요?</label>
+                                <div class="answer" id="ans-6">
+                                <span>
+                                		결제수단별 환불기간은 아래와 같습니다. 
+										<br><br>
+										[평일 기준]
+										<br><br>
+										- 신용카드, 체크카드, 무통장입금, 계좌이체, 문화상품권, 도서상품권, 네이버페이, 카카오페이, 페이코 : 3일 ~ 5일 <br>
+										- 휴대폰 결제 : 2일~7일<br><Br>
+										
+										* 카드사/은행/결제사 사정에 따라 일정은 달라질 수 있습니다. 
+                                		
+                                </span>
+                                </div>
                             </li>
                         </ul>
                         <ul id="tab4">
                             <li>
                                 <input type="checkbox" class="question" id="que-7">
-                                <label for="que-7">자주묻는질문 회원서비스1</label>
-                                <div class="answer" id="ans-7">자주묻는질문 회원서비스1 테스트</div>
+                                <label for="que-7">[회원 서비스 문의] 작성한 리뷰는 어디서 확인 가능한가요?</label>
+                                <div class="answer" id="ans-7">
+                                <span>
+                                		해당 상품의 상세페이지의 '이용후기'에서 확인이 가능합니다.<br><br>
+                                		마이페이지 > 내 게시물 관리 > 작성 리뷰 에서 확인이 가능합니다.
+                                </span>
+                                </div>
                             </li>
                             <li>
                                 <input type="checkbox" class="question" id="que-8">
-                                <label for="que-8">자주묻는질문 회원서비스2</label>
-                                <div class="answer" id="ans-8">자주묻는질문 회원서비스2 테스트</div>
+                                <label for="que-8">[회원 서비스 문의] 개인정보 위수탁 동의는 무엇인가요?</label>
+                                <div class="answer" id="ans-8">
+                                <span>
+                                		개인정보 위수탁 동의는,
+                                		<br><br>
+										짐바로에서 보유하고 있는 고객님의 정보를 경품 발송 등을 위해 대행사, 제조사, 혹은 택배사 등에 전달하기 위하여 고객님께 개인정보 제공에 대한 동의를 받는 것을 말합니다.
+                                		
+                                </span>
+                                </div>
                             </li>
                         </ul>
                     </div>

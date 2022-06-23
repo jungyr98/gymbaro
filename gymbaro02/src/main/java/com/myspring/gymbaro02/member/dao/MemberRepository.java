@@ -14,15 +14,19 @@ public class MemberRepository {
 		@Autowired
 		private SqlSession sqlSession;
 		
-		// 정보 저장
-		public void kakaoinsert(HashMap<String, Object> userInfo) {
-			sqlSession.insert("mapper.member.kakaoInsert",userInfo);
-		}
+		// 정보 저장 
+				public void kakaoinsert(HashMap<String, Object> userInfo) {
+					
+					sqlSession.insert("mapper.member.kakaoInsert",userInfo);
+				}
 
-		// 정보 확인
-		public MemberVO findkakao(HashMap<String, Object> userInfo) {
-			System.out.println("RN:"+userInfo.get("nickname"));
-			System.out.println("RE:"+userInfo.get("email"));
-			return sqlSession.selectOne("mapper.member.findKakao", userInfo);
-		}
+				// 정보 확인 
+				public MemberVO findkakao(HashMap<String, Object> userInfo) {
+					System.out.println("RI:"+userInfo.get("email"));
+					System.out.println("RN:"+userInfo.get("nickname"));
+					System.out.println("RE:"+userInfo.get("email"));
+					System.out.println("RG:"+userInfo.get("gender"));
+					
+					return sqlSession.selectOne("mapper.member.findKakao", userInfo);
+				}
 }

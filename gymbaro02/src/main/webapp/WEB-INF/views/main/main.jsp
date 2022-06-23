@@ -138,7 +138,7 @@ $(".carousel").carousel();
 	</div>
 	<div class="first_text">
  		<c:choose>
-			<c:when test="${not empty locationList}">
+			<c:when test="${not empty address and address != 'N/A'}">
 				<span><b>가장 가까운</b> 주변 운동 시설 <span class="glyphicon glyphicon-map-marker"></span></span>
 			</c:when>
 			<c:otherwise>

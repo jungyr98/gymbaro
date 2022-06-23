@@ -52,7 +52,7 @@ if (_total.length == 0) {
 	$(".loading").css("display", "none");
 	//검색된 아이템이 없을 경우 관찰중인 요소를 숨긴다.
 }
-if ((_total.length % 9) != 0){
+if ((_total.length % 12) != 0){
 		$('#sentinel').hide();
 		$(".loading").css("display", "none");
 		//검색된 아이템이 20개 이하일 경우 관찰중인 요소를 숨긴다.
@@ -63,7 +63,7 @@ io.observe(document.getElementById('sentinel'));
 function search(){
 	var keyword = $('input[name="keyword"]').val();
 	var old_limit = $('input[name="old_limit"]').val();
-	var new_limit = parseInt(old_limit) + 6;
+	var new_limit = parseInt(old_limit) + 12;
 	$.ajax({
 		url: "${contextPath}/gym/searchGyms.do",
 		data:  {
@@ -73,9 +73,9 @@ function search(){
 		method: "post",
 		dataType: "html",
 		success: function (data) {
-			var e = $(data).find('.second_content .gym_image');
+			var e = $(data).find('.second_content .gym_item_box');
 			$(".second_content .gym_content").html(e);
-			if ((e.length % 6) != 0){
+			if ((e.length % 12) != 0){
 				$('#sentinel').hide();
 				$(".loading").css("display", "none");
 				//검색된 아이템이 20개 이하일 경우 관찰중인 요소를 숨긴다.
@@ -106,7 +106,7 @@ function view_plus() {
 		},
 		dataType : 'html',
 		success : function(data) {
-			var e = $(data).find('.second_content .gym_image');
+			var e = $(data).find('.second_content .gym_item_box');
 			$(".second_content .gym_content").html(e);
 			var last_item_check = $(".second_content .gym_image");
 			if((last_item_check.length % 3) != 0){
@@ -174,7 +174,7 @@ function view_plus() {
 	</div>	
 	<div class="gym_content">
 		<c:forEach var="item" items="${recommandList}">
-		<a href="${contextPath}/gym/gymsInfo.do?gym_id=${item.gym_id}">
+		<a class="gym_item_box" href="${contextPath}/gym/gymsInfo.do?gym_id=${item.gym_id}">
 		<div class="gym_image">
 			<img width="75" alt="" src="${contextPath}/thumbnailsGym.do?gym_id=${item.gym_id}&fileName=${item.gym_fileName}">
 			<div class="gym_image_info_box">
@@ -201,7 +201,7 @@ function view_plus() {
 		<c:choose>
 		<c:when test="${not empty address and address != 'N/A'}">
 		<c:forEach var="item" items="${locationList}">
-		<a href="${contextPath}/gym/gymsInfo.do?gym_id=${item.gym_id}">
+		<a class="gym_item_box" href="${contextPath}/gym/gymsInfo.do?gym_id=${item.gym_id}">
 		<div class="gym_image">
 			<img width="75" alt="" src="${contextPath}/thumbnailsGym.do?gym_id=${item.gym_id}&fileName=${item.gym_fileName}">
 			<div class="gym_image_info_box">
@@ -231,7 +231,7 @@ function view_plus() {
 		<c:choose>
 		<c:when test="${not empty address and address != 'N/A'}">
 		<c:forEach var="item" items="${locationList}">
-		<a href="${contextPath}/gym/gymsInfo.do?gym_id=${item.gym_id}">
+		<a class="gym_item_box" href="${contextPath}/gym/gymsInfo.do?gym_id=${item.gym_id}">
 		<div class="gym_image">
 			<img width="75" alt="" src="${contextPath}/thumbnailsGym.do?gym_id=${item.gym_id}&fileName=${item.gym_fileName}">
 			<div class="gym_image_info_box">

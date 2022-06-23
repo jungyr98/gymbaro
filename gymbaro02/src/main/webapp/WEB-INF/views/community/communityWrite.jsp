@@ -57,9 +57,21 @@ function modify_save(){
 		} else {
 			return false;
 		}
-	}
+}
 
 </script>
+<style type="text/css">
+input[name="detail_image"] {
+    margin: 15px 0;
+    border: 1px solid #c4c4c4;
+    border-radius: 2px;
+}
+
+#image_container1 img { 
+	width:50px;
+	object-fit:cover;
+}
+</style>
 </head>
 <body>
     <div class="communityDetail_main_container">
@@ -92,18 +104,11 @@ function modify_save(){
              </tr>
           </thead>
           <thead>
-             <tr class="communityDetail_dot_line">
-                <td class="communityDetail_fixed_community">첨부파일</td>
-                <td>
-                  <input type="file" id="input-file" />
-               </td>
-             </tr>
-        </thead>
-          <thead>
             <tr>
             	<td class="communityDetail_fixed_community">내용</td>
                 <td>
-                <textarea id="txtContent" name="txtContent" rows="10" cols="100" style="width: 100%; height: 412px;"></textarea>
+                <textarea id="txtContent" name="txtContent" rows="10" cols="100" style="width: 100%; height: 412px;">
+                </textarea>
 				<!-- textarea 밑에 script 작성하기 -->
 				<script id="smartEditor" type="text/javascript"> 
 					var oEditors = [];
@@ -156,15 +161,7 @@ function modify_save(){
                 <td class="communityDetail_fixed_community">제목</td>
                 <td><input name="title" type="text" class="community_titlebox" value="${boardVO.title}" required/></td>
              </tr>
-          </thead>
-           <thead>
-             <tr class="communityDetail_dot_line">
-                <td class="communityDetail_fixed_community">첨부파일</td>
-                <td>
-                  <input type="file" id="input-file" />
-               </td>
-             </tr>
-          </thead>   
+          </thead>  
           <thead>
             <tr>
             	<td class="communityDetail_fixed_community">내용</td>
@@ -196,7 +193,7 @@ function modify_save(){
        <br>
        <div class="communityDetail_button_box">
        	  <input type="hidden" name="articleNo" value="${boardVO.articleNo}">
-          <a><button type="button" id="communityDetail_button_01"><span>돌아가기</span></button></a>
+          <a><button type="button" id="communityDetail_button_01" onclick="javascript:history.back();"><span>돌아가기</span></button></a>
           <a><button type="submit" id="communityDetail_button_02"><span>수정하기</span></button></a>	
         </div>
  	</form>

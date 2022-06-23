@@ -32,7 +32,9 @@
 	color: #424040;
 }
 .gym_info_header_img img {
-	width:400px
+	width:400px;
+	height: 400px;
+    object-fit: cover;
 }
 .gym_info_header_text {
 	display:flex;

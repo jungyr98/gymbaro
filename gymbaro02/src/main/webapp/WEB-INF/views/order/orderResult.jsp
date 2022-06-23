@@ -43,6 +43,7 @@
                    					<span>${myOrderInfo.receiver_phone_number}</span><br>
                    					<span>${myOrderInfo.receiver_name}</span><br>
                    					<span>${myOrderInfo.receiver_roadAddress}</span>
+                   					<span>${myOrderInfo.receiver_extraAddress}</span>
                    					<br><br>
                    				</td>
                    			</tr>
@@ -103,7 +104,7 @@
 						<a href="${contextPath}/mypage/listMyOrderDetail.do?order_id=${myOrderInfo.order_id }"><button type="button" id="button_02"><span>주문배송조회</span></button></a>
 					</c:if>
 					<c:if test="${empty memberInfo }">
-						<a href="${contextPath}/mypage/nonMemberOrderDetail.do?order_id=${myOrderInfo.order_id }&orderer_name=${myOrderInfo.orderer_name}"><button type="button" id="button_02"><span>주문배송조회</span></button></a>
+						<a href="${contextPath}/member/nonMemberOrderDetail.do?order_id=${myOrderInfo.order_id }&orderer_name=${myOrderInfo.orderer_name}"><button type="button" id="button_02"><span>주문배송조회</span></button></a>
 					</c:if>
                 </div>
                 </div>

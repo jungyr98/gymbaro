@@ -89,7 +89,7 @@
             </div>
 				<div class="button_box">
 					<a href="${contextPath}/main/main.do"><button type="button" id="button_01"><span>메인으로</span></button></a> &nbsp;
-					<a href="${contextPath}/mypage/myMembership.do"><button type="button" id="button_02"><span>회원권조회</span></button></a>
+					<a href="${contextPath}/mypage/listMyMembershipDetail.do?membership_id=${membershipMap.membership_id}"><button type="button" id="button_02"><span>회원권조회</span></button></a>
                 </div>
 		</div> 
 </body>

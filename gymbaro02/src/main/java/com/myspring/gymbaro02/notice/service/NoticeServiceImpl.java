@@ -28,12 +28,12 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public int newNotice(Map newNoticeMap) throws Exception {
 		int noticeNo = noticeDAO.newNotice(newNoticeMap);
-		List<NoticeImageFileVO> noticeImageList = (List<NoticeImageFileVO>) newNoticeMap.get("noticeImageList");
-		for(int i=0; i< noticeImageList.size(); i++) { 
-			NoticeImageFileVO noticeImageFileVO = noticeImageList.get(i);
-			noticeImageFileVO.setNoticeNo(noticeNo);
-		}
-		noticeDAO.newNoticeImage(noticeImageList);
+		//List<NoticeImageFileVO> noticeImageList = (List<NoticeImageFileVO>) newNoticeMap.get("noticeImageList");
+		//for(int i=0; i< noticeImageList.size(); i++) { 
+		//	NoticeImageFileVO noticeImageFileVO = noticeImageList.get(i);
+		//	noticeImageFileVO.setNoticeNo(noticeNo);
+		//}
+		//noticeDAO.newNoticeImage(noticeImageList);
 		return noticeNo;
 	}
 	

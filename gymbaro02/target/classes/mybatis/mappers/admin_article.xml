@@ -67,7 +67,7 @@
 
 <!-- 커뮤니티 댓글 조회 -->
 <select id ="selectCommentList" resultMap="commentResult">
-	select c.*, b.title, b.comment_cnt from comment_tbl c inner join board b on c.articleNO = b.articleNO
+	select c.*, b.title, b.comment_cnt from comment_tbl c inner join board b on c.articleNO = b.articleNO order by regDate desc
 </select>
 
 <!-- 공지글 조회하기 -->

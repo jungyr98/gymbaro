@@ -1,10 +1,12 @@
 .main_container {
    width:750px;
+   margin-top: 30px;
 }
 .first_content {
    display: flex;
    flex-direction: column;
    align-items: center;
+   margin-top: 50px;
 }
 
 .first_text {
@@ -106,16 +108,25 @@
 
 #title {
    font-family: 'Noto Sans KR', sans-serif;
-   font-size: 36px;
+   font-size: 32px;
    font-weight: bold;
    color: #184798;
    text-align: center;
    margin-top:50px;
 }
 
-#subtitle {
+#myModalLable {
    font-family: 'Noto Sans KR', sans-serif;
    font-size: 24px;
+   font-weight: bold;
+   color: #184798;
+   text-align: center;
+   margin-top:20px;	
+}
+
+#subtitle {
+   font-family: 'Noto Sans KR', sans-serif;
+   font-size: 22px;
    color: grey;
    text-align: center;
 }
@@ -134,8 +145,8 @@
    width: 200px; 
    height: 200px;
    float: left;
-   border-radius: 20px;
    object-fit: cover;
+   border-radius: 70%;
 }
 
 #trainer_profile_text {
@@ -155,7 +166,7 @@
 
 #profile_gym {
    font-family: 'Noto Sans KR', sans-serif;
-   font-size: 20px;
+   font-size: 18px;
    text-align: left;
 }
 
@@ -177,6 +188,7 @@
    font-weight: bold;
    color:#184798;
    background: none;
+   margin-left: 15px;
 }
 
 #gym_icon2 {
@@ -190,7 +202,6 @@
    font-size: 16px;
    font-weight: bold;
    color:#184798;
-   margin-left: 10px;
    background: none;
 }
 
@@ -200,6 +211,7 @@
    background: #184798;
    color: white;
    border-radius: 5px;
+   border: none;
    font-family: 'Noto Sans KR', sans-serif;
    font-size: 16px;
 }
@@ -211,12 +223,9 @@
 }
 
 #profile_check {
-   border: none;
-   background: none;
-   cursor: pointer;
    font-family: 'Noto Sans KR', sans-serif;
-   font-size: 16px;
-   color: grey;
+   font-size: 22px;
+   width: 173px; 
 }
 
 .trainer_tag_box {
@@ -224,6 +233,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 30px;
 }
 
 
@@ -231,3 +241,24 @@
 	color:white;
 	text-decoration: none;
 }
+
+#accordionExample {
+	position: absolute;
+}
+
+.trainer_location_info_box {
+	margin-left: 15px;
+}
+
+#profile_title {
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#profile_content {
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 14px;
+	text-align: left;
+}
+

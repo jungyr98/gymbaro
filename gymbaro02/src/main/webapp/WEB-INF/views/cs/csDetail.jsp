@@ -22,19 +22,15 @@
 table,tr,td {
 	border:none;
 }
-table {
-   border-bottom: 1px solid #ddd;
-}
 
 .csDetail_form{
-	vertical-align: top; 
 	text-align:left;
 	padding-left:10px;
 }
 .cs_admin_Info{
 text-align: initial;
  	float:left;
- 	margin-top: 20px;
+ 	margin-top: 50px;
  }
  
 .cs_admin_comment_box{

@@ -30,11 +30,6 @@
 		<result property="gym_license" column="gym_license" />
 		<result property="SALT" column="SALT" />
 	</resultMap>
-	<resultMap type="KakaoDTO" id="kdto">
-		<result property="k_number" column="k_number" />
-		<result property="k_name" column="k_name" />
-		<result property="k_email" column="k_email" />
-	</resultMap>
 	<resultMap id="orderGoodsResult" type="orderVO">
 		<result property="order_seq_num" column="order_seq_num" />
 		<result property="order_id" column="order_id" />
@@ -169,17 +164,18 @@
 	   where member_id = #{id}
 </select>
 
-<!-- 카카오 로그인 -->
+
+<!-- 카카오 로그인 정보 찾기  -->
 <select id="findKakao" parameterType="java.util.HashMap" resultMap="memberResult">
-		select * from member where member_name=#{nickname} and member_id=#{email}
+		select * from member where member_name=#{nickname} and member_id=#{email} and email=#{email} and member_gender=#{gender} 
 	</select>
 
-
+<!--카카오 로그인 정보 저장 -->
 <insert id="kakaoInsert" parameterType="java.util.HashMap">
 		<selectKey resultType="int" keyProperty="uid" order="BEFORE">
 	    	select case count(*) when 0 then 1 else max(uid) + 1 end from member
 		</selectKey>
-		insert into member(uid, member_name, member_id, member_type) values(#{uid}, #{nickname}, #{email}, 'SNS')
+		insert into member(uid, member_name, member_id, email,member_gender, member_type) values(#{uid}, #{nickname},#{email}, #{email},#{gender}, 'SNS')
 </insert>
 
 <!-- 비회원 주문 조회 -->

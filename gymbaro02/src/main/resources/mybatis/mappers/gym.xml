@@ -50,7 +50,7 @@
 <select id="selectLocationGymList" parameterType="java.util.Map" resultMap="gymResult" >
 		<if test=" keyword==null or keyword==''">
 		select g.*,d.fileName from gym g inner join gym_detail_img d 
-		on g.gym_id = d.gym_id where d.fileType='main_image'
+		on g.gym_id = d.gym_id where d.fileType='main_image' and g.state='활성화'
 		limit #{limit}
 		</if>
 		<if test=" keyword!=null and keyword!=''">

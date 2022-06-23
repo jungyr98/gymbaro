@@ -71,9 +71,6 @@ function check_delete() {
             <tr>
 
                 	<td colspan="2" class="communityDetail_form" style=" background-color: white">
-                	<c:forEach var="notice_img" items="${readNotice.noticeImageList }">
- 						<img class="notice_img" id="notice_image" src="${contextPath}/downloadNoticeImage.do?noticeNo=${readNotice.noticeNo}&imageFileName=${notice_img.imageFileName}">
- 					</c:forEach>
  					<br>
  					${readNotice.content}
                 	</td>
@@ -92,30 +89,50 @@ function check_delete() {
        <c:choose>
        	<c:when test= "${prevNoticeNo != null && nextNoticeNo != null}">
        	<div>
+       	  <c:if test="${empty from}">
           <a href="${contextPath}/notice/noticeDetail.do?noticeNo=${prevNoticeNo}"><button id="communityDetail_button_01"><span>이전</span></button></a>
           <a href="${contextPath}/notice/notice.do"><button id="communityDetail_button_02"><span>목록</span></button></a>
           <a href="${contextPath}/notice/noticeDetail.do?noticeNo=${nextNoticeNo}"><button id="communityDetail_button_01"><span>다음</span></button></a>
+          </c:if>
+          <c:if test="${not empty from}">
+          	<a href="${contextPath}/community/community.do"><button id="communityDetail_button_02"><span>목록</span></button></a>
+          </c:if>
          </div>
         </c:when>
          <c:when test= "${prevNoticeNo == null && nextNoticeNo != null}">
          <div>
+         <c:if test="${empty from}">
           <a><button id="communityDetail_button_01" disabled><span>이전</span></button></a>
           <a href="${contextPath}/notice/notice.do"><button id="communityDetail_button_02"><span>목록</span></button></a>
           <a href="${contextPath}/notice/noticeDetail.do?noticeNo=${nextNoticeNo}"><button id="communityDetail_button_01"><span>다음</span></button></a>
+          </c:if>
+          <c:if test="${not empty from}">
+          	<a href="${contextPath}/community/community.do"><button id="communityDetail_button_02"><span>목록</span></button></a>
+          </c:if>
          </div>
         </c:when>
          <c:when test= "${prevNoticeNo != null && nextNoticeNo == null}">
          <div>
+         <c:if test="${empty from}">
           <a href="${contextPath}/notice/noticeDetail.do?noticeNo=${prevNoticeNo}"><button id="communityDetail_button_01"><span>이전</span></button></a>
           <a href="${contextPath}/notice/notice.do"><button id="communityDetail_button_02"><span>목록</span></button></a>
           <a><button id="communityDetail_button_01" disabled><span>다음</span></button></a>
+          </c:if>
+          <c:if test="${not empty from}">
+          	<a href="${contextPath}/community/community.do"><button id="communityDetail_button_02"><span>목록</span></button></a>
+          </c:if>
          </div>
         </c:when>
           <c:when test= "${prevNoticeNo == null && nextNoticeNo == null}">
           <div>
-          <a><button id="communityDetail_button_01" disabled><span>이전</span></button></a>
-          <a href="${contextPath}/notice/notice.do"><button id="communityDetail_button_02"><span>목록</span></button></a>
-          <a><button id="communityDetail_button_01" disabled><span>다음</span></button></a>
+          <c:if test="${empty from}">
+          	<a><button id="communityDetail_button_01" disabled><span>이전</span></button></a>
+          	<a href="${contextPath}/notice/notice.do"><button id="communityDetail_button_02"><span>목록</span></button></a>
+          	<a><button id="communityDetail_button_01" disabled><span>다음</span></button></a>
+          </c:if>
+          <c:if test="${not empty from}">
+          	<a href="${contextPath}/community/community.do"><button id="communityDetail_button_02"><span>목록</span></button></a>
+          </c:if>
           </div>
         </c:when>        
        </c:choose>

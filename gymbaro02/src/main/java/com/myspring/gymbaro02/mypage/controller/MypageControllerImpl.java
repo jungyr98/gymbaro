@@ -414,13 +414,6 @@ public class MypageControllerImpl extends BaseController implements MypageContro
 			gymVO.setState("신청중");
 			gymMap.put("gymVO", gymVO);
 		}
-		
-		// 이미지 데이터 저장 부분
-		String main_image = request.getParameter("main_image");
-		GymImageFileVO _gymImageVO = new GymImageFileVO();
-		_gymImageVO.setUid(uid);
-		_gymImageVO.setFileName(main_image);
-		_gymImageVO.setFileType("main_image"); // 메인이미지 데이터 저장
 				
 		
 		Enumeration enu=multipartRequest.getParameterNames();
@@ -435,10 +428,9 @@ public class MypageControllerImpl extends BaseController implements MypageContro
 		if(imageFileList!= null && imageFileList.size()!=0) {
 			for(GymImageFileVO imageFileVO : imageFileList) {
 				imageFileVO.setUid(uid);
-				imageFileVO.setFileType("detail_image");
 			}
 		}
-		imageFileList.add(_gymImageVO);
+
 		gymMap.put("gymImageList", imageFileList);
 		
 		

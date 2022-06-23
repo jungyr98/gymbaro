@@ -18,7 +18,7 @@
 .myPage03_box .tab_cont table {width: 1024px; padding-top: 15px; box-sizing: border-box; margin: 0;}
 .myPage03_box .tab_cont table tr {position: relative; width: 400px; height: 30px; line-height: 30px; box-sizing: border-box;}
 .myPage03_box .tab_cont table tr td {height:50px;}
-.tab_menu a {display: block; transition: all 0.5s;}
+.tab_menu a:not(.gym_url_atag) {display: block; transition: all 0.5s;}
 .tab_menu a:hover {color: white;}
 
 .main_container {

@@ -122,11 +122,6 @@ function credit_btn() {
 				}, function(rsp) {
 					var result = '';
 				    if ( rsp.success ) {
-				        var msg = '결제가 완료되었습니다.';
-				        msg += '고유ID : ' + rsp.imp_uid;
-				        msg += '상점 거래ID : ' + rsp.merchant_uid;
-				        msg += '결제 금액 : ' + rsp.paid_amount;
-				        msg += '카드 승인번호 : ' + rsp.apply_num;
 				        result ='0';
 				    } else {
 				        var msg = '결제에 실패하였습니다.';
@@ -672,7 +667,6 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 		</c:choose>
 		<br>
 		<div class="button_box" style="float: right;">
-			<a><button id="button_01"><span>이전으로</span></button></a> &nbsp;
 			<input type="submit" id="button_02" value="주문하기">
 		 </div>
 		 </form> 

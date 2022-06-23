@@ -187,7 +187,7 @@ public class CommunityControllerImpl implements CommunityController {
 			ModelAndView mav = new ModelAndView();
 			boardService.modifyArticle(modArticleMap);
 			String articleNo = (String) modArticleMap.get("articleNo");
-			mav.setViewName("redirect:/community/community.do?articleNo="+articleNo);
+			mav.setViewName("redirect:/community/communityDetail.do?articleNo="+articleNo);
 			return mav;
 		}
 

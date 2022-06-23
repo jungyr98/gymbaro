@@ -92,11 +92,7 @@ $(function () {
                       <li><a href="#">이벤트</a></li>
 	                </ul>
 	                <ul>
-                      <li><a></a></li>
-                      <li><a></a></li>
-                      <li><a></a></li>
-                      <li><a></a></li>
-                      <li><a></a></li>
+                      <li><a href="${contextPath}/gym/searchGyms.do">시설 찾기</a></li>
                     </ul>
                     <ul>
                       <li><a href="${contextPath}/goods/searchGoods.do?main_item=1&order_item=all">전체</a></li>

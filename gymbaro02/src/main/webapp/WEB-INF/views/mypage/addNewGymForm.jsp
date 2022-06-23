@@ -37,7 +37,7 @@ var selectBoxChange_option = function(value){
 function fileUpload(fis) {
 	var str = fis.value;
 	str = fis.value.substring(str.lastIndexOf("\\")+1)
-	$('input[name="main_image"]').val(str);
+	$("#main_image").val(str);
 }
 </script>
 </head>
@@ -162,12 +162,12 @@ function fileUpload(fis) {
 					<td class="fixed_join">시설 사진</td>
 					<td>
 						<label>메인 이미지(최대 한장 첨부 가능)</label>
-							<input type="file" class="main_image" onchange="fileUpload(this)" />
-							<input type="hidden" name="main_image" />
+							<input type="file" name="main_image" class="main_image" onchange="fileUpload(this)" />
+							<input type="hidden" id="main_image" />
 							<br><br>
 						<label>상세 이미지 (최대 9장 첨부 가능)</label>
                         <div class="insert">
-        						<input type="button" value="파일 추가" onclick="fn_addFile()"><br>
+        						<input type="button" name="detail_image" value="파일 추가" onclick="fn_addFile()"><br>
         				<div id="d_file"></div>
 						</div>
                     </td>
@@ -189,16 +189,6 @@ function fileUpload(fis) {
 				</tr>
 			</thead>
 		</table>
-		<input type="hidden" name="array[0]" />
-		<input type="hidden" name="array[1]" />
-		<input type="hidden" name="array[2]" />
-		<input type="hidden" name="array[3]" />
-		<input type="hidden" name="array[4]" />
-		<input type="hidden" name="array[5]" />
-		<input type="hidden" name="array[6]" />
-		<input type="hidden" name="array[7]" />
-		<input type="hidden" name="array[8]" />
-		<input type="hidden" name="array[9]" />
 		<br>
 		<div class="button_box">
 			<button type="button" id="button_01"><span>이전으로</span></button>&nbsp;

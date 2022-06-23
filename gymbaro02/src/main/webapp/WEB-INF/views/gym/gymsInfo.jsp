@@ -101,7 +101,7 @@ function updateLiked(gym_id, state) {
 						location.reload();
 					}else if(data.trim()=='login'){
 						alert("로그인이 필요한 서비스입니다!");
-						location.href="${contextPath}/member/loginForm.do";
+						location.href="${contextPath}/member/loginForm.do?mode=common";
 					}
 					
 				},
@@ -198,7 +198,7 @@ function updateLiked(gym_id, state) {
 					<input type="hidden" name="first_option" value="${gymVO.first_option}" />
 					<input type="hidden" name="option" id="option" />
 					<input type="hidden" name="total_price" id="total_price" />
-					<c:if test="${not empty memberInfo and memberInfo.member_type != '시설'}">
+					<c:if test="${memberInfo.member_type != '시설'}">
 						<input type="submit" class="option_submit_btn" value="회원권 담기">
 					</c:if>
 					<c:if test="${not empty memberInfo and memberInfo.member_type eq '시설'}">
@@ -298,19 +298,19 @@ function updateLiked(gym_id, state) {
 					<div class="info_content gymsInfo_url_box">
 						<h4>바로가기</h4>
 						<c:if test="${not empty gymVO.kakao_addr}">
-							<a href="${gymVO.kakao_addr}"><img width="80" src="${contextPath}/resources/image/kakao.png" id="kakao" alt="카카오톡"></a>
+							<a href="${gymVO.kakao_addr}" class="gym_url_atag"><img width="80" src="${contextPath}/resources/image/kakao.png" id="kakao" alt="카카오톡"></a>
 						</c:if>
 						<c:if test="${not empty gymVO.insta_addr}">
-					  		<a href="${gymVO.insta_addr}"><img width="80" src="${contextPath}/resources/image/instagram.png" id="instagram" alt="인스타그램"></a>
+					  		<a href="${gymVO.insta_addr}" class="gym_url_atag"><img width="80" src="${contextPath}/resources/image/instagram.png" id="instagram" alt="인스타그램"></a>
 					  	</c:if>
 					  	<c:if test="${not empty gymVO.nblog_addr}">
-					  		<a href="${gymVO.nblog_addr}"><img width="80" src="${contextPath}/resources/image/blog.png" id="naverblog" alt="네이버 블로그"></a>
+					  		<a href="${gymVO.nblog_addr}" class="gym_url_atag"><img width="80" src="${contextPath}/resources/image/blog.png" id="naverblog" alt="네이버 블로그"></a>
 					  	</c:if>
 					  	<c:if test="${not empty gymVO.fbook_addr}">
-					  		<a href="${gymVO.fbook_addr}"><img width="80" src="${contextPath}/resources/image/facebook.png" id="facebook" alt="페이스북"></a>
+					  		<a href="${gymVO.fbook_addr}" class="gym_url_atag"><img width="80" src="${contextPath}/resources/image/facebook.png" id="facebook" alt="페이스북"></a>
 					  	</c:if>
 					  	<c:if test="${not empty gymVO.home_addr}">
-					 		<a href="${gymVO.home_addr}"><img width="80" src="${contextPath}/resources/image/home.png" id="home" alt="홈페이지"></a>
+					 		<a href="${gymVO.home_addr}" class="gym_url_atag"><img width="80" src="${contextPath}/resources/image/home.png" id="home" alt="홈페이지"></a>
 						</c:if>
 					</div>
                </div>

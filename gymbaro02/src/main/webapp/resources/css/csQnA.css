@@ -1,31 +1,52 @@
+@charset "UTF-8";
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+}
 
 
 .first_content {
-   margin-top:70px;
-   border-top:2px solid #C4C4C4;
+   margin-top: 115px;
+   border-top: 2px solid black;
+}
+
+.second_content {
+  margin-top: 115px;
+   border-top: 2px solid black;
 }
 
 .first_text {
-   position:relative;
-   top:-15px;
-   margin-bottom:50px;
+   position: relative;
+    top: -35px;
+    margin-bottom: 20px;
+    text-align: left;
 }
 
 .first_text span {
-
    font-size: 21px;
    background:white;
    padding: 0 15px;
 }
 
 .first_text span b {
-   color: #184798;
-}
-/*移댄뀒怨좊━ 踰꾪듉 �꺆*/
-body {
-    font-family: 'Noto Sans KR', sans-serif;
+   color: black;
 }
 
+.second_text {
+  position: relative;
+    top: -35px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+.second_text span {
+   font-size: 21px;
+   background:white;
+   padding: 0 15px;
+}
+
+.second_text span b {
+   color: black;
+}
 
 #searchlink {
 	display: flex;
@@ -71,17 +92,16 @@ body {
     height: 25px;
 }
 .form-inline{
-    margin: 30px 0;
+    margin-bottom:50px;
     display: flex;
     justify-content:center;
     align-items: center;
 }
 
 .form-inline ul {
-	width:800px;
 	padding:0;
 	display: flex;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .form-inline .btn {
@@ -96,7 +116,6 @@ body {
     cursor: pointer;
     display: flex;
     align-self: center;
-    font-size: 1rem;
     font-weight: 400;
     line-height: 1;
     padding: 15px 40px;
@@ -117,6 +136,7 @@ body {
     transition: color 100ms ease-in-out;
   }
  .tab_each {
+ 	width:900px;
     clear: both;
     display:block;
     margin-top:10px;
@@ -189,6 +209,8 @@ body {
   content:"\f106"
 }
 .tab_each ul li label{
+	margin-top: 5px;
+	padding-left: 10px;
     font-size: 19px;
     cursor: pointer;
     border: none;
@@ -201,8 +223,8 @@ body {
     font-family: 'Noto Sans KR', sans-serif;
 }
 .tab_each ul li{
-    list-style: "Q  ";
-  margin:15px;
+  list-style:none;
+  margin-bottom:15px;
   border-top:1px solid #C4C4C4;
   font-family: 'Noto Sans KR', sans-serif;
 }
@@ -228,12 +250,12 @@ body {
 .tab_each ul:nth-child(1){
   display:block;
 }
-/*1:1臾몄쓽�븯湲� 踰꾪듉*/
+
 .button_box {
     float: right;
    display:flex;
    justify-content:space-between;
-   margin-top:40px;
+   margin-top:-59px;
    height:50px;
 }
 .button_box button {
@@ -250,4 +272,14 @@ body {
 }
 #button_01 {
    background: rgb(24, 71, 152);
+}
+
+.notice_board_first_tr {
+	background: #f0f0f0;
+}
+
+.notice_board_first_tr td {
+	height:40px;
+	border-top: 1px solid rgb(24, 71, 152);
+	border-bottom: 1px solid rgb(24, 71, 152);
 }

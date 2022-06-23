@@ -22,24 +22,24 @@
 	border-top:2px solid #C4C4C4;
 }
 
-.first_text {
+.joinForm_box .first_text {
 	position:relative;
 	top:-15px;
 	margin-bottom:50px;
 }
 
-.first_text span {
+.joinForm_box .first_text span {
 
 	font-size: 20px;
 	background:white;
 	padding: 0 15px;
 }
 
-.first_text span b {
+.joinForm_box .first_text span b {
 	color: #184798;
 }
 
-.first_text span img {
+.joinForm_box .first_text span img {
 	width:20px;
 	heigh:20px;
 }
@@ -53,7 +53,7 @@
 	padding: 50px 50px;	
 }
 
-button {
+.joinForm_box button {
 	width:270px;
 	height:270px;
 	border:none;
@@ -61,30 +61,26 @@ button {
 	font-size:24px;
 }
 
-.first_button {
+.joinForm_box .first_button {
 	background-color:#184798;
 	color:white;
 }
 
-.first_button img {
+.joinForm_box .first_button img {
 	margin-left:17px;
 	margin-bottom:10px;
 	width:115px;
 	height:115px;
 }
 
-.second_button {
+.joinForm_box .second_button {
 	background-color:#C4C4C4;
 	color:#171717;
-}
-
-.second_button img {
-
 }
 </style>
 </head>
 <body>
-<div class="main_container">
+<div class="joinForm_box main_container">
   <div class="first_content">
 	<div class="first_text">
 		<span><b>유형 선택</b></span>

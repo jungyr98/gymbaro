@@ -20,10 +20,20 @@
 <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <title>Document</title>
 <link rel="stylesheet" href="${contextPath}/resources/css/communityWrite.css">
-<style>
-
-</style>
 <script>
+// 중요글 여부
+$(document).ready(function(){
+$("input:radio[name='impt_radio']").click(function(){
+    if($("input[name='impt_radio']:checked").val() == "Y"){
+		$('input[name=impt_notice]').val('Y');
+    }else if($("input[name='impt_radio']:checked").val() == "N"){
+    	$('input[name=impt_notice]').val('N');
+    }
+});
+});
+
+
+
 function save(){
 	   oEditors.getById["txtContent"].exec("UPDATE_CONTENTS_FIELD", []);  
 	          //스마트 에디터 값을 텍스트컨텐츠로 전달
@@ -45,7 +55,9 @@ function save(){
 	   return; 
 }
  
- 
+function categorySelect(value){
+	$('input[name="notice_category"]').val(value);
+} 
 </script>
 </head>
 <body>
@@ -55,16 +67,17 @@ function save(){
        <span><b>공지사항 작성</b></span>
     </div>
     <div class="form_box">
-    <form action="${contextPath}/notice/newNotice.do" method="post" encType="multipart/form-data" onsubmit="return save();">   
+    <form action="${contextPath}/notice/newNotice.do" method="post" onsubmit="return save();">   
        <table class="communityDetail_table" border="1">
         <thead>
             <tr>
                <td class="communityDetail_fixed_community">공지사항</td>
-               <td><select class="community_selectbox" name="article_category" onChange="" title="공지사항">
+               <td><select class="community_selectbox" name="article_category" onChange="categorySelect(this.value);" title="공지사항">
                      <option value="none">분류 선택</option>
                      <option value="공지사항">공지사항</option>
                      <option value="이벤트">이벤트</option>
                   </select>
+                  <input type="hidden" name="notice_category">
                </td>
             </tr>
          </thead>
@@ -72,8 +85,9 @@ function save(){
              <tr>
                 <td class="communityDetail_fixed_community">중요 공지 여부</td>
                 <td id="input_content" style="padding-left:15px;">
-                	<span><input name="impt_notice" type="radio" value="Y" id="Y" />&nbsp;Y</span>&nbsp;&nbsp;&nbsp;
-                	<span><input name="impt_notice" type="radio" value="N" id="N" />&nbsp;N</span>
+                	<span><input name="impt_radio" type="radio" value="Y" id="Y" />&nbsp;Y</span>&nbsp;&nbsp;&nbsp;
+                	<span><input name="impt_radio" type="radio" value="N" id="N" />&nbsp;N</span>
+                	<input type="hidden" name="impt_notice" />
                 </td>
              </tr>
           </thead>
@@ -84,15 +98,7 @@ function save(){
                		<input name="title" type="text" class="community_titlebox" placeholder="제목을 입력해주세요" required/>
                 </td>
              </tr>
-          </thead>
-          <thead>
-             <tr class="dot_line">
-                <td class="communityDetail_fixed_community">첨부파일</td>
-                <td>
-                  <input type="file" id="input-file" name="imageFileName" />
-               </td>
-             </tr>
-          </thead>   
+          </thead>  
           <thead>
             <tr>
                 <td class="communityDetail_fixed_community">내용</td>

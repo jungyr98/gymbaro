@@ -38,7 +38,7 @@ public class GymControllerImpl implements GymController {
 
 
 	@RequestMapping(value= "/searchGyms.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView searchGym(@RequestParam(value="limit", defaultValue="9") String limit, @RequestParam Map<String,Object> condMap, 
+	public ModelAndView searchGym(@RequestParam(value="limit", defaultValue="12") String limit, @RequestParam Map<String,Object> condMap, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session;
 		session = request.getSession();

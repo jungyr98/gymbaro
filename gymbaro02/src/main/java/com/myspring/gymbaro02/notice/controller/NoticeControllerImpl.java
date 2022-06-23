@@ -83,14 +83,18 @@ public class NoticeControllerImpl extends BaseController implements NoticeContro
 			String noticeNo = (String) readNoticeMap.get("noticeNo");
 			Map noticeMap = (Map) noticeService.readNotice(readNoticeMap); // newNoticeMap > readNoticeMap > noticeMap(작성정보 + 이미지)
 			
-			List<NoticeImageFileVO> noticeImageList = (List<NoticeImageFileVO>) noticeMap.get("noticeImageList");
+			//List<NoticeImageFileVO> noticeImageList = (List<NoticeImageFileVO>) noticeMap.get("noticeImageList");
 
-			session.setAttribute("noticeImageList", noticeMap.get("noticeImageList")); // 공지사항 이미지 리스트를 세션에 저장	
+			//session.setAttribute("noticeImageList", noticeMap.get("noticeImageList")); // 공지사항 이미지 리스트를 세션에 저장	
 			noticeService.increaseViewCnt(readNoticeMap); // 조회수 
 			
 			String prevNoticeNo = noticeService.getPrevNotice(noticeNo); // 이전 글 번호 
 			String nextNoticeNo = noticeService.getNextNotice(noticeNo); // 다음 글 번호
 			
+			if(request.getParameter("from")!=null) {
+				String from = request.getParameter("from");
+				mav.addObject("from", from);
+			}
 			
 			mav.setViewName(viewName);
 			mav.addObject("readNotice", noticeMap);
@@ -101,63 +105,22 @@ public class NoticeControllerImpl extends BaseController implements NoticeContro
 		
 		// 공지사항 새 글 작성 후 DB에 저장
 		@RequestMapping(value= "/newNotice.do", method= {RequestMethod.POST, RequestMethod.GET})
-		public ModelAndView newNotice(@RequestParam Map<String, Object> newNoticeMap, MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception {
-			HttpSession session = multipartRequest.getSession();
+		public ModelAndView newNotice(@RequestParam Map<String, Object> newNoticeMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
+			HttpSession session = request.getSession();
 			ModelAndView mav = new ModelAndView();
-				
-			String title = (String) newNoticeMap.get("title");
 			
-			MemberVO memberVO = (MemberVO) session.getAttribute("memberInfo");
-			String notice_writer = memberVO.getMember_name();
-			int uid = memberVO.getUid();
-			int view_cnt = 0;
-			
-			String imageFileName = null;
-			Enumeration enu = multipartRequest.getParameterNames();
-			while(enu.hasMoreElements()) {
-				String name = (String) enu.nextElement();
-				String value = multipartRequest.getParameter(name);
-				newNoticeMap.put(name, value);
-			}
-			
-			List<NoticeImageFileVO> noticeImageList = uploadNotice(multipartRequest);
-			newNoticeMap.put("noticeImageList", noticeImageList);
-			
-			System.out.println(noticeImageList);
-			
-			if (title != null) {
-				newNoticeMap.put("title", title);
+			if(session.getAttribute("memberInfo")!=null) {
+				MemberVO memberVO = (MemberVO) session.getAttribute("memberInfo");
+				String notice_writer = memberVO.getMember_name();
+				int uid = memberVO.getUid();
+				int view_cnt = 0;
 				newNoticeMap.put("uid", uid);
 				newNoticeMap.put("notice_writer", notice_writer);
 				newNoticeMap.put("view_cnt", view_cnt);
-				mav.setViewName("redirect:notice.do");
-			} else {
-				mav.setViewName("/notice/newNotice");
+				noticeService.newNotice(newNoticeMap);			
 			}
-			
-			
-			try {
-				int noticeNo = noticeService.newNotice(newNoticeMap);
-				if (noticeImageList != null &&noticeImageList.size() != 0) {
-					for(NoticeImageFileVO imageFileVO:noticeImageList) {
-						imageFileName = imageFileVO.getImageFileName();
-						File srcFile = new File(CURR_IMAGE_REPO_PATH_NOTICE + "\\" + "temp" + "\\" + imageFileName);
-						File destDir = new File(CURR_IMAGE_REPO_PATH_NOTICE + "\\" + noticeNo);
-						FileUtils.moveFileToDirectory(srcFile, destDir, true);
-						
-					}
-				}			
-			} catch (Exception e) {
-				if(noticeImageList != null && noticeImageList.size() != 0) {
-					for(NoticeImageFileVO imageFileVO:noticeImageList) {
-						imageFileName = imageFileVO.getImageFileName();
-						File srcFile = new File(CURR_IMAGE_REPO_PATH_NOTICE + "\\" + "temp" + "\\" + imageFileName);
-						srcFile.delete();
-					}
-				}
-				
-				
-			}
+			mav.setViewName("redirect:/notice/notice.do");
+
 			return mav;
 		}
 		

@@ -204,7 +204,7 @@ a {text-decoration:none;}
 		         <c:choose>
 		           <c:when test="${itemNum.count==1 }">
 			      <a href="javascript:goodsInfo();">
-			  	         <img width="99" height="95" id="img_quickmenu"  
+			  	         <img width="98" height="95" id="img_quickmenu"  
 			                 src="${contextPath}/thumbnails.do?goods_id=${item.goods_id}&fileName=${item.goods_fileName}">
 			      </a>
 			        <input type="hidden"  name="goods_id" value="${item.goods_id}" />

@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="../resources/css/join_03_1.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/join_03_1.css">
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
 // 회원 가입 유효성 검사

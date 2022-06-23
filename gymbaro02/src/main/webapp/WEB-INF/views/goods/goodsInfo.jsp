@@ -303,16 +303,16 @@ $(function () {
 	$('#contents').find('.title').parent().show();// class가 title인 td가 속한 tr을  보이기위한 작업(parent는 상위를 의미한다.) 
 	
 	$('#contents .title').parent().click(function(){ // class가 title인 td가 속한 tr을 클릭하면 함수 실행
-	$('#contents tr').hide(); 
-	$('#contents').find('.title').parent().show();
+		$('#contents tr').hide(); 
+		$('#contents').find('.title').parent().show();
 	
-	var tr = $('#contents tr'); 
-	var rindex = $(this).parent().children().index(this); //클릭한 tr의 인덱스를 찾아 변수에 저장
-	$(this).children(); // 클릭한 tr(제목)에만 배경색을 회색으로 지정
-	for(var i = rindex; i < rindex + 3; i++){ //클릭한 tr의 다음(1이면 2) tr 인덱스를 찾기위한 작업
-	$(tr[i]).show(); //찾아낸 인덱스 tr을 보이기위한 작업
-}
-});
+		var tr = $('#contents tr'); 
+		var rindex = $(this).parent().children().index(this); //클릭한 tr의 인덱스를 찾아 변수에 저장
+		$(this).children(); // 클릭한 tr(제목)에만 배경색을 회색으로 지정
+		for(var i = rindex; i < rindex + 3; i++){ //클릭한 tr의 다음(1이면 2) tr 인덱스를 찾기위한 작업
+		$(tr[i]).show(); //찾아낸 인덱스 tr을 보이기위한 작업
+		}
+	});
 });
 
 function cs_delete_check(){
@@ -703,6 +703,15 @@ function nonMember_submit() {
             </div>
            
          <!-- 상품문의 목록 -->
+         <c:choose>
+           	<c:when test="${empty goodsCsList}">
+           		<table id="no-contents">
+           			<tr style="border-bottom:1px solid #eee; text-align:left; display: contents;">
+           					<td>문의 내역이 없습니다.</td>
+           				</tr>
+           		</table>
+           	</c:when>
+           	<c:otherwise>
            <table id="contents" style="border-collapse: collapse;">
 					<c:forEach var="csVO" items="${goodsCsList}">
 					 <tr style="border-bottom:1px solid #eee; text-align:left;">
@@ -746,6 +755,8 @@ function nonMember_submit() {
 					</c:forEach>
                   </c:forEach>
                   </table>
+                  </c:otherwise>
+                </c:choose>
 					</div>
 					<br>
                </div><!-- 상품문의 끝 -->

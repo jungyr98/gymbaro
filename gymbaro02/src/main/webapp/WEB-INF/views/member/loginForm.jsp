@@ -281,7 +281,7 @@ function orderCheck() {
     apiURL += "&state=" + state;
     session.setAttribute("state", state);
  	%>
- 	<a href="<%=apiURL%>"><img height="50" src="${contextPath}/resources/image/login_naver.png"/></a>
+
    
     <!-- 카카오 로그인 -->
 		<a class="p-2" href="https://kauth.kakao.com/oauth/authorize?

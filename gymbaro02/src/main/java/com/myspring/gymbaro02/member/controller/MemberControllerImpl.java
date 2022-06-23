@@ -99,28 +99,35 @@ public class MemberControllerImpl implements MemberController {
 		return mav;
 	}
 	
+	
+	// 카카오 로그인
 	@Override
 	@RequestMapping(value="/kakaoLogin", method=RequestMethod.GET)
 	public String kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Exception {
-		System.out.println("#########" + code);
-		String access_Token = memberService.getAccessToken(code);
+		System.out.println("#########" + code); //입력받은 로그인 정보를 카카오 서버는 redirect_uri로 인증 코드(code)를 넘겨줌.
+		String access_Token = memberService.getAccessToken(code); //code를 보내 access_Token 얻기 
 	    
-		// userInfo의 타입을 KakaoDTO로 변경 및 import.
+		// userInfo의 타입을 memberVO타입으로 변경 
 		MemberVO _memberVO = memberService.getUserInfo(access_Token);
 	    
 		System.out.println("###access_Token#### : " + access_Token);
-		System.out.println("###nickname#### : " + _memberVO.getMember_name());
-		System.out.println("###email#### : " + _memberVO.getMember_id());
+		System.out.println("###id#### : " + _memberVO.getMember_id());
+		System.out.println("###name#### : " + _memberVO.getMember_name());
+		System.out.println("###email#### : " + _memberVO.getEmail());
+		System.out.println("###gender#### : " + _memberVO.getMember_gender());
 		
-		session.invalidate();
-		// 위 코드는 session객체에 담긴 정보를 초기화 하는 코드.
+		session.invalidate(); // session객체에 담긴 정보를 초기화하는 코드 
+		session.setAttribute("kakaoI", _memberVO.getMember_id());
 		session.setAttribute("kakaoN", _memberVO.getMember_name());
-		session.setAttribute("kakaoE", _memberVO.getMember_id());
-		// 위 2개의 코드는 닉네임과 이메일을 session객체에 담는 코드
-		// jsp에서 ${sessionScope.kakaoN} 이런 형식으로 사용할 수 있다.
+		session.setAttribute("kakaoE", _memberVO.getEmail());
+		session.setAttribute("kakaoG", _memberVO.getMember_gender());
+		// session에 저장하는 코드 
+		// jsp에서 ${sessionScope.kakaoN} 이런 형식으로 사용가능.
 		MemberVO memberVO =new MemberVO();
 		 memberVO.setMember_name(_memberVO.getMember_name());
 		 memberVO.setMember_id(_memberVO.getMember_id());
+		 memberVO.setEmail(_memberVO.getEmail());
+		 memberVO.setMember_gender(_memberVO.getMember_gender());
 
 		if(memberVO != null && memberVO.getMember_id()!=null) {
 			
@@ -513,7 +520,7 @@ public class MemberControllerImpl implements MemberController {
 	
 	// 비회원 주문 조회
 	@Override
-	@RequestMapping(value="/nonMemberOrderDetail.do", method = RequestMethod.POST)
+	@RequestMapping(value="/nonMemberOrderDetail.do", method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView nonMemberOrderDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		ModelAndView mav = new ModelAndView();

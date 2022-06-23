@@ -241,6 +241,7 @@
                    					<span class="order_info_span">${orderDetailList.get(0).receiver_phone_number}</span><br>
                    					<span class="order_info_span">${orderDetailList.get(0).receiver_name}</span><br>
                    					<span class="order_info_span">${orderDetailList.get(0).receiver_roadAddress}</span>
+                   					<span class="order_info_span">${orderDetailList.get(0).receiver_extraAddress}</span>
                    					<br><br>
                    				</td>
                    			</tr>

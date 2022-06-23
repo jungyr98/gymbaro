@@ -470,7 +470,7 @@ $("#day").change(function(){
 						<input type="hidden" name="gym_name" value="${optionMap.gym_name}" />
 						<input type="hidden" name="first_option" value="${optionMap.first_option}" />
 						<input type="hidden" name="option" value="${optionMap.option}" />
-						<input type="hidden" name="last_date" />"
+						<input type="hidden" name="last_date" />
 						<input type="hidden" name="payment" value="" />
 					</td>
 				</tr>
