@@ -1,3 +1,3 @@
 /.metadata/
 gymbaro02/.settings/org.eclipse.core.resources.prefs
-gymbaro02/resources/application-API-KEY.properties
+gymbaro02/src/main/resources/application-API-KEY.properties
