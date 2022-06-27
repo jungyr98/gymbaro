@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myspring.gymbaro02.config.ApiKey;
 import com.myspring.gymbaro02.member.vo.MemberVO;
 import com.myspring.gymbaro02.membership.service.MembershipService;
 import com.myspring.gymbaro02.membership.vo.MembershipVO;
@@ -24,6 +26,10 @@ import com.myspring.gymbaro02.membership.vo.MembershipVO;
 public class MembershipControllerImpl implements MembershipController {
 	@Autowired
 	private MembershipService membershipService;
+	@Inject
+	private ApiKey apiKey;
+
+	private final String KEY = apiKey.getIamport();
 	
 	@Override
 	@RequestMapping(value= "/membershipForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
@@ -44,6 +50,8 @@ public class MembershipControllerImpl implements MembershipController {
 			System.out.println("test:" + uid + ", " + gym_id);
 			mav.addObject("minDate", minDate);
 		}
+		
+		mav.addObject("KEY", KEY);
 		session.setAttribute("optionMap", optionMap);
 		String viewName=(String)request.getAttribute("viewName");
 		mav.setViewName(viewName);

@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.myspring.gymbaro02.config.ApiKey;
 import com.myspring.gymbaro02.membership.dao.MembershipDAO;
 import com.myspring.gymbaro02.membership.vo.MembershipVO;
 
@@ -18,6 +21,11 @@ import net.nurigo.java_sdk.exceptions.CoolsmsException;
 public class MembershipServiceImpl implements MembershipService {
 	@Autowired
 	private MembershipDAO membershipDAO;
+	@Inject
+	private ApiKey apiKey;
+
+	private final String KEY = apiKey.getCoolKey();
+	private final String S_KEY = apiKey.getCoolSecret();
 	
 	
 	// 예약하려는 시설에 이전 예약내역이 있는지 확인하기
@@ -39,8 +47,8 @@ public class MembershipServiceImpl implements MembershipService {
 	
 	public void membershipResultMessage(Map<String, Object> membershipMap, String membership_id) {
 
-        String api_key = "NCSFYSP5ZGLEHJYA"; // api key
-        String api_secret = "SIDVIQGE0KCAAN0LYTXA6OQJXAM0FMH9"; // api secret
+        String api_key = KEY; // api key
+        String api_secret = S_KEY; // api secret
         Message coolsms = new Message(api_key, api_secret);
         
         String phoneNumber = (String) membershipMap.get("phone_number");

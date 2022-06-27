@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myspring.gymbaro02.cart.vo.CartVO;
+import com.myspring.gymbaro02.config.ApiKey;
 import com.myspring.gymbaro02.member.vo.MemberVO;
 import com.myspring.gymbaro02.order.service.OrderService;
 import com.myspring.gymbaro02.order.vo.OrderVO;
@@ -28,6 +30,10 @@ public class OrderControllerImpl implements OrderController {
 	private OrderService orderService;
 	@Autowired
 	private OrderVO orderVO;
+	@Inject
+	private ApiKey apiKey;
+
+	private final String KEY = apiKey.getIamport();
 	
 	@Override
 	@RequestMapping(value= "/order_02.do" ,method={RequestMethod.POST,RequestMethod.GET})
@@ -149,6 +155,7 @@ public class OrderControllerImpl implements OrderController {
 		ModelAndView mav=new ModelAndView();
 		String viewName = (String) request.getAttribute("viewName");
 		
+		mav.addObject("KEY", KEY);
 		mav.setViewName(viewName);
 		return mav;
 	}

@@ -66,6 +66,9 @@ $(function() {
 
 </script>
 <script>
+var key = $('input[name="KEY"]').val();
+
+
 function execDaumPostcode() {
   new daum.Postcode({
     oncomplete: function(data) {
@@ -127,7 +130,7 @@ function kakaopay_btn() {
     	var buyer_postcode = $('input[name="zipcode"]').val();
     	//@@@@@@ 1번 @@@@@@@
         var IMP = window.IMP; // 생략가능
-        IMP.init('imp55512719'); //가맹점 식별코드 삽입
+        IMP.init(key); //가맹점 식별코드 삽입
         var msg;
         
         //@@@@@@@@ 2번 @@@@@@@@
@@ -209,7 +212,7 @@ function credit_btn() {
 	var buyer_postcode = $('input[name="zipcode"]').val();
 	  //class가 btn_payment인 태그를 선택했을 때 작동한다.
 		console.log("크레딧함수");
-	  	IMP.init('imp55512719');
+	  	IMP.init(key);
 	  	//결제시 전달되는 정보
 		IMP.request_pay({
 				    pg : 'html5_inicis', 
@@ -298,6 +301,7 @@ $("#day").change(function(){
 </head>
 <body>
 	<div class="membershipForm_box main_container">
+	<input type="hidden" name="KEY" value="${KEY}" />
 	<div class="step_bar">
 		<div class="step_bar_01 bars"><span>시설 선택</span></div>
 		<div class="step_bar_02 bars"><span>이용일시 선택·결제정보 입력</span></div>

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myspring.gymbaro02.config.ApiKey;
 import com.myspring.gymbaro02.gym.service.GymService;
 import com.myspring.gymbaro02.gym.vo.GymReviewVO;
 import com.myspring.gymbaro02.gym.vo.GymVO;
@@ -37,7 +39,11 @@ import com.myspring.gymbaro02.membership.vo.MembershipVO;
 public class GymControllerImpl implements GymController {
 	@Autowired
 	private GymService gymService;
+	@Inject
+	private ApiKey apiKey;
 
+	private final String KEY = apiKey.getGoogleMap();
+	private final String KAKAOMAP_KEY = apiKey.getKakaoMap();
 	
 	@RequestMapping(value= "/searchGyms.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView searchGym(@RequestParam(value="limit", defaultValue="12") String limit, @RequestParam Map<String,Object> condMap, 
@@ -91,7 +97,7 @@ public class GymControllerImpl implements GymController {
 		
 		//시설 주소 값 위도 경도로 변환
 		String _address = URLEncoder.encode(gym_address, "UTF-8");
-		String apiURL = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&language=ko&address="+_address+"&key=AIzaSyCk-KTEGLfLGD3L7w5IdR8-kxKIhrjD-o8";
+		String apiURL = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&language=ko&address="+_address+"&key="+KEY;
 		String jsonString = new String();
 		String buf;
 		URL url = new URL(apiURL);
@@ -114,7 +120,7 @@ public class GymControllerImpl implements GymController {
 		
 		// 사용자 주소 값 위도 경도로 변환
 		String user_address = URLEncoder.encode(my_address, "UTF-8");
-		String user_apiURL = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&language=ko&address="+user_address+"&key=AIzaSyCk-KTEGLfLGD3L7w5IdR8-kxKIhrjD-o8";
+		String user_apiURL = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&language=ko&address="+user_address+"&key="+KEY;
 		String user_jsonString = new String();
 		String user_buf;
 		URL user_url = new URL(user_apiURL);
@@ -133,7 +139,7 @@ public class GymControllerImpl implements GymController {
 		user_jObj = (JSONObject) user_jObj.get("location");
 		
 		//현재 위치와 시설 주소 거리 계산
-		String apiURL2 ="https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=transit&origins="+user_jObj.get("lat")+","+user_jObj.get("lng")+"&destinations="+jObj.get("lat")+","+jObj.get("lng")+"&region=KR&key=AIzaSyCk-KTEGLfLGD3L7w5IdR8-kxKIhrjD-o8";
+		String apiURL2 ="https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&mode=transit&origins="+user_jObj.get("lat")+","+user_jObj.get("lng")+"&destinations="+jObj.get("lat")+","+jObj.get("lng")+"&region=KR&key="+KEY;
 		String jsonString2 = new String();
 		String buf2;
 		URL url2 = new URL(apiURL2);
@@ -250,6 +256,7 @@ public class GymControllerImpl implements GymController {
 		ModelAndView mav=new ModelAndView();
 		String viewName=(String)request.getAttribute("viewName");
 		mav.setViewName(viewName);
+		mav.addObject("KAKAOMAP_KEY", KAKAOMAP_KEY);
 
 		return mav;
 	}

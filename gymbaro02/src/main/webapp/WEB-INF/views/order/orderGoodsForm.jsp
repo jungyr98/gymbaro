@@ -18,12 +18,14 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
 <script>
+
+var key = $('input[name="KEY"]').val();
 function kakaopay_btn() {
     $(function(){
     	var total_price = $('input[name="total_price"]').val();
     	//@@@@@@ 1번 @@@@@@@
         var IMP = window.IMP; // 생략가능
-        IMP.init('imp55512719'); //가맹점 식별코드 삽입
+        IMP.init(key); //가맹점 식별코드 삽입
         var msg;
         
         //@@@@@@@@ 2번 @@@@@@@@
@@ -106,7 +108,7 @@ function kakaopay_btn() {
 function credit_btn() {
 	  //class가 btn_payment인 태그를 선택했을 때 작동한다.
 		console.log("크레딧함수");
-	  	IMP.init('imp55512719');
+	  	IMP.init(key);
 	  	//결제시 전달되는 정보
 		IMP.request_pay({
 				    pg : 'html5_inicis', 
@@ -361,6 +363,7 @@ function showPopup() { window.open("${contextPath}/order/order_coupon.do", "a", 
 </head>
 <body>
 	<div class="orderForm_box main_container">
+	<input type="hidden" name="KEY" value="${KEY}" />
 	<div class="step_bar">
 		<div class="step_bar_01 bars"><span>상품 선택</span></div>
 		<div class="step_bar_02 bars"><span>배송정보·결제정보 입력</span></div>

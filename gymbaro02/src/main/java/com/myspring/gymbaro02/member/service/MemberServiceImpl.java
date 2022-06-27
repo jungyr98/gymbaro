@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.myspring.gymbaro02.config.ApiKey;
 import com.myspring.gymbaro02.member.dao.MemberDAO;
 import com.myspring.gymbaro02.member.dao.MemberRepository;
 import com.myspring.gymbaro02.member.vo.MemberVO;
@@ -35,6 +38,12 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDAO memberDAO;
 	@Autowired
 	private MemberRepository mr;
+	@Inject
+	private ApiKey apiKey;
+
+	private final String KEY = apiKey.getCoolKey();
+	private final String S_KEY = apiKey.getCoolSecret();
+	private final String KAKAO_KEY = apiKey.getKakaoLogin();
 		
 	
 	@Override
@@ -195,7 +204,7 @@ public class MemberServiceImpl implements MemberService {
 				StringBuilder sb = new StringBuilder();
 				sb.append("grant_type=authorization_code");
 				 
-				sb.append("&client_id=b45cad6c7b351ab3b0f2ff42b3d5e362"); //본인이 발급받은 key
+				sb.append("&client_id="+KAKAO_KEY); //본인이 발급받은 key
 				sb.append("&redirect_uri=http://localhost:8080/gymbaro02/member/kakaoLogin"); // 본인이 설정한 주소
 				 
 				sb.append("&code=" + authorize_code);bw.write(sb.toString());
@@ -240,8 +249,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void certifiedPhoneNumber(String phoneNumber, String cerNum) {
 
-	        String api_key = "NCSFYSP5ZGLEHJYA"; // api key
-	        String api_secret = "SIDVIQGE0KCAAN0LYTXA6OQJXAM0FMH9"; // api secret
+	        String api_key = KEY; // api key
+	        String api_secret = S_KEY; // api secret
 	        Message coolsms = new Message(api_key, api_secret);
 
 	        // 4 params(to, from, type, text) are mandatory. must be filled
