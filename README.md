@@ -1,7 +1,7 @@
 # 짐바로 Admin & 이커머스 Project 🛍️
 <!-- 프로젝트 결과물 -->
-<img width="375px" src="https://github.com/user-attachments/assets/44d28c9b-aa29-46dd-abff-d83b7ce9b68c" />
-<img width="455px" src="https://github.com/user-attachments/assets/a40d674c-8c32-4bf6-b7f0-b1223b357132" />
+<img width="372px" src="https://github.com/user-attachments/assets/44d28c9b-aa29-46dd-abff-d83b7ce9b68c" />
+<img width="453px" src="https://github.com/user-attachments/assets/a40d674c-8c32-4bf6-b7f0-b1223b357132" />
 
 
 
@@ -44,27 +44,27 @@
 
 ## 🔍 주요 화면
 사용자 메인화면 (시설 & 용품) <br />
-<img width="380px" src="https://github.com/user-attachments/assets/41f30a31-bcd8-412b-9798-657b754d48a0" />
-<img width="450px" src="https://github.com/user-attachments/assets/6432ad76-4cbc-418c-aae6-1cda871baa22" />
+<img width="378px" src="https://github.com/user-attachments/assets/41f30a31-bcd8-412b-9798-657b754d48a0" />
+<img width="447px" src="https://github.com/user-attachments/assets/6432ad76-4cbc-418c-aae6-1cda871baa22" />
 
 로그인 & 마이페이지 <br/>
-<img width="375px" src="https://github.com/user-attachments/assets/29986554-ac7f-48cc-b936-bc2d7c3de07a" />
-<img width="455px" src="https://github.com/user-attachments/assets/aaefca9c-0ad7-413f-a489-8b792bb9e3f2" />
+<img width="373px" src="https://github.com/user-attachments/assets/29986554-ac7f-48cc-b936-bc2d7c3de07a" />
+<img width="452px" src="https://github.com/user-attachments/assets/aaefca9c-0ad7-413f-a489-8b792bb9e3f2" />
 
 용품 상세 & 장바구니 <br/>
-<img width="445px" src="https://github.com/user-attachments/assets/3fefe699-3b27-45b2-b53d-6e5d6d293260" />
-<img width="385px" src="https://github.com/user-attachments/assets/e2d44c2e-c1e7-40a6-833c-c69f45fdfd7c" />
+<img width="443px" src="https://github.com/user-attachments/assets/3fefe699-3b27-45b2-b53d-6e5d6d293260" />
+<img width="382px" src="https://github.com/user-attachments/assets/e2d44c2e-c1e7-40a6-833c-c69f45fdfd7c" />
 
 시설 상세 & 찜한 시설 <br/>
-<img width="390px" src="https://github.com/user-attachments/assets/46086391-7d9d-497e-a0b9-5abeb9013282" />
-<img width="440px" src="https://github.com/user-attachments/assets/24b71666-e596-4391-885f-f2cef8097a1e" />
+<img width="388px" src="https://github.com/user-attachments/assets/46086391-7d9d-497e-a0b9-5abeb9013282" />
+<img width="437px" src="https://github.com/user-attachments/assets/24b71666-e596-4391-885f-f2cef8097a1e" />
 
 
 관리자 화면 (대시보드 & 주문관리 & 상품관리 & 시설관리) <br/>
-<img width="450px" src="https://github.com/user-attachments/assets/4c7f0d99-5504-481e-9286-19f33153a6ba" />
-<img width="380px" src="https://github.com/user-attachments/assets/9678e0da-9224-4ddd-a8ff-85c2ac108d58" />
-<img width="400px" src="https://github.com/user-attachments/assets/2e229cdd-7bf1-4265-8de7-f08f46a45393" />
-<img width="430px" src="https://github.com/user-attachments/assets/5f458075-f855-4890-b31c-6d9402dc3f9a" />
+<img width="448px" src="https://github.com/user-attachments/assets/4c7f0d99-5504-481e-9286-19f33153a6ba" />
+<img width="377px" src="https://github.com/user-attachments/assets/9678e0da-9224-4ddd-a8ff-85c2ac108d58" />
+<img width="398px" src="https://github.com/user-attachments/assets/2e229cdd-7bf1-4265-8de7-f08f46a45393" />
+<img width="427px" src="https://github.com/user-attachments/assets/5f458075-f855-4890-b31c-6d9402dc3f9a" />
 
 
 
